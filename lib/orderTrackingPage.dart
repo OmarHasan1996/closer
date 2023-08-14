@@ -17,6 +17,7 @@ class OrderTrackingPageState extends State<OrderTrackingPage> {
   BitmapDescriptor destinationIcon = BitmapDescriptor.defaultMarker;
   BitmapDescriptor currentLocationIcon = BitmapDescriptor.defaultMarker;
   LocationData? currentLocation;
+  String apiKey = 'AIzaSyAqOg0JTHV6Vh0wRUn6R1jGMmKhCaSZ72I';
 
   @override
   void initState() {
@@ -79,7 +80,7 @@ class OrderTrackingPageState extends State<OrderTrackingPage> {
   void getPolyPoints() async {
     PolylinePoints polylinePoints = PolylinePoints();
     PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
-        "google_api_key", // Your Google Map Key
+        apiKey, // Your Google Map Key
       PointLatLng(sourceLocation.latitude, sourceLocation.longitude),
       PointLatLng(destination.latitude, destination.longitude),
     );

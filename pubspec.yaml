@@ -30,9 +30,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_polyline_points:
-  google_maps_flutter:
-  location:
+  flutter_polyline_points: ^1.0.0
+  google_maps_flutter: ^2.4.0
+  location: ^5.0.3
 
 
   # The following adds the Cupertino Icons font to your application.
