@@ -1,125 +1,156 @@
-import 'package:flutter/material.dart';
+//import 'dart:convert';
+import 'dart:io';
 
-void main() {
-  runApp(const MyApp());
+import 'package:admob_flutter/admob_flutter.dart';
+import 'package:firebase_core/firebase_core.dart';
+//import 'firebase_options.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:mr_service/boxes.dart';
+import 'package:mr_service/localization_service.dart';
+import 'package:mr_service/localizations.dart';
+import 'package:mr_service/screens/Payment.dart';
+import 'package:mr_service/screens/about.dart';
+import 'package:mr_service/screens/addTask.dart';
+import 'package:mr_service/screens/changeLang.dart';
+/*
+import 'package:mr_service_2/screens/change_password.dart';
+*/
+import 'package:mr_service/screens/loading_screen.dart';
+import 'package:mr_service/screens/main_screen.dart';
+import 'package:mr_service/screens/manage_task.dart';
+import 'package:mr_service/screens/orderID.dart';
+import 'package:mr_service/screens/register.dart';
+import 'package:mr_service/screens/signin.dart';
+import 'package:mr_service/screens/sub_service_screen.dart';
+import 'package:mr_service/screens/valid_code.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:mr_service/const.dart';
+import 'notification_ontroller.dart';
+
+import '../model/transaction.dart';
+//import '../model/transaction.g.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:http/http.dart' as http;
+import 'package:mr_service/screens/signin.dart' as signIn;
+
+///Receive message when app is in background solution for on message
+Future<void> backgroundHandler(RemoteMessage message) async{
+  print(message.data.toString());
+  print(message.notification!.title);
+}
+
+void main() async {
+  //essential for old Android versions
+  HttpOverrides.global = MyHttpOverrides();
+
+  WidgetsFlutterBinding.ensureInitialized();
+  print('-- main: Firebase.initializeApp Is Intialiees');
+  await Firebase.initializeApp(
+   // options: DefaultFirebaseOptions.currentPlatform,
+  );
+  print('-- main: Firebase.initializeApp');
+
+  WidgetsFlutterBinding.ensureInitialized();
+  await GetStorage.init();
+  //WidgetsFlutterBinding.ensureInitialized();
+
+  FirebaseMessaging.onBackgroundMessage(backgroundHandler);
+
+  NotificationController notificationController = Get.put(NotificationController());
+
+  await Hive.initFlutter();
+  Hive.registerAdapter(TransactionAdapter());
+  await Hive.openBox<Transaction>('transactions');
+
+  // Initialize without device test ids.
+  Admob.initialize();
+  // Or add a list of test ids.
+  // Admob.initialize(testDeviceIds: ['YOUR DEVICE ID']);
+
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  MyApp();
+  List service = [];
+  bool toMainScreen= true;
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a blue toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+    ]);
+    return GetMaterialApp(
+      debugShowCheckedModeBanner: false,
+      // These delegates make sure that the localization data for the proper language is loaded
+      localizationsDelegates: [
+        // THIS CLASS WILL BE ADDED LATER
+        // A class which loads the translations from JSON files0
+        AppLocalizations.delegate,
+        // Built-in localization of basic text for Material widgets
+        GlobalMaterialLocalizations.delegate,
+        // Built-in localization for text direction LTR/RTL
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      /*When you want programmatically to change the current locale in your app, you can do it in the following way:*/
+      //AppLocalizations.load(Locale('en', ''));
+      supportedLocales: [
+        Locale('en', 'US'),
+        Locale('fr', 'FR'),
+        Locale('ar', 'AR'),
+        Locale('tr', 'TR'),
+      ],
+      localeResolutionCallback: (locale, supportedLocales) {
+        // Check if the current device locale is supported
+        for (var supportedLocale in supportedLocales) {
+          if (supportedLocale.languageCode == locale!.languageCode && supportedLocale.countryCode == locale.countryCode) {
+            return supportedLocale;
+          }
+        }
+        //should to be in the bottom
+        return supportedLocales.first;
+        // If the locale of the device is not supported, use the first one
+        // from the list (English, in this case).
+      },
+      theme: new ThemeData(
+        primarySwatch: Colors.indigo,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      //translations: LocalizationService(),
+      //locale: LocalizationService().getCurrentLocale(),
+      //fallbackLocale: Locale('en', 'US'),
+      home: LoadingScreen(email: '',),
+      routes: {
+        'about': (context) => about(),
+        'changeLang': (context) => ChangeLang(),
+        'sign_in': (context) => SignIn(),
+        //'payment': (context) => Payment(),
+        'register': (context) => Register(false),
+        'main_screen': (context) => MainScreen(token: '',service: [], selectedIndex: 0,initialOrderTab: 0,),
+        'val_code': (context) => Verification(value: '', email: '', password: '',),
+        /*'changePassword': (context) {
+          return EditProfileScreen(token: '');
+        }*/
+      },
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
+//essential for old Android versions
+class MyHttpOverrides extends HttpOverrides {
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          //
-          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-          // action in the IDE, or press "p" in the console), to see the
-          // wireframe for each widget.
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
-    );
+  HttpClient createHttpClient(SecurityContext? context) {
+    return super.createHttpClient(context)..badCertificateCallback = (X509Certificate cert, String host, int port) => true;
   }
 }
+
+//C:\ProgramFiles\Java\jdk1.8.0_301\bin>keytool -export -alias androiddebugkey -keystore "C:\Users\mustafa\.android\debug.keystore" | C:\OpenSSL\bin\openssl.exe sha1 -binary | C:\OpenSSL\bin\openssl.exe enc -a -e
+
+//keytool -exportcert -alias androiddebugkey -keystore "C:\Users\mustafa\.android\debug.keystore" | C:\OpenSSL\bin\openssl.exe sha1 -binary | C:\OpenSSL\bin\openssl.exe enc -a -e
+
+//keytool -list -v -alias androiddebugkey -keystore %USERPROFILE%\.android\debug.keystore
