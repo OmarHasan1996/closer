@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:mr_service/api/api_service.dart';
-import 'package:mr_service/color/MyColors.dart';
-import 'package:mr_service/const.dart';
-import 'package:mr_service/localization_service.dart';
-import 'package:mr_service/localizations.dart';
+import 'package:closer/api/api_service.dart';
+import 'package:closer/color/MyColors.dart';
+import 'package:closer/const.dart';
+import 'package:closer/localization_service.dart';
+import 'package:closer/localizations.dart';
 
 import '../MyWidget.dart';
 

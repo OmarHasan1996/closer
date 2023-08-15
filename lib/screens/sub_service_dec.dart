@@ -9,14 +9,14 @@ import 'dart:io';
 import 'package:another_flushbar/flushbar.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:mr_service/api/api_service.dart';
-import 'package:mr_service/color/MyColors.dart';
-import 'package:mr_service/const.dart';
-import 'package:mr_service/localizations.dart';
-import 'package:mr_service/screens/PickAttachment.dart';
+import 'package:closer/api/api_service.dart';
+import 'package:closer/color/MyColors.dart';
+import 'package:closer/const.dart';
+import 'package:closer/localizations.dart';
+import 'package:closer/screens/PickAttachment.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../MyWidget.dart';
+import 'package:closer/MyWidget.dart';
 // ignore: must_be_immutable
 class SubServiceDec extends StatefulWidget {
   String token;

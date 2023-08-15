@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:mr_service/color/MyColors.dart';
-import 'package:mr_service/localizations.dart';
+import 'package:closer/color/MyColors.dart';
+import 'package:closer/localizations.dart';
 
 class about extends StatefulWidget {
   @override

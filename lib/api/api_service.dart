@@ -8,24 +8,24 @@ import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:http/http.dart'as http;
-import 'package:mr_service/color/MyColors.dart';
-import 'package:mr_service/firebase/Firebase.dart';
-import 'package:mr_service/localizations.dart';
-import 'package:mr_service/model/transaction.dart';
+import 'package:closer/color/MyColors.dart';
+import 'package:closer/firebase/Firebase.dart';
+import 'package:closer/localizations.dart';
+import 'package:closer/model/transaction.dart';
 import 'dart:convert';
 
 //import 'package:mr_service/module/login_module.dart';
-import 'package:mr_service/screens/loading_screen.dart';
-import 'package:mr_service/screens/newOrder.dart';
-import 'package:mr_service/screens/signin.dart';
+import 'package:closer/screens/loading_screen.dart';
+import 'package:closer/screens/newOrder.dart';
+import 'package:closer/screens/signin.dart';
 import 'package:path/path.dart';
 
 import '../const.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../localization_service.dart';
-import 'package:mr_service/localizations.dart';
-import 'package:mr_service/localization_service.dart' as trrrr;
+import 'package:closer/localizations.dart';
+import 'package:closer/localization_service.dart' as trrrr;
 
 class APIService {
   /*Future <LoginResponseModel> loginOld (LoginRequestModel loginRequestModel)async{

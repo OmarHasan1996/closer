@@ -5,7 +5,7 @@ import 'dart:math';
 
 import 'package:admob_flutter/admob_flutter.dart';
 import 'package:another_flushbar/flushbar.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+//import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_format/date_format.dart';
 import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:flutter/cupertino.dart';
@@ -15,33 +15,33 @@ import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
-import 'package:mr_service/api/api_service.dart';
-import 'package:mr_service/color/MyColors.dart';
-import 'package:mr_service/localizations.dart';
-import 'package:mr_service/model/transaction.dart';
-import 'package:mr_service/screens/Payment.dart';
-import 'package:mr_service/screens/loading_screen.dart';
-import 'package:mr_service/screens/orderID.dart';
-import 'package:mr_service/screens/sub_service_screen.dart';
-import 'package:mr_service/screens/taskId.dart';
-import 'package:mr_service/screens/valid_code.dart';
+import 'package:closer/api/api_service.dart';
+import 'package:closer/color/MyColors.dart';
+import 'package:closer/localizations.dart';
+import 'package:closer/model/transaction.dart';
+import 'package:closer/screens/Payment.dart';
+import 'package:closer/screens/loading_screen.dart';
+import 'package:closer/screens/orderID.dart';
+import 'package:closer/screens/sub_service_screen.dart';
+import 'package:closer/screens/taskId.dart';
+import 'package:closer/screens/valid_code.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../MyWidget.dart';
-import '../boxes.dart';
-import '../const.dart';
-import '../localization_service.dart';
-import '../main.dart';
+import 'package:closer/MyWidget.dart';
+import 'package:closer/boxes.dart';
+import 'package:closer/const.dart';
+import 'package:closer/localization_service.dart';
+import 'package:closer/main.dart';
 import 'checkout.dart';
 import 'edit_profile_screen.dart';
 import 'manege_address.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+//import 'package:firebase_auth/firebase_auth.dart';
 import 'package:circular_menu/circular_menu.dart';
 import 'package:progress_indicators/progress_indicators.dart';
-import 'package:mr_service/localization_service.dart' as trrrr;
+import 'package:closer/localization_service.dart' as trrrr;
 import 'package:admob_flutter/admob_flutter.dart';
 
 var globalPrice = 0.0;
@@ -472,7 +472,7 @@ iOS: ca-app-pub-3940256099942544/1712485313
   */
 
   _saveDeviceToken() async {
-    final FirebaseFirestore _db = FirebaseFirestore.instance;
+    /*final FirebaseFirestore _db = FirebaseFirestore.instance;
     final FirebaseMessaging _fcm = FirebaseMessaging.instance;
     String userId = 'omar';
     User user = await FirebaseAuth.instance.currentUser!;
@@ -488,7 +488,7 @@ iOS: ca-app-pub-3940256099942544/1712485313
         'token': fcmToken,
         'createdAt': FieldValue.serverTimestamp(),
       });
-    }
+    }*/
   }
 
   int _selectedIndex = 0;

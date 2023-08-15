@@ -104,7 +104,7 @@ class NotificationController extends GetxController {
         summaryText: summaryText,
       ),
     );
-    var ios = IOSNotificationDetails();
+    var ios = DarwinNotificationDetails();
     var platform = NotificationDetails(android: android, iOS: ios);
     await flutterLocalNotificationsPlugin.show(id, title, lines[0], platform, payload: payload);
   }
@@ -124,12 +124,14 @@ class NotificationController extends GetxController {
     }
     setMessages(messagesNumber);
     flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+    flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<
+        AndroidFlutterLocalNotificationsPlugin>()?.requestPermission();
     var android = AndroidInitializationSettings('@mipmap/logo');
-    var ios = IOSInitializationSettings();
+    var ios = DarwinInitializationSettings ();
     var initSettings = InitializationSettings(android: android, iOS: ios);
     flutterLocalNotificationsPlugin.initialize(
       initSettings,
-      onSelectNotification: (payload) {
+      /*onSelectNotification: (payload) {
         print(Get.context);
         if (payload!.split(' ')[0] == 'messages') {
           setMessages(0);
@@ -141,7 +143,7 @@ class NotificationController extends GetxController {
           //Provider.of<GeneralProvider>(Get.context, listen: false).changeCurrentIndex(1);
         }
         return;
-      },
+      },*/
     );
 
     NotificationSettings settings = await firebaseMessaging.requestPermission(

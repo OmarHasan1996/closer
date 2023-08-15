@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:get/get.dart';
-import 'package:mr_service/screens/loading_screen.dart';
-import 'package:mr_service/screens/sub_service_dec.dart';
+import 'package:closer/screens/loading_screen.dart';
+import 'package:closer/screens/sub_service_dec.dart';
 
 import '../const.dart';
 import '../localization_service.dart';

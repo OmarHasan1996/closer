@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:path/path.dart';
 
-import '../const.dart';
+import 'package:closer/const.dart';
 
 class UploadAttachment extends StatefulWidget {
   @override
@@ -98,8 +98,8 @@ class _UploadAttachmentState extends State<UploadAttachment> {
     //insted use your local IP address or use live URL
     //hit "ipconfig" in windows or "ip a" in linux to get you local IP
     dio.options.baseUrl = uploadurl;
-    dio.options.connectTimeout = 50000; //50s
-    dio.options.receiveTimeout = 50000;
+    dio.options.connectTimeout = const Duration(seconds: 50); //50s
+    dio.options.receiveTimeout = const Duration(seconds: 50);
     dio.options.headers = {
       "Accept": "application/json",
       "content-type": "application/json",

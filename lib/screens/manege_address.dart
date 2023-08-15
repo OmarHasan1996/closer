@@ -4,9 +4,9 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:mr_service/api/api_service.dart';
-import 'package:mr_service/localizations.dart';
-import 'package:mr_service/screens/new_address_screen.dart';
+import 'package:closer/api/api_service.dart';
+import 'package:closer/localizations.dart';
+import 'package:closer/screens/new_address_screen.dart';
 
 import '../MyWidget.dart';
 import '../const.dart';

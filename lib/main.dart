@@ -10,26 +10,26 @@ import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:mr_service/boxes.dart';
-import 'package:mr_service/localization_service.dart';
-import 'package:mr_service/localizations.dart';
-import 'package:mr_service/screens/Payment.dart';
-import 'package:mr_service/screens/about.dart';
-import 'package:mr_service/screens/addTask.dart';
-import 'package:mr_service/screens/changeLang.dart';
+import 'package:closer/boxes.dart';
+import 'package:closer/localization_service.dart';
+import 'package:closer/localizations.dart';
+import 'package:closer/screens/Payment.dart';
+import 'package:closer/screens/about.dart';
+import 'package:closer/screens/addTask.dart';
+import 'package:closer/screens/changeLang.dart';
 /*
 import 'package:mr_service_2/screens/change_password.dart';
 */
-import 'package:mr_service/screens/loading_screen.dart';
-import 'package:mr_service/screens/main_screen.dart';
-import 'package:mr_service/screens/manage_task.dart';
-import 'package:mr_service/screens/orderID.dart';
-import 'package:mr_service/screens/register.dart';
-import 'package:mr_service/screens/signin.dart';
-import 'package:mr_service/screens/sub_service_screen.dart';
-import 'package:mr_service/screens/valid_code.dart';
+import 'package:closer/screens/loading_screen.dart';
+import 'package:closer/screens/main_screen.dart';
+import 'package:closer/screens/manage_task.dart';
+import 'package:closer/screens/orderID.dart';
+import 'package:closer/screens/register.dart';
+import 'package:closer/screens/signin.dart';
+import 'package:closer/screens/sub_service_screen.dart';
+import 'package:closer/screens/valid_code.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:mr_service/const.dart';
+import 'package:closer/const.dart';
 import 'notification_ontroller.dart';
 
 import '../model/transaction.dart';
@@ -37,7 +37,7 @@ import '../model/transaction.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:http/http.dart' as http;
-import 'package:mr_service/screens/signin.dart' as signIn;
+import 'package:closer/screens/signin.dart' as signIn;
 
 ///Receive message when app is in background solution for on message
 Future<void> backgroundHandler(RemoteMessage message) async{

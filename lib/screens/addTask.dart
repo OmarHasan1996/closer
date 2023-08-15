@@ -2,12 +2,12 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:mr_service/MyWidget.dart';
-import 'package:mr_service/api/api_service.dart';
-import 'package:mr_service/color/MyColors.dart';
+import 'package:closer/MyWidget.dart';
+import 'package:closer/api/api_service.dart';
+import 'package:closer/color/MyColors.dart';
 
-import '../const.dart';
-import '../localizations.dart';
+import 'package:closer/const.dart';
+import 'package:closer/localizations.dart';
 
 import 'dart:async';
 

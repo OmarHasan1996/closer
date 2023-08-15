@@ -6,10 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
-import 'package:mr_service/MyWidget.dart';
-import 'package:mr_service/api/api_service.dart';
-import 'package:mr_service/color/MyColors.dart';
-import 'package:mr_service/localizations.dart';
+import 'package:closer/MyWidget.dart';
+import 'package:closer/api/api_service.dart';
+import 'package:closer/color/MyColors.dart';
+import 'package:closer/localizations.dart';
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/otp_text_field.dart';
 import 'package:otp_text_field/style.dart';
@@ -18,10 +18,10 @@ import '../const.dart';
 import 'main_screen.dart';
 import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:get/get.dart';
-import 'package:mr_service/screens/signin.dart';
+import 'package:closer/screens/signin.dart';
 
 import 'package:form_field_validator/form_field_validator.dart';
-import 'package:mr_service/localization_service.dart' as trrrr;
+import 'package:closer/localization_service.dart' as trrrr;
 
 
 bool chVer = false;

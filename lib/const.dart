@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:mr_service/api/api_service.dart';
+import 'package:closer/api/api_service.dart';
 
 import 'boxes.dart';
 import 'model/transaction.dart';

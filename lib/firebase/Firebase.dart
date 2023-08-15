@@ -1,28 +1,28 @@
 import 'dart:convert';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
+//import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+//import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class MyFirebase{
 
-  final FirebaseFirestore _db = FirebaseFirestore.instance;
+ // final FirebaseFirestore _db = FirebaseFirestore.instance;
   final FirebaseMessaging _fcm = FirebaseMessaging.instance;
 
   saveDeviceToken() async{
     String userId = 'omar';
-    User user = await FirebaseAuth.instance.currentUser!;
+   // User user = await FirebaseAuth.instance.currentUser!;
     String? fcmToken = await _fcm.getToken();
 
-    if(fcmToken != null){
+    /*if(fcmToken != null){
       var tokenRef= _db.collection('users').doc(user.uid).collection('tokens').doc(fcmToken);
       await tokenRef.set({
         'token': fcmToken,
         'createdAt': FieldValue.serverTimestamp(),
       });
-    }
+    }*/
 
   }
 

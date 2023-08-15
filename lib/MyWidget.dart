@@ -2,10 +2,10 @@ import 'dart:math';
 
 import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
-import 'package:mr_service/api/api_service.dart';
-import 'package:mr_service/color/MyColors.dart';
-import 'package:mr_service/screens/newOrder.dart';
-import 'package:mr_service/screens/signin.dart';
+import 'package:closer/api/api_service.dart';
+import 'package:closer/color/MyColors.dart';
+import 'package:closer/screens/newOrder.dart';
+import 'package:closer/screens/signin.dart';
 
 import 'const.dart';
 import 'localization_service.dart';

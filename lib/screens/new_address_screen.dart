@@ -5,10 +5,10 @@ import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:http/http.dart' as http;
-import 'package:mr_service/api/api_service.dart';
-import 'package:mr_service/color/MyColors.dart';
-import 'package:mr_service/const.dart';
-import 'package:mr_service/localizations.dart';
+import 'package:closer/api/api_service.dart';
+import 'package:closer/color/MyColors.dart';
+import 'package:closer/const.dart';
+import 'package:closer/localizations.dart';
 import 'package:progress_indicators/progress_indicators.dart';
 
 import '../MyWidget.dart';

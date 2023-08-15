@@ -7,20 +7,20 @@ import 'package:flutter/cupertino.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl_phone_field/intl_phone_field.dart';
-import 'package:mr_service/api/api_service.dart';
-import 'package:mr_service/color/MyColors.dart';
-import 'package:mr_service/localizations.dart';
-import 'package:mr_service/screens/signin.dart';
+import 'package:closer/api/api_service.dart';
+import 'package:closer/color/MyColors.dart';
+import 'package:closer/localizations.dart';
+import 'package:closer/screens/signin.dart';
 import 'dart:convert';
-import 'package:mr_service/screens/valid_code.dart';
+import 'package:closer/screens/valid_code.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:get/get.dart';
-import 'package:mr_service/screens/signin.dart';
+import 'package:closer/screens/signin.dart';
 
-import '../MyWidget.dart';
-import '../const.dart';
-import '../localization_service.dart';
+import 'package:closer/MyWidget.dart';
+import 'package:closer/const.dart';
+import 'package:closer/localization_service.dart';
 import 'main_screen.dart';
 
 

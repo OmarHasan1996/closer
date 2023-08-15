@@ -2,15 +2,15 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:mr_service/api/api_service.dart';
-import 'package:mr_service/color/MyColors.dart';
-import 'package:mr_service/const.dart';
-import 'package:mr_service/localizations.dart';
-import 'package:mr_service/screens/manage_task.dart';
+import 'package:closer/api/api_service.dart';
+import 'package:closer/color/MyColors.dart';
+import 'package:closer/const.dart';
+import 'package:closer/localizations.dart';
+import 'package:closer/screens/manage_task.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
 
-import '../MyWidget.dart';
+import 'package:closer/MyWidget.dart';
 import 'loading_screen.dart';
 import 'main_screen.dart';
 // ignore: must_be_immutable
