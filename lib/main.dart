@@ -51,12 +51,16 @@ void main() async {
   HttpOverrides.global = MyHttpOverrides();
 
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-   // options: DefaultFirebaseOptions.currentPlatform,
-  );
+  try{
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+  }catch(e){
+    print(e.toString());
+  }
   FirebaseMessaging.onBackgroundMessage(backgroundHandler);
 
-  /* await GetStorage.init();
+   await GetStorage.init();
 
   WidgetsFlutterBinding.ensureInitialized();
   print('-- main: Firebase.initializeApp Is Intialiees');
@@ -73,7 +77,7 @@ void main() async {
   await Hive.initFlutter();
   Hive.registerAdapter(TransactionAdapter());
   await Hive.openBox<Transaction>('transactions');
-*/
+
   // Initialize without device test ids.
   Admob.initialize();
   // Or add a list of test ids.
