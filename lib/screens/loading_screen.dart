@@ -10,7 +10,6 @@ import 'package:http/http.dart' as http;
 import 'package:closer/api/api_service.dart';
 import 'package:closer/color/MyColors.dart';
 import 'package:closer/const.dart';
-import 'package:closer/firebase/Firebase.dart';
 import 'package:closer/localization_service.dart';
 import 'package:closer/localizations.dart';
 import 'package:closer/model/transaction.dart';
@@ -48,7 +47,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
 */
   String email;
   _LoadingScreenState(this.email);
-  MyFirebase myFirebase = new MyFirebase();
+  //MyFirebase myFirebase = new MyFirebase();
 
   @override
   void initState() {

@@ -3,7 +3,6 @@ import 'dart:io';
 
 import 'package:admob_flutter/admob_flutter.dart';
 import 'package:firebase_core/firebase_core.dart';
-//import 'firebase_options.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -30,7 +29,9 @@ import 'package:closer/screens/sub_service_screen.dart';
 import 'package:closer/screens/valid_code.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:closer/const.dart';
+import 'firebase_options.dart';
 import 'notification_ontroller.dart';
+import 'firebase_options.dart';
 
 import '../model/transaction.dart';
 //import '../model/transaction.g.dart';
@@ -38,7 +39,7 @@ import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:closer/screens/signin.dart' as signIn;
-
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 ///Receive message when app is in background solution for on message
 Future<void> backgroundHandler(RemoteMessage message) async{
   print(message.data.toString());
@@ -50,15 +51,20 @@ void main() async {
   HttpOverrides.global = MyHttpOverrides();
 
   WidgetsFlutterBinding.ensureInitialized();
-  print('-- main: Firebase.initializeApp Is Intialiees');
   await Firebase.initializeApp(
    // options: DefaultFirebaseOptions.currentPlatform,
   );
-  print('-- main: Firebase.initializeApp');
+  FirebaseMessaging.onBackgroundMessage(backgroundHandler);
+
+  /* await GetStorage.init();
 
   WidgetsFlutterBinding.ensureInitialized();
-  await GetStorage.init();
-  //WidgetsFlutterBinding.ensureInitialized();
+  print('-- main: Firebase.initializeApp Is Intialiees');
+  await Firebase.initializeApp(
+     /* options: DefaultFirebaseOptions.currentPlatform*/
+  );
+  print('-- main: Firebase.initializeApp');
+
 
   FirebaseMessaging.onBackgroundMessage(backgroundHandler);
 
@@ -67,7 +73,7 @@ void main() async {
   await Hive.initFlutter();
   Hive.registerAdapter(TransactionAdapter());
   await Hive.openBox<Transaction>('transactions');
-
+*/
   // Initialize without device test ids.
   Admob.initialize();
   // Or add a list of test ids.

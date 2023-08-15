@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Mr_Service</string>
+    <string name="facebook_app_id">376797254240299</string>
+    <string name="fb_login_protocol_scheme">fb376797254240299</string>
+    <string name="facebook_client_token">a44e944ccf9e576f33229d449739870c</string>
+</resources>

@@ -1,4 +1,4 @@
-package com.example.closer
+package com.godigi.closer
 
 import io.flutter.embedding.android.FlutterActivity
 

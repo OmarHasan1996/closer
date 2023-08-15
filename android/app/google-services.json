@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "481729599030",
+    "project_id": "closer-1ceb3",
+    "storage_bucket": "closer-1ceb3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:481729599030:android:aede3ebb2338b9e6f7aa97",
+        "android_client_info": {
+          "package_name": "com.godigi.closer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "481729599030-qh20r0qtml858vqlepm4ghod864tnmv0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBhesn3h2HhG836eW8s-EYEdrdlh-0x8vI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "481729599030-qh20r0qtml858vqlepm4ghod864tnmv0.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "481729599030-ku428i8fc1rlrquigkda0qblkrslmg63.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.godigi.closer"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
