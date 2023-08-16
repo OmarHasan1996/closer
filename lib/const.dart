@@ -4,7 +4,7 @@ import 'package:closer/api/api_service.dart';
 
 import 'boxes.dart';
 import 'model/transaction.dart';
-import 'package:admob_flutter/admob_flutter.dart';
+//import 'package:admob_flutter/admob_flutter.dart';
 
 late APIService apiService;
 final apiDomain = 'https://api.mr-service.co';
@@ -62,13 +62,13 @@ String? getRewardBasedVideoAdUnitId() {
   }
   return null;
 }
-
+/*
 AdmobBannerSize? bannerSize;
 late AdmobInterstitial interstitialAd;
-late AdmobReward rewardAd;
+late AdmobReward rewardAd;*/
 
 showInterstitialAdd() async{
-  final isLoaded = await interstitialAd.isLoaded;
+  /*final isLoaded = await interstitialAd.isLoaded;
   if (isLoaded ?? false) {
     interstitialAd.show();
     interstitialAd.load();
@@ -76,12 +76,12 @@ showInterstitialAdd() async{
     //showSnackBar('Interstitial ad is still loading...');
     interstitialAd.load();
     print('Interstitial ad is still loading...');
-  }
+  }*/
 }
 
 showRewardAdd() async {
   // Run this before displaying any ad.
-  await Admob.requestTrackingAuthorization();
+ /* await Admob.requestTrackingAuthorization();
   if (await rewardAd.isLoaded) {
     rewardAd.show();
     rewardAd.load();
@@ -89,7 +89,7 @@ showRewardAdd() async {
     //showSnackBar('Reward ad is still loading...');
     rewardAd.load();
     print('Interstitial ad is still loading...');
-  }
+  }*/
 }
 
 

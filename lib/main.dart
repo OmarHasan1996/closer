@@ -1,7 +1,7 @@
 //import 'dart:convert';
 import 'dart:io';
 
-import 'package:admob_flutter/admob_flutter.dart';
+//import 'package:admob_flutter/admob_flutter.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -52,13 +52,13 @@ void main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-   // options: DefaultFirebaseOptions.currentPlatform,
+    options: DefaultFirebaseOptions.currentPlatform,
   );
   FirebaseMessaging.onBackgroundMessage(backgroundHandler);
 
-  /* await GetStorage.init();
+  await GetStorage.init();
 
-  WidgetsFlutterBinding.ensureInitialized();
+ /* WidgetsFlutterBinding.ensureInitialized();
   print('-- main: Firebase.initializeApp Is Intialiees');
   await Firebase.initializeApp(
      /* options: DefaultFirebaseOptions.currentPlatform*/
@@ -66,16 +66,16 @@ void main() async {
   print('-- main: Firebase.initializeApp');
 
 
-  FirebaseMessaging.onBackgroundMessage(backgroundHandler);
+  FirebaseMessaging.onBackgroundMessage(backgroundHandler);*/
 
   NotificationController notificationController = Get.put(NotificationController());
 
   await Hive.initFlutter();
   Hive.registerAdapter(TransactionAdapter());
   await Hive.openBox<Transaction>('transactions');
-*/
+
   // Initialize without device test ids.
-  Admob.initialize();
+  //Admob.initialize();
   // Or add a list of test ids.
   // Admob.initialize(testDeviceIds: ['YOUR DEVICE ID']);
 

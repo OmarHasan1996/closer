@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 
-import 'package:admob_flutter/admob_flutter.dart';
+//import 'package:admob_flutter/admob_flutter.dart';
 import 'package:another_flushbar/flushbar.dart';
 //import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_format/date_format.dart';
@@ -42,7 +42,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:circular_menu/circular_menu.dart';
 import 'package:progress_indicators/progress_indicators.dart';
 import 'package:closer/localization_service.dart' as trrrr;
-import 'package:admob_flutter/admob_flutter.dart';
+//import 'package:admob_flutter/admob_flutter.dart';
 
 var globalPrice = 0.0;
 
@@ -74,7 +74,7 @@ class _MainScreenState extends State<MainScreen> {
   DateTime? pickDate;
   TimeOfDay? time;
 
-  void handleEvent(
+  /*void handleEvent(
       AdmobAdEvent event, Map<String, dynamic>? args, String adType) {
     switch (event) {
       case AdmobAdEvent.loaded:
@@ -114,7 +114,7 @@ class _MainScreenState extends State<MainScreen> {
         break;
       default:
     }
-  }
+  }*/
 
   void showSnackBar(String content) {
     ScaffoldMessenger.of(context).showSnackBar(
@@ -126,7 +126,7 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   loadBannerAdd(){
-    bannerSize = AdmobBannerSize.ADAPTIVE_BANNER(
+    /*bannerSize = AdmobBannerSize.ADAPTIVE_BANNER(
       // height: MediaQuery.of(context).size.height.toInt()-40,
       width: MediaQuery.of(context).size.width.toInt(), // considering EdgeInsets.all(20.0)
     );
@@ -144,13 +144,13 @@ class _MainScreenState extends State<MainScreen> {
         // If you need direct access to dispose, this is your guy!
         // controller.dispose();
       },
-    );
+    );*/
   }
 
   initAdds(){
     // You should execute `Admob.requestTrackingAuthorization()` here before showing any ad.
 
-    bannerSize = AdmobBannerSize.BANNER;
+   /* bannerSize = AdmobBannerSize.BANNER;
 
 
     interstitialAd = AdmobInterstitial(
@@ -170,7 +170,7 @@ class _MainScreenState extends State<MainScreen> {
     );
 
     interstitialAd.load();
-    rewardAd.load();
+    rewardAd.load();*/
   }
 
   /*

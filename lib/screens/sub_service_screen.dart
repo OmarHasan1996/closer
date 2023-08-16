@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:math';
 
-import 'package:admob_flutter/admob_flutter.dart';
+//import 'package:admob_flutter/admob_flutter.dart';
 import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -117,7 +117,7 @@ class _SubServiceScreenState extends State<SubServiceScreen> {
   final GlobalKey<ScaffoldState> _key = GlobalKey(); // Create a key
 
   loadBannerAdd(){
-    return AdmobBanner(
+    /*return AdmobBanner(
       adUnitId: getBannerAdUnitId()!,
       adSize: AdmobBannerSize.ADAPTIVE_BANNER(
         // height: MediaQuery.of(context).size.height.toInt()-40,
@@ -134,7 +134,7 @@ class _SubServiceScreenState extends State<SubServiceScreen> {
         // If you need direct access to dispose, this is your guy!
         // controller.dispose();
       },
-    );
+    );*/
   }
 
   APIService? api;
