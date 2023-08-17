@@ -231,7 +231,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
       key: key,
       child: SafeArea(
           child: Scaffold(
-            backgroundColor: MyColors.blue,
+            backgroundColor: AppColors.blue,
             body: ValueListenableBuilder<Box<Transaction>>(
               valueListenable: Boxes.getTransactions().listenable(),
               builder: (context, box, _) {
@@ -284,7 +284,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  MyWidget(context).textBlack20(AppLocalizations.of(context)!.translate('lang'), color: MyColors.White),
+                  MyWidget(context).textBlack20(AppLocalizations.of(context)!.translate('lang'), color: AppColors.white),
                   Text("   "),
                   MyWidget(context).dropDownLang(LocalizationService.langs, () => {setState(() {},)})
                   /*new DropdownButton<String>(
@@ -333,7 +333,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    MyWidget(context).textBlack20(AppLocalizations.of(context)!.translate('Already have an account?'), color:MyColors.White, bold: false),
+                    MyWidget(context).textBlack20(AppLocalizations.of(context)!.translate('Already have an account?'), color:AppColors.white, bold: false),
 
                     SizedBox(
                       width: MediaQuery.of(context).size.width / 72,
@@ -342,7 +342,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
                       onTap: () {
                         checkLogin();
                       },
-                      child: MyWidget(context).textBlack20(AppLocalizations.of(context)!.translate('Login'), color:MyColors.yellow, bold: false),
+                      child: MyWidget(context).textBlack20(AppLocalizations.of(context)!.translate('Login'), color:AppColors.yellow, bold: false),
                     )
                   ],
                 ),

@@ -116,7 +116,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 bottomLeft: Radius.circular(MediaQuery.of(context).size.height / 80 * 3),
               ),
             ),
-            backgroundColor: MyColors.blue,
+            backgroundColor: AppColors.blue,
             // bottom: PreferredSize(
             //   preferredSize: Size.fromHeight(MediaQuery.of(context).size.height/5.5),
             //   child: SizedBox(),
@@ -178,7 +178,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         //child: Text(),
                       ),
                       // ignore: deprecated_member_use
-                      MyWidget(context).raisedButton(AppLocalizations.of(context)!.translate('Change profile Photo'), ()=>  _changeProfile(), MediaQuery.of(context).size.width /1.7, false, buttonText: MyColors.blue, colorText: MyColors.White, padV: 0.1, textH: min(MediaQuery.of(context).size.width/25, MediaQuery.of(context).size.height / 56)),
+                      MyWidget(context).raisedButton(AppLocalizations.of(context)!.translate('Change profile Photo'), ()=>  _changeProfile(), MediaQuery.of(context).size.width /1.7, false, buttonText: AppColors.blue, colorText: AppColors.white, padV: 0.1, textH: min(MediaQuery.of(context).size.width/25, MediaQuery.of(context).size.height / 56)),
                       /*RaisedButton(
                         elevation: 5.0,
                         shape: RoundedRectangleBorder(
@@ -237,7 +237,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   controller: nameController,
                                   autovalidateMode: AutovalidateMode.onUserInteraction,
                                   style: TextStyle(
-                                      color: MyColors.black,
+                                      color: AppColors.black,
                                       fontSize: min(MediaQuery.of(context).size.width / 20, MediaQuery.of(context).size.height / 45)),
                                   decoration: InputDecoration(
                                     border: InputBorder.none,
@@ -287,7 +287,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   autovalidateMode:
                                       AutovalidateMode.onUserInteraction,
                                   style: TextStyle(
-                                      color: MyColors.black,
+                                      color: AppColors.black,
                                       fontSize: min(MediaQuery.of(context).size.width / 20, MediaQuery.of(context).size.width / 45)),
                                   decoration: InputDecoration(
                                     border: InputBorder.none,
@@ -327,7 +327,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                     MediaQuery.of(context).size.height / 200,
                               ),
                               child: Container(
-                                child: MyWidget(context).textTap25('${userInfo["Email"]}', color: MyColors.black)
+                                child: MyWidget(context).textTap25('${userInfo["Email"]}', color: AppColors.black)
                               ),
                             ),
                           ],
@@ -358,7 +358,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 vertical:
                                     MediaQuery.of(context).size.height / 200,
                               ),
-                              child: MyWidget(context).textTap25('${userInfo['Mobile']}', color: MyColors.black)
+                              child: MyWidget(context).textTap25('${userInfo['Mobile']}', color: AppColors.black)
                             ),
                           ],
                         ),
@@ -413,7 +413,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         width: MediaQuery.of(context).size.width / 1.2,
         height: MediaQuery.of(context).size.height / 80,
         decoration: BoxDecoration(
-          color: MyColors.yellow,
+          color: AppColors.yellow,
           borderRadius:
           BorderRadius.vertical(bottom: Radius.circular(MediaQuery.of(context).size.height / 80)),
         ),

@@ -27,6 +27,7 @@ import 'package:closer/screens/register.dart';
 import 'package:closer/screens/signin.dart';
 import 'package:closer/screens/sub_service_screen.dart';
 import 'package:closer/screens/valid_code.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:closer/const.dart';
 import 'firebase_options.dart';
@@ -58,16 +59,6 @@ void main() async {
 
   await GetStorage.init();
 
- /* WidgetsFlutterBinding.ensureInitialized();
-  print('-- main: Firebase.initializeApp Is Intialiees');
-  await Firebase.initializeApp(
-     /* options: DefaultFirebaseOptions.currentPlatform*/
-  );
-  print('-- main: Firebase.initializeApp');
-
-
-  FirebaseMessaging.onBackgroundMessage(backgroundHandler);*/
-
   NotificationController notificationController = Get.put(NotificationController());
 
   await Hive.initFlutter();
@@ -82,6 +73,8 @@ void main() async {
   runApp(MyApp());
 }
 
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
 class MyApp extends StatelessWidget {
   MyApp();
   List service = [];
@@ -92,58 +85,61 @@ class MyApp extends StatelessWidget {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
     ]);
-    return GetMaterialApp(
-      debugShowCheckedModeBanner: false,
-      // These delegates make sure that the localization data for the proper language is loaded
-      localizationsDelegates: [
-        // THIS CLASS WILL BE ADDED LATER
-        // A class which loads the translations from JSON files0
-        AppLocalizations.delegate,
-        // Built-in localization of basic text for Material widgets
-        GlobalMaterialLocalizations.delegate,
-        // Built-in localization for text direction LTR/RTL
-        GlobalWidgetsLocalizations.delegate,
-      ],
-      /*When you want programmatically to change the current locale in your app, you can do it in the following way:*/
-      //AppLocalizations.load(Locale('en', ''));
-      supportedLocales: [
-        Locale('en', 'US'),
-        Locale('fr', 'FR'),
-        Locale('ar', 'AR'),
-        Locale('tr', 'TR'),
-      ],
-      localeResolutionCallback: (locale, supportedLocales) {
-        // Check if the current device locale is supported
-        for (var supportedLocale in supportedLocales) {
-          if (supportedLocale.languageCode == locale!.languageCode && supportedLocale.countryCode == locale.countryCode) {
-            return supportedLocale;
-          }
-        }
-        //should to be in the bottom
-        return supportedLocales.first;
-        // If the locale of the device is not supported, use the first one
-        // from the list (English, in this case).
-      },
-      theme: new ThemeData(
-        primarySwatch: Colors.indigo,
-      ),
-      //translations: LocalizationService(),
-      //locale: LocalizationService().getCurrentLocale(),
-      //fallbackLocale: Locale('en', 'US'),
-      home: LoadingScreen(email: '',),
-      routes: {
-        'about': (context) => about(),
-        'changeLang': (context) => ChangeLang(),
-        'sign_in': (context) => SignIn(),
-        //'payment': (context) => Payment(),
-        'register': (context) => Register(false),
-        'main_screen': (context) => MainScreen(token: '',service: [], selectedIndex: 0,initialOrderTab: 0,),
-        'val_code': (context) => Verification(value: '', email: '', password: '',),
-        /*'changePassword': (context) {
-          return EditProfileScreen(token: '');
-        }*/
+    return ResponsiveSizer(
+      builder: (context, orientation, screenType) {
+        return GetMaterialApp(
+          debugShowCheckedModeBanner: false,
+          // These delegates make sure that the localization data for the proper language is loaded
+          localizationsDelegates: [
+            // THIS CLASS WILL BE ADDED LATER
+            // A class which loads the translations from JSON files0
+            AppLocalizations.delegate,
+            // Built-in localization of basic text for Material widgets
+            GlobalMaterialLocalizations.delegate,
+            // Built-in localization for text direction LTR/RTL
+            GlobalWidgetsLocalizations.delegate,
+          ],
+          /*When you want programmatically to change the current locale in your app, you can do it in the following way:*/
+          //AppLocalizations.load(Locale('en', ''));
+          supportedLocales: [
+            Locale('en', 'US'),
+            Locale('fr', 'FR'),
+            Locale('ar', 'AR'),
+            Locale('tr', 'TR'),
+          ],
+          localeResolutionCallback: (locale, supportedLocales) {
+            // Check if the current device locale is supported
+            for (var supportedLocale in supportedLocales) {
+              if (supportedLocale.languageCode == locale!.languageCode && supportedLocale.countryCode == locale.countryCode) {
+                return supportedLocale;
+              }
+            }
+            //should to be in the bottom
+            return supportedLocales.first;
+            // If the locale of the device is not supported, use the first one
+            // from the list (English, in this case).
+          },
+          theme: new ThemeData(
+            primarySwatch: Colors.indigo,
+          ),
+          //translations: LocalizationService(),
+          //locale: LocalizationService().getCurrentLocale(),
+          //fallbackLocale: Locale('en', 'US'),
+          home: LoadingScreen(email: '',),
+          routes: {
+            'about': (context) => about(),
+            'changeLang': (context) => ChangeLang(),
+            'sign_in': (context) => SignIn(),
+            //'payment': (context) => Payment(),
+            'register': (context) => Register(false),
+            'main_screen': (context) => MainScreen(token: '',service: [], selectedIndex: 0,initialOrderTab: 0,),
+            'val_code': (context) => Verification(value: '', email: '', password: '',),
+
+          },
+        );
       },
     );
+
   }
 }
 

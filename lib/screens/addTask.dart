@@ -52,7 +52,7 @@ class _AddTaskState extends State<AddTask> {
                   item['name'],
                   style: TextStyle(
                     fontSize: MediaQuery.of(context).size.width/25,
-                    color: MyColors.black,
+                    color: AppColors.black,
                   ),
                 ),
               ),
@@ -96,7 +96,7 @@ class _AddTaskState extends State<AddTask> {
                   bottomRight: Radius.circular(MediaQuery.of(context).size.height / 80 * 3),
                   bottomLeft: Radius.circular(MediaQuery.of(context).size.height / 80 * 3)),
             ),
-            backgroundColor: MyColors.blue,
+            backgroundColor: AppColors.blue,
             title: MyWidget(context).appBarTittle(barHight, _key),
             actions: [
               new IconButton(
@@ -125,7 +125,7 @@ class _AddTaskState extends State<AddTask> {
                         child: Text(
                           AppLocalizations.of(context)!.translate('Add Task'),
                           style: TextStyle(
-                            color: MyColors.black,
+                            color: AppColors.black,
                             fontSize:
                             MediaQuery.of(context).size.width / 12,
                             fontWeight: FontWeight.normal,
@@ -139,9 +139,9 @@ class _AddTaskState extends State<AddTask> {
                         width: MediaQuery.of(context).size.width / 1.2,
                         height: MediaQuery.of(context).size.height *(0.7*0.93),
                         decoration: BoxDecoration(
-                          color: MyColors.White,
+                          color: AppColors.white,
                           boxShadow: [BoxShadow(
-                            color: MyColors.White,//Colors.grey.withOpacity(0.5),
+                            color: AppColors.white,//Colors.grey.withOpacity(0.5),
                             spreadRadius: 2,
                             blurRadius: 3,
                             offset: Offset(0, 1), // changes position of shadow
@@ -184,7 +184,7 @@ class _AddTaskState extends State<AddTask> {
                                 child: Text(
                                   AppLocalizations.of(context)!.translate('Choose Worker'),
                                   style: TextStyle(
-                                    color: MyColors.black,
+                                    color: AppColors.black,
                                     fontSize: MediaQuery.of(context).size.width/18,
                                   ),
                                 ),
@@ -525,7 +525,7 @@ class _AddTaskState extends State<AddTask> {
         width: MediaQuery.of(context).size.width / 1.2,
         height: MediaQuery.of(context).size.height / 80,
         decoration: BoxDecoration(
-          color: MyColors.yellow,
+          color: AppColors.yellow,
           borderRadius:
           BorderRadius.vertical(bottom: Radius.circular(MediaQuery.of(context).size.height / 80)),
         ),
@@ -554,7 +554,7 @@ class _AddTaskState extends State<AddTask> {
           width: width,
           height: height,
           decoration: BoxDecoration(
-            color: MyColors.White,
+            color: AppColors.white,
             boxShadow: [BoxShadow(
               color: Colors.grey.withOpacity(0.5),
               spreadRadius: 1,
@@ -607,7 +607,7 @@ class _AddTaskState extends State<AddTask> {
               child: Text(
                 AppLocalizations.of(this.context)!.translate('Worker') + ' ' + (index+1).toString(),
                 style: TextStyle(
-                  color: MyColors.black,
+                  color: AppColors.black,
                   fontSize: MediaQuery.of(context).size.width/22,
                 ),
               ),
@@ -619,7 +619,7 @@ class _AddTaskState extends State<AddTask> {
               width: MediaQuery.of(context).size.width/2.5,
               height: MediaQuery.of(context).size.height/22,
               decoration: BoxDecoration(
-                color: MyColors.White,
+                color: AppColors.white,
                 boxShadow: [BoxShadow(
                   color: Colors.grey.withOpacity(0.5),
                   spreadRadius: 1,
@@ -871,7 +871,7 @@ class _AddTaskState extends State<AddTask> {
       width: MediaQuery.of(context).size.width / 2.9,
       height: MediaQuery.of(context).size.height / 13,
       decoration: BoxDecoration(
-        color: MyColors.White,
+        color: AppColors.white,
         boxShadow: [
           BoxShadow(
             color: Colors.grey.withOpacity(0.5),
@@ -891,7 +891,7 @@ class _AddTaskState extends State<AddTask> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Icon(Icons.date_range, color: MyColors.black,),
+            Icon(Icons.date_range, color: AppColors.black,),
             Expanded(
               flex: 1,
               child:InkWell(
@@ -900,7 +900,7 @@ class _AddTaskState extends State<AddTask> {
                 },
                 child: TextFormField(
                   style:
-                  TextStyle(fontSize: MediaQuery.of(context).size.width / 22, color: MyColors.black),
+                  TextStyle(fontSize: MediaQuery.of(context).size.width / 22, color: AppColors.black),
                   textAlign: TextAlign.center,
                   enabled: false,
                   keyboardType: TextInputType.text,
@@ -926,7 +926,7 @@ class _AddTaskState extends State<AddTask> {
       width: MediaQuery.of(context).size.width / 3.1,
       height: MediaQuery.of(context).size.height / 13,
       decoration: BoxDecoration(
-        color: MyColors.White,
+        color: AppColors.white,
         boxShadow: [
           BoxShadow(
             color: Colors.grey.withOpacity(0.5),
@@ -946,7 +946,7 @@ class _AddTaskState extends State<AddTask> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Icon(Icons.timer_outlined, color: MyColors.black),
+            Icon(Icons.timer_outlined, color: AppColors.black),
             Expanded(
               flex: 1,
               child:InkWell(
@@ -955,7 +955,7 @@ class _AddTaskState extends State<AddTask> {
                 },
                 child: TextFormField(
                   style:
-                  TextStyle(fontSize: MediaQuery.of(context).size.width / 22, color: MyColors.black),
+                  TextStyle(fontSize: MediaQuery.of(context).size.width / 22, color: AppColors.black),
                   textAlign: TextAlign.center,
                   enabled: false,
                   keyboardType: TextInputType.text,

@@ -45,7 +45,7 @@ class _ManageTaskState extends State<ManageTask> {
                 child: Text(
                   item['name'],
                   style: TextStyle(
-                    color: MyColors.black,
+                    color: AppColors.black,
                   ),
                 ),
               ),
@@ -100,7 +100,7 @@ class _ManageTaskState extends State<ManageTask> {
                   bottomRight: Radius.circular(MediaQuery.of(context).size.height / 80 * 3),
                   bottomLeft: Radius.circular(MediaQuery.of(context).size.height / 80 * 3)),
             ),
-            backgroundColor: MyColors.blue,
+            backgroundColor: AppColors.blue,
             title: MyWidget(context).appBarTittle(barHight, _key),
             actions: [
               new IconButton(
@@ -129,7 +129,7 @@ class _ManageTaskState extends State<ManageTask> {
                         AppLocalizations.of(context)!.translate('Manage Tasks') + ' (' + _service['Service']['Name'] + ')',
                         maxLines: 1,
                         style: TextStyle(
-                          color: MyColors.black,
+                          color: AppColors.black,
                           fontSize: MediaQuery.of(context).size.width / 19,
                           fontWeight: FontWeight.normal,
                         ),
@@ -142,9 +142,9 @@ class _ManageTaskState extends State<ManageTask> {
                       width: MediaQuery.of(context).size.width / 1.2,
                       //height: MediaQuery.of(context).size.height *(0.4),
                       decoration: BoxDecoration(
-                        color: MyColors.White,
+                        color: AppColors.white,
                         boxShadow: [BoxShadow(
-                          color: MyColors.White,//Colors.grey.withOpacity(0.5),
+                          color: AppColors.white,//Colors.grey.withOpacity(0.5),
                           spreadRadius: 2,
                           blurRadius: 3,
                           offset: Offset(0, 1), // changes position of shadow
@@ -164,7 +164,7 @@ class _ManageTaskState extends State<ManageTask> {
                               child: Text(
                                 AppLocalizations.of(context)!.translate('Address Details'),
                                 style: TextStyle(
-                                  color: MyColors.black,
+                                  color: AppColors.black,
                                   fontSize: MediaQuery.of(context).size.width / 25,
                                   fontWeight: FontWeight.normal,
                                 ),
@@ -182,7 +182,7 @@ class _ManageTaskState extends State<ManageTask> {
                                 AppLocalizations.of(context)!.translate('Service Attachment:'),
                                 //AppLocalizations.of(context)!.translate('Order Details'),
                                 style: TextStyle(
-                                  color: MyColors.black,
+                                  color: AppColors.black,
                                   fontSize: MediaQuery.of(context).size.width / 22,
                                   fontWeight: FontWeight.normal,
                                 ),
@@ -235,9 +235,9 @@ class _ManageTaskState extends State<ManageTask> {
                       width: MediaQuery.of(context).size.width / 1.2,
                       height: MediaQuery.of(context).size.height *(0.19),
                       decoration: BoxDecoration(
-                        color: MyColors.White,
+                        color: AppColors.white,
                         boxShadow: [BoxShadow(
-                          color: MyColors.White,//Colors.grey.withOpacity(0.5),
+                          color: AppColors.white,//Colors.grey.withOpacity(0.5),
                           spreadRadius: 2,
                           blurRadius: 3,
                           offset: Offset(0, 1), // changes position of shadow
@@ -257,7 +257,7 @@ class _ManageTaskState extends State<ManageTask> {
                                 child: Text(
                                   AppLocalizations.of(context)!.translate('List Of Tasks'),
                                   style: TextStyle(
-                                    color: MyColors.black,
+                                    color: AppColors.black,
                                     fontSize: MediaQuery.of(context).size.width / 23,
                                     fontWeight: FontWeight.normal,
                                   ),
@@ -291,7 +291,7 @@ class _ManageTaskState extends State<ManageTask> {
         width: MediaQuery.of(context).size.width / 1.2,
         height: MediaQuery.of(context).size.height / 80,
         decoration: BoxDecoration(
-          color: MyColors.yellow,
+          color: AppColors.yellow,
           borderRadius:
           BorderRadius.vertical(bottom: Radius.circular(MediaQuery.of(context).size.height / 80)),
         ),
@@ -320,7 +320,7 @@ class _ManageTaskState extends State<ManageTask> {
           width: width,
           height: height,
           decoration: BoxDecoration(
-            color: MyColors.White,
+            color: AppColors.white,
             boxShadow: [BoxShadow(
               color: Colors.grey.withOpacity(0.5),
               spreadRadius: 1,
@@ -374,7 +374,7 @@ class _ManageTaskState extends State<ManageTask> {
                     child: Text(
                       _task[index]['Name'].toString(),
                       style: TextStyle(
-                        color: _task[index]['Status'] == 2 ? MyColors.blue : MyColors.black,
+                        color: _task[index]['Status'] == 2 ? AppColors.blue : AppColors.black,
                         fontSize: MediaQuery.of(context).size.width/24,
                       ),
                     ),
@@ -382,7 +382,7 @@ class _ManageTaskState extends State<ManageTask> {
                   Expanded(
                     child: Text(_workersName, textAlign: TextAlign.end,
                       style: TextStyle(
-                        color:  _task[index]['Status'] == 2 ? MyColors.blue : MyColors.black,
+                        color:  _task[index]['Status'] == 2 ? AppColors.blue : AppColors.black,
                         fontSize: MediaQuery.of(context).size.width/28,
                       ),),
                   )
@@ -505,7 +505,7 @@ class _ManageTaskState extends State<ManageTask> {
           SizedBox(width: MediaQuery.of(context).size.width/30,),
           Expanded(child: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
-            child: Text(text, style: TextStyle(fontSize: MediaQuery.of(context).size.width/25, color: MyColors.buttonTextColor),),
+            child: Text(text, style: TextStyle(fontSize: MediaQuery.of(context).size.width/25, color: AppColors.buttonTextColor),),
           )),
         ],
       ),

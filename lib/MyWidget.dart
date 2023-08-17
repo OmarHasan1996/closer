@@ -22,7 +22,7 @@ class MyWidget{
 
 
   textBlack20(text, {color, bold, textAlign, scale}){
-    color??= MyColors.black;
+    color??= AppColors.black;
     bold??= true;
     scale??= 1.0;
     textAlign??= TextAlign.start;
@@ -37,7 +37,7 @@ class MyWidget{
   }
 
   textTitle15(text, {color, bold, textAlign, scale}){
-    color??= MyColors.black;
+    color??= AppColors.black;
     bold??= false;
     scale??= 1.0;
     textAlign??= TextAlign.start;
@@ -52,7 +52,7 @@ class MyWidget{
   }
 
   textTap25(text, {color, bold, textAlign, scale}){
-    color??= MyColors.textColorGray;
+    color??= AppColors.textColorGray;
     bold??= false;
     textAlign??= TextAlign.center;
     scale??=1.0;
@@ -69,7 +69,7 @@ class MyWidget{
 
   textHead10(text,{scale, color}){
     scale??=1.0;
-    color??=MyColors.White;
+    color??=AppColors.white;
 
     return Text(
       text,
@@ -83,7 +83,7 @@ class MyWidget{
 
   textGrayk28(text,{scale, color}){
     scale??=1;
-    color??= MyColors.gray;
+    color??= AppColors.gray;
     return Text(
         text,
         maxLines: 1,
@@ -101,7 +101,7 @@ class MyWidget{
         text,
         maxLines: 1,
         style: TextStyle(
-        color: MyColors.buttonTextColor,
+        color: AppColors.buttonTextColor,
         fontSize: min(MediaQuery.of(context).size.width / 28, MediaQuery.of(context).size.height / 65) * scale,
           fontWeight: FontWeight.bold,
         ),
@@ -116,7 +116,7 @@ class MyWidget{
       width: double.infinity,
       height: barHight,
       decoration: BoxDecoration(
-        color: MyColors.blue,
+        color: AppColors.blue,
         borderRadius: BorderRadius.only(
             bottomLeft: Radius.circular(radius),
             bottomRight: Radius.circular(radius)),
@@ -502,7 +502,7 @@ class MyWidget{
                     mainAxisAlignment: MainAxisAlignment.center,
                     //crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      !empty? Text(order.length.toString(),style: TextStyle(color: MyColors.yellow,fontSize: min(MediaQuery.of(context).size.width/20,MediaQuery.of(context).size.height/45)),):SizedBox(height: MediaQuery.of(context).size.width/30,),
+                      !empty? Text(order.length.toString(),style: TextStyle(color: AppColors.yellow,fontSize: min(MediaQuery.of(context).size.width/20,MediaQuery.of(context).size.height/45)),):SizedBox(height: MediaQuery.of(context).size.width/30,),
                       IconButton(onPressed: () => _iconPress(empty, _key, newOrder: newOrder), icon: Icon(Icons.shopping_cart_outlined,size: min(MediaQuery.of(context).size.width/12, MediaQuery.of(context).size.height/26),))
                     ],
                   ):
@@ -575,7 +575,7 @@ class MyWidget{
         width: MediaQuery.of(context).size.width / 1.2,
         height: MediaQuery.of(context).size.height / 80,
         decoration: BoxDecoration(
-          color: MyColors.yellow,
+          color: AppColors.yellow,
           borderRadius: BorderRadius.vertical(
               bottom: Radius.circular(MediaQuery.of(context).size.height / 80)),
         ),
@@ -584,8 +584,8 @@ class MyWidget{
   }
 
   raisedButton(text , press, width, chLogIn, {height, colorText, buttonText, padV, textH, roundBorder}){
-    colorText??=MyColors.buttonTextColor;
-    buttonText??=MyColors.yellow;
+    colorText??=AppColors.buttonTextColor;
+    buttonText??=AppColors.yellow;
     padV??= min(MediaQuery.of(context).size.width / 20, MediaQuery.of(context).size.height / 46);
     textH??= min(MediaQuery.of(context).size.width / 20, MediaQuery.of(context).size.height / 46);
     roundBorder??= MediaQuery.of(context).size.height / 12;
@@ -609,7 +609,7 @@ class MyWidget{
             child: chLogIn == true
                 ? CircularProgressIndicator(
               valueColor: AlwaysStoppedAnimation<Color>(
-                  MyColors.blue),
+                  AppColors.blue),
               backgroundColor: Colors.grey,
             )
                 : Text(text,
@@ -642,7 +642,7 @@ class MyWidget{
       icon: Icon(
         Icons.error_outline,
         size: min(MediaQuery.of(context).size.width / 10, MediaQuery.of(context).size.height / 30),
-        color: MyColors.White,
+        color: AppColors.white,
       ),
       duration: Duration(seconds: 3),
       shouldIconPulse: false,

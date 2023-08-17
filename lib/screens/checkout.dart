@@ -123,7 +123,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                 bottomLeft: Radius.circular(MediaQuery.of(context).size.height / 80 * 3),
               ),
             ),
-            backgroundColor: MyColors.blue,
+            backgroundColor: AppColors.blue,
             // bottom: PreferredSize(
             //   preferredSize: Size.fromHeight(MediaQuery.of(context).size.height/5.5),
             //   child: SizedBox(),
@@ -185,7 +185,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                     width: MediaQuery.of(context).size.width,
                                     height: MediaQuery.of(context).size.height / 11,
                                     decoration: BoxDecoration(
-                                      color: MyColors.White,
+                                      color: AppColors.white,
                                       boxShadow: [
                                         BoxShadow(
                                           color: Colors.grey.withOpacity(0.5),
@@ -234,7 +234,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                     width: MediaQuery.of(context).size.width,
                                     height: MediaQuery.of(context).size.height / 6,
                                     decoration: BoxDecoration(
-                                      color: MyColors.White,
+                                      color: AppColors.white,
                                       boxShadow: [
                                         BoxShadow(
                                           color: Colors.grey.withOpacity(0.5),
@@ -369,7 +369,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                     width: MediaQuery.of(context).size.width,
                                     height: MediaQuery.of(context).size.height / 5,
                                     decoration: BoxDecoration(
-                                      color: MyColors.White,
+                                      color: AppColors.white,
                                       boxShadow: [
                                         BoxShadow(
                                           color: Colors.grey.withOpacity(0.5),
@@ -641,7 +641,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
         width: MediaQuery.of(context).size.width / 1.2,
         height: MediaQuery.of(context).size.height / 80,
         decoration: BoxDecoration(
-          color: MyColors.yellow,
+          color: AppColors.yellow,
           borderRadius:
           BorderRadius.vertical(bottom: Radius.circular(MediaQuery.of(context).size.height / 80)),
         ),
@@ -672,7 +672,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                 child: Text(
                   tmp['Address'],
                   style: TextStyle(
-                    color: MyColors.black,
+                    color: AppColors.black,
                   ),
                 ),
               ),
@@ -846,7 +846,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
       icon: Icon(
         Icons.error_outline,
         size: MediaQuery.of(context).size.width / 18,
-        color: MyColors.White,
+        color: AppColors.white,
       ),
       duration: Duration(seconds: 3),
       shouldIconPulse: false,

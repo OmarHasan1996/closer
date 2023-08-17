@@ -38,7 +38,7 @@ class _TaskIdState extends State<TaskId> {
                 child: Text(
                   item['name'],
                   style: TextStyle(
-                    color: MyColors.black,
+                    color: AppColors.black,
                   ),
                 ),
               ),
@@ -114,7 +114,7 @@ class _TaskIdState extends State<TaskId> {
                   bottomRight: Radius.circular(MediaQuery.of(context).size.height / 80 * 3),
                   bottomLeft: Radius.circular(MediaQuery.of(context).size.height / 80 * 3)),
             ),
-            backgroundColor: MyColors.blue,
+            backgroundColor: AppColors.blue,
             title: MyWidget(context).appBarTittle(barHight, _key),
             actions: [
               new IconButton(
@@ -142,7 +142,7 @@ class _TaskIdState extends State<TaskId> {
                       child: Text(
                         taskName,
                         style: TextStyle(
-                          color: MyColors.black,
+                          color: AppColors.black,
                           fontSize: MediaQuery.of(context).size.width / 12,
                           fontWeight: FontWeight.normal,
                         ),
@@ -155,9 +155,9 @@ class _TaskIdState extends State<TaskId> {
                       width: MediaQuery.of(context).size.width / 1.2,
                       height: MediaQuery.of(context).size.height *(0.7*0.95),
                       decoration: BoxDecoration(
-                        color: MyColors.White,
+                        color: AppColors.white,
                         boxShadow: [BoxShadow(
-                          color: MyColors.White,//Colors.grey.withOpacity(0.5),
+                          color: AppColors.white,//Colors.grey.withOpacity(0.5),
                           spreadRadius: 2,
                           blurRadius: 3,
                           offset: Offset(0, 1), // changes position of shadow
@@ -177,7 +177,7 @@ class _TaskIdState extends State<TaskId> {
                               child: Text(
                                 AppLocalizations.of(context)!.translate('Address Details'),
                                 style: TextStyle(
-                                  color: MyColors.black,
+                                  color: AppColors.black,
                                   fontSize: MediaQuery.of(context).size.width / 22,
                                   fontWeight: FontWeight.normal,
                                 ),
@@ -194,7 +194,7 @@ class _TaskIdState extends State<TaskId> {
                               child: Text(
                                 AppLocalizations.of(context)!.translate('Task Details'),
                                 style: TextStyle(
-                                  color: MyColors.black,
+                                  color: AppColors.black,
                                   fontSize: MediaQuery.of(context).size.width / 22,
                                   fontWeight: FontWeight.normal,
                                 ),
@@ -298,7 +298,7 @@ class _TaskIdState extends State<TaskId> {
         width: MediaQuery.of(context).size.width / 1.2,
         height: MediaQuery.of(context).size.height / 80,
         decoration: BoxDecoration(
-          color: MyColors.yellow,
+          color: AppColors.yellow,
           borderRadius:
           BorderRadius.vertical(bottom: Radius.circular(MediaQuery.of(context).size.height / 80)),
         ),
@@ -327,7 +327,7 @@ class _TaskIdState extends State<TaskId> {
           width: width,
           height: height,
           decoration: BoxDecoration(
-            color: MyColors.White,
+            color: AppColors.white,
             boxShadow: [BoxShadow(
               color: Colors.grey.withOpacity(0.5),
               spreadRadius: 1,
@@ -451,7 +451,7 @@ class _TaskIdState extends State<TaskId> {
           Expanded(child: SingleChildScrollView(
 
             scrollDirection: Axis.horizontal,
-            child: Text(text, style: TextStyle(fontSize: MediaQuery.of(context).size.width/25, color: MyColors.buttonTextColor),),
+            child: Text(text, style: TextStyle(fontSize: MediaQuery.of(context).size.width/25, color: AppColors.buttonTextColor),),
           )),
         ],
       ),

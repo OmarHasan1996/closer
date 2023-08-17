@@ -71,7 +71,7 @@ class _SubServiceDecState extends State<SubServiceDec> {
                   bottomRight: Radius.circular(MediaQuery.of(context).size.height / 80 * 3),
                   bottomLeft: Radius.circular(MediaQuery.of(context).size.height / 80 * 3)),
             ),
-            backgroundColor: MyColors.blue,
+            backgroundColor: AppColors.blue,
             title: MyWidget(context).appBarTittle(barHight, _key),
             actions: [
               new IconButton(
@@ -111,7 +111,7 @@ class _SubServiceDecState extends State<SubServiceDec> {
                                     width: MediaQuery.of(context).size.width / 1.2,
                                     height: MediaQuery.of(context).size.height * (0.2*0.7),
                                     decoration: BoxDecoration(
-                                      color: MyColors.White,
+                                      color: AppColors.white,
                                       image: DecorationImage(
                                         fit: BoxFit.contain,
                                         image: NetworkImage(subservicedec[0]['ImagePath']),
@@ -138,7 +138,7 @@ class _SubServiceDecState extends State<SubServiceDec> {
                                 width: MediaQuery.of(context).size.width / 1.2,
                                 height: MediaQuery.of(context).size.height *(0.62*0.7),
                                 decoration: BoxDecoration(
-                                  color: MyColors.White,
+                                  color: AppColors.white,
                                   boxShadow: [
                                     BoxShadow(
                                       color: Colors.grey.withOpacity(0.5),
@@ -335,7 +335,7 @@ class _SubServiceDecState extends State<SubServiceDec> {
                                                           Expanded(
                                                             flex: 1,
                                                             child:
-                                                            MyWidget(context).textBlack20(' '+(double.parse(subservicedec[0]['Price'].toString())*int.parse(_amountController.text)).toStringAsFixed(3)+' TL', color: MyColors.gray),
+                                                            MyWidget(context).textBlack20(' '+(double.parse(subservicedec[0]['Price'].toString())*int.parse(_amountController.text)).toStringAsFixed(3)+' TL', color: AppColors.gray),
 
                                                           ),
                                                         ],
@@ -404,7 +404,7 @@ class _SubServiceDecState extends State<SubServiceDec> {
         width: MediaQuery.of(context).size.width / 1.2,
         height: MediaQuery.of(context).size.height / 80,
         decoration: BoxDecoration(
-          color: MyColors.yellow,
+          color: AppColors.yellow,
           borderRadius:
           BorderRadius.vertical(bottom: Radius.circular(MediaQuery.of(context).size.height / 80)),
         ),

@@ -46,7 +46,7 @@ class _ChangeLangState extends State<ChangeLang> {
               SizedBox(
                 height: MediaQuery.of(context).size.height / 40,
               ),
-              MyWidget(context).textHead10(AppLocalizations.of(context)!.translate("lang"), color: MyColors.black),
+              MyWidget(context).textHead10(AppLocalizations.of(context)!.translate("lang"), color: AppColors.black),
              /*SizedBox(
                 height: MediaQuery.of(context).size.height / 80,
               ),*/
@@ -69,7 +69,7 @@ class _ChangeLangState extends State<ChangeLang> {
             bottomRight: Radius.circular(MediaQuery.of(context).size.height / 80 * 3),
             bottomLeft: Radius.circular(MediaQuery.of(context).size.height / 80 * 3)),
       ),
-      backgroundColor: MyColors.blue,
+      backgroundColor: AppColors.blue,
       title: MyWidget(context).appBarTittle(barHight, _scaffoldKey),
       actions: [
         new IconButton(
@@ -99,7 +99,7 @@ class _ChangeLangState extends State<ChangeLang> {
         width: width,
         height: MediaQuery.of(context).size.height / 2.2,
         decoration: BoxDecoration(
-          color: MyColors.White,
+          color: AppColors.white,
           boxShadow: [
             BoxShadow(
               color: Colors.grey.withOpacity(0.5),
@@ -176,7 +176,7 @@ class _ChangeLangState extends State<ChangeLang> {
         width: MediaQuery.of(context).size.width / 1.2,
         height: MediaQuery.of(context).size.height / 80,
         decoration: BoxDecoration(
-          color: MyColors.yellow,
+          color: AppColors.yellow,
           borderRadius:
           BorderRadius.vertical(bottom: Radius.circular(MediaQuery.of(context).size.height / 80)),
         ),
@@ -241,8 +241,8 @@ class _ChangeLangState extends State<ChangeLang> {
                 }
               });
               },
-            activeColor: MyColors.yellow,
-            checkColor: MyColors.black,
+            activeColor: AppColors.yellow,
+            checkColor: AppColors.black,
         //secondary: const Icon(Icons.language),
       ),
     ),);
@@ -263,7 +263,7 @@ class _ChangeLangState extends State<ChangeLang> {
               text1,
               textAlign: TextAlign.left,
               style: TextStyle(
-                  color: MyColors.black,
+                  color: AppColors.black,
                   fontSize: MediaQuery.of(context).size.width / 20,
                   fontWeight: FontWeight.normal,
                   fontFamily: 'OpenSans'),
@@ -290,8 +290,8 @@ class _ChangeLangState extends State<ChangeLang> {
                 }
               });
               },
-            activeColor: MyColors.yellow,
-            checkColor: MyColors.black,
+            activeColor: AppColors.yellow,
+            checkColor: AppColors.black,
         //secondary: const Icon(Icons.language),
       ),
     ),);
@@ -323,8 +323,8 @@ class _ChangeLangState extends State<ChangeLang> {
                 }
               });
               },
-            activeColor: MyColors.yellow,
-            checkColor: MyColors.black,
+            activeColor: AppColors.yellow,
+            checkColor: AppColors.black,
         //secondary: const Icon(Icons.language),
       ),
     ),);
@@ -356,8 +356,8 @@ class _ChangeLangState extends State<ChangeLang> {
                 }
               });
               },
-            activeColor: MyColors.yellow,
-            checkColor: MyColors.black,
+            activeColor: AppColors.yellow,
+            checkColor: AppColors.black,
         //secondary: const Icon(Icons.language),
       ),
     ),);

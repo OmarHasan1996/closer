@@ -26,7 +26,7 @@ class _aboutState extends State<about> {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.only(top: 50, bottom: 20, left: 20, right: 20),
-      color: MyColors.blue,
+      color: AppColors.blue,
       child: Column(
         children: <Widget>[
           Flexible(
@@ -41,7 +41,7 @@ class _aboutState extends State<about> {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: MediaQuery.of(context).size.width / 10,
-                        color: MyColors.White,
+                        color: AppColors.white,
                         decoration: TextDecoration.none,
                         fontWeight: FontWeight.bold),
                   ),
@@ -49,7 +49,7 @@ class _aboutState extends State<about> {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontSize: MediaQuery.of(context).size.width / 20,
-                          color: MyColors.WhiteSelver,
+                          color: AppColors.WhiteSelver,
                           decoration: TextDecoration.none,
                           fontWeight: FontWeight.bold),),
                   SizedBox(height: 10,),
@@ -172,7 +172,7 @@ class _aboutState extends State<about> {
       padding: EdgeInsets.only(left: MediaQuery.of(context).size.width *0.04,right: MediaQuery.of(context).size.width *0.04, top: MediaQuery.of(context).size.height *0.02, bottom: MediaQuery.of(context).size.height *0.02),
       child: Row(
         children: <Widget>[
-          image == null ? Icon(icon, size: MediaQuery.of(context).size.width / 14, color: MyColors.yellow,)
+          image == null ? Icon(icon, size: MediaQuery.of(context).size.width / 14, color: AppColors.yellow,)
           :Image.asset(image, height: MediaQuery.of(context).size.width / 14,),
           SizedBox(
             width: MediaQuery.of(context).size.width *0.05,
@@ -183,7 +183,7 @@ class _aboutState extends State<about> {
               textAlign: TextAlign.center,
                 style: TextStyle(
                     fontSize: MediaQuery.of(context).size.width / 19,
-                    color: MyColors.White,
+                    color: AppColors.white,
                     fontWeight: FontWeight.normal,
                     decoration: TextDecoration.underline),
             ),

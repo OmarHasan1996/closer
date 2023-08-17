@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:closer/api/api_service.dart';
+import 'package:closer/api/respons/loginData.dart';
 
 import 'boxes.dart';
 import 'model/transaction.dart';
@@ -13,7 +14,7 @@ List task = [];
 List orderAmount = [];
 List allSubServices = [];
 int orderCounter = 0;
-Map<String, dynamic> userData = {"":""} as Map<String, dynamic>;
+LoginData? userData;
 Map<String, dynamic> myOrders = new Map<String, dynamic>();
 Map<String, dynamic> NewOrdersSupervisor = new Map<String, dynamic>();
 //Map<String, dynamic> finishedOrders = new Map<String, dynamic>();

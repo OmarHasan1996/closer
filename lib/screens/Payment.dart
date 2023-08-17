@@ -149,7 +149,7 @@ class _PaymentState extends State<Payment> {
               Text(
                 AppLocalizations.of(context)!.translate('payment'),
                 style: TextStyle(
-                    color: MyColors.black,
+                    color: AppColors.black,
                     fontSize: MediaQuery.of(context).size.width / 10,
                     fontWeight: FontWeight.bold,
                     fontFamily: 'OpenSans'),
@@ -183,7 +183,7 @@ class _PaymentState extends State<Payment> {
             bottomRight: Radius.circular(MediaQuery.of(context).size.height / 80 * 3),
             bottomLeft: Radius.circular(MediaQuery.of(context).size.height / 80 * 3)),
       ),
-      backgroundColor: MyColors.blue,
+      backgroundColor: AppColors.blue,
       title: Padding(
         padding: EdgeInsets.all(MediaQuery.of(context).size.height / 80 * 3),
         child: Image.asset(
@@ -213,7 +213,7 @@ class _PaymentState extends State<Payment> {
         width: width,
         height: MediaQuery.of(context).size.height / 7,
         decoration: BoxDecoration(
-          color: MyColors.White,
+          color: AppColors.white,
           boxShadow: [
             BoxShadow(
               color: Colors.grey.withOpacity(0.5),
@@ -276,7 +276,7 @@ class _PaymentState extends State<Payment> {
                   obscureText: obscureText,
                   controller: controller,
                   style: TextStyle(
-                      color: MyColors.black,
+                      color: AppColors.black,
                       fontSize: MediaQuery.of(context).size.width / 20),
                   decoration: InputDecoration(
                     hintText: hintText,
@@ -336,13 +336,13 @@ class _PaymentState extends State<Payment> {
         fontSize: MediaQuery.of(context).size.width / 15,
         initialLabelIndex: cash ? 0:1,
         cornerRadius: MediaQuery.of(context).size.height/51,
-        activeFgColor: MyColors.yellow,
+        activeFgColor: AppColors.yellow,
         inactiveBgColor: Colors.grey,
-        inactiveFgColor: MyColors.White,
+        inactiveFgColor: AppColors.white,
         totalSwitches: 2,
         labels: [AppLocalizations.of(context)!.translate('cash'), AppLocalizations.of(context)!.translate('card')],
         //icons: [Icons.credit_card, Icons.credit_card],
-        activeBgColors: [[MyColors.blue],[MyColors.blue]],
+        activeBgColors: [[AppColors.blue],[AppColors.blue]],
         animate: true, // with just animate set to true, default curve = Curves.easeIn
         curve: Curves.bounceInOut, // animate must be set to true when using custom curve
         onToggle: (index) {
@@ -401,7 +401,7 @@ class _PaymentState extends State<Payment> {
         width: MediaQuery.of(context).size.width / 1.2,
         height: MediaQuery.of(context).size.height / 80,
         decoration: BoxDecoration(
-          color: MyColors.yellow,
+          color: AppColors.yellow,
           borderRadius:
           BorderRadius.vertical(bottom: Radius.circular(MediaQuery.of(context).size.height / 80)),
         ),
@@ -653,7 +653,7 @@ class _PaymentState extends State<Payment> {
               Navigator.pop(context),
               _bay(),
             },
-            child: Icon(Icons.check, color: MyColors.yellow)),
+            child: Icon(Icons.check, color: AppColors.yellow)),
       ],
     ));
   }
@@ -699,7 +699,7 @@ class _PaymentState extends State<Payment> {
         width: width,
         height: MediaQuery.of(context).size.height / 7,
         decoration: BoxDecoration(
-          color: MyColors.White,
+          color: AppColors.white,
           boxShadow: [
             BoxShadow(
               color: Colors.grey.withOpacity(0.5),
@@ -766,7 +766,7 @@ class _PaymentState extends State<Payment> {
       valueFontSize: MediaQuery.of(context).size.width/16,//25.0,
       toggleSize: MediaQuery.of(context).size.height/18,//45.0,
       value: cash,
-      activeColor: MyColors.yellow,
+      activeColor: AppColors.yellow,
       borderRadius: MediaQuery.of(context).size.height/26,//30.0,
       padding: MediaQuery.of(context).size.width/50,//8.0,
       showOnOff: true,

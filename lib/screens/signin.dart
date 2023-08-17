@@ -92,7 +92,7 @@ class _SignInState extends State<SignIn> {
   Widget build(BuildContext context) {
     return  Scaffold(
         resizeToAvoidBottomInset: false,
-        backgroundColor: MyColors.blue,
+        backgroundColor: AppColors.blue,
         body: DoubleBackToCloseApp(
           child: Builder(builder: (context) {
             return Form(
@@ -147,7 +147,7 @@ class _SignInState extends State<SignIn> {
                           onTap: () {
                             _forgetPasssword(emailController.text);
                           },
-                          child: MyWidget(context).textBlack20(AppLocalizations.of(context)!.translate('Forgot Password?'), color: MyColors.White),
+                          child: MyWidget(context).textBlack20(AppLocalizations.of(context)!.translate('Forgot Password?'), color: AppColors.white),
                         ),
                       ),
                     ),
@@ -261,12 +261,12 @@ class _SignInState extends State<SignIn> {
                                 "public_profile", "email"
                               ]).then((value) async {
                                 if(value.status.index== 1){
-                                  APIService(context: context).flushBar(AppLocalizations.of(context)!.translate("Sign in doesn't complete"));
+                                  APIService.flushBar(AppLocalizations.of(context)!.translate("Sign in doesn't complete"));
                                   return;
                                 }else if(value.status.index == 0){
                                   await _faceBookLogIn();
                                 }else{
-                                  APIService(context: context).flushBar(value.message.toString());
+                                  APIService.flushBar(value.message.toString());
                                   return;
                                 }
                               });
@@ -353,7 +353,7 @@ class _SignInState extends State<SignIn> {
                                 Navigator.of(context).push(MaterialPageRoute(builder: (context) => new Register(true,mapDate: mapDate,)));
                                 //setState(()=>chLogIn =false);
                             }catch(e){
-                                APIService(context: context).flushBar(e.toString());
+                                APIService.flushBar(e.toString());
                               }
                               // This is the endpoint that will convert an authorization code obtained
                               // via Sign in with Apple into a session in your system
@@ -464,7 +464,7 @@ class _SignInState extends State<SignIn> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          MyWidget(context).textBlack20(AppLocalizations.of(context)!.translate("Don't have an account?"), color: MyColors.White, bold: false),
+                          MyWidget(context).textBlack20(AppLocalizations.of(context)!.translate("Don't have an account?"), color: AppColors.white, bold: false),
                           SizedBox(
                             width: MediaQuery.of(context).size.width / 72,
                           ),
@@ -474,7 +474,7 @@ class _SignInState extends State<SignIn> {
                                   MaterialPageRoute(
                                       builder: (context) => new Register(false)));
                             },
-                            child: MyWidget(context).textBlack20(AppLocalizations.of(context)!.translate('Register'), color: MyColors.yellow, bold: false),
+                            child: MyWidget(context).textBlack20(AppLocalizations.of(context)!.translate('Register'), color: AppColors.yellow, bold: false),
                           )
                         ],
                       ),
@@ -555,22 +555,22 @@ class _SignInState extends State<SignIn> {
 
   signIn(String email, String password) async {
     setState(() => chLogIn = true);
-    http.Response? response;
-    response = await apiService.login(email, password);
+    //http.Response? response;
+    var response = await APIService.login(email, password);
     // ignore: unnecessary_null_comparison
     if(response == null) {
       setState(() => chLogIn = false);
       return;
     }
-    if (response.statusCode == 200) {
       print("we're good");
-      userData = jsonDecode(response.body);
-      editTransactionUserData(transactions![0], userData);
+      userData = response;
+      //editTransactionUserData(transactions![0], userData);
       setState(() {
-        if (jsonDecode(response!.body)['error_des'] == "") {
+        // ignore: unrelated_type_equality_checks
+        if (response.errorCode == "") {
           isLogIn = true;
-          token = jsonDecode(response.body)["content"]["Token"].toString();
-          updateUserInfo(userData["content"]["Id"]);
+          token = response.content.token.toString();
+          updateUserInfo(response.content.id);
         } else {
           isLogIn = false;
           setState(() => chLogIn = false);
@@ -580,7 +580,7 @@ class _SignInState extends State<SignIn> {
             icon: Icon(
               Icons.error_outline,
               size: MediaQuery.of(context).size.height / 30,
-              color: MyColors.White,
+              color: AppColors.white,
             ),
             duration: Duration(seconds: 3),
             shouldIconPulse: false,
@@ -588,15 +588,11 @@ class _SignInState extends State<SignIn> {
             borderRadius: BorderRadius.all(Radius.circular(16)),
             backgroundColor: Colors.grey.withOpacity(0.5),
             barBlur: 20,
-            message: jsonDecode(response.body)['error_des'],
+            message:response.errorDes,
             messageSize: MediaQuery.of(context).size.height / 37,
           ).show(context);
         }
       });
-    } else {
-      print('A network error occurred');
-    }
-
     if (isLogIn) {
       getServiceData();
     }
@@ -613,7 +609,6 @@ class _SignInState extends State<SignIn> {
           chLogIn = true;
         });
         //setState(()=>chLogIn =true);
-        var  apiUrl =Uri.parse('https://mr-service.online/Main/SignUp/SignUp_Create');
         var password = "FB_P@ssw0rd_FB";
         var mobile;
         mobile = userobj["phone"] ??= '';
@@ -626,53 +621,9 @@ class _SignInState extends State<SignIn> {
         };
         setState(() => chLogIn = false);
         Navigator.of(context).push(MaterialPageRoute(builder: (context) => new Register(true,mapDate: mapDate,)));
-        /*http.Response response = await http.post(apiUrl,body:jsonEncode(mapDate),headers: {
-        "Accept": "application/json",
-        "content-type": "application/json",
-      });
-      print('Req: ------------------------');
-      print(jsonEncode(mapDate));
-
-      print('ResAll: ------------------------');
-      print(response);
-
-      print('Res: ------------------------');
-      print(response.body);
-      if(jsonDecode(response.body)['Errors'] == '' || jsonDecode(response.body)['Errors'] == null){
-        ver(jsonDecode(response.body)["Data"][0]["Id"], jsonDecode(response.body)["Data"][0]["VerificationCode"]);
-        final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-        sharedPreferences.setString('facebookEmail', userobj["email"].toString());
-        sharedPreferences.setString('email', userobj["email"].toString());
-        signIn(userobj["email"], password);
-      }else{
-        isLogIn = false;
-        setState(() => chLogIn = false);
-        Flushbar(
-          padding: EdgeInsets.symmetric(
-              vertical: MediaQuery.of(context).size.height / 30),
-          icon: Icon(
-            Icons.error_outline,
-            size: MediaQuery.of(context).size.height / 30,
-            color: MyColors.White,
-          ),
-          duration: Duration(seconds: 3),
-          shouldIconPulse: false,
-          flushbarPosition: FlushbarPosition.TOP,
-          borderRadius: BorderRadius.all(Radius.circular(16)),
-          backgroundColor: Colors.grey.withOpacity(0.5),
-          barBlur: 20,
-          message: jsonDecode(response.body)['Errors'],
-          messageSize: MediaQuery.of(context).size.height / 37,
-        ).show(context);
-        /*final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-        sharedPreferences.setString('facebookEmail', userobj["email"].toString());
-        sharedPreferences.setString('email', userobj["email"].toString());
-        signIn(userobj["email"], password);*/
-      }*/
-        //setState(()=>chLogIn =false);
       });
     }catch(e){
-      APIService(context: context).flushBar(e.toString());
+      APIService.flushBar(e.toString());
     }
 
   }
@@ -687,7 +638,7 @@ class _SignInState extends State<SignIn> {
           chLogIn = true;
         });
         if (userObjg == null) {
-          APIService(context: context).flushBar(AppLocalizations.of(context)!.translate("Sign in doesn't complete"));
+          APIService.flushBar(AppLocalizations.of(context)!.translate("Sign in doesn't complete"));
           setState(() => chLogIn = false);
           return;
         }
@@ -704,54 +655,11 @@ class _SignInState extends State<SignIn> {
         };
         setState(() => chLogIn = false);
         Navigator.of(context).push(MaterialPageRoute(builder: (context) => new Register(true,mapDate: mapDate,)));
-/*
-        http.Response response = await http.post(apiUrl,body:jsonEncode(mapDate),headers: {
-        "Accept": "application/json",
-        "content-type": "application/json",
-      });
-      print('Req: ------------------------');
-      print(jsonEncode(mapDate));
 
-      print('ResAll: ------------------------');
-      print(response);
-
-      print('Res: ------------------------');
-      print(response.body);
-      if(jsonDecode(response.body)['Errors'] == '' || jsonDecode(response.body)['Errors'] == null){
-        await ver(jsonDecode(response.body)["Data"][0]["Id"], jsonDecode(response.body)["Data"][0]["VerificationCode"]);
-        final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-        sharedPreferences.setString('facebookEmail', userobj["email"].toString());
-        sharedPreferences.setString('email', userobj["email"].toString());
-        signIn(userObjg!.email, password);
-      }else{
-        isLogIn = false;
-        setState(() => chLogIn = false);
-        Flushbar(
-          padding: EdgeInsets.symmetric(
-              vertical: MediaQuery.of(context).size.height / 30),
-          icon: Icon(
-            Icons.error_outline,
-            size: MediaQuery.of(context).size.height / 30,
-            color: MyColors.White,
-          ),
-          duration: Duration(seconds: 3),
-          shouldIconPulse: false,
-          flushbarPosition: FlushbarPosition.TOP,
-          borderRadius: BorderRadius.all(Radius.circular(16)),
-          backgroundColor: Colors.grey.withOpacity(0.5),
-          barBlur: 20,
-          message: jsonDecode(response.body)['Errors'],
-          messageSize: MediaQuery.of(context).size.height / 37,
-        ).show(context);
-        /*final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-        sharedPreferences.setString('facebookEmail', userobj["email"].toString());
-        sharedPreferences.setString('email', userobj["email"].toString());
-        signIn(userobj["email"], password);*/
-      }*/
         //setState(()=>chLogIn =false);
       });
     }catch(e){
-      APIService(context: context).flushBar(e.toString());
+      APIService.flushBar(e.toString());
     }
 
   }
@@ -768,65 +676,7 @@ class _SignInState extends State<SignIn> {
     });
     print(response.statusCode);
     print(response.body);
-/*
-    if (response.statusCode == 200) {
-      print(response.body);
-/*      try {
-        if (jsonDecode(response.body)["Data"][0]['txtParam'].toString() ==
-            code) {
 
-          http.Response response = await http.post(
-              Uri.parse('https://mr-service.online/api/Auth/login'),
-              body: jsonEncode({"UserName": email, "Password": password}),
-              headers: {
-                "Accept": "application/json",
-                "content-type": "application/json",
-              });
-          if (response.statusCode == 200) {
-            print(response.body);
-            setState(() {
-              if (jsonDecode(response.body)['error_des'] == "") {
-               var tokenn =
-                    jsonDecode(response.body)["content"]["Token"].toString();
-                getServiceData(tokenn);
-
-              }
-            });
-          }
-
-
-
-
-        }
-      } catch (e) {
-        if (jsonDecode(response.body)['success'].toString() == "false") {
-          setState(() => chVer = false);
-
-          Flushbar(
-            icon: Icon(
-              Icons.error_outline,
-              size: 32,
-              color: Colors.white,
-            ),
-            duration: Duration(seconds: 3),
-            shouldIconPulse: false,
-            flushbarPosition: FlushbarPosition.TOP,
-            borderRadius: BorderRadius.all(Radius.circular(16)),
-            backgroundColor: Colors.grey.withOpacity(0.5),
-            barBlur: 20,
-            message: 'Wrong Code'.tr,
-          ).show(context);
-        }
-      }*/
-      // Navigator.of(context).pushNamed('sign_in');
-      Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder:(context)=>SignIn()));
-    } else {
-      //Navigator.of(context).pushNamed('main_screen');
-      print(response.statusCode);
-      print('A network error occurred');
-    }
-*/
   }
 
   void _afterLayout(Duration timeStamp) {
@@ -845,22 +695,16 @@ class _SignInState extends State<SignIn> {
           "accept": "application/json",
         });
     print(jsonDecode(response.body));
-    //curl -X POST "https://mr-service.online/Main/SignUp/RequestResetPassword?UserEmail=www.osh.themyth%40gmail.com" -H "accept: */*"
-    //curl -X POST "https://mr-service.online/api/Auth/login" -H "accept: text/plain" -H "Content-Type: application/json-patch+json" -d "{\"UserName\":\"www.osh.themyth@gmail.com\",\"Password\":\"0938025347\"}"
     if (response.statusCode == 200) {
       print("we're good");
       userData = jsonDecode(response.body);
       setState(() {
         if (jsonDecode(response.body)['Errors'] == "") {
-          //isLogIn = true;
-          //token = jsonDecode(response.body)["content"]["Token"].toString();
-          //updateUserInfo(userData["content"]["Id"]);
           Navigator.of(context).push(MaterialPageRoute(
             builder:(context)=>Verification(value: 'value' ,email: emailController.text, password: '', ),
           ));
         }
         else if (jsonDecode(response.body)['data'] == "Wait one hour and retry"){
-          //setState(() => chLogIn = false);
           Navigator.of(context).push(MaterialPageRoute(
             builder:(context)=>Verification(value: 'value' ,email: emailController.text, password: '', ),
           ));
@@ -873,7 +717,7 @@ class _SignInState extends State<SignIn> {
             icon: Icon(
               Icons.error_outline,
               size: MediaQuery.of(context).size.height / 30,
-              color: MyColors.White,
+              color: AppColors.white,
             ),
             duration: Duration(seconds: 3),
             shouldIconPulse: false,
@@ -890,13 +734,6 @@ class _SignInState extends State<SignIn> {
     else {
       print('A network error occurred');
     }
-    /*if (isLogIn) {
-      getServiceData();
-    }
-    final SharedPreferences sharedPreferences =
-        await SharedPreferences.getInstance();
-    sharedPreferences.setString('token', token);
-*/
   }
 
 

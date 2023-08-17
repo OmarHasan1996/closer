@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:another_flushbar/flushbar.dart';
+import 'package:closer/constant/functions.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -34,38 +35,13 @@ class Verification extends StatefulWidget {
   String email;
   String password;
 
-  Verification(
-      {required this.value, required this.email, required this.password});
+  Verification({required this.value, required this.email, required this.password});
   @override
   _VerificationState createState() =>
       _VerificationState(this.value, this.email, this.password);
 }
 
 class _VerificationState extends State<Verification> {
-  void getServiceData(tokenn) async {
-    var url =
-    Uri.parse('https://mr-service.online/Main/Services/Services_Read?filter=IsMain~eq~true');
-
-    http.Response response = await http.get(url, headers: {
-      "Authorization": tokenn,
-    });
-    if (response.statusCode == 200) {
-      var item = json.decode(response.body)["result"]['Data'];
-      setState(() {
-        service = item;
-      });
-      setState(() => chVer = false);
-      Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (context) => MainScreen(token: tokenn ,service: service,selectedIndex: 0, initialOrderTab: 0,)));
-      print(item);
-    } else {
-      setState(() {
-        service = [];
-      });
-    }
-
-
-  }
   String value;
   String email;
   String password;
@@ -104,7 +80,7 @@ class _VerificationState extends State<Verification> {
     return SafeArea(
         child: Scaffold(
           resizeToAvoidBottomInset: true,
-          backgroundColor: MyColors.blue,
+          backgroundColor: AppColors.blue,
           body: DoubleBackToCloseApp(
               child: Container(
                 //height: MediaQuery.of(context).size.height/1.5,
@@ -164,7 +140,7 @@ class _VerificationState extends State<Verification> {
                                Padding(
                                  padding:  EdgeInsets.symmetric(
                                      vertical: 0, horizontal: MediaQuery.of(context).size.width/20),
-                                 child: MyWidget(context).textBlack20(AppLocalizations.of(context)!.translate("Enter the 6-digit code sent to your phone"), color: MyColors.White, textAlign: TextAlign.center, ),
+                                 child: MyWidget(context).textBlack20(AppLocalizations.of(context)!.translate("Enter the 6-digit code sent to your phone"), color: AppColors.white, textAlign: TextAlign.center, ),
                                ),
                                SizedBox(
                                  height: heightSpace/2,
@@ -180,7 +156,7 @@ class _VerificationState extends State<Verification> {
                       Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            MyWidget(context).textBlack20(AppLocalizations.of(context)!.translate("Didn't receive the code?"), color: MyColors.White, bold: false),
+                            MyWidget(context).textBlack20(AppLocalizations.of(context)!.translate("Didn't receive the code?"), color: AppColors.white, bold: false),
                             SizedBox(
                               width: 2,
                             ),
@@ -188,7 +164,7 @@ class _VerificationState extends State<Verification> {
                               onTap: () {
                                 _resend();
                               },
-                              child: MyWidget(context).textBlack20( AppLocalizations.of(context)!.translate('Resend'), color: MyColors.yellow, bold: false),
+                              child: MyWidget(context).textBlack20( AppLocalizations.of(context)!.translate('Resend'), color: AppColors.yellow, bold: false),
                             )
                           ],
                         ),
@@ -212,10 +188,10 @@ class _VerificationState extends State<Verification> {
         child: OTPTextField(
       keyboardType: TextInputType.number,
       otpFieldStyle: OtpFieldStyle(
-        borderColor: MyColors.White,
-        focusBorderColor: MyColors.yellow,
-        disabledBorderColor: MyColors.White,
-        enabledBorderColor: MyColors.White,
+        borderColor: AppColors.white,
+        focusBorderColor: AppColors.yellow,
+        disabledBorderColor: AppColors.white,
+        enabledBorderColor: AppColors.white,
       ),
       length: 6,
       width: MediaQuery.of(context).size.width,
@@ -225,7 +201,7 @@ class _VerificationState extends State<Verification> {
       outlineBorderRadius: MediaQuery.of(context).size.height/90,
       style: TextStyle(
         fontSize: min(MediaQuery.of(context).size.width/15,MediaQuery.of(context).size.height/35),
-        color: MyColors.White,
+        color: AppColors.white,
       ),
       onChanged: (pin) {
         codeLength = pin.length;
@@ -247,6 +223,7 @@ class _VerificationState extends State<Verification> {
     }else{
       _firstVer();
     }
+    setState(() => chVer = false);
   }
 
   _firstVer() async{
@@ -261,63 +238,28 @@ class _VerificationState extends State<Verification> {
     });
 
     if (response.statusCode == 200) {
-      print(response.body);
-/*      try {
-        if (jsonDecode(response.body)["Data"][0]['txtParam'].toString() ==
-            code) {
-
-          http.Response response = await http.post(
-              Uri.parse('https://mr-service.online/api/Auth/login'),
-              body: jsonEncode({"UserName": email, "Password": password}),
-              headers: {
-                "Accept": "application/json",
-                "content-type": "application/json",
-              });
-          if (response.statusCode == 200) {
-            print(response.body);
-            setState(() {
-              if (jsonDecode(response.body)['error_des'] == "") {
-               var tokenn =
-                    jsonDecode(response.body)["content"]["Token"].toString();
-                getServiceData(tokenn);
-
-              }
-            });
-          }
-
-
-
-
-        }
-      } catch (e) {
-        if (jsonDecode(response.body)['success'].toString() == "false") {
-          setState(() => chVer = false);
-
-          Flushbar(
-            icon: Icon(
-              Icons.error_outline,
-              size: 32,
-              color: Colors.white,
-            ),
-            duration: Duration(seconds: 3),
-            shouldIconPulse: false,
-            flushbarPosition: FlushbarPosition.TOP,
-            borderRadius: BorderRadius.all(Radius.circular(16)),
-            backgroundColor: Colors.grey.withOpacity(0.5),
-            barBlur: 20,
-            message: 'Wrong Code'.tr,
-          ).show(context);
-        }
-      }*/
-      // Navigator.of(context).pushNamed('sign_in');
-      Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder:(context)=>SignIn()));
+      //print(response.body);
+      // ignore: use_build_context_synchronously
+      MyApplication.navigateTo(context, const SignIn());
     } else {
-      //Navigator.of(context).pushNamed('main_screen');
-      print(response.statusCode);
-      print('A network error occurred');
+      Flushbar(
+        padding: EdgeInsets.symmetric(
+            vertical: MediaQuery.of(context).size.height / 30),
+        icon: Icon(
+          Icons.error_outline,
+          size: MediaQuery.of(context).size.height / 30,
+          color: AppColors.white,
+        ),
+        duration: Duration(seconds: 3),
+        shouldIconPulse: false,
+        flushbarPosition: FlushbarPosition.TOP,
+        borderRadius: BorderRadius.all(Radius.circular(16)),
+        backgroundColor: Colors.grey.withOpacity(0.5),
+        barBlur: 20,
+        message: jsonDecode(response.body)['Errors'],
+        messageSize: MediaQuery.of(context).size.height / 37,
+      ).show(context);
     }
-
   }
 
   _newPasswordVer(String newPassword) async{
@@ -346,7 +288,7 @@ class _VerificationState extends State<Verification> {
             icon: Icon(
               Icons.error_outline,
               size: MediaQuery.of(context).size.height / 30,
-              color: MyColors.White,
+              color: AppColors.white,
             ),
             duration: Duration(seconds: 3),
             shouldIconPulse: false,
@@ -387,7 +329,7 @@ class _VerificationState extends State<Verification> {
             icon: Icon(
               Icons.error_outline,
               size: MediaQuery.of(context).size.height / 30,
-              color: MyColors.White,
+              color: AppColors.white,
             ),
             duration: Duration(seconds: 3),
             shouldIconPulse: false,
@@ -398,24 +340,6 @@ class _VerificationState extends State<Verification> {
             message: jsonDecode(response.body)['Errors'],
             messageSize: MediaQuery.of(context).size.height / 37,
           ).show(context);
-         /* Navigator.of(context).pushNamed('sign_in');
-          Flushbar(
-            padding: EdgeInsets.symmetric(
-                vertical: MediaQuery.of(context).size.height / 30),
-            icon: Icon(
-              Icons.error_outline,
-              size: MediaQuery.of(context).size.height / 30,
-              color: MyColors.White,
-            ),
-            duration: Duration(seconds: 3),
-            shouldIconPulse: false,
-            flushbarPosition: FlushbarPosition.TOP,
-            borderRadius: BorderRadius.all(Radius.circular(16)),
-            backgroundColor: Colors.grey.withOpacity(0.5),
-            barBlur: 20,
-            message: jsonDecode(response.body)['Errors'],
-            messageSize: MediaQuery.of(context).size.height / 37,
-          ).show(context);*/
           //isLogIn = true;
           //token = jsonDecode(response.body)["content"]["Token"].toString();
           //updateUserInfo(userData["content"]["Id"]);
@@ -428,7 +352,7 @@ class _VerificationState extends State<Verification> {
             icon: Icon(
               Icons.error_outline,
               size: MediaQuery.of(context).size.height / 30,
-              color: MyColors.White,
+              color: AppColors.white,
             ),
             duration: Duration(seconds: 3),
             shouldIconPulse: false,

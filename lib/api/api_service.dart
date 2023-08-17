@@ -1,6 +1,11 @@
 import 'dart:io';
 
 import 'package:another_flushbar/flushbar.dart';
+import 'package:closer/api/respons/loginData.dart';
+import 'package:closer/api/respons/registerData.dart';
+import 'package:closer/constant/app_size.dart';
+import 'package:closer/constant/functions.dart';
+import 'package:closer/main.dart';
 import 'package:dio/dio.dart';
 import 'package:easy_image_viewer/easy_image_viewer.dart';
 import 'package:flutter/material.dart';
@@ -48,11 +53,123 @@ class APIService {
     }
   }*/
 
-  MyFirebase myFirebase = new MyFirebase();
+  static MyFirebase myFirebase = new MyFirebase();
   BuildContext? context;
   APIService({this.context});
 
-  login(email , password) async{
+  static dialogBuilder(text) {
+    if (navigatorKey.currentContext != null) {
+      return showDialog<void>(
+        context: navigatorKey.currentContext!,
+        builder: (BuildContext context) {
+          return Dialog(
+            //title: const CloseButton(),
+            backgroundColor: Colors.transparent,
+            child: Container(
+              height: AppHeight.h40,
+              padding: EdgeInsets.symmetric(horizontal: AppPadding.p10, vertical: AppPadding.p20),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(AppWidth.w4)),
+                color: AppColors.mainColor.withOpacity(0.9),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Icon(Icons.info_outline_rounded, size: AppHeight.h10, color: AppColors.white,),
+                  SizedBox(height: AppHeight.h1,),
+                  //MyWidget.bodyText(text, scale: 0.7, maxLine: 7, color: AppColors.white),
+                  SizedBox(height: AppHeight.h1,),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: AppPadding.p20),
+                    child: SizedBox(),//MyWidget.elevatedButton(text: 'Close'.tr(), press: ()=> Navigator.of(context).pop(), backcolor: AppColors.mainColor2, height: AppHeight.h4 ,fontSize: FontSize.s16),
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+      );
+    }
+  }
+
+  static flushBarErrorRigester(message) async{
+    await Flushbar(
+      icon: Icon(Icons.error_outline,size: AppWidth.w5,color: AppColors.white,),
+      shouldIconPulse: false,
+      flushbarPosition: FlushbarPosition.TOP,
+      borderRadius: BorderRadius.all(Radius.circular(AppHeight.h2)),
+      backgroundColor: Colors.grey.withOpacity(0.5) ,
+      barBlur: 20,
+      message: message,
+      messageSize:AppWidth.w4 ,
+      // ignore: deprecated_member_use
+      mainButton: ElevatedButton(
+        onPressed: () {
+          MyApplication.navigateToReplace(navigatorKey.currentContext!, SignIn());
+        },
+        child: Text(AppLocalizations.of(navigatorKey.currentContext!)!.translate('Log in Now'),style: TextStyle(
+          color: AppColors.white,
+          fontSize:AppWidth.w4,
+        ),),
+      ),
+
+    ).show(navigatorKey.currentContext!);
+  }
+  static Future<RegisterData?> register({
+   required String firstName,
+   required String lastName,
+   required String mobile,
+   required String email,
+   required String password,
+  }) async{
+    try{
+    var  apiUrl =Uri.parse('$apiDomain/Main/SignUp/SignUp_Create');
+    Map mapDate = {
+      "Name": firstName,
+      "LastName": lastName,
+      "Mobile": mobile,
+      "Email": email,
+      "Password": password,
+    };
+    http.Response response = await http.post(apiUrl,body:jsonEncode(mapDate),headers: {
+      "Accept-Language": LocalizationService.getCurrentLocale().languageCode,
+      "Accept": "application/json",
+      "content-type": "application/json",
+    });
+    if (response.statusCode == 200) {
+      String x= response.body;
+      if(jsonDecode(x)["Errors"] == '' || jsonDecode(x)["Errors"] == null){
+        var value =jsonDecode(x)["Data"][0]["Id"].toString();
+        RegisterData _model = registerDataFromJson(x);
+        //userData = _model.data;
+        return _model;
+      }
+      else{
+        await flushBarErrorRigester(jsonDecode(x)["Errors"]);
+      }
+    } else if (response.statusCode == 500) {
+      await Flushbar(
+        icon: Icon(Icons.error_outline,size: AppWidth.w5,color: AppColors.white,),
+        duration: Duration(seconds: 5),
+        shouldIconPulse: false,
+        flushbarPosition: FlushbarPosition.TOP,
+        borderRadius: BorderRadius.all(Radius.circular(AppHeight.h2)),
+        backgroundColor: Colors.grey.withOpacity(0.5) ,
+        barBlur: 20,
+        message: AppLocalizations.of(navigatorKey.currentContext!)!.translate('Server is busy try again later'),
+        messageSize:AppWidth.w5 ,
+      ).show(navigatorKey.currentContext!);
+    }
+    else{
+      await flushBarErrorRigester(AppLocalizations.of(navigatorKey.currentContext!)!.translate('This Email Already Existed'));
+    }
+    }catch(e){
+      dialogBuilder(e.toString());
+    }
+    return null;
+  }
+
+  static Future<LoginData?> login(email , password) async{
     var fcmToken;
     try{
       fcmToken = await myFirebase.getToken();
@@ -73,16 +190,17 @@ class APIService {
             "Accept": "application/json",
             "content-type": "application/json",
           });
-      //await Hive.initFlutter();
-      //Hive.registerAdapter(TransactionAdapter());
-      //await Hive.openBox<Transaction>('transactions');
-      return response;
+      if(response.statusCode ==200){
+        var m = loginDataFromJson(response.body);
+        return m;
+      }
     }
     catch(e){
-      flushBar(AppLocalizations.of(context!)!.translate('please! check your network connection'));
+      flushBar(AppLocalizations.of(navigatorKey.currentContext!)!.translate('please! check your network connection'));
       print(e);
       chLogIn = false;
     }
+    return null;
   }
 
   userLang(langNum , id) async{
@@ -105,14 +223,14 @@ class APIService {
     }
   }
 
-  flushBar(text){
+  static flushBar(text){
     Flushbar(
       padding: EdgeInsets.symmetric(
-          vertical: MediaQuery.of(context!).size.height / 30),
+          vertical: AppHeight.h2*1.5,),
       icon: Icon(
         Icons.error_outline,
-        size: MediaQuery.of(context!).size.height / 30,
-        color: MyColors.White,
+        size: AppHeight.h2*1.5,
+        color: AppColors.white,
       ),
       duration: Duration(seconds: 3),
       shouldIconPulse: false,
@@ -121,8 +239,8 @@ class APIService {
       backgroundColor: Colors.grey.withOpacity(0.5),
       barBlur: 20,
       message: text,
-      messageSize: MediaQuery.of(context!).size.height / 37,
-    ).show(context!);
+      messageSize: AppHeight.h2,
+    ).show(navigatorKey.currentContext!);
   }
 
   uploadOrderWithAttach(id,insertDateTime,value3,orderDateTime,token) async {

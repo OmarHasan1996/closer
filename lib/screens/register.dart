@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:another_flushbar/flushbar.dart';
+import 'package:closer/constant/functions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:form_field_validator/form_field_validator.dart';
@@ -70,7 +71,7 @@ class _RegisterState extends State<Register> {
     requiredValidator = RequiredValidator(errorText: AppLocalizations.of(context)!.translate('Required'));
     return Scaffold(
         //resizeToAvoidBottomInset :false,
-        backgroundColor: MyColors.blue,
+        backgroundColor: AppColors.blue,
         body: DoubleBackToCloseApp(
           child: Form(
               key: _formKey,
@@ -85,14 +86,14 @@ class _RegisterState extends State<Register> {
                     flex: 3,
                     child: Row(
                       children: [
-                        IconButton(onPressed: (){Navigator.pop(context);}, icon: Icon(Icons.keyboard_backspace, color: MyColors.yellow, size: MediaQuery.of(context).size.width/10,)),
+                        IconButton(onPressed: (){Navigator.pop(context);}, icon: Icon(Icons.keyboard_backspace, color: AppColors.yellow, size: MediaQuery.of(context).size.width/10,)),
                         SizedBox(
                           width: MediaQuery.of(context).size.width/9,
                         ),
                         Text(
                           AppLocalizations.of(context)!.translate('Sign Up'),
                           style: TextStyle(
-                              color: MyColors.White,
+                              color: AppColors.white,
                               fontSize: MediaQuery.of(context).size.width/10,
                               fontWeight: FontWeight.bold,
                               fontFamily: 'OpenSans'),
@@ -131,12 +132,12 @@ class _RegisterState extends State<Register> {
                                     invalidNumberMessage: '',
                                     //autovalidateMode: AutovalidateMode.onUserInteraction,
                                     //controller: phoneController,
-                                    style: TextStyle(color: MyColors.White, fontSize: min(MediaQuery.of(context).size.width/25,MediaQuery.of(context).size.height/55)),
+                                    style: TextStyle(color: AppColors.white, fontSize: min(MediaQuery.of(context).size.width/25,MediaQuery.of(context).size.height/55)),
                                     decoration: InputDecoration(
                                       labelText: AppLocalizations.of(context)!.translate('Phone Number'),
                                       labelStyle: TextStyle(
                                         fontSize: min(MediaQuery.of(context).size.width/25, MediaQuery.of(context).size.height/55),
-                                        color: MyColors.White,
+                                        color: AppColors.white,
                                       ),
                                       errorStyle: TextStyle(
                                           fontSize:min(MediaQuery.of(context).size.width/25, MediaQuery.of(context).size.height/55)
@@ -154,7 +155,7 @@ class _RegisterState extends State<Register> {
                                       ),
                                       focusedErrorBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(MediaQuery.of(context).size.height/12),
-                                        borderSide: BorderSide(color: MyColors.red, width: 2),
+                                        borderSide: BorderSide(color: AppColors.red, width: 2),
                                       ),
                                     ),
                                     initialCountryCode: WidgetsBinding.instance.window.locale.countryCode,
@@ -211,7 +212,7 @@ class _RegisterState extends State<Register> {
                               }
                               else
                                 print('fail'),
-                            }, MediaQuery.of(context).size.width/1.5, chLogIn, colorText: Color(0xff343434), buttonText: MyColors.yellow),
+                            }, MediaQuery.of(context).size.width/1.5, chLogIn, colorText: Color(0xff343434), buttonText: AppColors.yellow),
                           ),
                     ]
                   ),
@@ -241,12 +242,12 @@ class _RegisterState extends State<Register> {
         },
 
         autovalidateMode: AutovalidateMode.onUserInteraction,
-        style: TextStyle(color: MyColors.White, fontSize: MediaQuery.of(context).size.width/25),
+        style: TextStyle(color: AppColors.white, fontSize: MediaQuery.of(context).size.width/25),
         decoration: InputDecoration(
           labelText: labelText,
           labelStyle: TextStyle(
             fontSize: MediaQuery.of(context).size.width/20,
-            color:MyColors.White,
+            color:AppColors.white,
           ),
           errorStyle: TextStyle(
             fontSize: MediaQuery.of(context).size.width/24,
@@ -260,11 +261,11 @@ class _RegisterState extends State<Register> {
           ),
           errorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(MediaQuery.of(context).size.height/12),
-            borderSide: BorderSide(color: MyColors.red, width: 2),
+            borderSide: BorderSide(color: AppColors.red, width: 2),
           ),
           focusedErrorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(MediaQuery.of(context).size.height/12),
-            borderSide: BorderSide(color: MyColors.red, width: 2),
+            borderSide: BorderSide(color: AppColors.red, width: 2),
           ),
         ),
       ),
@@ -272,150 +273,20 @@ class _RegisterState extends State<Register> {
   }
 
 
-  // Container buildContainerCardNumber(TextEditingController controller, String labelText,
-  //     TextInputType type, bool obscure ) {
-  //   return Container(
-  //     // alignment: Alignment.centerLeft,
-  //     height: 50.0,
-  //
-  //     child: TextFormField(
-  //       obscureText: obscure,
-  //       keyboardType: type,
-  //       controller: controller,
-  //       autovalidateMode: AutovalidateMode.onUserInteraction,
-  //       style: TextStyle(color: Colors.white, fontSize: 18),
-  //       decoration: InputDecoration(
-  //         labelText: labelText,
-  //         labelStyle: TextStyle(
-  //           fontSize: 18,
-  //           color: Colors.white,
-  //         ),
-  //         enabledBorder: OutlineInputBorder(
-  //             borderRadius: BorderRadius.circular(50),
-  //             borderSide: BorderSide(color: Colors.grey, width: 2)),
-  //         focusedBorder: OutlineInputBorder(
-  //           borderRadius: BorderRadius.circular(50),
-  //           borderSide: BorderSide(color: Colors.grey, width: 2),
-  //         ),
-  //         errorBorder: OutlineInputBorder(
-  //           borderRadius: BorderRadius.circular(50),
-  //           borderSide: BorderSide(color: Colors.red, width: 2),
-  //         ),
-  //         focusedErrorBorder: OutlineInputBorder(
-  //           borderRadius: BorderRadius.circular(50),
-  //           borderSide: BorderSide(color: Colors.red, width: 2),
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
   Future registration() async{
     setState(()=>chLogIn =true);
-
-    var  apiUrl =Uri.parse('$apiDomain/Main/SignUp/SignUp_Create');
-    Map mapDate = {
-      "Name": firstNameController.text,
-      "LastName": lastNameController.text,
-      "Mobile": phoneController.text,
-      "Email": emailController.text,
-      "Password": passwordController.text,
-    };
-
-    http.Response response = await http.post(apiUrl,body:jsonEncode(mapDate),headers: {
-      "Accept-Language": LocalizationService.getCurrentLocale().languageCode,
-      "Accept": "application/json",
-      "content-type": "application/json",
-    });
-    print('Req: ------------------------');
-    print(jsonEncode(mapDate));
-
-    print('ResAll: ------------------------');
-    print(response);
-
-    print('Res: ------------------------');
-    print(response.body);
-    if (response.statusCode == 200) {
-      print(response.body);
-      String x= response.body;
-      if(jsonDecode(x)["Errors"] == '' || jsonDecode(x)["Errors"] == null){
-        value =jsonDecode(x)["Data"][0]["Id"].toString();
-        // final SharedPreferences sharedPreferences =await SharedPreferences.getInstance();
-        // sharedPreferences.setString('Id',response.body[1].toString());
-        //
-        // if(sharedPreferences.getString('Id') != null){
-        setState(()=> chLogIn = false);
-        _save();
-        if(!_autoVer || emailController.text != this.mapDate!['Email']) Navigator.of(context).push(MaterialPageRoute(builder:(context)=>Verification(value: value ,email: emailController.text, password: passwordController.text, ),));
-        else {
-          await ver(jsonDecode(response.body)["Data"][0]["Id"], jsonDecode(response.body)["Data"][0]["VerificationCode"]);
-          await signIn(emailController.text, passwordController.text);
-        }
-        // }
-      }else{
-        setState(()=> chLogIn = false);
-        await Flushbar(
-          icon: Icon(Icons.error_outline,size: MediaQuery.of(context).size.width/18,color: MyColors.White,),
-          shouldIconPulse: false,
-          flushbarPosition: FlushbarPosition.TOP,
-          borderRadius: BorderRadius.all(Radius.circular(MediaQuery.of(context).size.height/37)),
-          backgroundColor: Colors.grey.withOpacity(0.5) ,
-          barBlur: 20,
-          message: jsonDecode(x)["Errors"],
-          messageSize:MediaQuery.of(context).size.width/22 ,
-          // ignore: deprecated_member_use
-          mainButton: ElevatedButton(
-            onPressed: () {
-              Navigator.of(context).pushReplacement(MaterialPageRoute(
-                  builder:(context)=>SignIn()));
-            },
-            child: Text(AppLocalizations.of(context)!.translate('Log in Now'),style: TextStyle(
-              color: MyColors.White,
-              fontSize:MediaQuery.of(context).size.width/22 ,
-            ),),
-          ),
-
-        ).show(context);
+    var t = await APIService.register(firstName: firstNameController.text, lastName: lastNameController.text, mobile: phoneController.text, email: emailController.text, password: passwordController.text);
+    setState(()=>chLogIn =false);
+    if(t != null){
+      value = t.data.first.id;
+      _save();
+      if(!_autoVer || emailController.text != this.mapDate!['Email']) {
+        // ignore: use_build_context_synchronously
+        MyApplication.navigateTo(context, Verification(value: value ,email: emailController.text, password: passwordController.text, ));
+      } else {
+        await ver(t.data.first.id, t.data.first.verificationCode);
+        await signIn(emailController.text, passwordController.text);
       }
-    } else if (response.statusCode == 500) {
-      setState(()=> chLogIn = false);
-      await Flushbar(
-        icon: Icon(Icons.error_outline,size: MediaQuery.of(context).size.width/18,color: MyColors.White,),
-        duration: Duration(seconds: 5),
-        shouldIconPulse: false,
-        flushbarPosition: FlushbarPosition.TOP,
-        borderRadius: BorderRadius.all(Radius.circular(MediaQuery.of(context).size.height/37)),
-        backgroundColor: Colors.grey.withOpacity(0.5) ,
-        barBlur: 20,
-        message: AppLocalizations.of(context)!.translate('Server is busy try again later'),
-        messageSize:MediaQuery.of(context).size.width/22 ,
-      ).show(context);
-      print(response.statusCode);
-      print('A network error occurred');
-    }
-    else{
-      setState(()=> chLogIn = false);
-      await Flushbar(
-        icon: Icon(Icons.error_outline,size: MediaQuery.of(context).size.width/18,color: MyColors.White,),
-        shouldIconPulse: false,
-        flushbarPosition: FlushbarPosition.TOP,
-        borderRadius: BorderRadius.all(Radius.circular(MediaQuery.of(context).size.height/37)),
-        backgroundColor: Colors.grey.withOpacity(0.5) ,
-        barBlur: 20,
-        message: AppLocalizations.of(context)!.translate('This Email Already Existed'),
-        messageSize:MediaQuery.of(context).size.width/22 ,
-        // ignore: deprecated_member_use
-        mainButton: ElevatedButton(
-          onPressed: () {
-            Navigator.of(context).pushReplacement(MaterialPageRoute(
-                builder:(context)=>SignIn()));
-          },
-          child: Text(AppLocalizations.of(context)!.translate('Log in Now'),style: TextStyle(
-            color: MyColors.White,
-            fontSize:MediaQuery.of(context).size.width/22 ,
-          ),),
-        ),
-
-      ).show(context);
     }
   }
 
@@ -540,7 +411,7 @@ class _RegisterState extends State<Register> {
             icon: Icon(
               Icons.error_outline,
               size: MediaQuery.of(context).size.height / 30,
-              color: MyColors.White,
+              color: AppColors.white,
             ),
             duration: Duration(seconds: 3),
             shouldIconPulse: false,

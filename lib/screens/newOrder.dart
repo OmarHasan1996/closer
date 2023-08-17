@@ -49,7 +49,7 @@ class _NewOrderState extends State<NewOrder> {
                   bottomRight: Radius.circular(MediaQuery.of(context).size.height / 80 * 3),
                   bottomLeft: Radius.circular(MediaQuery.of(context).size.height / 80 * 3)),
             ),
-            backgroundColor: MyColors.blue,
+            backgroundColor: AppColors.blue,
             title: MyWidget(context).appBarTittle(barHight, _key, newOrder: true),
             actions: [
               new IconButton(
@@ -82,9 +82,9 @@ class _NewOrderState extends State<NewOrder> {
                     width: MediaQuery.of(context).size.width / 1.2,
                     height: MediaQuery.of(context).size.height *(0.7*0.97),
                     decoration: BoxDecoration(
-                      color: MyColors.White,
+                      color: AppColors.white,
                       boxShadow: [BoxShadow(
-                        color: MyColors.White,//Colors.grey.withOpacity(0.5),
+                        color: AppColors.white,//Colors.grey.withOpacity(0.5),
                         spreadRadius: 2,
                         blurRadius: 3,
                         offset: Offset(0, 1), // changes position of shadow
@@ -198,7 +198,7 @@ class _NewOrderState extends State<NewOrder> {
         width: MediaQuery.of(context).size.width / 1.2,
         height: MediaQuery.of(context).size.height / 80,
         decoration: BoxDecoration(
-          color: MyColors.yellow,
+          color: AppColors.yellow,
           borderRadius:
           BorderRadius.vertical(bottom: Radius.circular(MediaQuery.of(context).size.height / 80)),
         ),
@@ -227,7 +227,7 @@ class _NewOrderState extends State<NewOrder> {
           width: width,
           height: height,
           decoration: BoxDecoration(
-            color: MyColors.White,
+            color: AppColors.white,
             boxShadow: [BoxShadow(
               color: Colors.grey.withOpacity(0.5),
               spreadRadius: 1,
@@ -283,7 +283,7 @@ class _NewOrderState extends State<NewOrder> {
         children: [
           Icon(_icon,color: _color),
           SizedBox(width: MediaQuery.of(context).size.width/30,),
-          Text(text, style: TextStyle(fontSize: MediaQuery.of(context).size.width/25, color: MyColors.buttonTextColor),
+          Text(text, style: TextStyle(fontSize: MediaQuery.of(context).size.width/25, color: AppColors.buttonTextColor),
             maxLines:2,
           )
         ],

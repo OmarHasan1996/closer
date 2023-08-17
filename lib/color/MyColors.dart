@@ -2,9 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 // ignore: camel_case_types
-class MyColors {
+class AppColors {
  static const trans = const Color(0x00000000) ;
- static const White = const Color(0xffFFFFFF) ;
+ static const white = const Color(0xffFFFFFF) ;
  static const Navigation = const Color(0xffC72026) ;
  static const iconred = const Color(0xff970303) ;
  static const Whitegray = const Color(0xff948E8E) ;

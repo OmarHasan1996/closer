@@ -396,7 +396,7 @@ iOS: ca-app-pub-3940256099942544/1712485313
                             },
                         child: Icon(
                           Icons.check,
-                          color: MyColors.yellow,
+                          color: AppColors.yellow,
                         ))
                   ],
                 ));
@@ -618,7 +618,7 @@ iOS: ca-app-pub-3940256099942544/1712485313
                           initialIndex: _initialOrderTab,
                           child: Container(
                             decoration: new BoxDecoration(
-                              color: MyColors.White,
+                              color: AppColors.white,
                               borderRadius: BorderRadius.only(
                                 topLeft: Radius.circular(
                                     MediaQuery.of(context).size.height / 51),
@@ -631,7 +631,7 @@ iOS: ca-app-pub-3940256099942544/1712485313
                               children: <Widget>[
                                 Container(
                                   decoration: new BoxDecoration(
-                                    color: MyColors.WhiteSelver,
+                                    color: AppColors.WhiteSelver,
                                     borderRadius: BorderRadius.only(
                                       topLeft: Radius.circular(
                                           MediaQuery.of(context).size.height /
@@ -643,10 +643,10 @@ iOS: ca-app-pub-3940256099942544/1712485313
                                   ),
                                   child: TabBar(
                                     indicatorColor: Colors.transparent,
-                                    labelColor: MyColors.yellow,
+                                    labelColor: AppColors.yellow,
                                     unselectedLabelColor: Colors.grey,
                                     indicator: BoxDecoration(
-                                      color: MyColors.White,
+                                      color: AppColors.white,
                                       borderRadius: BorderRadius.only(
                                         topLeft: Radius.circular(15),
                                         topRight: Radius.circular(15),
@@ -1105,7 +1105,7 @@ iOS: ca-app-pub-3940256099942544/1712485313
                             height: MediaQuery.of(context).size.height / 20,
                             child: Icon(
                               Icons.logout,
-                              color: MyColors.black,
+                              color: AppColors.black,
                               size: min(MediaQuery.of(context).size.width / 12, MediaQuery.of(context).size.height / 28),
                             ),
                           ),
@@ -1122,7 +1122,7 @@ iOS: ca-app-pub-3940256099942544/1712485313
                                     .translate("Log Out"),
                                 style: TextStyle(
                                   fontSize: min(MediaQuery.of(context).size.width / 20, MediaQuery.of(context).size.height / 45),
-                                  color: MyColors.black,
+                                  color: AppColors.black,
                                 ),
                               ),
                             ),
@@ -1165,7 +1165,7 @@ iOS: ca-app-pub-3940256099942544/1712485313
                     MediaQuery.of(context).size.height / 80 * 3),
               ),
             ),
-            backgroundColor: MyColors.blue,
+            backgroundColor: AppColors.blue,
             // bottom: PreferredSize(
             //   preferredSize: Size.fromHeight(MediaQuery.of(context).size.height/5.5),
             //   child: SizedBox(),
@@ -1197,9 +1197,9 @@ iOS: ca-app-pub-3940256099942544/1712485313
             ],
             currentIndex: _selectedIndex,
             //fixedColor: Colors.white,
-            selectedItemColor: MyColors.yellow,
-            backgroundColor: MyColors.blue,
-            unselectedItemColor: MyColors.White,
+            selectedItemColor: AppColors.yellow,
+            backgroundColor: AppColors.blue,
+            unselectedItemColor: AppColors.white,
             iconSize: MediaQuery.of(context).size.width / 9,
             onTap: _onItemTapped,
           ),
@@ -1285,7 +1285,7 @@ iOS: ca-app-pub-3940256099942544/1712485313
                       initialIndex: _initialOrderTab,
                       child: Container(
                         decoration: new BoxDecoration(
-                          color: MyColors.White,
+                          color: AppColors.white,
                           borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(
                                 MediaQuery.of(context).size.height / 51),
@@ -1298,7 +1298,7 @@ iOS: ca-app-pub-3940256099942544/1712485313
                           children: <Widget>[
                             Container(
                               decoration: new BoxDecoration(
-                                color: MyColors.WhiteSelver,
+                                color: AppColors.WhiteSelver,
                                 borderRadius: BorderRadius.only(
                                   topLeft: Radius.circular(
                                       MediaQuery.of(context).size.height /
@@ -1310,10 +1310,10 @@ iOS: ca-app-pub-3940256099942544/1712485313
                               ),
                               child: TabBar(
                                 indicatorColor: Colors.transparent,
-                                labelColor: MyColors.yellow,
+                                labelColor: AppColors.yellow,
                                 unselectedLabelColor: Colors.grey,
                                 indicator: BoxDecoration(
-                                  color: MyColors.White,
+                                  color: AppColors.white,
                                   borderRadius: BorderRadius.only(
                                     topLeft: Radius.circular(15),
                                     topRight: Radius.circular(15),
@@ -1535,7 +1535,7 @@ iOS: ca-app-pub-3940256099942544/1712485313
                         initialIndex: _initialOrderTab,
                         child: Container(
                           decoration: new BoxDecoration(
-                            color: MyColors.White,
+                            color: AppColors.white,
                             borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(
                                   MediaQuery.of(context).size.height / 51),
@@ -1548,7 +1548,7 @@ iOS: ca-app-pub-3940256099942544/1712485313
                             children: <Widget>[
                               Container(
                                 decoration: new BoxDecoration(
-                                  color: MyColors.WhiteSelver,
+                                  color: AppColors.WhiteSelver,
                                   borderRadius: BorderRadius.only(
                                     topLeft: Radius.circular(
                                         MediaQuery.of(context).size.height /
@@ -1560,10 +1560,10 @@ iOS: ca-app-pub-3940256099942544/1712485313
                                 ),
                                 child: TabBar(
                                   indicatorColor: Colors.transparent,
-                                  labelColor: MyColors.yellow,
+                                  labelColor: AppColors.yellow,
                                   unselectedLabelColor: Colors.grey,
                                   indicator: BoxDecoration(
-                                    color: MyColors.White,
+                                    color: AppColors.white,
                                     borderRadius: BorderRadius.only(
                                       topLeft: Radius.circular(15),
                                       topRight: Radius.circular(15),
@@ -1725,7 +1725,7 @@ iOS: ca-app-pub-3940256099942544/1712485313
         width: MediaQuery.of(context).size.width / 1.2,
         height: MediaQuery.of(context).size.height / 80,
         decoration: BoxDecoration(
-          color: MyColors.yellow,
+          color: AppColors.yellow,
           borderRadius: BorderRadius.vertical(
               bottom: Radius.circular(MediaQuery.of(context).size.height / 80)),
         ),
@@ -1742,7 +1742,7 @@ iOS: ca-app-pub-3940256099942544/1712485313
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height / 90,
           decoration: BoxDecoration(
-            color: MyColors.yellow,
+            color: AppColors.yellow,
           ),
         ),
       ],
@@ -1843,7 +1843,7 @@ iOS: ca-app-pub-3940256099942544/1712485313
                     Icon(
                       Icons.keyboard_arrow_right,
                       size: min(MediaQuery.of(context).size.width / 15, MediaQuery.of(context).size.height / 35),
-                      color: MyColors.yellow,
+                      color: AppColors.yellow,
                     ),
                   ],
                 ),
@@ -2002,35 +2002,35 @@ iOS: ca-app-pub-3940256099942544/1712485313
         {
           //return SizedBox(height: 0.001,);
           status = AppLocalizations.of(context)!.translate("payed");
-          statusColor = MyColors.green;
+          statusColor = AppColors.green;
         }
         break;
       case "5":
         {
           status = AppLocalizations.of(context)!.translate("Rejected");
-          statusColor = MyColors.red;
+          statusColor = AppColors.red;
         }
         break;
       case "4":
         {
           status = AppLocalizations.of(context)!.translate("Pending");
-          statusColor = MyColors.blue;
+          statusColor = AppColors.blue;
         }
         break;
       case "3":
         {
           status = AppLocalizations.of(context)!.translate("Change Date");
-          statusColor = MyColors.blue;
+          statusColor = AppColors.blue;
         }
         break;
       case "2":
         {
           if(!worker){
             status = AppLocalizations.of(context)!.translate("Accepted");
-            statusColor = MyColors.yellow;
+            statusColor = AppColors.yellow;
           }else{
             status = AppLocalizations.of(context)!.translate("finished");
-            statusColor = MyColors.blue;
+            statusColor = AppColors.blue;
           }
         }
         break;
@@ -2082,35 +2082,35 @@ iOS: ca-app-pub-3940256099942544/1712485313
         {
           //return SizedBox(height: 0.001,);
           status = AppLocalizations.of(context)!.translate("payed");
-          statusColor = MyColors.green;
+          statusColor = AppColors.green;
         }
         break;
       case "5":
         {
           status = AppLocalizations.of(context)!.translate("Rejected");
-          statusColor = MyColors.red;
+          statusColor = AppColors.red;
         }
         break;
       case "4":
         {
           status = AppLocalizations.of(context)!.translate("Pending");
-          statusColor = MyColors.blue;
+          statusColor = AppColors.blue;
         }
         break;
       case "3":
         {
           status = AppLocalizations.of(context)!.translate("Change Date");
-          statusColor = MyColors.blue;
+          statusColor = AppColors.blue;
         }
         break;
       case "2":
         {
           if(!worker){
             status = AppLocalizations.of(context)!.translate("Accepted");
-            statusColor = MyColors.yellow;
+            statusColor = AppColors.yellow;
           }else{
             status = AppLocalizations.of(context)!.translate("finished");
-            statusColor = MyColors.blue;
+            statusColor = AppColors.blue;
           }
         }
         break;
@@ -2145,7 +2145,7 @@ iOS: ca-app-pub-3940256099942544/1712485313
     Color statusColor = Colors.grey;
     for(int i = 0; i < task.length; i++){
       if(task[i][0]['OrderId'] == Id)
-        statusColor = MyColors.blue;
+        statusColor = AppColors.blue;
     }
     String address = addressCity + " / " + addressArea;
     return _orderCard(index, statusColor, null, addressArea, amount, date, 1, Id, serial);
@@ -2166,7 +2166,7 @@ iOS: ca-app-pub-3940256099942544/1712485313
       case "6":
         {
           status = AppLocalizations.of(context)!.translate("payed");
-          statusColor = MyColors.green;
+          statusColor = AppColors.green;
           return SizedBox(
             height: 0.001,
           );
@@ -2605,7 +2605,7 @@ iOS: ca-app-pub-3940256099942544/1712485313
             icon: Icon(
               Icons.error_outline,
               size: MediaQuery.of(context).size.height / 30,
-              color: MyColors.White,
+              color: AppColors.white,
             ),
             duration: Duration(seconds: 3),
             shouldIconPulse: false,
@@ -2748,7 +2748,7 @@ iOS: ca-app-pub-3940256099942544/1712485313
       width: MediaQuery.of(context).size.width / 1.2,
       //height: MediaQuery.of(context).size.height / 7,
       decoration: BoxDecoration(
-        color: MyColors.White,
+        color: AppColors.white,
         boxShadow: [
           BoxShadow(
             color: Colors.grey.withOpacity(0.5),
@@ -2828,10 +2828,10 @@ iOS: ca-app-pub-3940256099942544/1712485313
       width: MediaQuery.of(context).size.width / 1.2,
       height: MediaQuery.of(context).size.height / 12,
       decoration: BoxDecoration(
-        color: MyColors.White,
+        color: AppColors.white,
         boxShadow: [
           BoxShadow(
-            color: change? MyColors.blue : Colors.grey.withOpacity(0.5),
+            color: change? AppColors.blue : Colors.grey.withOpacity(0.5),
             spreadRadius: 2,
             blurRadius: 3,
             offset: Offset(0, 1), // changes position of shadow
@@ -2848,7 +2848,7 @@ iOS: ca-app-pub-3940256099942544/1712485313
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Icon(Icons.date_range, color: change? MyColors.blue : MyColors.black,),
+            Icon(Icons.date_range, color: change? AppColors.blue : AppColors.black,),
             Expanded(
               flex: 1,
               child:InkWell(
@@ -2858,7 +2858,7 @@ iOS: ca-app-pub-3940256099942544/1712485313
                 },
                 child: TextFormField(
                   style:
-                  TextStyle(fontSize: min(MediaQuery.of(context).size.width / 20, MediaQuery.of(context).size.height / 45), color: change ? MyColors.blue: MyColors.black),
+                  TextStyle(fontSize: min(MediaQuery.of(context).size.width / 20, MediaQuery.of(context).size.height / 45), color: change ? AppColors.blue: AppColors.black),
                   textAlign: TextAlign.center,
                   enabled: false,
                   keyboardType: TextInputType.text,
@@ -2885,10 +2885,10 @@ iOS: ca-app-pub-3940256099942544/1712485313
       width: MediaQuery.of(context).size.width / 1.2,
       height: MediaQuery.of(context).size.height / 12,
       decoration: BoxDecoration(
-        color: MyColors.White,
+        color: AppColors.white,
         boxShadow: [
           BoxShadow(
-            color: change? MyColors.blue :Colors.grey.withOpacity(0.5),
+            color: change? AppColors.blue :Colors.grey.withOpacity(0.5),
             spreadRadius: 2,
             blurRadius: 3,
             offset: Offset(0, 1), // changes position of shadow
@@ -2905,7 +2905,7 @@ iOS: ca-app-pub-3940256099942544/1712485313
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Icon(Icons.timer_outlined, color: change? MyColors.blue : MyColors.black),
+            Icon(Icons.timer_outlined, color: change? AppColors.blue : AppColors.black),
             Expanded(
               flex: 1,
               child:InkWell(
@@ -2915,7 +2915,7 @@ iOS: ca-app-pub-3940256099942544/1712485313
                 },
                 child: TextFormField(
                   style:
-                  TextStyle(fontSize: min(MediaQuery.of(context).size.width / 20, MediaQuery.of(context).size.height / 45), color: change ? MyColors.blue: MyColors.black),
+                  TextStyle(fontSize: min(MediaQuery.of(context).size.width / 20, MediaQuery.of(context).size.height / 45), color: change ? AppColors.blue: AppColors.black),
                   textAlign: TextAlign.center,
                   enabled: false,
                   keyboardType: TextInputType.text,
@@ -3086,7 +3086,7 @@ iOS: ca-app-pub-3940256099942544/1712485313
                     Text(
                       AppLocalizations.of(context)!.translate('Order Id: ') + serial.toString(),
                       style: TextStyle(
-                        color: MyColors.black,
+                        color: AppColors.black,
                         fontSize: MediaQuery.of(context).size.width / 24,
                         fontWeight: FontWeight.bold,
                       ),
@@ -3197,7 +3197,7 @@ iOS: ca-app-pub-3940256099942544/1712485313
       child: Text(
         text,
         style: TextStyle(
-          color: MyColors.black,
+          color: AppColors.black,
           fontSize: MediaQuery.of(context).size.width / 20,
           fontWeight: FontWeight.normal,
         ),
@@ -3215,7 +3215,7 @@ iOS: ca-app-pub-3940256099942544/1712485313
         onTap: () {},
         // menu item appearance properties
         icon: Icons.home,//Image.asset('name')as IconData?,
-        color: MyColors.blue,
+        color: AppColors.blue,
         //elevation: 4.0,
         iconColor: Colors.white,
         iconSize: width/28,
@@ -3231,7 +3231,7 @@ iOS: ca-app-pub-3940256099942544/1712485313
         onTap: () {},
         // menu item appearance properties
         icon: Icons.home,//Image.asset('name')as IconData?,
-        color: MyColors.blue,
+        color: AppColors.blue,
         //elevation: 4.0,
         iconColor: Colors.white,
         iconSize: width/20,
@@ -3269,14 +3269,14 @@ iOS: ca-app-pub-3940256099942544/1712485313
         //callback},
         // toggle button appearance properties
         toggleButtonAnimatedIconData : AnimatedIcons.search_ellipsis,
-        toggleButtonColor: MyColors.yellow,
+        toggleButtonColor: AppColors.yellow,
         toggleButtonBoxShadow: [
           BoxShadow(
-            color: MyColors.blue,
+            color: AppColors.blue,
             blurRadius: 10,
           ),
         ],
-        toggleButtonIconColor: MyColors.White,
+        toggleButtonIconColor: AppColors.white,
         //toggleButtonMargin: 10.0,
         //toggleButtonPadding: 10.0,
         toggleButtonSize: width/20,

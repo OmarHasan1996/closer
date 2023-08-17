@@ -173,7 +173,7 @@ class _SubServiceScreenState extends State<SubServiceScreen> {
                   bottomRight: Radius.circular(MediaQuery.of(context).size.height / 80 * 3),
                   bottomLeft: Radius.circular(MediaQuery.of(context).size.height / 80 * 3)),
             ),
-            backgroundColor: MyColors.blue,
+            backgroundColor: AppColors.blue,
             title: MyWidget(context).appBarTittle(barHight, _key),
             actions: [new IconButton(
                 icon: new Icon(Icons.arrow_back_outlined),
@@ -388,7 +388,7 @@ class _SubServiceScreenState extends State<SubServiceScreen> {
               width: MediaQuery.of(context).size.width * 0.85 - min(MediaQuery.of(context).size.width * 0.20, MediaQuery.of(context).size.height * 0.092),
               height: min(MediaQuery.of(context).size.height / 10, MediaQuery.of(context).size.width /4.4),
              decoration: BoxDecoration(
-                color: MyColors.White,
+                color: AppColors.white,
                 boxShadow: [
                   BoxShadow(
                     color: Colors.grey.withOpacity(0.5),
@@ -457,7 +457,7 @@ class _SubServiceScreenState extends State<SubServiceScreen> {
         width: MediaQuery.of(context).size.width / 1.2,
         height: MediaQuery.of(context).size.height / 80,
         decoration: BoxDecoration(
-          color: MyColors.yellow,
+          color: AppColors.yellow,
           borderRadius:
           BorderRadius.vertical(bottom: Radius.circular(MediaQuery.of(context).size.height / 80)),
         ),
