@@ -621,7 +621,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                           ),
                         ),
                       ),
-                      MyWidget(context).raisedButton(AppLocalizations.of(context)!.translate('Confirm'), () async =>sendOrder(userData["content"]["Id"])
+                      MyWidget(context).raisedButton(AppLocalizations.of(context)!.translate('Confirm'), () async =>sendOrder(userData!.content.id)
                       , MediaQuery.of(context).size.width/1.2, _sendingOrder),
                     ],
                   ),
@@ -650,7 +650,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
   }
 
   DropdownMenuItem<String> buildMenuItem(dynamic item) {
-    getAddress(userData["content"]["Id"]);
+    getAddress(userData!.content.id);
     var area = item['Area']['Name'];
     var city = item['Area']['City']['Name'];
     //var country = item['Area']['City']['Country']['Name'];

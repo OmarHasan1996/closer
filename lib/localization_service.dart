@@ -60,7 +60,7 @@ class LocalizationService extends Translations{
       langs =['English','Arabic','Turkish'];
     }
     //langs =[AppLocalizations.of(context)!.translate('english'),AppLocalizations.of(context)!.translate('france'),AppLocalizations.of(context)!.translate('arabic')];
-    try {await APIService(context: context).userLang(getIntFromLanguage(lang), userData["content"]["Id"]);}
+    try {await APIService(context: context).userLang(getIntFromLanguage(lang), userData!.content.id);}
     catch(e) {print(e.toString());}
     final locale =getLocaleFromLanguage(lang);
     final box = GetStorage();

@@ -569,7 +569,7 @@ class _TaskIdState extends State<TaskId> {
       _suc = await api!.updateWorkerTask(ord['Id'], ord['WorkerId'], ord['OrderServicesId'], ord['Notes'], ord['StartDate'], endDate, 'workerNotes', token, ord['Name'], 'File(xFile!.path)',fcmToken);
     if (_suc){
     Navigator.pop(context);
-    api!.flushBar(AppLocalizations.of(context)!.translate('Task is Finished'));
+    APIService.flushBar(AppLocalizations.of(context)!.translate('Task is Finished'));
     setState(() {
     chCircle = false;
     });

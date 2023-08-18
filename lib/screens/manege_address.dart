@@ -68,7 +68,7 @@ class _MagageAddressScreenState extends State<MagageAddressScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    getAddress(userData["content"]["Id"]);
+    getAddress(userData!.content.id);
     // print(subservice);
   }
 
@@ -157,7 +157,7 @@ class _MagageAddressScreenState extends State<MagageAddressScreen> {
                               builder: (context) =>
                               new NewAddressScreen(token: token))),
                       setState(() {
-                        getAddress(userData["content"]["Id"]);
+                        getAddress(userData!.content.id);
                       }),
                     }, MediaQuery.of(context).size.width / 1.2, false, padV: 0.1),
                   ],
@@ -216,7 +216,7 @@ class _MagageAddressScreenState extends State<MagageAddressScreen> {
                       );
                       setState(
                         () {
-                          getAddress(userData["content"]["Id"]);
+                          getAddress(userData!.content.id);
                         },
                       );
                     },
@@ -309,7 +309,7 @@ class _MagageAddressScreenState extends State<MagageAddressScreen> {
     }
     setState(
       () {
-        getAddress(userData["content"]["Id"]);
+        getAddress(userData!.content.id);
       },
     );
   }

@@ -153,9 +153,7 @@ class _NewOrderState extends State<NewOrder> {
                                       adr.clear();
                                     }),
                                     setState(() {
-                                      getAddress(userData[
-                                      "content"]
-                                      ["Id"]);
+                                      getAddress(userData!.content.id);
                                     }),
                                     await Future.delayed(
                                         Duration(

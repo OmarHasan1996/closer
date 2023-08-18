@@ -387,21 +387,20 @@ class _RegisterState extends State<Register> {
 
   signIn(String email, String password) async {
     setState(() => chLogIn = true);
-    http.Response? response;
-    response = await apiService.login(email, password);
+    var response = await APIService.login(email, password);
     // ignore: unnecessary_null_comparison
     if(response == null) {
       setState(() => chLogIn = false);
     }
-    if (response!.statusCode == 200) {
+    else {
       print("we're good");
-      userData = jsonDecode(response.body);
+      userData = response;
       editTransactionUserData(transactions![0], userData);
       setState(() {
-        if (jsonDecode(response!.body)['error_des'] == "") {
+        if (response.errorDes == "") {
           isLogIn = true;
-          token = jsonDecode(response.body)["content"]["Token"].toString();
-          updateUserInfo(userData["content"]["Id"]);
+          token = response.content.token.toString();
+          updateUserInfo(userData!.content.id);
         } else {
           isLogIn = false;
           setState(() => chLogIn = false);
@@ -419,15 +418,12 @@ class _RegisterState extends State<Register> {
             borderRadius: BorderRadius.all(Radius.circular(16)),
             backgroundColor: Colors.grey.withOpacity(0.5),
             barBlur: 20,
-            message: jsonDecode(response.body)['error_des'],
+            message: response.errorDes,
             messageSize: MediaQuery.of(context).size.height / 37,
           ).show(context);
         }
       });
-    } else {
-      print('A network error occurred');
     }
-
     if (isLogIn) {
       getServiceData();
     }

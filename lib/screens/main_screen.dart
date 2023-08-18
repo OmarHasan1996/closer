@@ -347,13 +347,13 @@ iOS: ca-app-pub-3940256099942544/1712485313
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback(_afterLayout);
-    updateUserInfo(userData["content"]["Id"]);
+    updateUserInfo(userData!.content.id);
     api.getGroupUsers(groupId);
-    getMyOrders(userData["content"]["Id"]);
+    getMyOrders(userData!.content.id);
     super.initState();
 
     initAdds();
-    getAddress(userData["content"]["Id"]);
+    getAddress(userData!.content.id);
     //getWorkersGroup(userData["content"]["Id"]);
     print("************************************************");
     print(userInfo);
@@ -431,7 +431,7 @@ iOS: ca-app-pub-3940256099942544/1712485313
       Navigator.of(context).restorablePushReplacementNamed(routeFromMessage);*/
     });
     mainService = service;
-    api.userLang(trrrr.LocalizationService.getCurrentLangInt(), userData["content"]["Id"]);
+    api.userLang(trrrr.LocalizationService.getCurrentLangInt(), userData!.content.id);
   }
 
   void _afterLayout(Duration timeStamp) {
@@ -810,7 +810,7 @@ iOS: ca-app-pub-3940256099942544/1712485313
                                             Expanded(
                                                 child: 
                                                 FutureBuilder(
-                                                    future: getMyOrders(userData["content"]["Id"]),
+                                                    future: getMyOrders(userData!.content.id),
                                                     builder : (BuildContext context, AsyncSnapshot snap){
                                                       if(snap.connectionState == ConnectionState.waiting){
                                                         _loading = true;
@@ -857,7 +857,7 @@ iOS: ca-app-pub-3940256099942544/1712485313
                                             Expanded(
                                                 child:
                                                 FutureBuilder(
-                                                  future: getMyOrders(userData["content"]["Id"]),
+                                                  future: getMyOrders(userData!.content.id),
                                                   builder : (BuildContext context, AsyncSnapshot snap){
                                                     if(snap.connectionState == ConnectionState.waiting){
                                                       _loading = true;
@@ -935,7 +935,7 @@ iOS: ca-app-pub-3940256099942544/1712485313
                 Expanded(
                   flex: 3,
                   child: FutureBuilder(
-                    future: updateUserInfo(userData["content"]["Id"]),
+                    future: updateUserInfo(userData!.content.id),
                     builder : (BuildContext context, AsyncSnapshot snap){
                       if(snap.connectionState == ConnectionState.waiting){
                         _loading = true;
@@ -1004,7 +1004,7 @@ iOS: ca-app-pub-3940256099942544/1712485313
                   flex: 1,
                   child: GestureDetector(
                     onTap: () {
-                      userInfo.length==0?api.flushBar(AppLocalizations.of(context)!.translate('Error Connection')):
+                      userInfo.length==0?APIService.flushBar(AppLocalizations.of(context)!.translate('Error Connection')):
                       Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (context) =>
@@ -1212,9 +1212,7 @@ iOS: ca-app-pub-3940256099942544/1712485313
       adr.clear();
     });
     setState(() {
-      getAddress(userData[
-      "content"]
-      ["Id"]);
+      getAddress(userData!.content.id);
     });
     await Future.delayed(
         Duration(
@@ -1346,7 +1344,7 @@ iOS: ca-app-pub-3940256099942544/1712485313
                                       children: [
                                         Expanded(
                                           child: FutureBuilder(
-                                            future: getMyOrders(userData["content"]["Id"]),
+                                            future: getMyOrders(userData!.content.id),
                                             builder : (BuildContext context, AsyncSnapshot snap){
                                               if(snap.connectionState == ConnectionState.waiting){
                                                 _loading = true;
@@ -1393,7 +1391,7 @@ iOS: ca-app-pub-3940256099942544/1712485313
                                       children: [
                                         Expanded(
                                             child: FutureBuilder(
-                                              future: getMyOrders(userData["content"]["Id"]),
+                                              future: getMyOrders(userData!.content.id),
                                               builder : (BuildContext context, AsyncSnapshot snap){
                                                 if(snap.connectionState == ConnectionState.waiting){
                                                   _loading = true;
@@ -1439,7 +1437,7 @@ iOS: ca-app-pub-3940256099942544/1712485313
                                       children: [
                                         Expanded(
                                           child: FutureBuilder(
-                                            future: getMyOrders(userData["content"]["Id"]),
+                                            future: getMyOrders(userData!.content.id),
                                             builder : (BuildContext context, AsyncSnapshot snap){
                                               if(snap.connectionState == ConnectionState.waiting){
                                                 _loading = true;
@@ -1597,7 +1595,7 @@ iOS: ca-app-pub-3940256099942544/1712485313
                                         children: [
                                           Expanded(
                                               child: FutureBuilder(
-                                                future: getMyOrders(userData["content"]["Id"]),
+                                                future: getMyOrders(userData!.content.id),
                                                 builder : (BuildContext context, AsyncSnapshot snap){
                                                   if(snap.connectionState == ConnectionState.waiting){
                                                     _loading = true;
@@ -1645,7 +1643,7 @@ iOS: ca-app-pub-3940256099942544/1712485313
                                         children: [
                                           Expanded(
                                             child: FutureBuilder(
-                                              future: getMyOrders(userData["content"]["Id"]),
+                                              future: getMyOrders(userData!.content.id),
                                               builder : (BuildContext context, AsyncSnapshot snap){
                                                 if(snap.connectionState == ConnectionState.waiting){
                                                   _loading = true;
@@ -2703,7 +2701,7 @@ iOS: ca-app-pub-3940256099942544/1712485313
           bool _suc = await api.destroyOrder(id);
           if (_suc){
             setState(() {});
-            api.flushBar(AppLocalizations.of(context)!.translate('Order Destroy'));
+            APIService.flushBar(AppLocalizations.of(context)!.translate('Order Destroy'));
             new Timer(Duration(seconds:1), ()=>setState(() {}));
             //setState(() {});
           }
@@ -3306,7 +3304,7 @@ iOS: ca-app-pub-3940256099942544/1712485313
         _suc = await api.updateWorkerTask(ord['Id'], ord['WorkerId'], ord['OrderServicesId'], ord['Notes'], ord['StartDate'], endDate, 'workerNotes', token, ord['Name'], 'File(xFile!.path)',fcmToken);
       if (_suc){
         Navigator.pop(context);
-        api.flushBar(AppLocalizations.of(context)!.translate('Task is Finished'));
+        APIService.flushBar(AppLocalizations.of(context)!.translate('Task is Finished'));
         setState(() {
           chCircle = false;
         });
@@ -3337,7 +3335,7 @@ iOS: ca-app-pub-3940256099942544/1712485313
     bool _suc = await api.updateOrder(token, ord, 4, null, selectedDate, selectedTime);
     if (_suc){
       Navigator.pop(context);
-      api.flushBar(AppLocalizations.of(context)!.translate('Order Saved'));
+      APIService.flushBar(AppLocalizations.of(context)!.translate('Order Saved'));
       new Timer(Duration(seconds:2), ()=>setState(() {}));
       //setState(() {});
     }

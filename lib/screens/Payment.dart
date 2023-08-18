@@ -785,7 +785,7 @@ class _PaymentState extends State<Payment> {
     }else{
       //await checkout();
       if(cardSecurityControler.text == '' || cardHolderNameControler.text == '' || cardNumberControler.text == '' || _dateController.text == '' )
-        api!.flushBar(AppLocalizations.of(context)!.translate('Please! Fill all information before Order'));
+        APIService.flushBar(AppLocalizations.of(context)!.translate('Please! Fill all information before Order'));
       else
         await checkoutIyzi();
     }
@@ -951,7 +951,7 @@ class _PaymentState extends State<Payment> {
     //    enabledInstallments: []);
     //print(initChecoutForm);
     if(paymentResult.status.toString() == 'failure'){
-      api!.flushBar(paymentResult.errorMessage);
+      APIService.flushBar(paymentResult.errorMessage);
       setState(() {
         chCircle = false;
       });

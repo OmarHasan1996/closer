@@ -145,25 +145,26 @@ class _LoadingScreenState extends State<LoadingScreen> {
     }
     else {
       token = _token!;
-      http.Response response;
-      try{
-         response = await apiService.login(email, password);
-      }catch(e){
-        if(!transactions![0].userData.isEmpty){
-          userData = transactions![0].userData;
-          getServiceDataOffline(_token, transactions![0].service);
+      var response = await APIService.login(email, password);
+      if(response == null){
+        if(transactions![0].userData.isNotEmpty){
+          //userData = transactions![0].userData;
+          //getServiceDataOffline(_token, transactions![0].service);
         }
         return;
       }
-      if (response.statusCode == 200) {
-        userData = jsonDecode(response.body);
-        editTransactionUserData(transactions![0], userData);
-        var tokenn = jsonDecode(response.body)["content"]["Token"].toString();
-        getServiceData(tokenn);
-      }
       else{
-        Navigator.pushNamed(context, 'sign_in');
+        if (response.errorCode == "") {
+          userData = response;
+          //editTransactionUserData(transactions![0], userData);
+          token = response.content.token.toString();
+          getServiceData(token);
+        }
+        else{
+          Navigator.pushNamed(context, 'sign_in');
+        }
       }
+
     }
     letsGo = true;
   }
@@ -197,30 +198,26 @@ class _LoadingScreenState extends State<LoadingScreen> {
     else {
       letsGo = true;
       token = _token!;
-      http.Response response;
-      try{
-         response = await apiService.login(email, password);
-      }catch(e){
-        if(!transactions![0].userData.isEmpty){
-          userData = transactions![0].userData;
-          getServiceDataOffline(_token, transactions![0].service);
+      var response = await APIService.login(email, password);
+      if(response == null){
+        if(transactions![0].userData.isNotEmpty){
+          //userData = transactions![0].userData;
+          //getServiceDataOffline(_token, transactions![0].service);
         }
         return;
       }
-      if (response.statusCode == 200) {
-        userData = jsonDecode(response.body);
-        editTransactionUserData(transactions![0], userData);
-        var tokenn = '';
-        try{
-          tokenn = jsonDecode(response.body)["content"]["Token"].toString();
-        }catch(e){
-          return;
-        }
-        await getServiceData(tokenn);
-      }
       else{
-       // Navigator.pushNamed(context, 'sign_in');
+        if (response.errorCode == "") {
+          userData = response;
+          //editTransactionUserData(transactions![0], userData);
+          token = response.content.token.toString();
+          getServiceData(token);
+        }
+        else{
+          //Navigator.pushNamed(context, 'sign_in');
+        }
       }
+
     }
   }
 

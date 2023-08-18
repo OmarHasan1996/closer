@@ -67,7 +67,7 @@ class _AddTaskState extends State<AddTask> {
   @override
   void initState(){
     // TODO: implement initState
-    getWorkers(userData["content"]["Id"]);
+    getWorkers(userData!.content.id);
     super.initState();
     _dateController.text = DateTime.now().day.toString() + '/' + DateTime.now().month.toString() + '/' + DateTime.now().year.toString() ;
     _timeController.text =  DateTime.now().hour.toString() + ' : ' + DateTime.now().minute.toString();
@@ -743,7 +743,7 @@ class _AddTaskState extends State<AddTask> {
       }
     }
     if(_taskNameController.text == '' || descriptionController.text == '' || _workerss.length == 0 )
-      api!.flushBar('Please! Fill all information before confirm');
+      APIService.flushBar('Please! Fill all information before confirm');
     else {
       var startDateTime = DateTime(selectedDate.year, selectedDate.month, selectedDate.day, selectedTime!.hour, selectedTime!.minute).add(timeDiff).toString().replaceAll(" ", "T") + "Z";
       task.add([{'StartDate':startDateTime, 'TaskName':_taskNameController.text, 'Description':descriptionController.text, 'Workers' : _workerss, 'Service': _service, 'OrderId': _orderId}]);
@@ -775,7 +775,7 @@ class _AddTaskState extends State<AddTask> {
         }
         if (upload) {
           await getMyOrders();
-          api!.flushBar(name + ' ' +
+          APIService.flushBar(name + ' ' +
               AppLocalizations.of(context)!.translate('has been added to') +
               _workersName);
           MyWidget(context).deleteTask(task, Id, _task[0]['Workers'], name);
