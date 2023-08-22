@@ -399,8 +399,8 @@ class _RegisterState extends State<Register> {
       setState(() {
         if (response.errorDes == "") {
           isLogIn = true;
-          token = response.content.token.toString();
-          updateUserInfo(userData!.content.id);
+          token = response.content!.token.toString();
+          updateUserInfo(userData!.content!.id);
         } else {
           isLogIn = false;
           setState(() => chLogIn = false);

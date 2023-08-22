@@ -79,7 +79,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   void initState() {
     // TODO: implement initState
     WidgetsBinding.instance.addPostFrameCallback(_localPath);
-    updateUserInfo(userData!.content.id);
+    updateUserInfo(userData!.content!.id);
     super.initState();
     // print(subservice);
 
@@ -448,7 +448,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     });
     var apiUrl = Uri.parse('$apiDomain/Main/Users/SignUp_UpdateInfo?');
     var request = http.MultipartRequest('POST', apiUrl);
-    request.fields['Id'] = userData!.content.id;
+    request.fields['Id'] = userData!.content!.id;
     if (nameController.text == "")
       request.fields['Name'] = userInfo["Name"];
     else
@@ -484,7 +484,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     var response = await request.send();
     if (response.statusCode == 200) {
       print(await response.stream.bytesToString());
-      updateUserInfo(userData!.content.id);
+      updateUserInfo(userData!.content!.id);
       print('success');
       Navigator.pushAndRemoveUntil(
         context,

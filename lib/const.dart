@@ -15,10 +15,9 @@ List orderAmount = [];
 List allSubServices = [];
 int orderCounter = 0;
 LoginData? userData;
+
 Map<String, dynamic> myOrders = new Map<String, dynamic>();
 Map<String, dynamic> NewOrdersSupervisor = new Map<String, dynamic>();
-//Map<String, dynamic> finishedOrders = new Map<String, dynamic>();
-//Map<String, dynamic> groupUsers = new Map<String, dynamic>();
 
 var userInfo;
 final List<String> country = [];
@@ -97,27 +96,31 @@ showRewardAdd() async {
 
 
 Future addTransaction(service, subService, subServiceDec, userData, myOrders, userInfo, Address, order) async {
-  if(userInfo == null)
-    userInfo = [];
-  final transaction = Transaction()
-    ..service = service
-    ..subService = subService
-    ..subServiceDec = subServiceDec
-    ..userData = userData
-    ..myOrders = myOrders
-    ..userInfo = userInfo
-    ..Address = Address
-    ..order = order
-  ;
+  try{
+    if(userInfo == null)
+      userInfo = [];
+    final transaction = Transaction()
+      ..service = service
+      ..subService = subService
+      ..subServiceDec = subServiceDec
+    // ..userData = userData
+      ..myOrders = myOrders
+      ..userInfo = userInfo
+      ..Address = Address
+      ..order = order
+    ;
 
-  final box = Boxes.getTransactions();
-  box.add(transaction);
-  //box.put('mykey', transaction);
+    final box = Boxes.getTransactions();
+    box.add(transaction);
+    //box.put('mykey', transaction);
 
-  // final mybox = Boxes.getTransactions();
-  // final myTransaction = mybox.get('key');
-  // mybox.values;
-  // mybox.keys;
+    // final mybox = Boxes.getTransactions();
+    // final myTransaction = mybox.get('key');
+    // mybox.values;
+    // mybox.keys;
+  }catch(e){
+
+  }
 }
 
 void editTransaction(Transaction transaction, service, subService, subServiceDec, userData, myOrders, userInfo, Address, order) {

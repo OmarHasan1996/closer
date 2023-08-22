@@ -10,7 +10,7 @@ String loginDataToJson(LoginData data) => json.encode(data.toJson());
 
 class LoginData {
   bool status;
-  Content content;
+  Content? content;
   String errorDes;
   int errorCode;
 
@@ -23,14 +23,14 @@ class LoginData {
 
   factory LoginData.fromJson(Map<String, dynamic> json) => LoginData(
     status: json["status"],
-    content: Content.fromJson(json["content"]),
+    content: json["content"] == null ? null : Content.fromJson(json["content"]),
     errorDes: json["error_des"],
     errorCode: json["error_code"],
   );
 
   Map<String, dynamic> toJson() => {
     "status": status,
-    "content": content.toJson(),
+    "content": content == null ? null : content!.toJson(),
     "error_des": errorDes,
     "error_code": errorCode,
   };
@@ -59,7 +59,7 @@ class Content {
     fbKey: json["FBKey"],
   );
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic>? toJson() => {
     "Id": id,
     "Email": email,
     "Name": name,

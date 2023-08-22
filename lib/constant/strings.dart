@@ -10,5 +10,5 @@ class Strings {
   static String youtubeLink = 'https://www.youtube.com/user/beitalkhairChannel';
   static String instegramLink = 'https://www.instagram.com/beitalkhair/';
   static String version = '6.0.1';
-
+  static String mapKey = 'AIzaSyC5W3ZuBZDzn-itSlfM1EIuOFlQNObjVtY';
 }

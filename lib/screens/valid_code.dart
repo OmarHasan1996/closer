@@ -27,8 +27,6 @@ import 'package:closer/localization_service.dart' as trrrr;
 
 bool chVer = false;
 String token = '';
-List service = [];
-
 // ignore: must_be_immutable
 class Verification extends StatefulWidget {
   String value;

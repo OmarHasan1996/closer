@@ -117,6 +117,7 @@ class _SubServiceScreenState extends State<SubServiceScreen> {
   final GlobalKey<ScaffoldState> _key = GlobalKey(); // Create a key
 
   loadBannerAdd(){
+    return SizedBox();
     /*return AdmobBanner(
       adUnitId: getBannerAdUnitId()!,
       adSize: AdmobBannerSize.ADAPTIVE_BANNER(

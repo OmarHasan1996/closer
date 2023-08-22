@@ -3,7 +3,6 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:http/http.dart' as http;
@@ -113,7 +112,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
 
   //SignIn Or fill UserData and getServiceData
   Future<void> checkLogin() async {
-    if(letsGo)
+    if(_letsGo)
       return;
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     var email = sharedPreferences.getString('email');
@@ -144,29 +143,30 @@ class _LoadingScreenState extends State<LoadingScreen> {
       );
     }
     else {
+      _letsGo = true;
       token = _token!;
       var response = await APIService.login(email, password);
+      _letsGo = false;
       if(response == null){
         if(transactions![0].userData.isNotEmpty){
           //userData = transactions![0].userData;
           //getServiceDataOffline(_token, transactions![0].service);
         }
+        Navigator.pushNamed(context, 'sign_in');
         return;
       }
       else{
         if (response.errorCode == "") {
           userData = response;
           //editTransactionUserData(transactions![0], userData);
-          token = response.content.token.toString();
+          token = response.content!.token.toString();
           getServiceData(token);
         }
         else{
           Navigator.pushNamed(context, 'sign_in');
         }
       }
-
     }
-    letsGo = true;
   }
 
   Future<void> checkLastLogin() async {
@@ -184,33 +184,31 @@ class _LoadingScreenState extends State<LoadingScreen> {
       isBoss = _isBoss;
     //var service = sharedPreferences.getStringList('service');
     _addTrans();
-    /*if(facebookEmail != '' && facebookEmail != null ){
-      password = "FB_P@ssw0rd_FB";
-    }*/
+
     if (_token == null && facebookEmail == null && googleEmail == null) {
-      //Navigator.pushNamed(context, 'sign_in');
+
     }
     else if (_token == '' && facebookEmail == '' && googleEmail == '') {
-      /*Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => SignIn(),),
-      );*/
+
     }
     else {
-      letsGo = true;
+      _letsGo = true;
       token = _token!;
       var response = await APIService.login(email, password);
+      _letsGo = false;
       if(response == null){
         if(transactions![0].userData.isNotEmpty){
           //userData = transactions![0].userData;
           //getServiceDataOffline(_token, transactions![0].service);
         }
+        Navigator.pushNamed(context, 'sign_in');
         return;
       }
       else{
-        if (response.errorCode == "") {
+        if (response.errorDes == "") {
           userData = response;
           //editTransactionUserData(transactions![0], userData);
-          token = response.content.token.toString();
+          token = response.content!.token.toString();
           getServiceData(token);
         }
         else{
@@ -223,7 +221,6 @@ class _LoadingScreenState extends State<LoadingScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     return KeyedSubtree(
       key: key,
       child: SafeArea(
@@ -320,7 +317,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
               Expanded(
                 flex: 1,
                 // ignore: deprecated_member_use
-                child:MyWidget(context).raisedButton(AppLocalizations.of(context)!.translate('start_button'), ()=>checkLogin(), MediaQuery.of(context).size.width / 2, letsGo, padV: MediaQuery.of(context).size.width/40),
+                child:MyWidget(context).raisedButton(AppLocalizations.of(context)!.translate('start_button'), ()=>checkLogin(), MediaQuery.of(context).size.width / 2, _letsGo, padV: MediaQuery.of(context).size.width/40),
               ),
               SizedBox(
                 height: MediaQuery.of(context).size.height / 30,
@@ -357,14 +354,10 @@ class _LoadingScreenState extends State<LoadingScreen> {
 
   startTime() async {
     var duration = new Duration(seconds:10000000);
-    final _keyWelcome = 'welcome';
-    final prefs = await SharedPreferences.getInstance();
-    //welcom = prefs.getBool(_keyWelcome) ?? true;
-    //new Timer(Duration(seconds:4), () => letsGo=true);
-    return new Timer(duration, checkLogin);
+     return new Timer(duration, checkLogin);
   }
 
-  bool letsGo = false;
+  bool _letsGo = false;
   _addTrans(){
     var box = Boxes.getTransactions();
     transactions = box.values.toList();

@@ -22,7 +22,7 @@
         android:icon="@mipmap/ic_launcher"
         >
        <meta-data android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyAqOg0JTHV6Vh0wRUn6R1jGMmKhCaSZ72I"/>
+            android:value="AIzaSyC5W3ZuBZDzn-itSlfM1EIuOFlQNObjVtY"/>
         <activity
             android:name=".MainActivity"
             android:showWhenLocked="true"

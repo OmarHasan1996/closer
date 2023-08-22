@@ -67,7 +67,7 @@ class _AddTaskState extends State<AddTask> {
   @override
   void initState(){
     // TODO: implement initState
-    getWorkers(userData!.content.id);
+    getWorkers(userData!.content!.id);
     super.initState();
     _dateController.text = DateTime.now().day.toString() + '/' + DateTime.now().month.toString() + '/' + DateTime.now().year.toString() ;
     _timeController.text =  DateTime.now().hour.toString() + ' : ' + DateTime.now().minute.toString();

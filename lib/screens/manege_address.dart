@@ -1,6 +1,9 @@
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:closer/constant/functions.dart';
+import 'package:closer/constant/strings.dart';
+import 'package:closer/map/location.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -10,6 +13,7 @@ import 'package:closer/screens/new_address_screen.dart';
 
 import '../MyWidget.dart';
 import '../const.dart';
+import 'package:map_location_picker/map_location_picker.dart';
 
 // ignore: must_be_immutable
 class MagageAddressScreen extends StatefulWidget {
@@ -68,7 +72,7 @@ class _MagageAddressScreenState extends State<MagageAddressScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    getAddress(userData!.content.id);
+    getAddress(userData!.content!.id);
     // print(subservice);
   }
 
@@ -151,14 +155,12 @@ class _MagageAddressScreenState extends State<MagageAddressScreen> {
                         addAutomaticKeepAlives: false,
                       ),
                     ),
-                    MyWidget(context).raisedButton(AppLocalizations.of(context)!.translate('Add Address'), ()=> {
-                      Navigator.of(context).pushReplacement(
-                          MaterialPageRoute(
-                              builder: (context) =>
-                              new NewAddressScreen(token: token))),
+                    MyWidget(context).raisedButton(AppLocalizations.of(context)!.translate('Add Address'), (){
+                      _showPlacePicker();
+                      /*MyApplication.navigateTo(context, NewAddressScreen(token: token));
                       setState(() {
-                        getAddress(userData!.content.id);
-                      }),
+                        getAddress(userData!.content!.id);
+                      });*/
                     }, MediaQuery.of(context).size.width / 1.2, false, padV: 0.1),
                   ],
                 ),
@@ -216,7 +218,7 @@ class _MagageAddressScreenState extends State<MagageAddressScreen> {
                       );
                       setState(
                         () {
-                          getAddress(userData!.content.id);
+                          getAddress(userData!.content!.id);
                         },
                       );
                     },
@@ -309,8 +311,42 @@ class _MagageAddressScreenState extends State<MagageAddressScreen> {
     }
     setState(
       () {
-        getAddress(userData!.content.id);
+        getAddress(userData!.content!.id);
       },
+    );
+  }
+  String address = "null";
+  String autocompletePlace = "null";
+  Prediction? initialValue;
+
+  void _showPlacePicker() async {
+    getCurrentLocation();
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) {
+          return MapLocationPicker(
+            apiKey: Strings.mapKey,
+            canPopOnNextButtonTaped: true,
+            currentLatLng: currentLocation == null? LatLng(29.146727, 76.464895):LatLng(currentLocation!.latitude!, currentLocation!.longitude!),
+            onNext: (GeocodingResult? result) {
+              if (result != null) {
+                setState(() {
+                  address = result.formattedAddress ?? "";
+                });
+              }
+            },
+            onSuggestionSelected: (PlacesDetailsResponse? result) {
+              if (result != null) {
+                setState(() {
+                  autocompletePlace =
+                      result.result.formattedAddress ?? "";
+                });
+              }
+            },
+          );
+        },
+      ),
     );
   }
 }

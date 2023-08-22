@@ -125,6 +125,7 @@ class MyApp extends StatelessWidget {
           //translations: LocalizationService(),
           //locale: LocalizationService().getCurrentLocale(),
           //fallbackLocale: Locale('en', 'US'),
+          navigatorKey: navigatorKey,
           home: LoadingScreen(email: '',),
           routes: {
             'about': (context) => about(),
@@ -155,4 +156,4 @@ class MyHttpOverrides extends HttpOverrides {
 
 //keytool -exportcert -alias androiddebugkey -keystore "C:\Users\mustafa\.android\debug.keystore" | C:\OpenSSL\bin\openssl.exe sha1 -binary | C:\OpenSSL\bin\openssl.exe enc -a -e
 
-//keytool -list -v -alias androiddebugkey -keystore %USERPROFILE%\.android\debug.keystore
+//keytool -list -v -keystore ~/.android/debug.keystore -alias androiddebugkey -storepass android -keypass android

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:closer/constant/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 // ignore: depend_on_referenced_packages
@@ -17,7 +18,6 @@ class OrderTrackingPageState extends State<OrderTrackingPage> {
   BitmapDescriptor destinationIcon = BitmapDescriptor.defaultMarker;
   BitmapDescriptor currentLocationIcon = BitmapDescriptor.defaultMarker;
   LocationData? currentLocation;
-  String apiKey = 'AIzaSyAqOg0JTHV6Vh0wRUn6R1jGMmKhCaSZ72I';
 
   @override
   void initState() {
@@ -80,7 +80,7 @@ class OrderTrackingPageState extends State<OrderTrackingPage> {
   void getPolyPoints() async {
     PolylinePoints polylinePoints = PolylinePoints();
     PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
-        apiKey, // Your Google Map Key
+        Strings.mapKey, // Your Google Map Key
       PointLatLng(sourceLocation.latitude, sourceLocation.longitude),
       PointLatLng(destination.latitude, destination.longitude),
     );

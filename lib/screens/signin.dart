@@ -567,10 +567,10 @@ class _SignInState extends State<SignIn> {
       //editTransactionUserData(transactions![0], userData);
       setState(() {
         // ignore: unrelated_type_equality_checks
-        if (response.errorCode == "") {
+        if (response.errorDes == "") {
           isLogIn = true;
-          token = response.content.token.toString();
-          updateUserInfo(response.content.id);
+          token = response.content!.token.toString();
+          updateUserInfo(response.content!.id);
         } else {
           isLogIn = false;
           setState(() => chLogIn = false);

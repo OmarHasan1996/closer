@@ -126,6 +126,7 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   loadBannerAdd(){
+    return SizedBox();
     /*bannerSize = AdmobBannerSize.ADAPTIVE_BANNER(
       // height: MediaQuery.of(context).size.height.toInt()-40,
       width: MediaQuery.of(context).size.width.toInt(), // considering EdgeInsets.all(20.0)
@@ -347,13 +348,13 @@ iOS: ca-app-pub-3940256099942544/1712485313
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback(_afterLayout);
-    updateUserInfo(userData!.content.id);
+    updateUserInfo(userData!.content!.id);
     api.getGroupUsers(groupId);
-    getMyOrders(userData!.content.id);
+    getMyOrders(userData!.content!.id);
     super.initState();
 
     initAdds();
-    getAddress(userData!.content.id);
+    getAddress(userData!.content!.id);
     //getWorkersGroup(userData["content"]["Id"]);
     print("************************************************");
     print(userInfo);
@@ -431,7 +432,7 @@ iOS: ca-app-pub-3940256099942544/1712485313
       Navigator.of(context).restorablePushReplacementNamed(routeFromMessage);*/
     });
     mainService = service;
-    api.userLang(trrrr.LocalizationService.getCurrentLangInt(), userData!.content.id);
+    api.userLang(trrrr.LocalizationService.getCurrentLangInt(), userData!.content!.id);
   }
 
   void _afterLayout(Duration timeStamp) {
@@ -810,7 +811,7 @@ iOS: ca-app-pub-3940256099942544/1712485313
                                             Expanded(
                                                 child: 
                                                 FutureBuilder(
-                                                    future: getMyOrders(userData!.content.id),
+                                                    future: getMyOrders(userData!.content!.id),
                                                     builder : (BuildContext context, AsyncSnapshot snap){
                                                       if(snap.connectionState == ConnectionState.waiting){
                                                         _loading = true;
@@ -857,7 +858,7 @@ iOS: ca-app-pub-3940256099942544/1712485313
                                             Expanded(
                                                 child:
                                                 FutureBuilder(
-                                                  future: getMyOrders(userData!.content.id),
+                                                  future: getMyOrders(userData!.content!.id),
                                                   builder : (BuildContext context, AsyncSnapshot snap){
                                                     if(snap.connectionState == ConnectionState.waiting){
                                                       _loading = true;
@@ -935,7 +936,7 @@ iOS: ca-app-pub-3940256099942544/1712485313
                 Expanded(
                   flex: 3,
                   child: FutureBuilder(
-                    future: updateUserInfo(userData!.content.id),
+                    future: updateUserInfo(userData!.content!.id),
                     builder : (BuildContext context, AsyncSnapshot snap){
                       if(snap.connectionState == ConnectionState.waiting){
                         _loading = true;
@@ -1212,7 +1213,7 @@ iOS: ca-app-pub-3940256099942544/1712485313
       adr.clear();
     });
     setState(() {
-      getAddress(userData!.content.id);
+      getAddress(userData!.content!.id);
     });
     await Future.delayed(
         Duration(
@@ -1344,7 +1345,7 @@ iOS: ca-app-pub-3940256099942544/1712485313
                                       children: [
                                         Expanded(
                                           child: FutureBuilder(
-                                            future: getMyOrders(userData!.content.id),
+                                            future: getMyOrders(userData!.content!.id),
                                             builder : (BuildContext context, AsyncSnapshot snap){
                                               if(snap.connectionState == ConnectionState.waiting){
                                                 _loading = true;
@@ -1391,7 +1392,7 @@ iOS: ca-app-pub-3940256099942544/1712485313
                                       children: [
                                         Expanded(
                                             child: FutureBuilder(
-                                              future: getMyOrders(userData!.content.id),
+                                              future: getMyOrders(userData!.content!.id),
                                               builder : (BuildContext context, AsyncSnapshot snap){
                                                 if(snap.connectionState == ConnectionState.waiting){
                                                   _loading = true;
@@ -1437,7 +1438,7 @@ iOS: ca-app-pub-3940256099942544/1712485313
                                       children: [
                                         Expanded(
                                           child: FutureBuilder(
-                                            future: getMyOrders(userData!.content.id),
+                                            future: getMyOrders(userData!.content!.id),
                                             builder : (BuildContext context, AsyncSnapshot snap){
                                               if(snap.connectionState == ConnectionState.waiting){
                                                 _loading = true;
@@ -1595,7 +1596,7 @@ iOS: ca-app-pub-3940256099942544/1712485313
                                         children: [
                                           Expanded(
                                               child: FutureBuilder(
-                                                future: getMyOrders(userData!.content.id),
+                                                future: getMyOrders(userData!.content!.id),
                                                 builder : (BuildContext context, AsyncSnapshot snap){
                                                   if(snap.connectionState == ConnectionState.waiting){
                                                     _loading = true;
@@ -1643,7 +1644,7 @@ iOS: ca-app-pub-3940256099942544/1712485313
                                         children: [
                                           Expanded(
                                             child: FutureBuilder(
-                                              future: getMyOrders(userData!.content.id),
+                                              future: getMyOrders(userData!.content!.id),
                                               builder : (BuildContext context, AsyncSnapshot snap){
                                                 if(snap.connectionState == ConnectionState.waiting){
                                                   _loading = true;

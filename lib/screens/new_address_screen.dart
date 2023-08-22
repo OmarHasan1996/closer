@@ -68,7 +68,7 @@ class _NewAddressScreenState extends State<NewAddressScreen> {
       });
       await AddAdrees();
       setState(() {
-        getAddress(userData!.content.id);
+        getAddress(userData!.content!.id);
       });
       showInterstitialAdd();
       print('finish');
@@ -621,7 +621,7 @@ class _NewAddressScreenState extends State<NewAddressScreen> {
     var apiUrl = Uri.parse(
         '$apiDomain/Main/ProfileAddress/ProfileAddress_Create?');
     Map mapDate = {
-      "UserId": userData!.content.id,
+      "UserId": userData!.content!.id,
       "AreaId": areaId.toString(),
       "notes": nearController.text,
       "building": buildingController.text,
@@ -645,7 +645,7 @@ class _NewAddressScreenState extends State<NewAddressScreen> {
     }
     print('AddAddress function is finished');
     setState(() {
-      getAddress(userData!.content.id);
+      getAddress(userData!.content!.id);
     });
   }
 
