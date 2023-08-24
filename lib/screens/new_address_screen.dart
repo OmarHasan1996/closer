@@ -191,11 +191,6 @@ class _NewAddressScreenState extends State<NewAddressScreen> {
                 bottomLeft: Radius.circular(24)),
           ),
           backgroundColor: Color(0xff2e3191),
-          // bottom: PreferredSize(
-          //   preferredSize: Size.fromHeight(MediaQuery.of(context).size.height/5.5),
-          //   child: SizedBox(),
-          // ),
-          //leading: Image.asset('assets/images/Logo1.png'),
           title: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Image.asset(

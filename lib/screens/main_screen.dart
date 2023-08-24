@@ -1156,24 +1156,7 @@ iOS: ca-app-pub-3940256099942544/1712485313
     return Scaffold(
           resizeToAvoidBottomInset: true,
           key: _key,
-          appBar: new AppBar(
-            toolbarHeight: barHight,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.only(
-                bottomRight: Radius.circular(
-                    MediaQuery.of(context).size.height / 80 * 3),
-                bottomLeft: Radius.circular(
-                    MediaQuery.of(context).size.height / 80 * 3),
-              ),
-            ),
-            backgroundColor: AppColors.blue,
-            // bottom: PreferredSize(
-            //   preferredSize: Size.fromHeight(MediaQuery.of(context).size.height/5.5),
-            //   child: SizedBox(),
-            // ),
-            //leading: Image.asset('assets/images/Logo1.png'),
-            title: MyWidget(context).appBarTittle(barHight, _key),
-          ),
+          appBar: MyWidget.appBar(title: AppLocalizations.of(context)!.translate('Our Services'), isMain: true),
           endDrawer: MyWidget(context).drawer(barHight, MediaQuery.of(context).size.height / 80 * 3, ()=>_setState()),
       backgroundColor: Color(0xffF4F4F9),
           body: _widgetOptions.elementAt(_selectedIndex),

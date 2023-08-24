@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:closer/constant/app_size.dart';
 import 'package:closer/constant/functions.dart';
 import 'package:closer/constant/strings.dart';
 import 'package:closer/map/location.dart';
@@ -83,36 +84,7 @@ class _MagageAddressScreenState extends State<MagageAddressScreen> {
 
     return SafeArea(
         child: Scaffold(
-          appBar: new AppBar(
-            automaticallyImplyLeading: false,
-            toolbarHeight: barHight,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.only(
-                bottomRight: Radius.circular(24),
-                bottomLeft: Radius.circular(24),
-              ),
-            ),
-            backgroundColor: Color(0xff2e3191),
-            // bottom: PreferredSize(
-            //   preferredSize: Size.fromHeight(MediaQuery.of(context).size.height/5.5),
-            //   child: SizedBox(),
-            // ),
-            //leading: Image.asset('assets/images/Logo1.png'),
-            title: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Image.asset(
-                'assets/images/Logo1.png',
-                width: MediaQuery.of(context).size.width / 6,
-                height: barHight / 2,
-              ),
-            ),
-            actions: [
-              new IconButton(
-                icon: new Icon(Icons.arrow_back_outlined),
-                onPressed: () => Navigator.of(context).pop(),
-              )
-            ],
-          ),
+          appBar: MyWidget.appBar(title: AppLocalizations.of(context)!.translate("Manager Address")),
           backgroundColor: Colors.grey[100],
           body: Column(
             children: [
@@ -137,14 +109,15 @@ class _MagageAddressScreenState extends State<MagageAddressScreen> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Container(
+                    SizedBox(height: AppHeight.h1,),
+                    /*Container(
                       alignment: Alignment.topLeft,
                       padding: EdgeInsets.symmetric(
                         vertical: MediaQuery.of(context).size.height / 40,
                         horizontal: MediaQuery.of(context).size.width / 20,
                       ),
                       child: MyWidget(context).textBlack20(AppLocalizations.of(context)!.translate("Manager Address"),scale: 1.3)
-                    ),
+                    ),*/
                     Expanded(
                       child: ListView.builder(
                         itemCount: Address.length,
@@ -176,9 +149,9 @@ class _MagageAddressScreenState extends State<MagageAddressScreen> {
     // getAddress(userData["content"]["Id"]);
 
     // print("index" + '$index');
-    var area = ord[ind]['Area']['Name'];
-    var city = ord[ind]['Area']['City']['Name'];
-    var country = ord[ind]['Area']['City']['Country']['Name'];
+    //var area = ord[ind]['Area']['Name'];
+    //var city = ord[ind]['Area']['City']['Name'];
+    //var country = ord[ind]['Area']['City']['Country']['Name'];
     var building = ord[ind]['building'];
     var floor = ord[ind]['floor'];
     var appartment = ord[ind]['appartment'];
@@ -198,7 +171,7 @@ class _MagageAddressScreenState extends State<MagageAddressScreen> {
               children: [
                 Expanded(
                   flex: 8,
-                  child: MyWidget(context).textBlack20(country + '/' + city + '/' + area + '/' + building + '/' + floor + '/' + appartment,),
+                  child: MyWidget(context).textBlack20(ord[ind]['Title'],),
                 ),
                 Expanded(
                   flex: 1,

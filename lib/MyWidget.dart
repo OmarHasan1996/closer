@@ -3,12 +3,15 @@ import 'dart:math';
 import 'package:another_flushbar/flushbar.dart';
 import 'package:closer/constant/app_size.dart';
 import 'package:closer/constant/font_size.dart';
+import 'package:closer/color/MyColors.dart';
+import 'package:closer/constant/functions.dart';
+import 'package:closer/main.dart';
 import 'package:flutter/material.dart';
 import 'package:closer/api/api_service.dart';
 import 'package:closer/color/MyColors.dart';
 import 'package:closer/screens/newOrder.dart';
 import 'package:closer/screens/signin.dart';
-
+import 'package:flutter_svg/flutter_svg.dart';
 import 'const.dart';
 import 'localization_service.dart';
 import 'localizations.dart';
@@ -18,10 +21,70 @@ class MyWidget{
 
   MyWidget(this.context) {
     _padButtonV = min(MediaQuery.of(context).size.height / 80, MediaQuery.of(context).size.width / 25);
-
   }
 
 
+  static appBar({required title, isMain}){
+    bool empty = order.isEmpty;
+    isMain??=false;
+    bool newOrder = false;
+    return AppBar(
+      automaticallyImplyLeading: false,
+      toolbarHeight: AppHeight.h16,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+            bottomRight: Radius.circular(24),
+            bottomLeft: Radius.circular(24)),
+      ),
+      backgroundColor: AppColors.mainColor,
+      title: Container(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            SizedBox(height: AppHeight.h1,),
+            SvgPicture.asset(
+              'assets/images/app_bar_logo.svg',
+              width: AppWidth.w20,
+              height: AppHeight.h2,
+            ),
+            SizedBox(height: AppHeight.h1/2,),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                !isMain?
+                IconButton(onPressed: ()=> Navigator.of(navigatorKey.currentContext!).pop(), icon: Icon(Icons.arrow_back)):
+                IconButton(onPressed: ()=> null, icon: Icon(Icons.list, size: AppWidth.w8), ),
+                textTitle(title),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  //crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    !empty? Text(order.length.toString(),style: TextStyle(color: AppColors.yellow,fontSize: FontSize.s14),):SizedBox(height: FontSize.s14*2,),
+                    IconButton(onPressed: () => _iconPress(empty, newOrder: newOrder), icon: Icon(Icons.shopping_cart_outlined,size: AppWidth.w8,))
+                  ],
+                )
+              ],
+            )
+          ],
+        )
+
+      ),
+      actions: [
+        SizedBox()
+         /*IconButton(
+          icon: Icon(Icons.arrow_back_outlined),
+          onPressed: () {
+            country.clear();
+            city.clear();
+            area.clear();
+            Navigator.of(navigatorKey.currentContext!).pop();
+          },
+        )*/
+      ],
+    );
+  }
 
   textBlack20(text, {color, bold, textAlign, scale}){
     color??= AppColors.black;
@@ -47,7 +110,22 @@ class MyWidget{
       text,
       textAlign: textAlign,
       style: TextStyle(
-          fontSize: min(MediaQuery.of(context).size.width / 15, MediaQuery.of(context).size.height / 34)*scale ,
+          fontSize: FontSize.s16*scale ,
+          fontWeight: bold ? FontWeight.bold : FontWeight.normal,
+          color: color),
+    );
+  }
+
+  static textTitle(text, {color, bold, textAlign, scale}){
+    color??= AppColors.white;
+    bold??= true;
+    scale??= 1.0;
+    textAlign??= TextAlign.start;
+    return Text(
+      text,
+      textAlign: textAlign,
+      style: TextStyle(
+          fontSize: FontSize.s18*scale ,
           fontWeight: bold ? FontWeight.bold : FontWeight.normal,
           color: color),
     );
@@ -505,7 +583,7 @@ class MyWidget{
                     //crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       !empty? Text(order.length.toString(),style: TextStyle(color: AppColors.yellow,fontSize: min(MediaQuery.of(context).size.width/20,MediaQuery.of(context).size.height/45)),):SizedBox(height: MediaQuery.of(context).size.width/30,),
-                      IconButton(onPressed: () => _iconPress(empty, _key, newOrder: newOrder), icon: Icon(Icons.shopping_cart_outlined,size: min(MediaQuery.of(context).size.width/12, MediaQuery.of(context).size.height/26),))
+                      IconButton(onPressed: () => _iconPress(empty, newOrder: newOrder), icon: Icon(Icons.shopping_cart_outlined,size: min(MediaQuery.of(context).size.width/12, MediaQuery.of(context).size.height/26),))
                     ],
                   ):
                   isBoss?
@@ -534,13 +612,13 @@ class MyWidget{
     );
   }
 
-  _iconPress(empty, _key, {bool? newOrder}){
+  static _iconPress(empty, {bool? newOrder}){
     newOrder ??= false;
     if(newOrder) return;
     if(empty){
-      flushBar(AppLocalizations.of(context)!.translate("There isn't any new order"));
+      flushBar(AppLocalizations.of(navigatorKey.currentContext!)!.translate("There isn't any new order"));
     }else{
-      Navigator.push(context, MaterialPageRoute(builder: (context) => NewOrder(token, mainService)));
+      MyApplication.navigateTo(navigatorKey.currentContext!, NewOrder(token, mainService));
       //_key.currentState!.openEndDrawer();
     }
   }
@@ -637,13 +715,13 @@ class MyWidget{
     );
   }
 
-  flushBar(text){
+  static flushBar(text){
     Flushbar(
       padding: EdgeInsets.symmetric(
-          vertical: MediaQuery.of(context).size.height / 30),
+          vertical:AppPadding.p20),
       icon: Icon(
         Icons.error_outline,
-        size: min(MediaQuery.of(context).size.width / 10, MediaQuery.of(context).size.height / 30),
+        size: AppWidth.w4,
         color: AppColors.white,
       ),
       duration: Duration(seconds: 3),
@@ -653,8 +731,8 @@ class MyWidget{
       backgroundColor: Colors.grey.withOpacity(0.5),
       barBlur: 20,
       message: text,
-      messageSize: MediaQuery.of(context).size.height / 40,
-    ).show(context);
+      messageSize: MediaQuery.of(navigatorKey.currentContext!).size.height / 40,
+    ).show(navigatorKey.currentContext!);
   }
 
   textFiled(textController, hintText, labelText,{email, password, clickIcon()?, obscureText, passwordText}){
