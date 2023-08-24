@@ -163,8 +163,10 @@
   "Order Id: ": "رقم الطلب: ",
   "invalid mobile number": "لم يكتمل رقم الموبايل",
   "Service Attachment:": "Service Attachment:",
-  "press add task to assign new worker": "اضغط إضافة مهمة لاسنادها لعامل جديد"
+  "press add task to assign new worker": "اضغط إضافة مهمة لاسنادها لعامل جديد",
 
+  "Country": "Country",
+  "Select location on map": "Select location on map"
 
 
 }

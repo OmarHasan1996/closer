@@ -171,6 +171,8 @@
   "Order Id: ": "Sipariş No: ",
   "invalid mobile number": " Geçersiz Cep Telefonu Numarası ",
   "Service Attachment:": "Servis Eki:",
-  "press add task to assign new worker": "Yeni İşçi Atamak İçin Ekle'ye Basın"
+  "press add task to assign new worker": "Yeni İşçi Atamak İçin Ekle'ye Basın",
+  "Country": "Country",
+  "Select location on map": "Select location on map"
 
 }

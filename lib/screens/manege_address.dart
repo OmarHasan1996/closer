@@ -156,7 +156,7 @@ class _MagageAddressScreenState extends State<MagageAddressScreen> {
                       ),
                     ),
                     MyWidget(context).raisedButton(AppLocalizations.of(context)!.translate('Add Address'), (){
-                      _showPlacePicker();
+                      MyApplication.navigateToReplace(context, NewAddressScreen(token: token,));
                       /*MyApplication.navigateTo(context, NewAddressScreen(token: token));
                       setState(() {
                         getAddress(userData!.content!.id);
@@ -315,38 +315,5 @@ class _MagageAddressScreenState extends State<MagageAddressScreen> {
       },
     );
   }
-  String address = "null";
-  String autocompletePlace = "null";
-  Prediction? initialValue;
 
-  void _showPlacePicker() async {
-    getCurrentLocation();
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) {
-          return MapLocationPicker(
-            apiKey: Strings.mapKey,
-            canPopOnNextButtonTaped: true,
-            currentLatLng: currentLocation == null? LatLng(29.146727, 76.464895):LatLng(currentLocation!.latitude!, currentLocation!.longitude!),
-            onNext: (GeocodingResult? result) {
-              if (result != null) {
-                setState(() {
-                  address = result.formattedAddress ?? "";
-                });
-              }
-            },
-            onSuggestionSelected: (PlacesDetailsResponse? result) {
-              if (result != null) {
-                setState(() {
-                  autocompletePlace =
-                      result.result.formattedAddress ?? "";
-                });
-              }
-            },
-          );
-        },
-      ),
-    );
-  }
 }

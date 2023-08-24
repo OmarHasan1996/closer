@@ -2,6 +2,10 @@ import 'dart:convert';
 import 'dart:ui';
 
 import 'package:another_flushbar/flushbar.dart';
+import 'package:closer/constant/app_size.dart';
+import 'package:closer/constant/functions.dart';
+import 'package:closer/constant/strings.dart';
+import 'package:closer/map/location.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:http/http.dart' as http;
@@ -9,20 +13,20 @@ import 'package:closer/api/api_service.dart';
 import 'package:closer/color/MyColors.dart';
 import 'package:closer/const.dart';
 import 'package:closer/localizations.dart';
+import 'package:map_location_picker/map_location_picker.dart';
 import 'package:progress_indicators/progress_indicators.dart';
 
 import '../MyWidget.dart';
 import 'manege_address.dart';
-
+import 'package:geocoding/geocoding.dart';
 var areaId;
 
 // ignore: must_be_immutable
 class NewAddressScreen extends StatefulWidget {
   String token;
+  List<Placemark>? newPlace;
 
-  NewAddressScreen({
-    required this.token,
-  });
+  NewAddressScreen({required this.token, this.newPlace});
 
   @override
   _NewAddressScreenState createState() => _NewAddressScreenState(this.token);
@@ -31,20 +35,67 @@ class NewAddressScreen extends StatefulWidget {
 class _NewAddressScreenState extends State<NewAddressScreen> {
   String? lng;
   String token;
-  TextEditingController nearController = new TextEditingController();
-  TextEditingController buildingController = new TextEditingController();
-  TextEditingController floorController = new TextEditingController();
-  TextEditingController aprController = new TextEditingController();
+  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _countryController = TextEditingController();
+  final TextEditingController _cityController = TextEditingController();
+  final TextEditingController _areaController = TextEditingController();
+  final TextEditingController _nearController = TextEditingController();
+  final TextEditingController _buildingController = TextEditingController();
+  final TextEditingController _floorController = TextEditingController();
+  final TextEditingController _aprController = TextEditingController();
   Color homeColor = Colors.blueGrey;
   Color workColor = Colors.blueGrey;
   String home = '';
   String work = '';
   String? value;
-  String? cityValue;
-  String? areaValue;
-  bool _getDataFromServer = false;
+  final bool _getDataFromServer = false;
   bool _saving = false;
+  String autocompletePlace = "null";
+  Prediction? initialValue;
+  Geometry? position;
 
+  _setAddress() {
+    if (widget.newPlace != null) {
+        _titleController.text = widget.newPlace!.first.name??'';
+        _countryController.text = widget.newPlace!.first.country??'';
+        _cityController.text = widget.newPlace!.first.locality??'';
+        _areaController.text = widget.newPlace!.first.subLocality??'';
+        _nearController.text = widget.newPlace!.first.street??'';
+    }
+  }
+
+  void _showPlacePicker() async {
+    getCurrentLocation();
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) {
+          return MapLocationPicker(
+            apiKey: Strings.mapKey,
+            canPopOnNextButtonTaped: true,
+            currentLatLng: currentLocation == null
+                ? LatLng(29.146727, 76.464895)
+                : LatLng(
+                    currentLocation!.latitude!, currentLocation!.longitude!),
+            onNext: (GeocodingResult? result) async{
+              if(result != null)
+              {
+                position = result.geometry;
+                widget.newPlace = await placemarkFromCoordinates(position!.location.lat, position!.location.lng);
+                _setAddress();
+              }},
+            onSuggestionSelected: (PlacesDetailsResponse? result) {
+              if (result != null) {
+                setState(() {
+                  autocompletePlace = result.result.formattedAddress ?? "";
+                });
+              }
+            },
+          );
+        },
+      ),
+    );
+  }
 
   _NewAddressScreenState(
     this.token,
@@ -53,20 +104,43 @@ class _NewAddressScreenState extends State<NewAddressScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    getCountryData();
-    getCityData();
-
+    //getCountryData();
+    //getCityData();
     // print(subservice);
   }
 
-  _save() async{
+  _save() async {
     print('begin');
-    print(this.areaValue);
-    if (this.areaValue != null) {
+    if(position == null){
+      await Flushbar(
+        padding: EdgeInsets.symmetric(
+            vertical: MediaQuery.of(context).size.height / 20),
+        icon: Icon(
+          Icons.error_outline,
+          size: MediaQuery.of(context).size.width / 18,
+          color: Colors.white,
+        ),
+        duration: Duration(seconds: 3),
+        shouldIconPulse: false,
+        flushbarPosition: FlushbarPosition.TOP,
+        borderRadius: BorderRadius.all(
+          Radius.circular(MediaQuery.of(context).size.height / 37),
+        ),
+        backgroundColor: Colors.grey.withOpacity(0.5),
+        barBlur: 20,
+        message: AppLocalizations.of(context)!.translate('Select location on map'),
+        messageSize: MediaQuery.of(context).size.width / 22,
+      ).show(context);
+      return;
+    }
+    if (_titleController.text.isNotEmpty &&
+        _cityController.text.isNotEmpty &&
+        _areaController.text.isNotEmpty) {
       setState(() {
         _saving = true;
       });
-      await AddAdrees();
+      print('t');
+      await addAdrees();
       setState(() {
         getAddress(userData!.content!.id);
       });
@@ -76,108 +150,94 @@ class _NewAddressScreenState extends State<NewAddressScreen> {
       city.clear();
       area.clear();
       await Future.delayed(Duration(seconds: 1));
-      setState(() {
-      });
-
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) =>
-          new MagageAddressScreen(
-            token: token,
-          ),
-        ),
-      );
+      setState(() {});
+      // ignore: use_build_context_synchronously
+      MyApplication.navigateToReplace(context, MagageAddressScreen(token: token,));
     } else {
       await Flushbar(
-          padding: EdgeInsets.symmetric(
-          vertical:
-          MediaQuery.of(context).size.height /
-          20),
-    icon: Icon(
-    Icons.error_outline,
-    size: MediaQuery.of(context).size.width /
-    18,
-    color: Colors.white,
-    ),
-    duration: Duration(seconds: 3),
-    shouldIconPulse: false,
-    flushbarPosition: FlushbarPosition.TOP,
-    borderRadius: BorderRadius.all(
-    Radius.circular(
-    MediaQuery.of(context).size.height /
-    37),
-    ),
-    backgroundColor:
-    Colors.grey.withOpacity(0.5),
-    barBlur: 20,
-    message: AppLocalizations.of(context)!.translate('Area is required'),
-    messageSize:
-    MediaQuery.of(context).size.width / 22,
-    ).show(context);
+        padding: EdgeInsets.symmetric(
+            vertical: MediaQuery.of(context).size.height / 20),
+        icon: Icon(
+          Icons.error_outline,
+          size: MediaQuery.of(context).size.width / 18,
+          color: Colors.white,
+        ),
+        duration: Duration(seconds: 3),
+        shouldIconPulse: false,
+        flushbarPosition: FlushbarPosition.TOP,
+        borderRadius: BorderRadius.all(
+          Radius.circular(MediaQuery.of(context).size.height / 37),
+        ),
+        backgroundColor: Colors.grey.withOpacity(0.5),
+        barBlur: 20,
+        message: AppLocalizations.of(context)!.translate('Area is required'),
+        messageSize: MediaQuery.of(context).size.width / 22,
+      ).show(context);
+    }
   }
-  }
+
   @override
   Widget build(BuildContext context) {
     var barHight = MediaQuery.of(context).size.height / 5.5;
 
-    return  SafeArea(
-        child: Scaffold(
-          appBar: new AppBar(
-            automaticallyImplyLeading: false,
-            toolbarHeight: barHight,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.only(
-                  bottomRight: Radius.circular(24),
-                  bottomLeft: Radius.circular(24)),
-            ),
-            backgroundColor: Color(0xff2e3191),
-            // bottom: PreferredSize(
-            //   preferredSize: Size.fromHeight(MediaQuery.of(context).size.height/5.5),
-            //   child: SizedBox(),
-            // ),
-            //leading: Image.asset('assets/images/Logo1.png'),
-            title: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Image.asset(
-                'assets/images/Logo1.png',
-                width: MediaQuery.of(context).size.width / 6,
-                height: barHight / 2,
-              ),
-            ),
-            actions: [
-              new IconButton(
-                icon: new Icon(Icons.arrow_back_outlined),
-                onPressed: () {
-                  country.clear();
-                  city.clear();
-                  area.clear();
-                  Navigator.of(context).pop();
-                },
-              )
-            ],
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          toolbarHeight: barHight,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                bottomRight: Radius.circular(24),
+                bottomLeft: Radius.circular(24)),
           ),
-          backgroundColor: Colors.grey[100],
-          body: Column(
-            children: [
-              Center(
-                child: Container(
-                  alignment: Alignment.center,
-                  width: MediaQuery.of(context).size.width / 1.2,
-                  height: MediaQuery.of(context).size.height / 80,
-                  decoration: BoxDecoration(
-                    color: Color(0xffffca05),
-                    borderRadius:
-                        BorderRadius.vertical(bottom: Radius.circular(30)),
-                  ),
+          backgroundColor: Color(0xff2e3191),
+          // bottom: PreferredSize(
+          //   preferredSize: Size.fromHeight(MediaQuery.of(context).size.height/5.5),
+          //   child: SizedBox(),
+          // ),
+          //leading: Image.asset('assets/images/Logo1.png'),
+          title: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Image.asset(
+              'assets/images/Logo1.png',
+              width: MediaQuery.of(context).size.width / 6,
+              height: barHight / 2,
+            ),
+          ),
+          actions: [
+            new IconButton(
+              icon: new Icon(Icons.arrow_back_outlined),
+              onPressed: () {
+                country.clear();
+                city.clear();
+                area.clear();
+                Navigator.of(context).pop();
+              },
+            )
+          ],
+        ),
+        backgroundColor: Colors.grey[100],
+        body: Column(
+          children: [
+            Center(
+              child: Container(
+                alignment: Alignment.center,
+                width: MediaQuery.of(context).size.width / 1.2,
+                height: MediaQuery.of(context).size.height / 80,
+                decoration: const BoxDecoration(
+                  color: Color(0xffffca05),
+                  borderRadius:
+                      BorderRadius.vertical(bottom: Radius.circular(30)),
                 ),
               ),
-              _getDataFromServer?
-                  Center(child: _jumbingDotes(_getDataFromServer))
-              : SizedBox(
-                height: MediaQuery.of(context).size.height / 80,
-              ),
+            ),
+            _getDataFromServer
+                ? Center(child: _jumbingDotes(_getDataFromServer))
+                : SizedBox(
+                    height: MediaQuery.of(context).size.height / 80,
+                  ),
 
-              Expanded(
+            /*Expanded(
                 flex: 2,
                 child: Padding(
                   padding: EdgeInsets.symmetric(
@@ -224,17 +284,22 @@ class _NewAddressScreenState extends State<NewAddressScreen> {
                     ],
                   ),
                 ),
-              ),
-              Expanded(
-                flex: 10,
-                child: SingleChildScrollView(
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                      vertical: MediaQuery.of(context).size.height / 100,
-                    ),
-                    child: Column(
-                      children: [
-                        Padding(
+              ),*/
+            MyWidget(context).raisedButton(
+                AppLocalizations.of(context)!.translate('Pick from map'),
+                () => _showPlacePicker(),
+                AppWidth.w90,
+                false),
+            Expanded(
+              flex: 10,
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                    vertical: MediaQuery.of(context).size.height / 100,
+                  ),
+                  child: Column(
+                    children: [
+                      /*Padding(
                           padding: EdgeInsets.symmetric(
                               vertical:
                                   MediaQuery.of(context).size.height / 160,
@@ -311,135 +376,64 @@ class _NewAddressScreenState extends State<NewAddressScreen> {
                               ),
                             ),
                           ),
+                        ),*/
+                      MyWidget(context).textFiledAddress(_titleController,
+                          AppLocalizations.of(context)!.translate('Title')),
+                      MyWidget(context).textFiledAddress(_countryController,
+                          AppLocalizations.of(context)!.translate('Country')),
+                      MyWidget(context).textFiledAddress(_cityController,
+                          AppLocalizations.of(context)!.translate('City')),
+                      MyWidget(context).textFiledAddress(_areaController,
+                          AppLocalizations.of(context)!.translate('Area')),
+                      MyWidget(context).textFiledAddress(_nearController,
+                          AppLocalizations.of(context)!.translate('Near by')),
+                      MyWidget(context).textFiledAddress(
+                          _buildingController,
+                          AppLocalizations.of(context)!
+                              .translate('Building number/name')),
+                      MyWidget(context).textFiledAddress(_floorController,
+                          AppLocalizations.of(context)!.translate('Floor')),
+                      MyWidget(context).textFiledAddress(
+                          _aprController,
+                          AppLocalizations.of(context)!
+                              .translate('Apartment number')),
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                            vertical: MediaQuery.of(context).size.height / 160,
+                            horizontal: MediaQuery.of(context).size.width / 20),
+                        child: Container(
+                          alignment: Alignment.bottomRight,
+                          // ignore: deprecated_member_use
+                          child: MyWidget(context).raisedButton(
+                              AppLocalizations.of(context)!.translate('Save'),
+                              () => _save(),
+                              MediaQuery.of(context).size.width / 1.2,
+                              _saving,
+                              buttonText: Color(0xffffca05),
+                              colorText: Colors.black),
                         ),
-                        MyWidget(context).textFiledAddress(
-                        nearController,
-                            AppLocalizations.of(context)!.translate('Near by')),
-                        MyWidget(context).textFiledAddress(
-                            buildingController,
-                            AppLocalizations.of(context)!.translate('Building number/name')),
-                        MyWidget(context).textFiledAddress(
-                        floorController,
-                        AppLocalizations.of(context)!.translate('Floor')),
-                        MyWidget(context).textFiledAddress(
-                          aprController,
-                            AppLocalizations.of(context)!.translate('Apartment number')),
-                        Padding(
-                          padding: EdgeInsets.symmetric(
-                              vertical:
-                                  MediaQuery.of(context).size.height / 160,
-                              horizontal:
-                                  MediaQuery.of(context).size.width / 20),
-                          child: Container(
-                            alignment: Alignment.bottomRight,
-                            // ignore: deprecated_member_use
-                            child: MyWidget(context).raisedButton(AppLocalizations.of(context)!.translate('Save'), ()=> _save(), MediaQuery.of(context).size.width / 1.2, _saving, buttonText: Color(0xffffca05), colorText: Colors.black),
-                            /*RaisedButton(
-                              elevation: 5.0,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(
-                                      MediaQuery.of(context).size.height / 12)),
-                              color: Color(0xffffca05),
-                              child: Padding(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal:
-                                        MediaQuery.of(context).size.width / 15),
-                                child: _saving == true
-                                    ? CircularProgressIndicator(
-                                  valueColor: AlwaysStoppedAnimation<Color>(
-                                      MyColors.blue),
-                                  backgroundColor: Colors.grey,
-                                )
-                                    :Text(
-                                  AppLocalizations.of(context)!.translate('Save'),
-                                  style: TextStyle(
-                                    fontSize:
-                                        MediaQuery.of(context).size.width / 25,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                              ),
-                              onPressed: () async {
-                                print('begin');
-                                print(this.areaValue);
-                                if (this.areaValue != null) {
-                                  setState(() {
-                                    _saving = true;
-                                  });
-                                  await AddAdrees();
-                                  setState(() {
-                                    getAddress(userData["content"]["Id"]);
-                                  });
-                                  showInterstitialAdd();
-                                  print('finish');
-                                  country.clear();
-                                  city.clear();
-                                  area.clear();
-                                  await Future.delayed(Duration(seconds: 1));
-                                  setState(() {
-                                  });
-
-                                  Navigator.of(context).pushReplacement(
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          new MagageAddressScreen(
-                                        token: token,
-                                      ),
-                                    ),
-                                  );
-                                } else {
-                                  await Flushbar(
-                                    padding: EdgeInsets.symmetric(
-                                        vertical:
-                                            MediaQuery.of(context).size.height /
-                                                20),
-                                    icon: Icon(
-                                      Icons.error_outline,
-                                      size: MediaQuery.of(context).size.width /
-                                          18,
-                                      color: Colors.white,
-                                    ),
-                                    duration: Duration(seconds: 3),
-                                    shouldIconPulse: false,
-                                    flushbarPosition: FlushbarPosition.TOP,
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(
-                                          MediaQuery.of(context).size.height /
-                                              37),
-                                    ),
-                                    backgroundColor:
-                                        Colors.grey.withOpacity(0.5),
-                                    barBlur: 20,
-                                    message: AppLocalizations.of(context)!.translate('Area is required'),
-                                    messageSize:
-                                        MediaQuery.of(context).size.width / 22,
-                                  ).show(context);
-                                }
-                              },
-                            ),*/
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ),
+            ),
 
-              // Expanded(
-              //   flex: 2,
-              //   child:
-              // ),
-            ],
-          ),
+            // Expanded(
+            //   flex: 2,
+            //   child:
+            // ),
+          ],
+        ),
       ),
     );
   }
 
-  _jumbingDotes(bool loading){
-    if(loading)
+  _jumbingDotes(bool loading) {
+    if (loading)
       return JumpingDotsProgressIndicator(
         fontSize: 40.0,
-        numberOfDots:7,
+        numberOfDots: 7,
       );
     else
       return SizedBox();
@@ -484,8 +478,60 @@ class _NewAddressScreenState extends State<NewAddressScreen> {
           ],
         ),
       );
+  Future addAdrees() async {
+    print('AddAddress function is called');
+    print('AddAddress function is called');
+    var apiUrl =
+    Uri.parse('$apiDomain/Main/ProfileAddress/ProfileAddress_Create?');
+    Map mapDate = {
+      "UserId": userData!.content!.id,
+      "AreaId": 1.toString(),
+      "notes": _nearController.text,
+      "building": _buildingController.text,
+      "floor": _floorController.text,
+      "appartment": _aprController.text,
+      "lat": position!.location.lat,
+      "lng": position!.location.lng,
+      "Title": _titleController.text
+    };
+    http.Response response =
+    await http.post(apiUrl, body: jsonEncode(mapDate), headers: {
+      "Accept": "application/json",
+      "content-type": "application/json",
+      "Authorization": token,
+    });
+    if (response.statusCode == 200) {
+      print(response.body);
+      print('success');
+    } else {
+      print('fail');
+    }
+    print('AddAddress function is finished');
+    setState(() {
+      getAddress(userData!.content!.id);
+    });
+  }
 
+  void getAddress(var id) async {
+    var url = Uri.parse(
+        "$apiDomain/Main/ProfileAddress/ProfileAddress_Read?filter=UserId~eq~'$id'");
+    http.Response response = await http.get(
+      url,
+      headers: {
+        "Authorization": token,
+      },
+    );
+    if (response.statusCode == 200) {
+      var item = json.decode(response.body)["result"]['Data'];
+      Address = item;
+    } else {
+      Address = [];
+    }
+    _saving = false;
+  }
+  /*
   void getCountryData() async {
+
     _getDataFromServer = true;
     var url = Uri.parse('$apiDomain/Main/Country/Country_Read');
 
@@ -615,58 +661,6 @@ class _NewAddressScreenState extends State<NewAddressScreen> {
     }
     print("****************************************");
   }
-
-  Future AddAdrees() async {
-    print('AddAddress function is called');
-    var apiUrl = Uri.parse(
-        '$apiDomain/Main/ProfileAddress/ProfileAddress_Create?');
-    Map mapDate = {
-      "UserId": userData!.content!.id,
-      "AreaId": areaId.toString(),
-      "notes": nearController.text,
-      "building": buildingController.text,
-      "floor": floorController.text,
-      "appartment": aprController.text,
-    };
-    http.Response response =
-        await http.post(apiUrl, body: jsonEncode(mapDate), headers: {
-      "Accept": "application/json",
-      "content-type": "application/json",
-      "Authorization": token,
-    });
-    if (response.statusCode == 200) {
-      print(response.body);
-      print('success');
-    } else {
-/*
-      print(response.statusCode);
 */
-      print('fail');
-    }
-    print('AddAddress function is finished');
-    setState(() {
-      getAddress(userData!.content!.id);
-    });
-  }
 
-  void getAddress(var id) async {
-/*    print("getAddress is called");
-    print(id);*/
-    var url = Uri.parse(
-        "$apiDomain/Main/ProfileAddress/ProfileAddress_Read?filter=UserId~eq~'$id'");
-    http.Response response = await http.get(
-      url,
-      headers: {
-        "Authorization": token,
-      },
-    );
-    if (response.statusCode == 200) {
-      var item = json.decode(response.body)["result"]['Data'];
-      Address = item;
-    } else {
-      Address = [];
-    }
-    _saving = false;
-
-  }
 }

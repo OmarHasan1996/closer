@@ -1,6 +1,8 @@
 import 'dart:math';
 
 import 'package:another_flushbar/flushbar.dart';
+import 'package:closer/constant/app_size.dart';
+import 'package:closer/constant/font_size.dart';
 import 'package:flutter/material.dart';
 import 'package:closer/api/api_service.dart';
 import 'package:closer/color/MyColors.dart';
@@ -779,14 +781,15 @@ class MyWidget{
     return Padding(
       padding: EdgeInsets.symmetric(
           vertical:
-          MediaQuery.of(context).size.height / 160,
+          AppHeight.h1/2,
           horizontal:
-          MediaQuery.of(context).size.width / 20),
+          AppWidth.w6),
       child: Container(
+       // height: FontSize.s18*2.5,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius:
-          BorderRadius.all(Radius.circular(20)),
+          BorderRadius.all(Radius.circular(AppWidth.w4/2)),
         ),
         child: TextFormField(
           textAlign: TextAlign.start,
@@ -797,7 +800,7 @@ class MyWidget{
           AutovalidateMode.onUserInteraction,
           style: TextStyle(
               color: Colors.black,
-              fontSize: min(MediaQuery.of(context).size.width / 20, MediaQuery.of(context).size.height / 45)
+              fontSize: FontSize.s18
           ),
           decoration: InputDecoration(
             enabledBorder: OutlineInputBorder(
@@ -821,7 +824,7 @@ class MyWidget{
             border: InputBorder.none,
             hintText: hintText,
             hintStyle: TextStyle(
-              fontSize: min(MediaQuery.of(context).size.width / 20, MediaQuery.of(context).size.height / 45),
+              fontSize: FontSize.s16,
             ),
           ),
         ),

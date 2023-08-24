@@ -164,8 +164,10 @@
   "Order Id: ": "Order Id: ",
   "invalid mobile number": "invalid mobile number",
   "Service Attachment:": "Service Attachment:",
-  "press add task to assign new worker": "press add task to assign new worker"
+  "press add task to assign new worker": "press add task to assign new worker",
 
+  "Country": "Country",
+  "Select location on map": "Select location on map"
 
 
 }
