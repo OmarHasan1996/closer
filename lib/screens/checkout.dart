@@ -15,7 +15,7 @@ import '../MyWidget.dart';
 import 'sub_service_dec.dart';
 import '../const.dart';
 import 'main_screen.dart';
-import 'manege_address.dart';
+import 'address/manege_address.dart';
 
 // ignore: must_be_immutable
 class CheckOutScreen extends StatefulWidget {

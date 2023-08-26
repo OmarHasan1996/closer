@@ -34,7 +34,7 @@ import 'package:closer/localization_service.dart';
 import 'package:closer/main.dart';
 import 'checkout.dart';
 import 'edit_profile_screen.dart';
-import 'manege_address.dart';
+import 'address/manege_address.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -1182,7 +1182,7 @@ iOS: ca-app-pub-3940256099942544/1712485313
             currentIndex: _selectedIndex,
             //fixedColor: Colors.white,
             selectedItemColor: AppColors.yellow,
-            backgroundColor: AppColors.blue,
+            backgroundColor: AppColors.mainColor,
             unselectedItemColor: AppColors.white,
             iconSize: MediaQuery.of(context).size.width / 9,
             onTap: _onItemTapped,

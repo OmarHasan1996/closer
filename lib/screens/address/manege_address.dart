@@ -5,15 +5,16 @@ import 'package:closer/constant/app_size.dart';
 import 'package:closer/constant/functions.dart';
 import 'package:closer/constant/strings.dart';
 import 'package:closer/map/location.dart';
+import 'package:closer/screens/address/updateAddress.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:closer/api/api_service.dart';
 import 'package:closer/localizations.dart';
-import 'package:closer/screens/new_address_screen.dart';
+import 'package:closer/screens/address/new_address_screen.dart';
 
-import '../MyWidget.dart';
-import '../const.dart';
+import '../../MyWidget.dart';
+import '../../const.dart';
 import 'package:map_location_picker/map_location_picker.dart';
 
 // ignore: must_be_immutable
@@ -145,74 +146,64 @@ class _MagageAddressScreenState extends State<MagageAddressScreen> {
     );
   }
 
-  Padding addresslist(ord, ind) {
+  addresslist(ord, ind) {
     // getAddress(userData["content"]["Id"]);
 
-    // print("index" + '$index');
-    //var area = ord[ind]['Area']['Name'];
-    //var city = ord[ind]['Area']['City']['Name'];
-    //var country = ord[ind]['Area']['City']['Country']['Name'];
-    var building = ord[ind]['building'];
-    var floor = ord[ind]['floor'];
-    var appartment = ord[ind]['appartment'];
-
-    return Padding(
-      padding: EdgeInsets.symmetric(
-          vertical: MediaQuery.of(context).size.height / 160,
-          horizontal: MediaQuery.of(context).size.width / 40),
-      child: Column(
-        children: [
-          Container(
-            padding:
-                EdgeInsets.only(left: MediaQuery.of(context).size.width / 22),
-            alignment: Alignment.center,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  flex: 8,
-                  child: MyWidget(context).textBlack20(ord[ind]['Title'],),
-                ),
-                Expanded(
-                  flex: 1,
-                  child: GestureDetector(
-                    onTap: () {
-                      setState(
-                        () {
-                          deletAddress(ord, ind);
-                          //getAddress(userData["content"]["Id"]);
-                          /*Navigator.of(context).pushReplacement(
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  MagageAddressScreen(token: ''),
-                            ),
-                          );*/
-                        },
-                      );
-                      setState(
-                        () {
-                          getAddress(userData!.content!.id);
-                        },
-                      );
-                    },
-                    child: Icon(
-                      Icons.delete,
-                      size: min(MediaQuery.of(context).size.width / 20, MediaQuery.of(context).size.height / 45),
-                      color: Colors.grey,
+    return GestureDetector(
+      onTap: (){
+        MyApplication.navigateToReplace(context, UpdateAddress(address: ord[ind]));
+      },
+      child: Padding(
+        padding: EdgeInsets.symmetric(
+            vertical: AppHeight.h2,
+            horizontal: MediaQuery.of(context).size.width / 40),
+        child: Column(
+          children: [
+            Container(
+              padding:
+                  EdgeInsets.only(left: MediaQuery.of(context).size.width / 22),
+              alignment: Alignment.center,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    flex: 8,
+                    child: MyWidget(context).textBlack20(ord[ind]['Title'],),
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(
+                          () {
+                            deletAddress(ord, ind);
+                          },
+                        );
+                        setState(
+                          () {
+                            getAddress(userData!.content!.id);
+                          },
+                        );
+                      },
+                      child: Icon(
+                        Icons.delete,
+                        size: min(MediaQuery.of(context).size.width / 20, MediaQuery.of(context).size.height / 45),
+                        color: Colors.grey,
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          SizedBox(
-            height: MediaQuery.of(context).size.height / 80,
-          ),
-          Divider(
-            color: Colors.grey[900],
-            height: 1,
-          ),
-        ],
+            SizedBox(
+              height: MediaQuery.of(context).size.height / 80,
+            ),
+            Divider(
+              color: Colors.grey[900],
+              height: 1,
+            ),
+          ],
+        ),
       ),
     );
   }

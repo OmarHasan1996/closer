@@ -16,15 +16,17 @@ import 'package:closer/localizations.dart';
 import 'package:map_location_picker/map_location_picker.dart';
 import 'package:progress_indicators/progress_indicators.dart';
 
-import '../MyWidget.dart';
+import '../../MyWidget.dart';
 import 'manege_address.dart';
 import 'package:geocoding/geocoding.dart';
+
 var areaId;
 
 // ignore: must_be_immutable
 class NewAddressScreen extends StatefulWidget {
   String token;
   List<Placemark>? newPlace;
+  String? id;
 
   NewAddressScreen({required this.token, this.newPlace});
 
@@ -182,35 +184,7 @@ class _NewAddressScreenState extends State<NewAddressScreen> {
 
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          toolbarHeight: barHight,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-                bottomRight: Radius.circular(24),
-                bottomLeft: Radius.circular(24)),
-          ),
-          backgroundColor: Color(0xff2e3191),
-          title: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Image.asset(
-              'assets/images/Logo1.png',
-              width: MediaQuery.of(context).size.width / 6,
-              height: barHight / 2,
-            ),
-          ),
-          actions: [
-            new IconButton(
-              icon: new Icon(Icons.arrow_back_outlined),
-              onPressed: () {
-                country.clear();
-                city.clear();
-                area.clear();
-                Navigator.of(context).pop();
-              },
-            )
-          ],
-        ),
+        appBar: MyWidget.appBar(title: AppLocalizations.of(context)!.translate('Address')),
         backgroundColor: Colors.grey[100],
         body: Column(
           children: [
@@ -480,8 +454,41 @@ class _NewAddressScreenState extends State<NewAddressScreen> {
     Uri.parse('$apiDomain/Main/ProfileAddress/ProfileAddress_Create?');
     Map mapDate = {
       "UserId": userData!.content!.id,
-      "AreaId": 1.toString(),
-      "notes": _nearController.text,
+       "notes": _nearController.text,
+      "building": _buildingController.text,
+      "floor": _floorController.text,
+      "appartment": _aprController.text,
+      "lat": position!.location.lat,
+      "lng": position!.location.lng,
+      "Title": _titleController.text
+    };
+    http.Response response =
+    await http.post(apiUrl, body: jsonEncode(mapDate), headers: {
+      "Accept": "application/json",
+      "content-type": "application/json",
+      "Authorization": token,
+    });
+    if (response.statusCode == 200) {
+      print(response.body);
+      print('success');
+    } else {
+      print('fail');
+    }
+    print('AddAddress function is finished');
+    setState(() {
+      getAddress(userData!.content!.id);
+    });
+  }
+
+  Future updateAddress() async {
+    print('AddAddress function is called');
+    print('AddAddress function is called');
+    var apiUrl =
+    Uri.parse('$apiDomain/Main/ProfileAddress/ProfileAddress_Update?');
+    Map mapDate = {
+      "id": widget.id,
+      "UserId": userData!.content!.id,
+       "notes": _nearController.text,
       "building": _buildingController.text,
       "floor": _floorController.text,
       "appartment": _aprController.text,
