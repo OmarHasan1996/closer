@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:another_flushbar/flushbar.dart';
+import 'package:closer/constant/functions.dart';
 import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +16,7 @@ import 'package:closer/localizations.dart';
 import 'package:closer/screens/register.dart';
 import 'package:closer/screens/valid_code.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:closer/map/orderTrackingPage.dart';
 import 'package:closer/MyWidget.dart';
 import 'package:closer/const.dart';
 import 'main_screen.dart';
@@ -92,7 +93,7 @@ class _SignInState extends State<SignIn> {
   Widget build(BuildContext context) {
     return  Scaffold(
         resizeToAvoidBottomInset: false,
-        backgroundColor: AppColors.blue,
+        backgroundColor: AppColors.mainColor,
         body: DoubleBackToCloseApp(
           child: Builder(builder: (context) {
             return Form(
@@ -494,6 +495,7 @@ class _SignInState extends State<SignIn> {
   }
 
   _signIn() async {
+    MyApplication.navigateTo(context, OrderTrackingPage());
     if (_formKey.currentState!.validate()) {
       final SharedPreferences sharedPreferences =
       await SharedPreferences.getInstance();

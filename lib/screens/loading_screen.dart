@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:closer/constant/app_size.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
@@ -18,7 +19,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../MyWidget.dart';
 import '../boxes.dart';
-
+import 'package:closer/constant/images.dart';
 bool x = true;
 List service = [];
 
@@ -225,12 +226,18 @@ class _LoadingScreenState extends State<LoadingScreen> {
       key: key,
       child: SafeArea(
           child: Scaffold(
-            backgroundColor: AppColors.blue,
+            backgroundColor: AppColors.selverBack,
             body: ValueListenableBuilder<Box<Transaction>>(
               valueListenable: Boxes.getTransactions().listenable(),
               builder: (context, box, _) {
                 final transactions = box.values.toList().cast<Transaction>();
-                return Padding(
+                return Container(
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage(ImagesPath.splash),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
                   padding: EdgeInsets.symmetric(
                       vertical: MediaQuery.of(context).size.height / 37,
                       horizontal: MediaQuery.of(context).size.width / 22),
@@ -256,61 +263,32 @@ class _LoadingScreenState extends State<LoadingScreen> {
             children: [
               Expanded(
                 flex: 2,
-                child: Image.asset(
-                  'assets/images/Logo1.png',
-                  width: MediaQuery.of(context).size.width / 2,
-                  height: MediaQuery.of(context).size.height / 4,
-                ),
+                child: SizedBox(),
               ),
               SizedBox(
                 height: MediaQuery.of(context).size.height / 10,
               ),
               Expanded(
                   flex: 4,
-                  child: Image.asset(
-                    'assets/images/home.png',
-                    width: MediaQuery.of(context).size.width / 1.2,
-                    height: MediaQuery.of(context).size.height / 2,
-                  )),
+                  child: SizedBox(),),
               SizedBox(
                 height: MediaQuery.of(context).size.height / 20,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  MyWidget(context).textBlack20(AppLocalizations.of(context)!.translate('lang'), color: AppColors.white),
-                  Text("   "),
-                  MyWidget(context).dropDownLang(LocalizationService.langs, () => {setState(() {},)})
-                  /*new DropdownButton<String>(
-                    dropdownColor: Colors.blueGrey,
-                    items: LocalizationService.langs.map(
-                      (String value) {
-                        return new DropdownMenuItem<String>(
-                          value: value,
-                          child: new Text(
-                            value,
-                            style: TextStyle(color: MyColors.White),
-                          ),
-                        );
-                      },
-                    ).toList(),
-                    value: LocalizationService().getCurrentLang(),
-                    underline: Container(
-                      color: Colors.grey,
-                    ),
-                    isExpanded: false,
-                    onChanged: (newVal) {
-                      setState(
-                        () {
-                          LocalizationService().changeLocale(newVal!,context);
-                        },
-                      );
-                    },
-                  ),*/
-                ],
-              ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height / 20,
+
+              Container(
+                width: AppWidth.w70,
+                decoration: BoxDecoration(
+                    color: AppColors.mainColor,
+                  borderRadius: BorderRadius.all(Radius.circular(AppWidth.w4))
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    MyWidget(context).textBlack20(AppLocalizations.of(context)!.translate('lang'), color: AppColors.white),
+                    Text("   "),
+                    MyWidget(context).dropDownLang(LocalizationService.langs, () => {setState(() {},)})
+                  ],
+                ),
               ),
               //start button
 
@@ -327,8 +305,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    MyWidget(context).textBlack20(AppLocalizations.of(context)!.translate('Already have an account?'), color:AppColors.white, bold: false),
-
+                    MyWidget(context).textBlack20(AppLocalizations.of(context)!.translate('Already have an account?'), bold: false),
                     SizedBox(
                       width: MediaQuery.of(context).size.width / 72,
                     ),
@@ -353,7 +330,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
   }
 
   startTime() async {
-    var duration = new Duration(seconds:10000000);
+    var duration = new Duration(seconds:10000000000);
      return new Timer(duration, checkLogin);
   }
 

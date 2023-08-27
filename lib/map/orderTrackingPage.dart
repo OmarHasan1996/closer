@@ -12,18 +12,20 @@ class OrderTrackingPage extends StatefulWidget {
 }
 class OrderTrackingPageState extends State<OrderTrackingPage> {
   final Completer<GoogleMapController> _controller = Completer();
-  static const LatLng sourceLocation = LatLng(37.33500926, -122.03272188);
-  static const LatLng destination = LatLng(37.33429383, -122.06600055);
+  static const LatLng sourceLocation = LatLng(25.297593, 55.378071);
+  static const LatLng destination = LatLng(25.2867729,55.3742941);
   BitmapDescriptor sourceIcon = BitmapDescriptor.defaultMarker;
   BitmapDescriptor destinationIcon = BitmapDescriptor.defaultMarker;
   BitmapDescriptor currentLocationIcon = BitmapDescriptor.defaultMarker;
   LocationData? currentLocation;
 
+
   @override
   void initState() {
     getCurrentLocation();
-    setCustomMarkerIcon();
+    //setCustomMarkerIcon();
     getPolyPoints();
+
     super.initState();
   }
 
@@ -56,7 +58,7 @@ class OrderTrackingPageState extends State<OrderTrackingPage> {
           position: sourceLocation,
         ),
         Marker(
-          markerId: MarkerId("destination"),
+          markerId: const MarkerId("destination"),
           icon: destinationIcon,
           position: destination,
         ),
@@ -83,6 +85,7 @@ class OrderTrackingPageState extends State<OrderTrackingPage> {
         Strings.mapKey, // Your Google Map Key
       PointLatLng(sourceLocation.latitude, sourceLocation.longitude),
       PointLatLng(destination.latitude, destination.longitude),
+      travelMode: TravelMode.driving,
     );
     if (result.points.isNotEmpty) {
       result.points.forEach(
@@ -120,11 +123,14 @@ class OrderTrackingPageState extends State<OrderTrackingPage> {
 
   void getCurrentLocation() async {
     Location location = Location();
-    location.getLocation().then(
+    await location.getLocation().then(
           (location) {
         currentLocation = location;
       },
     );
+    setState(() {
+
+    });
     GoogleMapController googleMapController = await _controller.future;
     location.onLocationChanged.listen(
           (newLoc) {

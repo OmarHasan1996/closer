@@ -18,13 +18,13 @@ class AppColors {
  static const blue = const Color(0xff2e3191);
  static const purple = const Color.fromARGB(1000,110, 77, 141);
  static const mainColor = const Color(0xffE23C11);
- static const mainColor1 = const Color(0xffE2D12F);
+ static const mainColor1 = const Color(0xffF79420);
  static const buttonTextColor = const Color(0xff343434);
  static const textColorWhite = const Color(0xffFFFFFF);
  static const textColorBlack = const Color(0xff000000);
  static const textColorGray = const Color(0xff6A6A6A);
  static const shadowColorGray = const Color(0xff6A6A6A);
- static const selverBack = const Color(0xffE9E9E9);
+ static const selverBack = const Color(0xffF4F3EF);
  static const fillColor = const Color(0xffFFFFFF);
 
 

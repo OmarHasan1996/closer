@@ -665,7 +665,7 @@ class MyWidget{
 
   raisedButton(text , press, width, chLogIn, {height, colorText, buttonText, padV, textH, roundBorder}){
     colorText??=AppColors.buttonTextColor;
-    buttonText??=AppColors.yellow;
+    buttonText??=AppColors.mainColor1;
     padV??= min(MediaQuery.of(context).size.width / 20, MediaQuery.of(context).size.height / 46);
     textH??= min(MediaQuery.of(context).size.width / 20, MediaQuery.of(context).size.height / 46);
     roundBorder??= MediaQuery.of(context).size.height / 12;
