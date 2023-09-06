@@ -41,23 +41,7 @@ class _NewOrderState extends State<NewOrder> {
         child: Scaffold(
           key: _key,
           resizeToAvoidBottomInset: true,
-          appBar: new AppBar(
-            automaticallyImplyLeading: false,
-            toolbarHeight: barHight,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.only(
-                  bottomRight: Radius.circular(MediaQuery.of(context).size.height / 80 * 3),
-                  bottomLeft: Radius.circular(MediaQuery.of(context).size.height / 80 * 3)),
-            ),
-            backgroundColor: AppColors.blue,
-            title: MyWidget(context).appBarTittle(barHight, _key, newOrder: true),
-            actions: [
-              new IconButton(
-                icon: new Icon(Icons.keyboard_backspace_outlined),
-                onPressed: () => Navigator.of(context).pop(),
-              )
-            ],
-          ),
+          appBar: MyWidget.appBar(title: AppLocalizations.of(context)!.translate('Order Cart'), isMain: false, withoutCart: true),
           endDrawer: MyWidget(context).drawer(barHight, MediaQuery.of(context).size.height / 80 * 3, ()=>_setState()),
           backgroundColor: Colors.grey[100],
           body: Column(children: [
@@ -71,16 +55,12 @@ class _NewOrderState extends State<NewOrder> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/25),
-                    child: MyWidget(context).textTitle15(AppLocalizations.of(context)!.translate('Order Cart'), scale: 1.2),
-                  ),
                   SizedBox(
                     height: MediaQuery.of(context).size.height / 80,
                   ),
                   Container(
                     width: MediaQuery.of(context).size.width / 1.2,
-                    height: MediaQuery.of(context).size.height *(0.7*0.97),
+                    height: MediaQuery.of(context).size.height *(0.7),
                     decoration: BoxDecoration(
                       color: AppColors.white,
                       boxShadow: [BoxShadow(
@@ -155,19 +135,13 @@ class _NewOrderState extends State<NewOrder> {
                                     setState(() {
                                       getAddress(userData!.content!.id);
                                     }),
-                                    await Future.delayed(
-                                        Duration(
-                                            seconds: 1)),
+                                    await Future.delayed(Duration(seconds: 1)),
                                     if (order.isNotEmpty) {
-                                      Navigator.of(
-                                          context)
-                                          .push(
-                                          MaterialPageRoute(
+                                      Navigator.of(context).push(MaterialPageRoute(
                                             builder: (context) =>
                                             new CheckOutScreen(
                                               token: token,
-                                              service:
-                                              service,
+                                              service: service,
                                             ),
                                           )),
                                     }

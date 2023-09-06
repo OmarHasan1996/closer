@@ -63,23 +63,7 @@ class _SubServiceDecState extends State<SubServiceDec> {
         key: _key,
         child: Scaffold(
           resizeToAvoidBottomInset: true,
-          appBar: new AppBar(
-            automaticallyImplyLeading: false,
-            toolbarHeight: barHight,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.only(
-                  bottomRight: Radius.circular(MediaQuery.of(context).size.height / 80 * 3),
-                  bottomLeft: Radius.circular(MediaQuery.of(context).size.height / 80 * 3)),
-            ),
-            backgroundColor: AppColors.blue,
-            title: MyWidget(context).appBarTittle(barHight, _key),
-            actions: [
-              new IconButton(
-                icon: new Icon(Icons.close_outlined),
-                onPressed: () => Navigator.of(context).pop(),
-              )
-            ],
-          ),
+          appBar: MyWidget.appBar(title: '', isMain: false),
           endDrawer: MyWidget(context).drawer(barHight, MediaQuery.of(context).size.height / 80 * 3, ()=>_setState()),
           backgroundColor: Colors.grey[100],
           body: SingleChildScrollView(

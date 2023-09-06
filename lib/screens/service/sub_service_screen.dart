@@ -9,7 +9,7 @@ import 'package:http/http.dart' as http;
 import 'package:closer/api/api_service.dart';
 import 'package:closer/color/MyColors.dart';
 import 'package:closer/localizations.dart';
-import 'package:closer/screens/sub_service_dec.dart';
+import 'package:closer/screens/service/sub_service_dec.dart';
 import 'package:progress_indicators/progress_indicators.dart';
 
 import 'package:closer/MyWidget.dart';
@@ -166,22 +166,7 @@ class _SubServiceScreenState extends State<SubServiceScreen> {
     return SafeArea(
         child: Scaffold(
           key: _key,
-          appBar: new AppBar(
-            automaticallyImplyLeading: false,
-            toolbarHeight: barHight,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.only(
-                  bottomRight: Radius.circular(MediaQuery.of(context).size.height / 80 * 3),
-                  bottomLeft: Radius.circular(MediaQuery.of(context).size.height / 80 * 3)),
-            ),
-            backgroundColor: AppColors.blue,
-            title: MyWidget(context).appBarTittle(barHight, _key),
-            actions: [new IconButton(
-                icon: new Icon(Icons.arrow_back_outlined),
-                onPressed: () => Navigator.of(context).pop(),
-              )
-            ],
-          ),
+          appBar: MyWidget.appBar(title: _subservice.length>1?_subservice[0]['Service']['Name']:'Empty', isMain: false),
           endDrawer: MyWidget(context).drawer(barHight, MediaQuery.of(context).size.height / 80 * 3, ()=>_setState()),
           backgroundColor: Colors.grey[100],
           body: Column(
@@ -191,15 +176,7 @@ class _SubServiceScreenState extends State<SubServiceScreen> {
             SizedBox(
               height: MediaQuery.of(context).size.height / 160,
             ),
-            Padding(
-              padding: EdgeInsets.symmetric(
-                  vertical: MediaQuery.of(context).size.height / 40,
-                  horizontal: MediaQuery.of(context).size.width / 22),
-              child: Container(
-                //alignment: Alignment.topLeft,
-                child: MyWidget(context).textTitle15(_subservice.length>1?_subservice[0]['Service']['Name']:'Empty',scale: 1.2)
-              ),
-            ),
+
             Padding(
               padding: EdgeInsets.symmetric(
                   //vertical: MediaQuery.of(context).size.height / 37,

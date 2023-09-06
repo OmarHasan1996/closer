@@ -12,6 +12,7 @@ import 'package:closer/color/MyColors.dart';
 import 'package:closer/screens/newOrder.dart';
 import 'package:closer/screens/signin.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:progress_indicators/progress_indicators.dart';
 import 'const.dart';
 import 'localization_service.dart';
 import 'localizations.dart';
@@ -23,10 +24,71 @@ class MyWidget{
     _padButtonV = min(MediaQuery.of(context).size.height / 80, MediaQuery.of(context).size.width / 25);
   }
 
+  static loadBannerAdd(){
+    return SizedBox();
+    /*bannerSize = AdmobBannerSize.ADAPTIVE_BANNER(
+      // height: MediaQuery.of(context).size.height.toInt()-40,
+      width: MediaQuery.of(context).size.width.toInt(), // considering EdgeInsets.all(20.0)
+    );
+    return AdmobBanner(
+      adUnitId: getBannerAdUnitId()!,
+      adSize: bannerSize!,
+      listener: (AdmobAdEvent event,
+          Map<String, dynamic>? args) {
+        handleEvent(event, args, 'Banner');
+      },
+      onBannerCreated:
+          (AdmobBannerController controller) {
+        // Dispose is called automatically for you when Flutter removes the banner from the widget tree.
+        // Normally you don't need to worry about disposing this yourself, it's handled.
+        // If you need direct access to dispose, this is your guy!
+        // controller.dispose();
+      },
+    );*/
+  }
 
-  static appBar({required title, isMain}){
+  static jumbingDotes(bool loading){
+    if(loading)
+      return JumpingDotsProgressIndicator(
+        fontSize: 40.0,
+        numberOfDots:7,
+      );
+    else
+      return SizedBox();
+  }
+
+  static topYellowDriver() {
+    return Center(
+      child: Container(
+        alignment: Alignment.center,
+        width: AppWidth.w80,
+        height: AppHeight.h2,
+        decoration: BoxDecoration(
+          color: AppColors.yellow,
+          borderRadius: BorderRadius.vertical(
+              bottom: Radius.circular(AppHeight.h2)),
+        ),
+      ),
+    );
+  }
+
+  static bottomYellowDriver() {
+    return Center(
+      child: Container(
+        alignment: Alignment.center,
+        width: AppWidth.w100,
+        height: AppHeight.h1,
+        decoration: BoxDecoration(
+          color: AppColors.yellow,
+        ),
+      ),
+    );
+  }
+
+  static appBar({required title, isMain, withoutCart}){
     bool empty = order.isEmpty;
     isMain??=false;
+    withoutCart??=false;
     bool newOrder = false;
     return AppBar(
       automaticallyImplyLeading: false,
@@ -62,7 +124,7 @@ class MyWidget{
                   //crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     !empty? Text(order.length.toString(),style: TextStyle(color: AppColors.yellow,fontSize: FontSize.s14),):SizedBox(height: FontSize.s14*2,),
-                    IconButton(onPressed: () => _iconPress(empty, newOrder: newOrder), icon: Icon(Icons.shopping_cart_outlined,size: AppWidth.w8,))
+                    !withoutCart?IconButton(onPressed: () => _iconPress(empty, newOrder: newOrder), icon: Icon(Icons.shopping_cart_outlined,size: AppWidth.w8,)):SizedBox(width: AppWidth.w8,)
                   ],
                 )
               ],
@@ -147,17 +209,18 @@ class MyWidget{
     );
   }
 
-  textHead10(text,{scale, color}){
+  textHead10(text,{scale, color, textAlign}){
     scale??=1.0;
     color??=AppColors.white;
-
+    textAlign?? TextAlign.start;
     return Text(
       text,
       style: TextStyle(
           color: color,
-          fontSize: min(MediaQuery.of(context).size.width / 10,MediaQuery.of(context).size.height / 23),
+          fontSize: min(MediaQuery.of(context).size.width / 10,MediaQuery.of(context).size.height / 23)*scale,
           fontWeight: FontWeight.bold,
           fontFamily: 'OpenSans'),
+      textAlign: textAlign,
     );
   }
 

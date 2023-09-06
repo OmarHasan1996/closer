@@ -274,7 +274,6 @@ class _LoadingScreenState extends State<LoadingScreen> {
               SizedBox(
                 height: MediaQuery.of(context).size.height / 20,
               ),
-
               Container(
                 width: AppWidth.w70,
                 decoration: BoxDecoration(

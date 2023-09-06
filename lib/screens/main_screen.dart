@@ -5,6 +5,7 @@ import 'dart:math';
 
 //import 'package:admob_flutter/admob_flutter.dart';
 import 'package:another_flushbar/flushbar.dart';
+import 'package:closer/screens/mainTabScreens/homeScreen.dart';
 //import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_format/date_format.dart';
 import 'package:double_back_to_close_app/double_back_to_close_app.dart';
@@ -22,7 +23,7 @@ import 'package:closer/model/transaction.dart';
 import 'package:closer/screens/Payment.dart';
 import 'package:closer/screens/loading_screen.dart';
 import 'package:closer/screens/orderID.dart';
-import 'package:closer/screens/sub_service_screen.dart';
+import 'package:closer/screens/service/sub_service_screen.dart';
 import 'package:closer/screens/taskId.dart';
 import 'package:closer/screens/valid_code.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -195,145 +196,6 @@ Reward Video
 Android: ca-app-pub-3940256099942544/5224354917
 iOS: ca-app-pub-3940256099942544/1712485313
 */
-
-  Future _getServiceData(tokenn) async {
-    //token = tokenn;
-    print(tokenn);
-    //var url = Uri.parse('https://mr-service.online/Main/Services/Services_Read?filter=IsMain~eq~true');
-    var url = Uri.parse('$apiDomain/Main/Services/Services_Read?filter=ServiceParentId~eq~null');
-    http.Response response = await http.get(url, headers: {"Authorization": tokenn!,},);
-    if (response.statusCode == 200) {
-      var item = await json.decode(response.body)["result"]['Data'];
-      service = item;
-      editTransactionService(transactions![0], service);
-      //Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => MainScreen(token: tokenn, service: service,selectedIndex: 0, initialOrderTab: 0,),),);
-    } else {
-      //service = [];
-      /*Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) => SignIn(),
-        ),
-      );*/
-    }
-  }
-
-  _getServiceDataOffline(_service){
-    service = _service;
-    //Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => MainScreen(token: tokenn, service: service,selectedIndex: 0, initialOrderTab: 0,),),);
-  }
-
-  void getSubServiceData(var id) async {
-    try{
-      //var url = Uri.parse('https://mr-service.online/Main/Services/Services_Read?');
-      var url = Uri.parse('$apiDomain/Main/Services/Services_Read?filter=ServiceParentId~eq~$id');
-      //var url = Uri.parse('https://mr-service.online/Main/Services/Services_Read?filter=IsMain~eq~false~and~ServiceParentId~eq~$id');
-      http.Response response = await http.get(
-        url,
-        headers: {
-          "Authorization": token,
-        },
-      );
-      if (response.statusCode == 200) {
-        //print(json.decode(response.body));
-        var item = json.decode(response.body)["result"]['Data'];
-        setState(
-              () {
-            subservice = item;
-            editTransactionService(transactions![0], service);
-            editTransactionSubService(transactions![0], subservice, id);
-            editTransactionUserUserInfo(transactions![0], userInfo);
-          },
-        );
-        if (subservice.length==1) {
-          await Flushbar(
-            padding: EdgeInsets.symmetric(
-                vertical: MediaQuery.of(context).size.height / 20),
-            icon: Icon(
-              Icons.error_outline,
-              size: MediaQuery.of(context).size.width / 18,
-              color: Colors.white,
-            ),
-            duration: Duration(seconds: 3),
-            shouldIconPulse: false,
-            flushbarPosition: FlushbarPosition.TOP,
-            borderRadius: BorderRadius.all(
-              Radius.circular(MediaQuery.of(context).size.height / 37),
-            ),
-            backgroundColor: Colors.grey.withOpacity(0.5),
-            barBlur: 20,
-            message: 'This service will coming soon'.tr,
-            messageSize: MediaQuery.of(context).size.width / 22,
-          ).show(context);
-        } else {
-          allSubServices.clear();
-          Navigator.push(context, MaterialPageRoute(builder: (context) => new SubServiceScreen(token: token, subservice: subservice),),).then((_) {
-            // This block runs when you have returned back to the 1st Page from 2nd.
-            setState(() {
-              // Call setState to refresh the page.
-            });
-          });
-        }
-      } else {
-        setState(
-              () {
-            subservice = [];
-          },
-        );
-      }
-    }
-    catch(e){
-      subservice = transactions![0].subService;
-      if(subservice.length==1){
-        await Flushbar(
-          padding: EdgeInsets.symmetric(
-              vertical: MediaQuery.of(context).size.height / 20),
-          icon: Icon(
-            Icons.error_outline,
-            size: MediaQuery.of(context).size.width / 18,
-            color: Colors.white,
-          ),
-          duration: Duration(seconds: 3),
-          shouldIconPulse: false,
-          flushbarPosition: FlushbarPosition.TOP,
-          borderRadius: BorderRadius.all(
-            Radius.circular(MediaQuery.of(context).size.height / 37),
-          ),
-          backgroundColor: Colors.grey.withOpacity(0.5),
-          barBlur: 20,
-          message: 'This service will coming soon'.tr,
-          messageSize: MediaQuery.of(context).size.width / 22,
-        ).show(context);
-      } else if(subservice[subservice.length-1]["id"]==id) {
-        allSubServices.clear();
-        Navigator.push(context, MaterialPageRoute(builder: (context) => SubServiceScreen(token: token, subservice: subservice),),).then((_) {
-          // This block runs when you have returned back to the 1st Page from 2nd.
-          setState(() {
-            // Call setState to refresh the page.
-          });
-        });
-      }else{
-        await Flushbar(
-          padding: EdgeInsets.symmetric(
-              vertical: MediaQuery.of(context).size.height / 20),
-          icon: Icon(
-            Icons.error_outline,
-            size: MediaQuery.of(context).size.width / 18,
-            color: Colors.white,
-          ),
-          duration: Duration(seconds: 3),
-          shouldIconPulse: false,
-          flushbarPosition: FlushbarPosition.TOP,
-          borderRadius: BorderRadius.all(
-            Radius.circular(MediaQuery.of(context).size.height / 37),
-          ),
-          backgroundColor: Colors.grey.withOpacity(0.5),
-          barBlur: 20,
-          message: 'This service will coming soon'.tr,
-          messageSize: MediaQuery.of(context).size.width / 22,
-        ).show(context);
-      }
-    }
-  }
 
   _MainScreenState(this.token, this.service, this._selectedIndex, this._initialOrderTab);
 
@@ -517,70 +379,7 @@ iOS: ca-app-pub-3940256099942544/1712485313
         fontSize: 30 /*MediaQuery.of(context).size.width / 22*/,
         fontWeight: FontWeight.bold);
     List<Widget> _widgetOptions = <Widget>[
-      Container(
-        child: DoubleBackToCloseApp(
-          child: Stack(
-            children: [
-              /*Align(
-                alignment: Alignment.topCenter,
-                child: circularMenu(),
-              ),*/
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                //yellow driver
-                _topYellowDriver(),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height / 160,
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                      vertical: MediaQuery.of(context).size.height / 37,
-                      horizontal: MediaQuery.of(context).size.width / 20),
-                  child: Container(
-                    //alignment: Alignment.topLeft,
-                    padding: EdgeInsets.only(
-                        left: MediaQuery.of(context).size.width / 20,
-                        right: MediaQuery.of(context).size.width / 20),
-                    child: MyWidget(context).textTitle15(AppLocalizations.of(context)!.translate('Our Services'), scale: 1.2),
-                  ),
-                ),
-                Expanded(
-                  child:FutureBuilder(
-                    future: _getServiceData(token),
-                    builder : (BuildContext context, AsyncSnapshot snap){
-                      if(snap.connectionState == ConnectionState.waiting){
-                        _loading = true;
-                        return _jumbingDotes(_loading);
-                        return SizedBox();
-                      }
-                      else{
-                        //return SizedBox();
-                        _loading = false;
-                        return ListView.builder(
-                          itemCount: service.length,
-                          itemBuilder: (context, index) {
-                            return serviceRow(service[index]);
-                          },
-                          addAutomaticKeepAlives: false,
-                        );
-                      }
-                    },
-                  ),
-                ),
-                loadBannerAdd(),
-                _bottomYellowDriver(),
-              ]),
-              _transScreen?
-              MyWidget(context).transScreen():SizedBox()
-            ],
-          ),
-          snackBar: SnackBar(
-            content: Text(AppLocalizations.of(context)!
-                .translate('Tap back again to leave')),
-          ),
-        ),
-      ),
+      HomeScreen(service: service,),
       //My order
       Container(
         child: !worker?DoubleBackToCloseApp(
@@ -1746,96 +1545,6 @@ iOS: ca-app-pub-3940256099942544/1712485313
     );
   }
 
-  Padding serviceRow(ser) {
-    var name = ser['Name'];
-    var imagepath = ser['ImagePath'];
-    // id = ser['Id'];
-    return Padding(
-      padding: EdgeInsets.symmetric(
-          vertical: MediaQuery.of(context).size.width * 0.015,
-          horizontal: MediaQuery.of(context).size.width / 22),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Container(
-            alignment: Alignment.center,
-            width: min(MediaQuery.of(context).size.width * 0.28, MediaQuery.of(context).size.height * 0.18),
-            height: min(MediaQuery.of(context).size.width / 3.5, MediaQuery.of(context).size.height / 8.5),
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: Colors.grey,
-                width: 1,
-              ),
-              image: DecorationImage(
-                fit: BoxFit.fill,
-                image: NetworkImage(imagepath),
-              ),
-              borderRadius: BorderRadius.horizontal(
-                  left: trrrr.LocalizationService.getCurrentLangInt() == 3? Radius.circular(0): Radius.circular(MediaQuery.of(context).size.height / 51)
-                  ,right: trrrr.LocalizationService.getCurrentLangInt() == 3? Radius.circular(MediaQuery.of(context).size.height / 51) : Radius.circular(0)
-              ),
-            ),
-          ),
-          SizedBox(
-            width: MediaQuery.of(context).size.width * 0.03,
-            //child: Text(),
-          ),
-          GestureDetector(
-            onTap: () {
-              var id = ser['Id'];
-              print("id-name");
-              print(id);
-              print(name);
-              setState(() {
-                _transScreen = true;
-              });
-              getSubServiceData(id);
-              setState(() {
-                _transScreen = false;
-              });
-            },
-            child: Container(
-              alignment: Alignment.center,
-              width: MediaQuery.of(context).size.width * 0.85 - min(MediaQuery.of(context).size.width * 0.28, MediaQuery.of(context).size.height * 0.18),
-              height: min(MediaQuery.of(context).size.width / 3.5, MediaQuery.of(context).size.height / 8.5),
-              decoration: BoxDecoration(
-                color: Color(0x1bffca05),
-                border: Border.all(
-                  color: Colors.grey,
-                  width: 1,
-                ),
-                borderRadius: BorderRadius.horizontal(
-                    right: trrrr.LocalizationService.getCurrentLangInt() == 3? Radius.circular(0): Radius.circular(MediaQuery.of(context).size.height / 51)
-                    ,left: trrrr.LocalizationService.getCurrentLangInt() == 3? Radius.circular(MediaQuery.of(context).size.height / 51) : Radius.circular(0)
-                ),
-              ),
-              child: Padding(
-                padding: EdgeInsets.symmetric(
-                    vertical: MediaQuery.of(context).size.height / 37,
-                    horizontal: MediaQuery.of(context).size.width / 22),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Flexible(
-                      child: FittedBox(
-                        child: MyWidget(context).textBlack20(name,bold: false),
-                      ),
-                    ),
-                    Icon(
-                      Icons.keyboard_arrow_right,
-                      size: min(MediaQuery.of(context).size.width / 15, MediaQuery.of(context).size.height / 35),
-                      color: AppColors.yellow,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          )
-        ],
-      ),
-    );
-  }
 
   /*Padding orderlist(ord,scale) {
     var Id = ord[0][0]['Id'];
@@ -1958,8 +1667,8 @@ iOS: ca-app-pub-3940256099942544/1712485313
     var Id;!worker? Id = ord['Servicess'][0]['OrderId'] : Id= ord['OrderService']['OrderId'];
     var amount; !worker? amount = ord['Amount'].toString(): amount = ord['OrderService']['Order']['Amount'];
     var date; !worker? date = ord['OrderDate']:date = ord['OrderService']['Order']['OrderDate'];
-    var addressArea; !worker? addressArea = ord['Address']['Area']['Name']:addressArea = ord['OrderService']['Order']['Address']['Area']['Name'];
-    var addressCity; !worker? addressCity = ord['Address']['Area']['City']['Name']: addressCity = ord['OrderService']['Order']['Address']['Area']['City']['Name'];
+    var addressArea; !worker? addressArea = ord['Address']['Title']??'':addressArea = ord['OrderService']['Order']['Address']['Title']??'';
+    var addressCity; !worker? addressCity = ord['Address']['Title']??'': addressCity = ord['OrderService']['Order']['Address']['Title']??'';
     var statusCode; !worker? statusCode = ord['Status'].toString():statusCode = ord['Status'].toString();
     amount = amount.toString() +" \.${AppLocalizations.of(context)!.translate('TRY')} ";
     //statusCode = '2';
@@ -3015,8 +2724,8 @@ iOS: ca-app-pub-3940256099942544/1712485313
       _dateController.text=date;
       _timeController.text=time;
     }
-    var addressArea; !worker? addressArea = ord['Address']['Area']['Name']:addressArea = ord['OrderService']['Order']['Address']['Area']['Name'];
-    var addressCity; !worker? addressCity = ord['Address']['Area']['City']['Name']: addressCity = ord['OrderService']['Order']['Address']['Area']['City']['Name'];
+    var addressArea; !worker? addressArea = ord['Address']['Title']??'':addressArea = ord['OrderService']['Order']['Address']['Title']??'';
+    var addressCity; !worker? addressCity = ord['Address']['Title']??'': addressCity = ord['OrderService']['Order']['Address']['Title']??'';
     var addressNotes; !worker? addressNotes = ord['Address']['notes']: addressNotes = ord['OrderService']['Order']['Address']['notes'];
     var addressBuilding; !worker? addressBuilding = ord['Address']['building']: addressBuilding = ord['OrderService']['Order']['Address']['building'];
     var addressFloor; !worker? addressFloor = ord['Address']['floor']: addressFloor = ord['OrderService']['Order']['Address']['floor'];

@@ -167,7 +167,12 @@
   "press add task to assign new worker": "press add task to assign new worker",
 
   "Country": "Country",
-  "Select location on map": "Select location on map"
+  "Select location on map": "Select location on map",
+  "Search": "Search",
+  "INVOICE": "INVOICE",
+  "Billing Address": "Billing Address",
+  "Delivery No": "Delivery No",
+  "Shipping Address": "Shipping Address"
 
 
 

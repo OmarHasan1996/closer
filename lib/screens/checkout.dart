@@ -12,7 +12,7 @@ import 'package:closer/api/api_service.dart';
 import 'package:closer/color/MyColors.dart';
 import 'package:closer/localizations.dart';
 import '../MyWidget.dart';
-import 'sub_service_dec.dart';
+import 'service/sub_service_dec.dart';
 import '../const.dart';
 import 'main_screen.dart';
 import 'address/manege_address.dart';
@@ -115,29 +115,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
     dateTime = DateFormat.yMd().format(DateTime.now());
     return SafeArea(
         child: Scaffold(
-          appBar: new  AppBar(
-            toolbarHeight: barHight,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.only(
-                bottomRight: Radius.circular(MediaQuery.of(context).size.height / 80 * 3),
-                bottomLeft: Radius.circular(MediaQuery.of(context).size.height / 80 * 3),
-              ),
-            ),
-            backgroundColor: AppColors.blue,
-            // bottom: PreferredSize(
-            //   preferredSize: Size.fromHeight(MediaQuery.of(context).size.height/5.5),
-            //   child: SizedBox(),
-            // ),
-            //leading: Image.asset('assets/images/Logo1.png'),
-            title: Padding(
-              padding: EdgeInsets.all(MediaQuery.of(context).size.height / 80 * 3),
-              child: Image.asset(
-                'assets/images/Logo1.png',
-                width: MediaQuery.of(context).size.width / 6,
-                height: barHight / 2,
-              ),
-            ),
-          ),
+          appBar: MyWidget.appBar(title: AppLocalizations.of(context)!.translate('Checkout'), isMain: false, withoutCart: true),
           backgroundColor: Colors.grey[100],
           body: SingleChildScrollView(
             child: Column(
@@ -146,15 +124,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                 SizedBox(
                   height: MediaQuery.of(context).size.height / 300,
                 ),
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                      vertical: MediaQuery.of(context).size.height / 100,
-                      horizontal: MediaQuery.of(context).size.width / 22),
-                  child: Container(
-                    alignment: Alignment.topLeft,
-                    child: MyWidget(context).textBlack20(AppLocalizations.of(context)!.translate('Checkout'), scale: 1.3),
-                  ),
-                ),
+
                 Container(
                   //height: MediaQuery.of(context).size.height / 1.5,
                   padding: EdgeInsets.symmetric(
@@ -165,7 +135,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                        height: MediaQuery.of(context).size.height / 2.5,
+                        height: MediaQuery.of(context).size.height / 2,
                         child: SingleChildScrollView(
                           child: Padding(
                             padding: EdgeInsets.symmetric(
@@ -651,14 +621,14 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
 
   DropdownMenuItem<String> buildMenuItem(dynamic item) {
     getAddress(userData!.content!.id);
-    var area = item['Area']['Name'];
-    var city = item['Area']['City']['Name'];
-    //var country = item['Area']['City']['Country']['Name'];
-    var building = item['building'];
-    var floor = item['floor'];
-    var appartment = item['appartment'];
+    //var area = item['Area']['Name'];
+    //var city = item['Area']['City']['Name'];
+    ////var country = item['Area']['City']['Country']['Name'];
+    //var building = item['building'];
+    //var floor = item['floor'];
+    //var appartment = item['appartment'];
     var tmp = {
-      'Address': "$city/$area/$building/$floor/$appartment",
+      'Address': item['Title'],//"$city/$area/$building/$floor/$appartment",
       'AddressId': item['Id']
     };
     return DropdownMenuItem(

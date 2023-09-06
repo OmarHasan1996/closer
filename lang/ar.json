@@ -184,7 +184,12 @@
   "press add task to assign new worker": "اضغط إضافة مهمة لاسنادها لعامل جديد",
 
   "Country": "Country",
-  "Select location on map": "Select location on map"
+  "Select location on map": "Select location on map",
+  "Search": "Search",
+  "INVOICE": "INVOICE",
+  "Billing Address": "Billing Address",
+  "Delivery No": "Delivery No",
+  "Shipping Address": "Shipping Address"
 
 }
 

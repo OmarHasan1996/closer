@@ -2,6 +2,7 @@
 import 'dart:io';
 
 //import 'package:admob_flutter/admob_flutter.dart';
+import 'package:closer/screens/order/orderRecipt.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +26,7 @@ import 'package:closer/screens/manage_task.dart';
 import 'package:closer/screens/orderID.dart';
 import 'package:closer/screens/register.dart';
 import 'package:closer/screens/signin.dart';
-import 'package:closer/screens/sub_service_screen.dart';
+import 'package:closer/screens/service/sub_service_screen.dart';
 import 'package:closer/screens/valid_code.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -126,7 +127,7 @@ class MyApp extends StatelessWidget {
           //locale: LocalizationService().getCurrentLocale(),
           //fallbackLocale: Locale('en', 'US'),
           navigatorKey: navigatorKey,
-          home: LoadingScreen(email: '',),
+          home: OrderRecipt(),//LoadingScreen(email: '',),
           routes: {
             'about': (context) => about(),
             'changeLang': (context) => ChangeLang(),
