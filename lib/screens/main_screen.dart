@@ -1743,7 +1743,7 @@ iOS: ca-app-pub-3940256099942544/1712485313
   }
 
   tasklist(ord, index) {
-    var serial;!worker? serial = ord['Serial'] : serial= ord['OrderService']['Order']['Serial'];
+    var serial=11;!worker? serial = ord['Serial']?? 1: serial= ord['OrderService']['Order']['Serial']??1;
     var taskName = ord['Name'];
     var Id;!worker? Id = ord['Servicess'][0]['OrderId'] : Id= ord['OrderService']['OrderId'];
     var workerName; !worker? workerName = ord['Amount'].toString(): workerName = ord['User']['Name'] + ' ' + ord['User']['LastName'];
@@ -2036,10 +2036,7 @@ iOS: ca-app-pub-3940256099942544/1712485313
     if(worker && isBoss){
       NewOrdersSupervisor = myOrders;
       try{
-        /*filter=UserId~eq~'$id'*/
-        //var url = Uri.parse("https://mr-service.online/Main/WorkerTask/WorkerTask_Read?filter=OrderService.Order.GroupId~eq~$groupId");
         var url = Uri.parse("https://mr-service.online/Main/WorkerTask/WorkerTask_Read?filter=OrderService.GroupId~eq~$groupId");
-        //var url = Uri.parse("https://mr-service.online/Main/WorkerTask/WorkerTask_Read?");
         http.Response response = await http.get(
           url, headers: {
           "Authorization": token,
@@ -2058,6 +2055,8 @@ iOS: ca-app-pub-3940256099942544/1712485313
           myOrders.clear();
         }
       }catch(e){
+        myOrders.clear();
+
         //myOrders.clear();
         //myOrders = transactions![0].myOrders;
       }

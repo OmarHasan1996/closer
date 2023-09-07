@@ -18,6 +18,9 @@ class _OrderReciptState extends State<OrderRecipt> {
   String _num = '57898';
   String _numDelivery = '57898';
   String _date = 'July 12 , 2021';
+  String _addressTitleBilling = '----';
+  String _addressPhoneBilling = '----';
+  String _addressNoteBilling = '----';
   String _addressTitle = 'ttt';
   String _addressPhone = '999';
   String _addressNote = '999';
@@ -51,9 +54,9 @@ class _OrderReciptState extends State<OrderRecipt> {
                     MyWidget(context).textBlack20(AppLocalizations.of(context)!.translate('Delivery No') + ': $_numDelivery', scale: 0.8),
                     Divider(color: AppColors.black, thickness: 1,),
                     MyWidget(context).textHead10(AppLocalizations.of(context)!.translate('Billing Address'), color: AppColors.black, scale: 0.4),
-                    MyWidget(context).textBlack20(_addressTitle, scale: 0.7, color: AppColors.gray),
-                    MyWidget(context).textBlack20(_addressPhone, scale: 0.7, color: AppColors.gray),
-                    MyWidget(context).textBlack20(_addressNote, scale: 0.7, color: AppColors.gray),
+                    MyWidget(context).textBlack20(_addressTitleBilling, scale: 0.7, color: AppColors.gray),
+                    MyWidget(context).textBlack20(_addressPhoneBilling, scale: 0.7, color: AppColors.gray),
+                    MyWidget(context).textBlack20(_addressNoteBilling, scale: 0.7, color: AppColors.gray),
                     Divider(color: AppColors.gray, thickness: 1,),
                     MyWidget(context).textHead10(AppLocalizations.of(context)!.translate('Shipping Address'), color: AppColors.black, scale: 0.4),
                     MyWidget(context).textBlack20(_addressTitle, scale: 0.7, color: AppColors.gray),
@@ -93,8 +96,8 @@ class _OrderReciptState extends State<OrderRecipt> {
                     ],
                   ),
                     Divider(color: AppColors.black, thickness: 1,),
-                    MyWidget(context).textHead10(AppLocalizations.of(context)!.translate('Billing Address'), color: AppColors.black, scale: 0.4),
-                    MyWidget(context).textBlack20(_addressTitle, scale: 0.7, color: AppColors.gray),
+                    MyWidget(context).textHead10(AppLocalizations.of(context)!.translate('Terms & Condition'), color: AppColors.black, scale: 0.4),
+                    MyWidget(context).textBlack20(AppLocalizations.of(context)!.translate('Terms & Condition desc'), scale: 0.7, color: AppColors.gray),
                   ],
                 ),
               ),

@@ -127,7 +127,7 @@ class MyApp extends StatelessWidget {
           //locale: LocalizationService().getCurrentLocale(),
           //fallbackLocale: Locale('en', 'US'),
           navigatorKey: navigatorKey,
-          home: OrderRecipt(),//LoadingScreen(email: '',),
+          home: LoadingScreen(email: '',),
           routes: {
             'about': (context) => about(),
             'changeLang': (context) => ChangeLang(),
@@ -136,7 +136,6 @@ class MyApp extends StatelessWidget {
             'register': (context) => Register(false),
             'main_screen': (context) => MainScreen(token: '',service: [], selectedIndex: 0,initialOrderTab: 0,),
             'val_code': (context) => Verification(value: '', email: '', password: '',),
-
           },
         );
       },
