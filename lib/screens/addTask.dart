@@ -976,7 +976,6 @@ class _AddTaskState extends State<AddTask> {
       try{
         /*filter=UserId~eq~'$id'*/
         var url = Uri.parse("$apiDomain/Main/WorkerTask/WorkerTask_Read?filter=OrderService.Order.GroupId~eq~$groupId");
-        //var url = Uri.parse("https://mr-service.online/Main/WorkerTask/WorkerTask_Read?");
         http.Response response = await http.get(
           url, headers: {
           "Authorization": token,

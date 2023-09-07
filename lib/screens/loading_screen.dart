@@ -72,9 +72,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
   Future getServiceData(tokenn) async {
     token = tokenn;
     print(tokenn);
-    //var url = Uri.parse('https://mr-service.online/Main/Services/Services_Read?filter=IsMain~eq~true');
     var url = Uri.parse('$apiDomain/Main/Services/Services_Read?filter=ServiceParentId~eq~null');
-    //var url = Uri.parse('https://mr-service.online/Main/Services/Services_Read?');
     http.Response response = await http.get(url, headers: {"Authorization": tokenn!,},);
     print(json.decode(response.body));
     if (response.statusCode == 200) {

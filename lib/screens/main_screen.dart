@@ -2010,8 +2010,6 @@ iOS: ca-app-pub-3940256099942544/1712485313
       !worker?
         url = Uri.parse("$apiDomain/Main/Orders/Orders_Read?filter=CustomerId~eq~'$id'")
           :isBoss?
-      //url = Uri.parse("https://mr-service.online/Main/Orders/Orders_Read?filter=GroupId~eq~$groupId"):
-      //url = Uri.parse("https://mr-service.online/Main/Orders/Orders_Read?filter=Servicess.Group.Id~eq~$groupId"):
       url = Uri.parse("$apiDomain/Main/Orders/Orders_Read?"):
       url = Uri.parse('');
       http.Response response = await http.get(
@@ -2036,7 +2034,7 @@ iOS: ca-app-pub-3940256099942544/1712485313
     if(worker && isBoss){
       NewOrdersSupervisor = myOrders;
       try{
-        var url = Uri.parse("https://mr-service.online/Main/WorkerTask/WorkerTask_Read?filter=OrderService.GroupId~eq~$groupId");
+        var url = Uri.parse("$apiDomain/Main/WorkerTask/WorkerTask_Read?filter=OrderService.GroupId~eq~$groupId");
         http.Response response = await http.get(
           url, headers: {
           "Authorization": token,
@@ -2064,11 +2062,7 @@ iOS: ca-app-pub-3940256099942544/1712485313
       NewOrdersSupervisor.clear();
       try{
         /*filter=UserId~eq~'$id'*/
-        //var url = Uri.parse("https://mr-service.online/Main/WorkerTask/WorkerTask_Read?filter=WorkerId~eq~'$id'");
-        //var url = Uri.parse("https://mr-service.online/Main/WorkerTask/WorkerTask_Read?filter=OrderService.Order.GroupId~eq~$groupId~and~WorkerId~eq~'$id'");
-        var url = Uri.parse("https://mr-service.online/Main/WorkerTask/WorkerTask_Read?filter=WorkerId~eq~'$id'");
-        //var url = Uri.parse("https://mr-service.online/Main/WorkerTask/WorkerTask_Read?");
-        //var url = Uri.parse("https://mr-service.online/Main/WorkerTask/WorkerTask_Read?filter=OrderService.Order.GroupId~eq~$groupId");
+        var url = Uri.parse("$apiDomain/Main/WorkerTask/WorkerTask_Read?filter=WorkerId~eq~'$id'");
         http.Response response = await http.get(url, headers: {
           "Authorization": token,
         },);
@@ -2260,8 +2254,6 @@ iOS: ca-app-pub-3940256099942544/1712485313
           "accept": "application/json",
         });
     print(jsonDecode(response.body));
-    //curl -X POST "https://mr-service.online/Main/SignUp/RequestResetPassword?UserEmail=www.osh.themyth%40gmail.com" -H "accept: */*"
-    //curl -X POST "https://mr-service.online/api/Auth/login" -H "accept: text/plain" -H "Content-Type: application/json-patch+json" -d "{\"UserName\":\"www.osh.themyth@gmail.com\",\"Password\":\"0938025347\"}"
     if (response.statusCode == 200) {
       print("we're good");
       //userData = jsonDecode(response.body);

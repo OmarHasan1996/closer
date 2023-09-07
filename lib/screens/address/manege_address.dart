@@ -37,36 +37,7 @@ class _MagageAddressScreenState extends State<MagageAddressScreen> {
   TextEditingController mailController = new TextEditingController();
   TextEditingController phoneController = new TextEditingController();
 
-  /*void getSubServiceDecData(var id) async {
-    // print(id);
-    var url =
-    Uri.parse('https://mr-service.online/Main/Services/Services_Read?filter=IsMain~eq~false~and~Id~eq~$id');
-
-    http.Response response = await http.get(url, headers: {
-      "Authorization": token,
-    });
-    if (response.statusCode == 200) {
-
-      var item = json.decode(response.body)["result"]['Data'];
-      setState(() {
-
-        subservicedec = item;
-        //print(subservicedec);
-      });
-
-      Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => SubServiceDec(token: token,subservicedec:subservicedec)));
-
-    } else {
-      setState(() {
-        subservicedec = [];
-      });
-    }
-
-
-  }*/
-  _MagageAddressScreenState(
+ _MagageAddressScreenState(
     this.token,
   );
 

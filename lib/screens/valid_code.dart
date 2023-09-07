@@ -261,7 +261,6 @@ class _VerificationState extends State<Verification> {
   }
 
   _newPasswordVer(String newPassword) async{
-    //curl -X POST "https://mr-service.online/Main/SignUp/ResetPassword?UserEmail=www.osh.themyth2%40gmail.com&code=160679&password=0938025347" -H "accept: */*"
     var apiUrl = Uri.parse('$apiDomain/Main/SignUp/ResetPassword?UserEmail=${email}&code=$code&password=$newPassword');
 
     print(apiUrl.toString());
@@ -309,7 +308,6 @@ class _VerificationState extends State<Verification> {
   }
 
   void _resend() async{
-   // curl -X POST "https://mr-service.online/Main/SignUp/ReSendVerificationCode?UserEmail=www.osh.themyth%40gmail.com" -H "accept: */*"
     var apiUrl = Uri.parse('$apiDomain/Main/SignUp/ReSendVerificationCode?UserEmail=$email');
     http.Response response = await http.post(apiUrl, headers: {
       "Accept-Language": trrrr.LocalizationService.getCurrentLocale().languageCode,

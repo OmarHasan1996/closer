@@ -450,8 +450,6 @@ class _SubServiceScreenState extends State<SubServiceScreen> {
   getSubServiceData(var id) async {
     try{
       var url = Uri.parse('$apiDomain/Main/Services/Services_Read?filter=ServiceParentId~eq~$id');
-      //var url = Uri.parse('https://mr-service.online/Main/Services/Services_Read?');
-      //var url = Uri.parse('https://mr-service.online/Main/Services/Services_Read?filter=IsMain~eq~false~and~ServiceParentId~eq~$id');
       http.Response response = await http.get(
         url,
         headers: {

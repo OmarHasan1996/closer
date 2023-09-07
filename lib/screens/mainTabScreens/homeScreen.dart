@@ -172,7 +172,6 @@ class _HomeScreenState extends State<HomeScreen> {
   Future _getServiceData(tokenn) async {
     //token = tokenn;
     print(tokenn);
-    //var url = Uri.parse('https://mr-service.online/Main/Services/Services_Read?filter=IsMain~eq~true');
     var url = Uri.parse('$apiDomain/Main/Services/Services_Read?filter=ServiceParentId~eq~null');
     http.Response response = await http.get(url, headers: {"Authorization": tokenn!,},);
     if (response.statusCode == 200) {
@@ -192,11 +191,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void getSubServiceData(var id, {String? search}) async {
     try{
-      //var url = Uri.parse('https://mr-service.online/Main/Services/Services_Read?');
       var url = Uri.parse('$apiDomain/Main/Services/Services_Read?filter=ServiceParentId~eq~$id');
       if(search != null)
         url = Uri.parse('$apiDomain/Main/Services/Services_Read?');
-      //var url = Uri.parse('https://mr-service.online/Main/Services/Services_Read?filter=IsMain~eq~false~and~ServiceParentId~eq~$id');
       http.Response response = await http.get(
         url,
         headers: {

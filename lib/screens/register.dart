@@ -324,65 +324,7 @@ class _RegisterState extends State<Register> {
     });
     print(response.statusCode);
     print(response.body);
-/*
-    if (response.statusCode == 200) {
-      print(response.body);
-/*      try {
-        if (jsonDecode(response.body)["Data"][0]['txtParam'].toString() ==
-            code) {
 
-          http.Response response = await http.post(
-              Uri.parse('https://mr-service.online/api/Auth/login'),
-              body: jsonEncode({"UserName": email, "Password": password}),
-              headers: {
-                "Accept": "application/json",
-                "content-type": "application/json",
-              });
-          if (response.statusCode == 200) {
-            print(response.body);
-            setState(() {
-              if (jsonDecode(response.body)['error_des'] == "") {
-               var tokenn =
-                    jsonDecode(response.body)["content"]["Token"].toString();
-                getServiceData(tokenn);
-
-              }
-            });
-          }
-
-
-
-
-        }
-      } catch (e) {
-        if (jsonDecode(response.body)['success'].toString() == "false") {
-          setState(() => chVer = false);
-
-          Flushbar(
-            icon: Icon(
-              Icons.error_outline,
-              size: 32,
-              color: Colors.white,
-            ),
-            duration: Duration(seconds: 3),
-            shouldIconPulse: false,
-            flushbarPosition: FlushbarPosition.TOP,
-            borderRadius: BorderRadius.all(Radius.circular(16)),
-            backgroundColor: Colors.grey.withOpacity(0.5),
-            barBlur: 20,
-            message: 'Wrong Code'.tr,
-          ).show(context);
-        }
-      }*/
-      // Navigator.of(context).pushNamed('sign_in');
-      Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder:(context)=>SignIn()));
-    } else {
-      //Navigator.of(context).pushNamed('main_screen');
-      print(response.statusCode);
-      print('A network error occurred');
-    }
-*/
   }
 
   signIn(String email, String password) async {
@@ -453,9 +395,7 @@ class _RegisterState extends State<Register> {
   List service = [];
 
   void getServiceData() async {
-    //var url = Uri.parse('https://mr-service.online/Main/Services/Services_Read?filter=IsMain~eq~true');
     var url = Uri.parse('$apiDomain/Main/Services/Services_Read?filter=ServiceParentId~eq~null');
-    //var url = Uri.parse('https://mr-service.online/Main/Services/Services_Read?');
     http.Response response = await http.get(url, headers: {
       "Authorization": token,
     });

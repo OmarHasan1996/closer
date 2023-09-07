@@ -33,25 +33,6 @@ import 'package:closer/localizations.dart';
 import 'package:closer/localization_service.dart' as trrrr;
 
 class APIService {
-  /*Future <LoginResponseModel> loginOld (LoginRequestModel loginRequestModel)async{
-   // var url = Uri.parse('https://mr-service.online/api/Auth/login');
-   // final response = await http.post(url,body:loginRequestModel.toJson() );
-    http.Response response = await http.post(
-        Uri.parse('https://mr-service.online/api/Auth/login'),
-        body:
-        jsonEncode(loginRequestModel),
-        headers: {
-          "Accept": "application/json",
-          "content-type": "application/json",
-        });
-    if(response.statusCode == 200 || response.statusCode == 400){
-      return LoginResponseModel.fromJson(json.decode(response.body));
-    }
-    else{
-      print(response.statusCode);
-      throw Exception('Failed to load data');
-    }
-  }*/
 
   static MyFirebase myFirebase = new MyFirebase();
   BuildContext? context;
@@ -245,19 +226,6 @@ class APIService {
   }
 
   uploadOrderWithAttach(id,insertDateTime,value3,orderDateTime,token) async {
-    /*Dio dio = new Dio();
-    String uploadurl = "https://mr-service.online/Main/Orders/Orders_CreateWithAttachs";
-    //dont use http://localhost , because emulator don't get that address
-    //insted use your local IP address or use live URL
-    //hit "ipconfig" in windows or "ip a" in linux to get you local IP
-    //dio.options.baseUrl = 'https://mr-service.online/Main';
-    dio.options.connectTimeout = 5000000; //5000s
-    dio.options.receiveTimeout = 5000000;
-    dio.options.headers = {
-      "Accept": "application/json",
-      "content-type": "application/json",
-      "Authorization": token,
-    };*/
     var apiUrl = Uri.parse('$apiDomain/Main/Orders/Orders_CreateWithAttachs?');
     var request = http.MultipartRequest("POST", apiUrl);
     var amount = 0.0;
@@ -464,78 +432,7 @@ class APIService {
 
   }
 
-  /*uploadOrderWithAttachNew(id,insertDateTime,value3,orderDateTime,token) async {
-    var amount = 0.0;
-    List<Map<String, dynamic>> serviceTmp = [];
-    for (int i = 0; i < order.length; i++) {
-      var attach;
-      List<Map<String, dynamic>> serviceAttach = [];
-      try{
-        var file = order[i][0][0]['Service']['File'];
-        String base64Image = base64Encode(file.readAsBytesSync());
-        String fileName = file.path.split("/").last;
-        attach = 'ok';
-        for (int j=0; j<1; j++){
-          serviceAttach.add({
-            "FilePath": fileName,
-            "File": base64Image,
-            "AttNotes": "AttNotes",
-            "AttId": "$id",
-          });
-        }
-      }catch(e){
-        attach = null;
-      }
-      amount += (order[i][0][0]['Price']) * int.parse(order[i][1]);
-      serviceTmp.add({
-        "ServiceId": order[i][0][0]['Id'],
-        "Price": order[i][0][0]['Price'],
-        "Quantity": int.parse(order[i][1]),
-        "ServiceNotes": order[i][0][1]["Notes"],
-        "OrderServiceAttatchs": attach == null?'' :  serviceAttach,
-      });
-    }
-
-    Map mapDate = {
-      "CustomerId": "$id",
-      "Amount": amount,
-      "InsertDate": insertDateTime,
-      "Status": 1,
-      "PayType": 1,
-      "AddressId": value3,
-      "OrderDate": orderDateTime,
-      "Notes": "string",
-      "OrderServices": serviceTmp
-    };
-    print(jsonEncode(mapDate));
-    print(token);
-    var apiUrl = Uri.parse('https://mr-service.online/Main/Orders/Orders_CreateWithAttachs?');
-
-    http.Response response = await http.post(apiUrl, body: jsonEncode(mapDate), headers: {
-      "Accept": "application/json",
-      "content-type": "application/json",
-      "Authorization": token,
-    });
-    print(response.statusCode);
-    if (response.statusCode == 200) {
-      //Get the response from the server
-      print(response.body);
-      try{
-        if (jsonDecode(response.body)['Errors'] == null || jsonDecode(response.body)['Errors'] == ''){
-          print('success');
-          return true;
-        }else{
-          flushBar(jsonDecode(response.body)['Errors']);
-          return false;
-        }
-      }catch(e){
-        return true;
-      }
-    } else {
-      return false;
-    }
-  }*/
-  //{CustomerId: 90e73cdd-7e7e-4207-9901-08d9a4f69d2a, Amount: 300.0, InsertDate: 2021-12-08T01:29:45.045Z, Status: 1, PayType: 1, AddressId: 66b576f9-d44b-4565-b9e3-08d9a4f82388, OrderDate: 2021-12-08T13:29:00.000Z, Notes: string, OrderServices: [{ServiceId: 18, Price: 300.0, Quantity: 1, ServiceNotes: , OrderServiceAttatchs: }]}
+ //{CustomerId: 90e73cdd-7e7e-4207-9901-08d9a4f69d2a, Amount: 300.0, InsertDate: 2021-12-08T01:29:45.045Z, Status: 1, PayType: 1, AddressId: 66b576f9-d44b-4565-b9e3-08d9a4f82388, OrderDate: 2021-12-08T13:29:00.000Z, Notes: string, OrderServices: [{ServiceId: 18, Price: 300.0, Quantity: 1, ServiceNotes: , OrderServiceAttatchs: }]}
   //{CustomerId: 90e73cdd-7e7e-4207-9901-08d9a4f69d2a, Amount: 300.0, InsertDate: 2021-12-08T01:31:02.002Z, Status: 1, PayType: 1, AddressId: 66b576f9-d44b-4565-b9e3-08d9a4f82388, OrderDate: 2021-12-08T13:29:00.000Z, Notes: string, OrderServices[0][ServiceId]: 18, OrderServices[0][Price]: 300.0, OrderServices[0][Quantity]: 1, OrderServices[0][ServiceNotes]: , OrderServices[0][OrderServiceAttatchs]: }
   uploadOrderWithoutAttach(id,insertDateTime,value3,orderDateTime,token) async {
     var apiUrl = Uri.parse('$apiDomain/Main/Orders/Orders_CreateWithAttachs?');
@@ -638,29 +535,7 @@ class APIService {
     var responseString = String.fromCharCodes(responseData);
     print(responseString);
 
-/*
-    var apiUrl = Uri.parse('https://mr-service.online/Main/Orders/Orders_CreateWithAttachs?');
-    Map mapDate = {
-      "CustomerId": "$id",
-      "Amount": amount,
-      "InsertDate": insertDateTime,
-      "Status": 1,
-      "PayType": 1,
-      "AddressId": value3,
-      "OrderDate": orderDateTime,
-      //"GroupId": 1,
-      "Notes": "string",
-      "OrderServices": serviceTmp
-    };
-    http.Response response = await http.post(apiUrl,
-        body: jsonEncode(mapDate,
-      toEncodable: (dynamic object) => (object is MultipartFile) ? object: object.toJson(),),
-        headers: {
-      "Accept": "application/json",
-      "content-type": "application/json",
-      "Authorization": token,
-    });
-    return response;*/
+
   }
 
   updateOrder(token, _order, status, payType, selectedDate, selectedTime)async{
@@ -925,15 +800,12 @@ class APIService {
   getGroupUsers(var id) async {
     try{
       var url = Uri.parse("$apiDomain/Main/GroupUsers/GroupUsers_Read?filter=GroupId~eq~$id");
-      //var url = Uri.parse("https://mr-service.online/Main/GroupUsers/GroupUsers_Read?");
       http.Response response = await http.get(url,
         headers: {
           "Authorization": token,
         },
       );
-      //print(json.decode(response.body));
       if (response.statusCode == 200) {
-        //print(json.decode(response.body));
         var item = json.decode(response.body)['Data'];
         print(item);
         /*for(int i = 0; i<item.length; i++){
