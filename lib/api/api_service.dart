@@ -38,6 +38,85 @@ class APIService {
   BuildContext? context;
   APIService({this.context});
 
+  static Future getMyOrders(var id) async {
+    try{
+      var url;
+      !worker?
+      url = Uri.parse("$apiDomain/Main/Orders/Orders_Read?filter=CustomerId~eq~'$id'")
+          :isBoss?
+      url = Uri.parse("$apiDomain/Main/Orders/Orders_Read?"):
+      url = Uri.parse('');
+      http.Response response = await http.get(
+        url, headers: {"Authorization": token,},
+      );
+      print(jsonDecode(response.body));
+      if (response.statusCode == 200) {
+        print("getOrderders success");
+        myOrders = await jsonDecode(response.body);
+        editTransactionMyOrders(transactions![0], myOrders);
+        //print(myOrders);
+        //print("****************************");
+        //print(jsonDecode(response.body));
+      }
+      else{
+        myOrders.clear();
+      }
+    }catch(e){
+      //myOrders = transactions![0].myOrders;
+    }
+    print('here');
+    if(worker && isBoss){
+      NewOrdersSupervisor = myOrders;
+      try{
+        var url = Uri.parse("$apiDomain/Main/WorkerTask/WorkerTask_Read?filter=OrderService.GroupId~eq~$groupId");
+        http.Response response = await http.get(
+          url, headers: {
+          "Authorization": token,
+        },);
+        print(jsonDecode(response.body));
+        if (response.statusCode == 200) {
+          print("getOrderders success");
+          myOrders = await jsonDecode(response.body);
+          editTransactionMyOrders(transactions![0], myOrders);
+          print(jsonDecode(response.body));
+          //print(myOrders);
+          //print("****************************");
+          //print(jsonDecode(response.body));
+        }
+        else{
+          myOrders.clear();
+        }
+      }catch(e){
+        myOrders.clear();
+
+        //myOrders.clear();
+        //myOrders = transactions![0].myOrders;
+      }
+    }else if(worker && !isBoss){
+      NewOrdersSupervisor.clear();
+      try{
+        /*filter=UserId~eq~'$id'*/
+        var url = Uri.parse("$apiDomain/Main/WorkerTask/WorkerTask_Read?filter=WorkerId~eq~'$id'");
+        http.Response response = await http.get(url, headers: {
+          "Authorization": token,
+        },);
+        print(jsonDecode(response.body));
+        if (response.statusCode == 200) {
+          print("getOrderders success");
+          myOrders = await jsonDecode(response.body);
+          editTransactionMyOrders(transactions![0], myOrders);
+          //print(myOrders);
+          //print("****************************");
+          //print(jsonDecode(response.body));
+        }
+      }catch(e){
+        myOrders.clear();
+        //myOrders = transactions![0].myOrders;
+      }
+    }
+
+  }
+
   static dialogBuilder(text) {
     if (navigatorKey.currentContext != null) {
       return showDialog<void>(
@@ -183,6 +262,29 @@ class APIService {
       chLogIn = false;
     }
     return null;
+  }
+
+  static getAddress(var id) async {
+    try{
+      var url = Uri.parse(
+          "$apiDomain/Main/ProfileAddress/ProfileAddress_Read?filter=UserId~eq~'$id'");
+      http.Response response = await http.get(
+        url,
+        headers: {
+          "Authorization": token,
+        },
+      );
+      if (response.statusCode == 200) {
+        var item = json.decode(response.body)["result"]['Data'];
+
+            Address = item;
+      } else {
+        print(response.statusCode);
+            Address = [];
+      }
+    }catch(e){
+      Address = transactions![0].Address;
+    }
   }
 
   userLang(langNum , id) async{

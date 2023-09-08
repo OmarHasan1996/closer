@@ -6,6 +6,7 @@ import 'package:closer/constant/font_size.dart';
 import 'package:closer/color/MyColors.dart';
 import 'package:closer/constant/functions.dart';
 import 'package:closer/main.dart';
+import 'package:closer/screens/Payment.dart';
 import 'package:flutter/material.dart';
 import 'package:closer/api/api_service.dart';
 import 'package:closer/color/MyColors.dart';
@@ -24,6 +25,364 @@ class MyWidget{
     _padButtonV = min(MediaQuery.of(context).size.height / 80, MediaQuery.of(context).size.width / 25);
   }
 
+  static myOrderlist(ord, index, Function() setState, chCircle,) {
+    var serial;!worker? serial = ord['Serial'] : serial= ord['OrderService']['Order']['Serial'];
+    var Id;!worker? Id = ord['Servicess'][0]['OrderId'] : Id= ord['OrderService']['OrderId'];
+    var amount; !worker? amount = ord['Amount'].toString(): amount = ord['OrderService']['Order']['Amount'];
+    var date; !worker? date = ord['OrderDate']:date = ord['OrderService']['Order']['OrderDate'];
+    var addressArea; !worker? addressArea = ord['Address']['Title']??'':addressArea = ord['OrderService']['Order']['Address']['Title']??'';
+    var addressCity; !worker? addressCity = ord['Address']['Title']??'': addressCity = ord['OrderService']['Order']['Address']['Title']??'';
+    var statusCode; !worker? statusCode = ord['Status'].toString():statusCode = ord['Status'].toString();
+    amount = amount.toString() +" \.${AppLocalizations.of(navigatorKey.currentContext!)!.translate('TRY')} ";
+    //statusCode = '2';
+    String status = "";
+    Color statusColor = Colors.grey;
+    switch (statusCode) {
+      case "8":
+        {
+          //return SizedBox(height: 0.001,);
+          status = AppLocalizations.of(navigatorKey.currentContext!)!.translate("finished");
+          statusColor = Colors.grey;
+        }
+        break;
+      case "7":
+        {
+          //return SizedBox(height: 0.001,);
+          status = AppLocalizations.of(navigatorKey.currentContext!)!.translate("Pending");
+          statusColor = Colors.grey;
+        }
+        break;
+      case "6":
+        {
+          //return SizedBox(height: 0.001,);
+          status = AppLocalizations.of(navigatorKey.currentContext!)!.translate("payed");
+          statusColor = AppColors.green;
+        }
+        break;
+      case "5":
+        {
+          status = AppLocalizations.of(navigatorKey.currentContext!)!.translate("Rejected");
+          statusColor = AppColors.red;
+        }
+        break;
+      case "4":
+        {
+          status = AppLocalizations.of(navigatorKey.currentContext!)!.translate("Pending");
+          statusColor = AppColors.blue;
+        }
+        break;
+      case "3":
+        {
+          status = AppLocalizations.of(navigatorKey.currentContext!)!.translate("Change Date");
+          statusColor = AppColors.blue;
+        }
+        break;
+      case "2":
+        {
+          if(!worker){
+            status = AppLocalizations.of(navigatorKey.currentContext!)!.translate("Accepted");
+            statusColor = AppColors.yellow;
+          }else{
+            status = AppLocalizations.of(navigatorKey.currentContext!)!.translate("finished");
+            statusColor = AppColors.blue;
+          }
+        }
+        break;
+      case "1":
+        {
+          status = AppLocalizations.of(navigatorKey.currentContext!)!.translate("Pending");
+          statusColor = Colors.grey;
+        }
+        break;
+      default:
+        {
+          status = AppLocalizations.of(navigatorKey.currentContext!)!.translate("Pending");
+          statusColor = Colors.grey;
+        }
+        break;
+    }
+    void _goToPay(i) {
+      Navigator.push(navigatorKey.currentContext!,
+          MaterialPageRoute(builder: (context) => Payment(ord, token))).then((_) {setState;});
+    }
+
+    String address = addressCity + " / " + addressArea;
+    clickCardButton() async {
+      switch (statusCode) {
+        case "6":
+          {}
+          break;
+        case "5":
+          {
+            bool _suc = await APIService(context: navigatorKey.currentContext).destroyOrder(Id);
+            if (_suc){
+              setState;
+              APIService.flushBar(AppLocalizations.of(navigatorKey.currentContext!)!.translate('Order Destroy'));
+             // Timer(Duration(seconds:1), ()=>setState(() {}));
+              setState;
+            }
+          }
+          break;
+        case "4":
+          {
+
+          }
+          break;
+        case "3":
+          {
+
+          }
+          break;
+        case "2":
+          {
+            _goToPay(index-1);
+          }
+          break;
+        case "1":
+          {}
+          break;
+        default:
+          {}
+          break;
+      }
+    }
+
+    cardButton(statusCode, color, id, index) {
+      if(worker)
+        return SizedBox(
+          width: 0.1,
+        );
+      var apiUrl;
+      Map? mapDate;
+      String text = '';
+      switch (statusCode) {
+        case "6":
+          {
+            text = AppLocalizations.of(navigatorKey.currentContext!)!.translate("payed");
+            return SizedBox(
+              width: 0.1,
+            );
+          }
+          break;
+        case "5":
+          {
+            text = AppLocalizations.of(navigatorKey.currentContext!)!.translate("Destroy");
+          }
+          break;
+        case "4":
+          {
+            text = AppLocalizations.of(navigatorKey.currentContext!)!.translate("Pending");
+            return SizedBox(
+              width: 0.1,
+            );
+          }
+          break;
+        case "3":
+          {
+            text = AppLocalizations.of(navigatorKey.currentContext!)!.translate("Update");
+            return SizedBox(
+              width: 0.1,
+            );
+          }
+          break;
+        case "2":
+          {
+            text = AppLocalizations.of(navigatorKey.currentContext!)!.translate("go to pay");
+          }
+          break;
+        case "1":
+          {
+            text = AppLocalizations.of(navigatorKey.currentContext!)!.translate("Pending");
+            return SizedBox(
+              width: 0.1,
+            );
+          }
+          break;
+        default:
+          {
+            text = AppLocalizations.of(navigatorKey.currentContext!)!.translate("Pending");
+            return SizedBox(
+              width: 0.1,
+            );
+          }
+          break;
+      }
+      return Container(
+        //width: MediaQuery.of(context).size.width / 4,
+        // ignore: deprecated_member_use
+        //padding: EdgeInsets.only(top: MediaQuery.of(context).size.height/5),
+        //height: double.infinity,
+        alignment: Alignment.bottomCenter,
+        child: MyWidget(navigatorKey.currentContext!).raisedButton(text, () => clickCardButton,  AppWidth.w28, chCircle, buttonText: color, colorText: Colors.grey, roundBorder:  AppHeight.h2, padV: AppHeight.h2),
+      );
+    }
+    orderCard(index, statusColor, status, addressArea, amount,String date, statusCode, Id, serial, {String? taskName}) {
+      return Padding(
+        padding: EdgeInsets.symmetric(
+            vertical: MediaQuery.of(navigatorKey.currentContext!).size.height / 200,
+            horizontal: MediaQuery.of(navigatorKey.currentContext!).size.width / 40),
+        child: Card(
+            shape: RoundedRectangleBorder(
+              borderRadius:
+              BorderRadius.circular(AppHeight.h2),
+              side: BorderSide(
+                color: statusColor,
+                width: 2.0,
+              ),
+            ),
+            child: Stack(
+              children: [
+                Align(
+                  alignment: Alignment.center,
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: AppWidth.w2),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            MyWidget(navigatorKey.currentContext!).textBlack20(taskName ?? AppLocalizations.of(navigatorKey.currentContext!)!.translate('Order Id: ') + serial.toString(), scale: 0.85),
+                            SizedBox(
+                              width: AppWidth.w1,
+                              //child: Text(),
+                            ),
+                            Container(
+                              alignment: Alignment.centerRight,
+                              width: MediaQuery.of(navigatorKey.currentContext!).size.width * 0.5,
+                              height: MediaQuery.of(navigatorKey.currentContext!).size.height / 10,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  const Expanded(
+                                    flex: 1,
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                      children: [Text("")],
+                                    ),
+                                  ),
+                                  Expanded(
+                                    flex: 1,
+                                    child: status != null? GestureDetector(
+                                      onTap: () {},
+                                      child:
+                                      MyWidget(navigatorKey.currentContext!).textBlack20(status, scale: 0.85, color: statusColor),
+                                      /*Icon(
+                                Icons.close_outlined,
+                                size: MediaQuery.of(context).size.width / 18,
+                                color: Colors.grey,
+                              ),*/
+                                    ):SizedBox(height: 0,),//IconButton(onPressed: () => rejectOrder(), icon: Icon(Icons.delete_forever_outlined)),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            MyWidget(navigatorKey.currentContext!).textGrayk28(addressArea, color: Colors.grey)
+                          ],
+                        ),
+                        SizedBox(
+                          height: MediaQuery.of(navigatorKey.currentContext!).size.height / 80,
+                        ),
+                        Divider(
+                          color: Colors.grey[900],
+                          height: 1,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            MyWidget(navigatorKey.currentContext!).textBlack20(amount.toString(), scale: 0.85),
+                            /* SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.01,
+                            //child: Text(),
+                          ),*/
+                            Container(
+                                alignment: Alignment.centerRight,
+                                //width: MediaQuery.of(context).size.width * 0.5,
+                                height: AppHeight.h10,
+                                child:
+                                MyWidget(navigatorKey.currentContext!).textBlack20(DateTime.parse(date.replaceAll('T', ' ')).add(-timeDiff).toString().split(' ')[0], scale: 0.85)
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: cardButton(statusCode, statusColor, Id, index),
+                ),
+              ],
+            )),
+      );
+    }
+    return orderCard(index, statusColor, status, addressArea, amount, date, statusCode, Id, serial);
+  }
+
+  static textHeader(text) {
+    return Text(
+      text,
+      style: TextStyle(
+        color: Colors.grey,
+        fontSize: AppWidth.w4,
+        fontWeight: FontWeight.normal,
+      ),
+    );
+  }
+
+  static text(text) {
+    return Padding(padding: EdgeInsets.symmetric(vertical: AppHeight.h2/10),
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Text(
+          text,
+          style: TextStyle(
+            color: AppColors.black,
+            fontSize: AppWidth.w5,
+            fontWeight: FontWeight.normal,
+          ),
+        ),
+      )
+      ,);
+  }
+
+  static card(widget) {
+    return Container(
+      margin: EdgeInsets.symmetric(
+          vertical: AppHeight.h2/10,
+          horizontal: AppWidth.w2
+      ),
+      //alignment: Alignment.l,
+      width: AppWidth.w80,
+      //height: MediaQuery.of(context).size.height / 7,
+      decoration: BoxDecoration(
+        color: AppColors.white,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.5),
+            spreadRadius: 2,
+            blurRadius: 3,
+            offset: Offset(0, 1), // changes position of shadow
+          ),
+        ],
+        borderRadius: BorderRadius.all(
+            Radius.circular(AppHeight.h2/1.5)),
+      ),
+      child: Padding(
+        padding: EdgeInsets.symmetric(
+          horizontal: AppWidth.w5,
+          vertical: AppHeight.h2/1.5,
+        ),
+        child: widget,
+      ),
+    );
+  }
   static loadBannerAdd(){
     return SizedBox();
     /*bannerSize = AdmobBannerSize.ADAPTIVE_BANNER(
@@ -48,12 +407,12 @@ class MyWidget{
   }
 
   static jumbingDotes(bool loading){
-    if(loading)
+    if(loading) {
       return JumpingDotsProgressIndicator(
         fontSize: 40.0,
         numberOfDots:7,
       );
-    else
+    } else
       return SizedBox();
   }
 
@@ -490,20 +849,20 @@ class MyWidget{
     );
   }
 
-  Padding tasklist(_task,scale,setState()) {
-    var Id = _task[0]['Service']['Id'];
-    var name = _task[0]['TaskName'];
-    var imagepath = 'https://controlpanel.mr-service.online' + _task[0]['Service']['Service']['ImagePath'];
-    var price = _task[0]['Description'].toString();
-    var _workersName = '';
-    for(int i = 0; i<_task[0]['Workers'].length; i++){
-      if(_workersName != '')
-        _workersName = _workersName + ' , ' + _task[0]['Workers'][i][0]['Name'];
+  Padding tasklist(task,scale,setState()) {
+    var Id = task[0]['Service']['Id'];
+    var name = task[0]['TaskName'];
+    var imagepath = 'https://controlpanel.mr-service.online' + task[0]['Service']['Service']['ImagePath'];
+    var price = task[0]['Description'].toString();
+    var workersName0 = '';
+    for(int i = 0; i<task[0]['Workers'].length; i++){
+      if(workersName0 != '')
+        workersName0 = workersName0 + ' , ' + task[0]['Workers'][i][0]['Name'];
       else
-        _workersName = _workersName + ' ' + _task[0]['Workers'][i][0]['Name'];
+        workersName0 = workersName0 + ' ' + task[0]['Workers'][i][0]['Name'];
     }
     var workersName = textButton30(
-      _workersName,
+      workersName0,
     );
     return Padding(
       padding: EdgeInsets.symmetric(
@@ -570,12 +929,12 @@ class MyWidget{
                       child: GestureDetector(
                         onTap: () async{
                           bool upload = false;
-                          for(int i=0; i<_task[0]['Workers'].length; i++){
-                            upload = await APIService(context: context).createWorkerTask(_task[0]['OrderId'], _task[0]['Workers'][i][0]['Id'], _task[0]['Service']['Id'], _task[0]['Description'], _task[0]['StartDate'],' endDate', 'workerNotes', token, _task[0]['Workers'][i][0]['fcmToken'] ,name);
+                          for(int i=0; i<task[0]['Workers'].length; i++){
+                            upload = await APIService(context: context).createWorkerTask(task[0]['OrderId'], task[0]['Workers'][i][0]['Id'], task[0]['Service']['Id'], task[0]['Description'], task[0]['StartDate'],' endDate', 'workerNotes', token, task[0]['Workers'][i][0]['fcmToken'] ,name);
                           }
                           if(upload) {
-                            deleteTask(task, Id, _task[0]['Workers'], name);
-                            flushBar(name +  AppLocalizations.of(context)!.translate('has been added to') + _workersName);
+                            deleteTask(task, Id, task[0]['Workers'], name);
+                            flushBar(name +  AppLocalizations.of(context)!.translate('has been added to') + workersName0);
                             setState();
                           }
                         },
@@ -593,7 +952,7 @@ class MyWidget{
                       flex: 1,
                       child: GestureDetector(
                         onTap: () {
-                          deleteTask(task, Id, _task[0]['Workers'], name);
+                          deleteTask(task, Id, task[0]['Workers'], name);
                           //editTransactionOrder(transactions![0], order);
                           setState();
                         },
@@ -621,7 +980,7 @@ class MyWidget{
     );
   }
 
-  appBarTittle(barHight,_key, {bool? newOrder}){
+  appBarTittle(barHight,key, {bool? newOrder}){
     barHight = barHight * 0.95;
     newOrder ??= false;
     bool empty = order.isEmpty;
@@ -803,7 +1162,7 @@ class MyWidget{
      password??= false;
      obscureText??= false;
      passwordText??= '';
-    var _borderRad= min(MediaQuery.of(context).size.height / 12, MediaQuery.of(context).size.width / 5.2);
+    var borderRad= min(MediaQuery.of(context).size.height / 12, MediaQuery.of(context).size.width / 5.2);
     return Container(
       alignment: Alignment.centerLeft,
       height: MediaQuery.of(context).size.height / 10,
@@ -844,24 +1203,24 @@ class MyWidget{
           ),
           enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(
-                  _borderRad),
+                  borderRad),
               borderSide:
               BorderSide(color: Colors.grey, width: 2)),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(
-                _borderRad),
+                borderRad),
             borderSide:
             BorderSide(color: Colors.grey, width: 2),
           ),
           errorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(
-                _borderRad),
+                borderRad),
             borderSide:
             BorderSide(color: Colors.red, width: 2),
           ),
           focusedErrorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(
-                _borderRad),
+                borderRad),
             borderSide:
             BorderSide(color: Colors.red, width: 2),
           ),
@@ -892,24 +1251,24 @@ class MyWidget{
           ),
           enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(
-                  _borderRad),
+                  borderRad),
               borderSide:
               BorderSide(color: Colors.grey, width: 2)),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(
-                _borderRad),
+                borderRad),
             borderSide:
             BorderSide(color: Colors.grey, width: 2),
           ),
           errorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(
-                _borderRad),
+                borderRad),
             borderSide:
             BorderSide(color: Colors.red, width: 2),
           ),
           focusedErrorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(
-                _borderRad),
+                borderRad),
             borderSide:
             BorderSide(color: Colors.red, width: 2),
           ),
