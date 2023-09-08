@@ -1,18 +1,20 @@
 import 'dart:convert';
 
+import 'package:closer/constant/app_size.dart';
+import 'package:closer/constant/font_size.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:closer/api/api_service.dart';
 import 'package:closer/color/MyColors.dart';
 import 'package:closer/const.dart';
 import 'package:closer/localizations.dart';
-import 'package:closer/screens/manage_task.dart';
+import 'package:closer/screens/superVisior/manage_task.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:closer/MyWidget.dart';
-import 'loading_screen.dart';
-import 'main_screen.dart';
+import '../loading_screen.dart';
+import '../main_screen.dart';
 // ignore: must_be_immutable
 class OrderId extends StatefulWidget {
   String token;
@@ -70,15 +72,15 @@ class _OrderIdState extends State<OrderId> {
     _orderDate= date.split(" ")[0];
     _orderTime  = date.split(" ")[1].toString().split('.')[0];
     //selectedTime = TimeOfDay.now();
-    var addressArea = ord['Address']['Area']['Name'];
-    var addressCity = ord['Address']['Area']['City']['Name'];
+    var addressArea = ord['Address']['Title']??'';
+    //var addressCity = ord['Address']['Area']['City']['Name'];
     var addressNotes = ord['Address']['notes'];
     var addressBuilding = ord['Address']['building'];
     var addressFloor = ord['Address']['floor'];
     var addressAppartment = ord['Address']['appartment'];
     var statusCode = ord['Status'].toString();
     _name = ord['User']['Name']+' '+ord['User']['LastName'];
-    _location = addressArea + " / " + addressCity + " / " + addressNotes +
+    _location = addressArea + " / " + /*addressCity + " / " + */  addressNotes +
         " / " + addressBuilding + " / " + addressFloor + " / " + addressAppartment;
     _phone = ord['User']['Mobile'];
     _orderDetails = ord['Notes'];
@@ -108,22 +110,7 @@ class _OrderIdState extends State<OrderId> {
         child: Scaffold(
           key: _key,
           resizeToAvoidBottomInset: true,
-          appBar: new AppBar(
-            toolbarHeight: barHight,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.only(
-                  bottomRight: Radius.circular(MediaQuery.of(context).size.height / 80 * 3),
-                  bottomLeft: Radius.circular(MediaQuery.of(context).size.height / 80 * 3)),
-            ),
-            backgroundColor: AppColors.blue,
-            title: MyWidget(context).appBarTittle(barHight, _key),
-            actions: [
-              new IconButton(
-                icon: new Icon(Icons.keyboard_backspace_outlined),
-                onPressed: () => Navigator.of(context).pop(),
-              )
-            ],
-          ),
+          appBar: MyWidget.appBar(title: AppLocalizations.of(context)!.translate('Order Id: ') +'$id', withoutCart: true),
           endDrawer: MyWidget(context).drawer(barHight, MediaQuery.of(context).size.height / 80 * 3, ()=>_setState()),
           backgroundColor: Colors.grey[100],
           body: SingleChildScrollView(
@@ -138,23 +125,12 @@ class _OrderIdState extends State<OrderId> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/25),
-                      child: Text(
-                        AppLocalizations.of(context)!.translate('Order Id: ') +'$id',
-                        style: TextStyle(
-                          color: AppColors.black,
-                          fontSize: MediaQuery.of(context).size.width / 12,
-                          fontWeight: FontWeight.normal,
-                        ),
-                      ),
-                    ),
                     SizedBox(
-                      height: MediaQuery.of(context).size.height / 180,
+                      height: AppHeight.h1,
                     ),
                     Container(
                       width: MediaQuery.of(context).size.width / 1.2,
-                      height: MediaQuery.of(context).size.height *(0.7*0.95),
+                      height: MediaQuery.of(context).size.height *(0.75),
                       decoration: BoxDecoration(
                         color: AppColors.white,
                         boxShadow: [BoxShadow(
@@ -242,7 +218,7 @@ class _OrderIdState extends State<OrderId> {
                               ),
                             ),
                             SizedBox(height: MediaQuery.of(context).size.height/80,),
-                            MyWidget(context).raisedButton(AppLocalizations.of(context)!.translate('Finish the order'), () => _finishOrder(), MediaQuery.of(context).size.width, chCircle)
+                            MyWidget(context).raisedButton(AppLocalizations.of(context)!.translate('Finish the order'), () => _finishOrder(), AppWidth.w70, chCircle)
                           ],
                         ),
                       ),
@@ -349,7 +325,7 @@ class _OrderIdState extends State<OrderId> {
               margin: EdgeInsets.only(top: MediaQuery.of(context).size.height/80),
               alignment: Alignment.centerRight,
               width: MediaQuery.of(context).size.width/2,
-              height: MediaQuery.of(context).size.height/20,
+              //height: MediaQuery.of(context).size.height/20,
               child: _manageButton(index),
             )
             )
@@ -366,20 +342,7 @@ class _OrderIdState extends State<OrderId> {
       Navigator.push(this.context, MaterialPageRoute(builder: (context) => ManageTask(token, _name, _location, _phone, _orderDetails, _orderTime, _orderDate, ord['Id'] ,orderServices[id]),),).then((_) {
         setState(() {});
       }),
-    }, MediaQuery.of(context).size.width/10, false);
-    /*return RaisedButton(
-      onPressed: ()  {
-        Navigator.push(this.context, MaterialPageRoute(builder: (context) => ManageTask(token, _name, _location, _phone, _orderDetails, _orderTime, _orderDate, ord['Id'] ,orderServices[id]),),).then((_) {
-          setState(() {});
-        });
-      },
-      ///padding: EdgeInsets.symmetric(vertical: 0, horizontal: MediaQuery.of(context).size.width/6),
-      color: MyColors.blue,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(MediaQuery.of(context).size.height / 120))),
-      //child: Icon(Icons.add),
-      child: Text(AppLocalizations.of(context)!.translate('Manage Tasks'),
-          style: TextStyle(fontSize: MediaQuery.of(context).size.width / 25, color: MyColors.White, fontWeight: FontWeight.normal)),
-    );*/
+    }, AppWidth.w30, false, textH: FontSize.s14);
   }
 
   _iconText(_color, _icon, text, _mainAxisAlignment){

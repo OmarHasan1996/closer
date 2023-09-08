@@ -1,19 +1,20 @@
 import 'dart:convert';
 
+import 'package:closer/constant/app_size.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:closer/api/api_service.dart';
 import 'package:closer/color/MyColors.dart';
 import 'package:closer/const.dart';
 import 'package:closer/localizations.dart';
-import 'package:closer/screens/addTask.dart';
+import 'package:closer/screens/superVisior/addTask.dart';
 
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
 import 'package:closer/screens/main_screen.dart';
 
-import '../MyWidget.dart';
-import 'loading_screen.dart';
+import '../../MyWidget.dart';
+import '../loading_screen.dart';
 
 class ManageTask extends StatefulWidget {
   String token;
@@ -29,7 +30,6 @@ class _ManageTaskState extends State<ManageTask> {
   APIService? api;
   final GlobalKey<ScaffoldState> _key = GlobalKey(); // Create a key
 
-  //TextEditingController descriptionController = new TextEditingController();
 
   DropdownMenuItem<String> buildMenuItem(dynamic item) {
     return DropdownMenuItem(
@@ -40,7 +40,6 @@ class _ManageTaskState extends State<ManageTask> {
         children: [
           Row(
             children: [
-              //Icon(Icons.pin_drop_outlined),
               Flexible(
                 child: Text(
                   item['name'],
@@ -49,7 +48,6 @@ class _ManageTaskState extends State<ManageTask> {
                   ),
                 ),
               ),
-              //Icon(Icons.arrow_drop_down_outlined),
             ],
           ),
         ],
@@ -74,8 +72,6 @@ class _ManageTaskState extends State<ManageTask> {
     }catch(e){
       attach = '';
     }
-    //print(subservicedec);
-    //_orderDetails = _service['Notes'];
   }
 
   void _afterLayout(Duration timeStamp) {
@@ -86,29 +82,13 @@ class _ManageTaskState extends State<ManageTask> {
   @override
   Widget build(BuildContext context) {
     var barHight = MediaQuery.of(context).size.height / 5.7;
-    //getServiceData();
     api = APIService(context: context);
     var leftPadding = MediaQuery.of(context).size.width/12;
 
     return Scaffold(
           key: _key,
           resizeToAvoidBottomInset: true,
-          appBar: new AppBar(
-            toolbarHeight: barHight,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.only(
-                  bottomRight: Radius.circular(MediaQuery.of(context).size.height / 80 * 3),
-                  bottomLeft: Radius.circular(MediaQuery.of(context).size.height / 80 * 3)),
-            ),
-            backgroundColor: AppColors.blue,
-            title: MyWidget(context).appBarTittle(barHight, _key),
-            actions: [
-              new IconButton(
-                icon: new Icon(Icons.keyboard_backspace_outlined),
-                onPressed: () => Navigator.of(context).pop(),
-              )
-            ],
-          ),
+          appBar: MyWidget.appBar(title: '', withoutCart: true),
           endDrawer: MyWidget(context).drawer(barHight, MediaQuery.of(context).size.height / 80 * 3, ()=>_setState()),
           backgroundColor: Colors.grey[100],
           body: SingleChildScrollView(
@@ -233,7 +213,7 @@ class _ManageTaskState extends State<ManageTask> {
                     SizedBox(height: MediaQuery.of(context).size.height/80,),
                     Container(
                       width: MediaQuery.of(context).size.width / 1.2,
-                      height: MediaQuery.of(context).size.height *(0.19),
+                      height: MediaQuery.of(context).size.height *(0.22),
                       decoration: BoxDecoration(
                         color: AppColors.white,
                         boxShadow: [BoxShadow(
@@ -265,7 +245,7 @@ class _ManageTaskState extends State<ManageTask> {
                               ),
                               SizedBox(height: MediaQuery.of(context).size.height/180,),
                               Container(
-                                height: MediaQuery.of(context).size.height *(0.08),
+                                height: MediaQuery.of(context).size.height *(0.09),
                                 child: _taskList(),
                               ),
                               Expanded(child: _addTaskButton())
@@ -274,7 +254,7 @@ class _ManageTaskState extends State<ManageTask> {
                       ),
                     ),
                     SizedBox(height: MediaQuery.of(context).size.height/180,),
-                    _raisedButton(AppLocalizations.of(context)!.translate('Ok'), () => _finishAllTasks(), MediaQuery.of(context).size.width),
+                    _raisedButton(AppLocalizations.of(context)!.translate('Ok'), () => _finishAllTasks(), AppWidth.w70),
                   ],
                 ),
               ),
@@ -296,53 +276,6 @@ class _ManageTaskState extends State<ManageTask> {
           BorderRadius.vertical(bottom: Radius.circular(MediaQuery.of(context).size.height / 80)),
         ),
       ),
-    );
-  }
-
-  _containerName(desc, padding, height, width, controller, fontSize){
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/20),
-          child: Text(
-            desc,
-            style: TextStyle(
-              color: Colors.black38,
-              fontSize: MediaQuery.of(context).size.width/25,
-            ),
-          ),
-        ),
-        SizedBox(height: padding,),
-        Container(
-          alignment: Alignment.topCenter,
-          padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/20),
-          width: width,
-          height: height,
-          decoration: BoxDecoration(
-            color: AppColors.white,
-            boxShadow: [BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
-              spreadRadius: 1,
-              blurRadius: 1,
-              offset: Offset(0, 1), // changes position of shadow
-            ),],
-            borderRadius: BorderRadius.all(Radius.circular(MediaQuery.of(context).size.height / 160)),
-          ),
-          child: TextField(
-            maxLines: null,
-            textInputAction: TextInputAction.done,
-            //enabled: false,
-            readOnly: true,
-            textAlign: TextAlign.left,
-            controller: controller,
-            style: TextStyle(fontSize: fontSize),
-            decoration: InputDecoration(
-              border: InputBorder.none,
-            ),
-          ),
-        )
-      ],
     );
   }
 
@@ -406,62 +339,6 @@ class _ManageTaskState extends State<ManageTask> {
           textAlign: TextAlign.center,
         ),
       );
-    /*for(int i=0; i<task.length; i++){
-      if(task[i][0]['Service']['Id'] == _service['Id']){
-        _task.add(task[i]);
-      }
-    }
-    if(_task.length>0)
-      return ListView.builder(
-      key: UniqueKey(),
-      itemCount: _task.length,
-      itemBuilder: (context, index) {
-        var _workersName = '';
-        for(int i = 0; i<_task[index][0]['Workers'].length; i++){
-          if(_workersName != '')
-            _workersName = _workersName + ' , ' + _task[index][0]['Workers'][i][0]['Name'];
-          else
-            _workersName = _workersName + ' ' + _task[index][0]['Workers'][i][0]['Name'];
-        }
-        return Column(
-         children: [
-           Row(
-             crossAxisAlignment: CrossAxisAlignment.center,
-             children: [
-               Padding(
-                 padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/25*0),
-                 child: Text(
-                   _task[index][0]['TaskName'],
-                   style: TextStyle(
-                     color: MyColors.black,
-                     fontSize: MediaQuery.of(context).size.width/24,
-                   ),
-                 ),
-               ),
-               Expanded(
-                 child: Text(_workersName, textAlign: TextAlign.end,),
-               )
-             ],
-           ),
-           Divider(height: 1, thickness: 2, color: Colors.grey[400],),
-           SizedBox(height: MediaQuery.of(context).size.height/160,),
-
-         ],
-        );
-      },
-     // addAutomaticKeepAlives: false,
-    );
-    else
-      return Center(
-        child:Text(
-          'press add task to assign new worker',
-          style: TextStyle(
-            color: Colors.grey,
-            fontSize: MediaQuery.of(context).size.width/24,
-          ),
-          textAlign: TextAlign.center,
-        ),
-      );*/
   }
 
   bool chCircle = false;
@@ -472,26 +349,11 @@ class _ManageTaskState extends State<ManageTask> {
   _addTaskButton(){
     return Container(
       alignment: Alignment.bottomRight,
-      //height: MediaQuery.of(context).size.width/5,
-      // ignore: deprecated_member_use
       child: MyWidget(context).raisedButton(AppLocalizations.of(context)!.translate('add task'), ()=>  {
         Navigator.push(this.context, MaterialPageRoute(builder: (context) => AddTask(token, _service, _orderId),),).then((_) {
           setState(() {});
         }),
       }, MediaQuery.of(context).size.width/1.5, false),
-      /*RaisedButton(
-        onPressed: ()  {
-          Navigator.push(this.context, MaterialPageRoute(builder: (context) => AddTask(token, _service, _orderId),),).then((_) {
-            setState(() {});
-          });
-        },
-        ///padding: EdgeInsets.symmetric(vertical: 0, horizontal: MediaQuery.of(context).size.width/6),
-        color: Colors.white70,
-        //padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.width/50),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(MediaQuery.of(context).size.height / 120))),
-        //child: Icon(Icons.add),
-        child: Text(AppLocalizations.of(context)!.translate('add task'),style: TextStyle(fontSize: MediaQuery.of(context).size.width / 25, color: MyColors.black, fontWeight: FontWeight.normal)),
-      ),*/
     );
   }
 

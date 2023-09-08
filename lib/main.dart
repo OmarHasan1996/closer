@@ -15,15 +15,15 @@ import 'package:closer/localization_service.dart';
 import 'package:closer/localizations.dart';
 import 'package:closer/screens/Payment.dart';
 import 'package:closer/screens/about.dart';
-import 'package:closer/screens/addTask.dart';
+import 'package:closer/screens/superVisior/addTask.dart';
 import 'package:closer/screens/changeLang.dart';
 /*
 import 'package:mr_service_2/screens/change_password.dart';
 */
 import 'package:closer/screens/loading_screen.dart';
 import 'package:closer/screens/main_screen.dart';
-import 'package:closer/screens/manage_task.dart';
-import 'package:closer/screens/orderID.dart';
+import 'package:closer/screens/superVisior/manage_task.dart';
+import 'package:closer/screens/superVisior/orderID.dart';
 import 'package:closer/screens/register.dart';
 import 'package:closer/screens/signin.dart';
 import 'package:closer/screens/service/sub_service_screen.dart';

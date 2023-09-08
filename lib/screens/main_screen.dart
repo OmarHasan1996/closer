@@ -22,7 +22,7 @@ import 'package:closer/localizations.dart';
 import 'package:closer/model/transaction.dart';
 import 'package:closer/screens/Payment.dart';
 import 'package:closer/screens/loading_screen.dart';
-import 'package:closer/screens/orderID.dart';
+import 'package:closer/screens/superVisior/orderID.dart';
 import 'package:closer/screens/service/sub_service_screen.dart';
 import 'package:closer/screens/taskId.dart';
 import 'package:closer/screens/valid_code.dart';
@@ -1748,8 +1748,8 @@ iOS: ca-app-pub-3940256099942544/1712485313
     var Id;!worker? Id = ord['Servicess'][0]['OrderId'] : Id= ord['OrderService']['OrderId'];
     var workerName; !worker? workerName = ord['Amount'].toString(): workerName = ord['User']['Name'] + ' ' + ord['User']['LastName'];
     var date; !worker? date = ord['OrderDate']:date = ord['StartDate'];
-    var addressArea; !worker? addressArea = ord['Address']['Area']['Name']:addressArea = ord['OrderService']['Order']['Address']['Area']['Name'];
-    var addressCity; !worker? addressCity = ord['Address']['Area']['City']['Name']: addressCity = ord['OrderService']['Order']['Address']['Area']['City']['Name'];
+    var addressArea; !worker? addressArea = ord['Address']['Title']:addressArea = ord['OrderService']['Order']['Address']['Title'];
+   // var addressCity; !worker? addressCity = ord['Address']['Area']['City']['Name']: addressCity = ord['OrderService']['Order']['Address']['Area']['City']['Name'];
     var statusCode; !worker? statusCode = ord['Status'].toString():statusCode = ord['Status'].toString();
     //statusCode = '2';
     String status = "";
@@ -1818,8 +1818,8 @@ iOS: ca-app-pub-3940256099942544/1712485313
         }
         break;
     }
-    String address = addressCity + " / " + addressArea;
-    return _orderCard(index, statusColor, status, addressArea, workerName, date, statusCode, Id, serial, taskName: taskName);
+    String address = /*addressCity + " / " +*/ addressArea??'';
+    return _orderCard(index, statusColor, status, address, workerName, date, statusCode, Id, serial, taskName: taskName);
   }
 
   myNewOrderSuperVisorlist(ord, index) {
@@ -1827,8 +1827,8 @@ iOS: ca-app-pub-3940256099942544/1712485313
     var Id; ord['Servicess'].length>0? Id = ord['Servicess'][0]['OrderId']:Id=0;
     var amount = ord['Amount'].toString();
     var date = ord['OrderDate'];
-    var addressArea = ord['Address']['Area']['Name'];
-    var addressCity = ord['Address']['Area']['City']['Name'];
+    var addressArea = ord['Address']['Title']??'';
+    var addressCity = ord['Address']['Title']??'';
     var statusCode = ord['Status'].toString();
     //statusCode = '2';
     String status = "";

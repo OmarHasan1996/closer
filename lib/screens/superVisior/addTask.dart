@@ -1,6 +1,7 @@
 
 import 'dart:convert';
 
+import 'package:closer/constant/app_size.dart';
 import 'package:flutter/material.dart';
 import 'package:closer/MyWidget.dart';
 import 'package:closer/api/api_service.dart';
@@ -15,8 +16,8 @@ import 'package:date_format/date_format.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 
-import 'loading_screen.dart';
-import 'main_screen.dart';
+import '../loading_screen.dart';
+import '../main_screen.dart';
 import 'package:http/http.dart' as http;
 
 class AddTask extends StatefulWidget {
@@ -89,22 +90,7 @@ class _AddTaskState extends State<AddTask> {
         child: Scaffold(
           key: _key,
           resizeToAvoidBottomInset: true,
-          appBar: new AppBar(
-            toolbarHeight: barHight,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.only(
-                  bottomRight: Radius.circular(MediaQuery.of(context).size.height / 80 * 3),
-                  bottomLeft: Radius.circular(MediaQuery.of(context).size.height / 80 * 3)),
-            ),
-            backgroundColor: AppColors.blue,
-            title: MyWidget(context).appBarTittle(barHight, _key),
-            actions: [
-              new IconButton(
-                icon: new Icon(Icons.keyboard_backspace_outlined),
-                onPressed: () => Navigator.of(context).pop(),
-              )
-            ],
-          ),
+          appBar: MyWidget.appBar(title: AppLocalizations.of(context)!.translate('Add Task'), withoutCart: true),
           endDrawer: MyWidget(context).drawer(barHight, MediaQuery.of(context).size.height / 80 * 3, ()=>_setState()),
           backgroundColor: Colors.grey[100],
           body: SingleChildScrollView(
@@ -120,24 +106,12 @@ class _AddTaskState extends State<AddTask> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/25),
-                        child: Text(
-                          AppLocalizations.of(context)!.translate('Add Task'),
-                          style: TextStyle(
-                            color: AppColors.black,
-                            fontSize:
-                            MediaQuery.of(context).size.width / 12,
-                            fontWeight: FontWeight.normal,
-                          ),
-                        ),
-                      ),
                       SizedBox(
                         height: MediaQuery.of(context).size.height / 80,
                       ),
                       Container(
                         width: MediaQuery.of(context).size.width / 1.2,
-                        height: MediaQuery.of(context).size.height *(0.7*0.93),
+                        height: MediaQuery.of(context).size.height *(0.72),
                         decoration: BoxDecoration(
                           color: AppColors.white,
                           boxShadow: [BoxShadow(
@@ -193,7 +167,7 @@ class _AddTaskState extends State<AddTask> {
                                 child: _chooseWorkerList(),
                               ),
                               SizedBox(height: MediaQuery.of(context).size.height/80,),
-                              _raisedButton(AppLocalizations.of(context)!.translate('Send Worker'), () => _addTAsk(), MediaQuery.of(context).size.width)
+                              _raisedButton(AppLocalizations.of(context)!.translate('Send Worker'), () => _addTAsk(), AppWidth.w70)
                             ],
                           ),
                         ),
@@ -202,317 +176,7 @@ class _AddTaskState extends State<AddTask> {
                   ),
                 ),
               ),
-              /*Expanded(
-              child: Padding(
-                padding: EdgeInsets.symmetric(
-                  vertical: MediaQuery.of(context).size.height / 30,
-                ),
-                child: Container(
-                    alignment: Alignment.center,
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height / 10,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          spreadRadius: 2,
-                          blurRadius: 3,
-                          offset: Offset(0, 1), // changes position of shadow
-                        ),
-                      ],
-                      borderRadius: BorderRadius.all(Radius.circular(20)),
-                    ),
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: MediaQuery.of(context).size.width / 80,
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Expanded(
-                            flex: 3,
-                            child: Container(
-                                width: MediaQuery.of(context).size.width / 1.2,
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image: NetworkImage(
-                                        subservicedec[0]['ImagePath']),
-                                  ),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.withOpacity(0.5),
-                                      spreadRadius: 2,
-                                      blurRadius: 3,
-                                      offset: Offset(
-                                          0, 1), // changes position of shadow
-                                    ),
-                                  ],
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(20)),
-                                )),
-                          ),
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height / 40,
-                          ),
-                          Expanded(
-                            flex: 7,
-                            child: Container(
-                              width: MediaQuery.of(context).size.width / 1.2,
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.5),
-                                    spreadRadius: 2,
-                                    blurRadius: 3,
-                                    offset: Offset(
-                                        0, 1), // changes position of shadow
-                                  ),
-                                ],
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(20)),
-                              ),
-                              child: Padding(
-                                padding: EdgeInsets.symmetric(
-                                    vertical:
-                                        MediaQuery.of(context).size.height / 37,
-                                    horizontal:
-                                        MediaQuery.of(context).size.width / 22),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      subservicedec[0]['Name'],
-                                      style: TextStyle(
-                                        color: Color(0xff000000),
-                                        fontSize:
-                                            MediaQuery.of(context).size.width /
-                                                10,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    Text(
-                                      subservicedec[0]['Name'] +
-                                          ' Description'.tr,
-                                      style: TextStyle(
-                                        color: Color(0xff000000),
-                                        fontSize:
-                                            MediaQuery.of(context).size.width /
-                                                15,
-                                      ),
-                                    ),
-                                    Text(
-                                      subservicedec[0]['Desc'],
-                                      style: TextStyle(
-                                        color: Colors.black38,
-                                        fontSize:
-                                            MediaQuery.of(context).size.width /
-                                                20,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height / 40,
-                          ),
-                          Expanded(
-                            flex: 1,
-                            child: Container(
-                              width: MediaQuery.of(context).size.width / 1.2,
-                              // ignore: deprecated_member_use
-                              child: RaisedButton(
-                                onPressed: () async {
-                                  order.add(subservicedec);
-                                  print(subservicedec);
-                                  orderCounter++;
-                                  print(orderCounter);
-                                  prices = prices + subservicedec[0]['Price'];
-
-                                  // print(order[6]);
-                                  subservicedec = [];
-                                  await Flushbar(
-                                    padding: EdgeInsets.symmetric(
-                                        vertical:
-                                            MediaQuery.of(context).size.height /
-                                                20),
-                                    icon: Icon(
-                                      Icons.error_outline,
-                                      size: MediaQuery.of(context).size.width /
-                                          18,
-                                      color: Colors.white,
-                                    ),
-                                    duration: Duration(seconds: 3),
-                                    shouldIconPulse: false,
-                                    flushbarPosition: FlushbarPosition.TOP,
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(
-                                            MediaQuery.of(context).size.height /
-                                                37)),
-                                    backgroundColor:
-                                        Colors.grey.withOpacity(0.5),
-                                    barBlur: 20,
-                                    message: 'Your Order Added To MY ORDER'.tr,
-                                    messageSize:
-                                        MediaQuery.of(context).size.width / 22,
-                                  ).show(context);
-
-                                  Navigator.of(context).pop();
-                                },
-                                // padding: EdgeInsets.symmetric(vertical: 0,horizontal: MediaQuery.of(context).size.width/6),
-                                color: Color(0xffffca05),
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(
-                                            MediaQuery.of(context).size.height /
-                                                12))),
-
-                                child: Text(
-                                  'Add To MY ORDER'.tr,
-                                  style: TextStyle(
-                                      fontSize:
-                                          MediaQuery.of(context).size.width /
-                                              22,
-                                      color: Color(0xff343434),
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    )),
-              ),
-            )*/
-              /*
-            Padding(
-              padding: EdgeInsets.symmetric(
-                  vertical: MediaQuery.of(context).size.height / 37,
-                  horizontal: MediaQuery.of(context).size.width / 22),
-              child: Container(
-                alignment: Alignment.topLeft,
-                child: Text(
-                  //"Our Services".tr,
-                  subservicedec[0]['Service']['Name'],
-                  style: TextStyle(
-                    color: Color(0xff000000),
-                    fontSize: MediaQuery.of(context).size.width / 15,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(
-                //vertical: MediaQuery.of(context).size.height / 37,
-                  horizontal: MediaQuery.of(context).size.width / 10),
-              child: Container(
-                alignment: Alignment.topLeft,
-                child: Text(
-                  //"Our Services".tr,
-                  ' Services in ...',
-                  style: TextStyle(
-                    color: Color(0xff000000),
-                    fontSize: MediaQuery.of(context).size.width / 20,
-                  ),
-                ),
-              ),
-            ),
-
-            Expanded(
-              child: ListView.builder(
-                itemCount: subservicedec.length,
-                itemBuilder: (context, index) {
-                  return serviceRow(subservicedec[index]);
-                },
-                addAutomaticKeepAlives: false,
-              ),
-            ),
-            Container(
-                child: Column(
-                  children: [
-                    Container(
-                      alignment: Alignment.center,
-                      width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height / 90,
-                      decoration: BoxDecoration(
-                        color: Color(0xffffca05),
-                      ),
-                    ),
-                    Container(
-                      alignment: Alignment.center,
-                      width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height / 10,
-                      decoration: BoxDecoration(
-                        color: Color(0xff2e3191),
-                      ),
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(
-                            vertical: 0,
-                            horizontal: MediaQuery.of(context).size.width / 7),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Column(
-                              children: [
-                                Icon(
-                                  Icons.home_outlined,
-                                  color: Color(0xffffca05),
-                                  size: MediaQuery.of(context).size.width / 9,
-                                ),
-                                Text(
-                                  'Home'.tr,
-                                  style: TextStyle(
-                                    color: Color(0xffffca05),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Column(
-                              children: [
-                                Icon(
-                                  Icons.shopping_cart_outlined,
-                                  color: Colors.white,
-                                  size: MediaQuery.of(context).size.width / 9,
-                                ),
-                                Text(
-                                  'My Order'.tr,
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Column(
-                              children: [
-                                Icon(
-                                  Icons.face,
-                                  color: Colors.white,
-                                  size: MediaQuery.of(context).size.width / 9,
-                                ),
-                                Text(
-                                  'My profile'.tr,
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ],
-                            ),
-
-                            //icons(Icons.home_outlined, "Home",),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ))*/
-            ]),
+             ]),
           ),
         ),
     );
