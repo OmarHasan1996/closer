@@ -5,6 +5,7 @@ import 'dart:math';
 
 //import 'package:admob_flutter/admob_flutter.dart';
 import 'package:another_flushbar/flushbar.dart';
+import 'package:closer/map/location.dart';
 import 'package:closer/screens/mainTabScreens/homeScreen.dart';
 import 'package:closer/screens/mainTabScreens/order/userOrder.dart';
 //import 'package:cloud_firestore/cloud_firestore.dart';
@@ -25,7 +26,7 @@ import 'package:closer/screens/Payment.dart';
 import 'package:closer/screens/loading_screen.dart';
 import 'package:closer/screens/superVisior/orderID.dart';
 import 'package:closer/screens/service/sub_service_screen.dart';
-import 'package:closer/screens/taskId.dart';
+import 'package:closer/screens/worker/taskId.dart';
 import 'package:closer/screens/valid_code.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -34,7 +35,7 @@ import 'package:closer/boxes.dart';
 import 'package:closer/const.dart';
 import 'package:closer/localization_service.dart';
 import 'package:closer/main.dart';
-import 'checkout.dart';
+import 'order/checkout.dart';
 import 'edit_profile_screen.dart';
 import 'address/manege_address.dart';
 

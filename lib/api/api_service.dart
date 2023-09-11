@@ -816,7 +816,9 @@ class APIService {
     //return response;
   }
 
-  updateWorkerTask(taskId, workerId, serviceId, supervisorNotes, startDate, endDate, workerNotes, token, taskName, file, fcmToken) async {
+  updateWorkerTask(taskId, workerId, serviceId, supervisorNotes, startDate, endDate, workerNotes, token, taskName, file, fcmToken,
+      {message}) async {
+    message??=AppLocalizations.of(context!)!.translate('good luck task is finished');
     var apiUrl = Uri.parse('$apiDomain/Main/WorkerTask/WorkerTask_Update?');
     List<Map<String, dynamic>> serviceTmp = [];
     var attach;
@@ -881,14 +883,14 @@ class APIService {
       try{
         if (jsonDecode(responseString)['Errors'] == null || jsonDecode(responseString)['Errors'] == ''){
           print('success');
-          _sendPushMessage(fcmToken, taskName, AppLocalizations.of(context!)!.translate('good luck task is finished'));
+          _sendPushMessage(fcmToken, taskName, message??'');//AppLocalizations.of(context!)!.translate('good luck task is finished'));
           return true;
         }else{
           flushBar(jsonDecode(responseString)['Errors']);
           return false;
         }
       }catch(e){
-        _sendPushMessage(fcmToken, taskName, AppLocalizations.of(context!)!.translate('good luck task is finished'));
+        _sendPushMessage(fcmToken, taskName, message??'');//AppLocalizations.of(context!)!.translate('good luck task is finished'));
         return true;
       }
     } else {

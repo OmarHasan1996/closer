@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:another_flushbar/flushbar.dart';
+import 'package:closer/constant/app_size.dart';
 import 'package:date_format/date_format.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -11,12 +12,24 @@ import 'package:intl/intl.dart';
 import 'package:closer/api/api_service.dart';
 import 'package:closer/color/MyColors.dart';
 import 'package:closer/localizations.dart';
-import '../MyWidget.dart';
-import 'service/sub_service_dec.dart';
-import '../const.dart';
-import 'main_screen.dart';
-import 'address/manege_address.dart';
+import '../../MyWidget.dart';
+import '../service/sub_service_dec.dart';
+import '../../const.dart';
+import '../main_screen.dart';
+import '../address/manege_address.dart';
+extension TimeOfDayExtension on TimeOfDay {
+  int compareTo(TimeOfDay other) {
+    if (hour < other.hour) return -1;
+    if (hour > other.hour) return 1;
+    if (minute < other.minute) return -1;
+    if (minute > other.minute) return 1;
+    return 0;
+  }
+  TimeOfDay add(Duration time) {
+    return this.replacing(hour: this.hour + time.inHours, minute: this.minute + time.inMinutes.remainder(60));
+  }
 
+}
 // ignore: must_be_immutable
 class CheckOutScreen extends StatefulWidget {
   String token;
@@ -92,6 +105,12 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
       });
   }
 
+  TimeOfDay? _maxStartTime, _minEndTime;
+
+  TimeOfDay _stringToTimeOfDay(String tod) {
+    final format = DateFormat.jm(); //"6:00 AM"
+    return TimeOfDay.fromDateTime(format.parse(tod));
+  }
   @override
   void initState() {
     // TODO: implement initState
@@ -100,6 +119,22 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
     //_timeController.text = formatDate(DateTime(2019, 08, 1, DateTime.now().hour, DateTime.now().minute), [hh, ':', nn, " ", am]).toString();
     super.initState();
 
+    for(var o in order){
+      try{
+        _maxStartTime??= _stringToTimeOfDay(o[0][0]['StartServeDate']);
+        _minEndTime??= _stringToTimeOfDay(o[0][0]['EndServeDate']);
+      }catch(e){}
+      try{
+        if(_stringToTimeOfDay(o[0][0]['StartServeDate']).compareTo(_maxStartTime!)>0){
+          _maxStartTime??= _stringToTimeOfDay(o[0][0]['StartServeDate']/*.replaceAll('T', ' ')*/).add(-timeDiff);
+        }
+      }catch(e){}
+      try{
+        if(_stringToTimeOfDay(o[0][0]['EndServeDate']).compareTo(_minEndTime!)<0){
+          _minEndTime??= _stringToTimeOfDay(o[0][0]['EndServeDate']/*.replaceAll('T', ' ')*/).add(-timeDiff);
+        }
+      }catch(e){}
+    }
     // print(subservice);
   }
 
@@ -120,7 +155,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
           body: SingleChildScrollView(
             child: Column(
               children: [
-                _topYellowDriver(),
+                MyWidget.topYellowDriver(),
                 SizedBox(
                   height: MediaQuery.of(context).size.height / 300,
                 ),
@@ -135,7 +170,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                        height: MediaQuery.of(context).size.height / 2,
+                        height: AppHeight.h45,
                         child: SingleChildScrollView(
                           child: Padding(
                             padding: EdgeInsets.symmetric(
@@ -150,48 +185,25 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                     vertical:
                                     MediaQuery.of(context).size.height / 80*0,
                                   ),
-                                  child: Container(
-                                    alignment: Alignment.center,
-                                    width: MediaQuery.of(context).size.width,
-                                    height: MediaQuery.of(context).size.height / 11,
-                                    decoration: BoxDecoration(
-                                      color: AppColors.white,
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.grey.withOpacity(0.5),
-                                          spreadRadius: 2,
-                                          blurRadius: 3,
-                                          offset: Offset(
-                                              0, 1), // changes position of shadow
-                                        ),
-                                      ],
-                                      borderRadius:
-                                      BorderRadius.all(Radius.circular(MediaQuery.of(context).size.height / 51)),
+                                  child: Padding(
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal:
+                                      MediaQuery.of(context).size.width /
+                                          80,
                                     ),
-                                    child: Padding(
-                                      padding: EdgeInsets.symmetric(
-                                        horizontal:
-                                        MediaQuery.of(context).size.width /
-                                            80,
-                                      ),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                        MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                        children: [
-                                          Expanded(
-                                              flex: 2,
-                                              child: Icon(
-                                                Icons.error_outline,
-                                                color: Colors.grey,
-                                              )),
-                                          Expanded(
-                                            flex: 8,
-                                            child: MyWidget(context).textGrayk28(AppLocalizations.of(context)!.translate('Please Confirm The Following Details Of Your Order'), color: Colors.grey),
-                                          )
-                                        ],
-                                      ),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                      children: [
+                                        Icon(
+                                          Icons.error_outline,
+                                          color: Colors.grey,
+                                        ),
+                                        SizedBox(width: AppWidth.w1_5,),
+                                        MyWidget(context).textGrayk28(AppLocalizations.of(context)!.translate('Please Confirm The Following Details Of Your Order'), color: Colors.grey)
+                                      ],
                                     ),
                                   ),
                                 ),
@@ -277,9 +289,8 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                                       160),
                                               child: Container(
                                                 padding: EdgeInsets.symmetric(
-                                                  horizontal:
-                                                  MediaQuery.of(context).size.width / 20,
-                                                  //  vertical: MediaQuery.of(context).size.height / 160,
+                                                  horizontal: MediaQuery.of(context).size.width / 20,
+                                                  vertical: AppHeight.h1,
                                                 ),
                                                 decoration: BoxDecoration(
                                                   color: Colors.grey[200],
@@ -288,7 +299,8 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                                 ),
                                                 child: DropdownButtonHideUnderline(
                                                   child: DropdownButton<String>(
-                                                    isExpanded: true,
+                                                    //isExpanded: true,
+
                                                     value: value3,
                                                     iconSize: 0.0,
                                                     hint: Row(
@@ -559,7 +571,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                         height: MediaQuery.of(context).size.height / 80*0,
                       ),
                       Container(
-                        height: MediaQuery.of(context).size.height / 9,
+                        height: AppHeight.h16,
                         child: ListView.builder(
                           itemCount: order.length,
                           itemBuilder: (context, index) {
@@ -604,21 +616,6 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
     );
   }
 
-  _topYellowDriver(){
-    return   Center(
-      child: Container(
-        alignment: Alignment.center,
-        width: MediaQuery.of(context).size.width / 1.2,
-        height: MediaQuery.of(context).size.height / 80,
-        decoration: BoxDecoration(
-          color: AppColors.yellow,
-          borderRadius:
-          BorderRadius.vertical(bottom: Radius.circular(MediaQuery.of(context).size.height / 80)),
-        ),
-      ),
-    );
-  }
-
   DropdownMenuItem<String> buildMenuItem(dynamic item) {
     getAddress(userData!.content!.id);
     //var area = item['Area']['Name'];
@@ -656,12 +653,17 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
 
   Padding _orderlist(ord, index) {
     var name = ord[0][0]['Name'];
+    String? startTime, endTime;
+    try{
+      startTime = DateTime.parse(ord[0][0]['StartServeDate']/*.replaceAll('T', ' ')*/).add(-timeDiff).toString();
+      endTime = DateTime.parse(ord[0][0]['EndServeDate']/*.replaceAll('T', ' ')*/).add(-timeDiff).toString();
+    }catch(e){}
     return Padding(
       padding: EdgeInsets.symmetric(
         vertical: MediaQuery.of(context).size.height / 160,
       ),
       child: Container(
-        child: MyWidget(context).textBlack20('${index + 1}' + '- ' + name, color: Colors.grey[600], bold: false),
+        child: MyWidget(context).textBlack20('${index + 1}' + '- ' + '$name [$startTime - $endTime]', color: Colors.grey[600], bold: false, scale: 0.9),
       ),
     );
   }
@@ -727,7 +729,22 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
       _refreshSendOrder(false);
       return;
     }
+    bool showTimeNote = false;
+    try{
+      print( 'time1111:' + _stringToTimeOfDay(_timeController.text).toString());
+      if(selectedTime!.compareTo(_maxStartTime!)<0) showTimeNote = true;
+    }catch(e){
 
+    }
+    try{
+      if(selectedTime!.compareTo(_minEndTime!)>0) showTimeNote = true;
+    }catch(e){
+    }
+    if(showTimeNote){
+      _flushBar(AppLocalizations.of(context)!.translate('Select time between ') + '[ $_maxStartTime - $_minEndTime ]');
+      _refreshSendOrder(false);
+      return;
+    }
     //{CustomerId: 90e73cdd-7e7e-4207-9901-08d9a4f69d2a, Amount: 300.0, InsertDate: 2021-12-08T01:18:43.043Z, Status: 1, PayType: 1, AddressId: 66b576f9-d44b-4565-b9e3-08d9a4f82388, OrderDate: 2021-12-08T13:18:00.000Z, Notes: string, OrderServices[0][ServiceId]: 18, OrderServices[0][Price]: 300.0, OrderServices[0][Quantity]: 1, OrderServices[0][ServiceNotes]: , OrderServices[0][OrderServiceAttatchs]: }
 
     String orderDateTime = DateTime(selectedDate!.year, selectedDate!.month, selectedDate!.day, selectedTime!.hour, selectedTime!.minute).add(timeDiff).toString().replaceAll(" ", "T") + "Z";

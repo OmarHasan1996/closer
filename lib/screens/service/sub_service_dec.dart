@@ -1,6 +1,8 @@
 
 import 'dart:math';
 
+import 'package:closer/constant/app_size.dart';
+import 'package:closer/constant/font_size.dart';
 import 'package:html/parser.dart';
 
 import 'dart:async';
@@ -120,7 +122,7 @@ class _SubServiceDecState extends State<SubServiceDec> {
                               //description
                               Container(
                                 width: MediaQuery.of(context).size.width / 1.2,
-                                height: MediaQuery.of(context).size.height *(0.62*0.7),
+                                height: MediaQuery.of(context).size.height *(0.62*0.7) + FontSize.s16*2,
                                 decoration: BoxDecoration(
                                   color: AppColors.white,
                                   boxShadow: [
@@ -144,12 +146,9 @@ class _SubServiceDecState extends State<SubServiceDec> {
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Expanded(
-                                        flex: 2,
-                                        child: SingleChildScrollView(
-                                          scrollDirection: Axis.horizontal,
-                                          child: MyWidget(context).textTitle15(subservicedec[0]['Name'], bold: true)
-                                        ),
+                                      SingleChildScrollView(
+                                        scrollDirection: Axis.horizontal,
+                                        child: MyWidget(context).textTitle15(subservicedec[0]['Name'], bold: true)
                                       ),
                                       Expanded(
                                           flex: 3,
@@ -158,8 +157,11 @@ class _SubServiceDecState extends State<SubServiceDec> {
                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                 mainAxisAlignment: MainAxisAlignment.start,
                                                 children: [
+                                                  SizedBox(height: AppHeight.h1,),
                                                   MyWidget(context).textBlack20(AppLocalizations.of(context)!.translate('Description'), bold: false),
                                                   MyWidget(context).textTap25(subservicedec[0]['Desc'].toString(), scale: 1.2, textAlign: TextAlign.start),
+                                                  SizedBox(height: AppHeight.h1,),
+                                                  MyWidget(context).textBlack20(AppLocalizations.of(context)!.translate('Unit') + ' : ${subservicedec[0]['Service']['Unit']?? subservicedec[0]['Unit']}', bold: true),
                                                 ],
                                               )
                                           )

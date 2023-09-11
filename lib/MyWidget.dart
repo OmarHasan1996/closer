@@ -148,8 +148,7 @@ class MyWidget{
     }
 
     cardButton(statusCode, color, id, index) {
-      if(worker)
-        return SizedBox(
+      if(worker) return SizedBox(
           width: 0.1,
         );
       var apiUrl;
@@ -1182,6 +1181,7 @@ class MyWidget{
             return AppLocalizations.of(context)!.translate('Password Do not Match');
           }
         },
+
         autovalidateMode: AutovalidateMode.onUserInteraction,
           obscureText: obscureText,
         style: TextStyle(
@@ -1192,6 +1192,7 @@ class MyWidget{
           hintText: hintText,
           labelText: labelText,
           errorStyle: TextStyle(
+            color: AppColors.black,
               fontSize: min(MediaQuery.of(context).size.width / 25,MediaQuery.of(context).size.height / 55)),
           labelStyle: TextStyle(
             fontSize: min(MediaQuery.of(context).size.width / 25,MediaQuery.of(context).size.height / 55),
@@ -1222,7 +1223,7 @@ class MyWidget{
             borderRadius: BorderRadius.circular(
                 borderRad),
             borderSide:
-            BorderSide(color: Colors.red, width: 2),
+            BorderSide(color: AppColors.white, width: 2),
           ),
           suffixIcon: password ? IconButton(
             padding: EdgeInsets.symmetric(
@@ -1240,6 +1241,7 @@ class MyWidget{
           hintText: hintText,
           labelText: labelText,
           errorStyle: TextStyle(
+              color: AppColors.black,
               fontSize: min(MediaQuery.of(context).size.width / 25,MediaQuery.of(context).size.height / 55)),
           labelStyle: TextStyle(
             fontSize: min(MediaQuery.of(context).size.width / 25,MediaQuery.of(context).size.height / 55),
@@ -1270,7 +1272,7 @@ class MyWidget{
             borderRadius: BorderRadius.circular(
                 borderRad),
             borderSide:
-            BorderSide(color: Colors.red, width: 2),
+            BorderSide(color: AppColors.white, width: 2),
           ),
         ),
       ),

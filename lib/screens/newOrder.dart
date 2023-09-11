@@ -7,7 +7,7 @@ import 'package:closer/color/MyColors.dart';
 import 'package:closer/MyWidget.dart';
 import 'package:closer/const.dart';
 import 'package:closer/localizations.dart';
-import 'checkout.dart';
+import 'order/checkout.dart';
 import 'package:http/http.dart' as http;
 
 class NewOrder extends StatefulWidget {

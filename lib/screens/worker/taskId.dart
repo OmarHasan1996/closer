@@ -1,5 +1,8 @@
+import 'dart:async';
 import 'dart:io';
 
+import 'package:closer/constant/app_size.dart';
+import 'package:closer/map/location.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:closer/api/api_service.dart';
@@ -10,6 +13,7 @@ import 'package:closer/const.dart';
 import 'package:closer/localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
+import 'package:url_launcher/url_launcher.dart';
 
 class TaskId extends StatefulWidget {
   String token;
@@ -49,13 +53,14 @@ class _TaskIdState extends State<TaskId> {
       ),
     );
   }
-
+  String _lat = '', _lng='';
   String _name = '',_location = '',_phone = '',_orderDetails = '', _orderDate = '', _orderTime = '', _finishDate = '', _finishTime = '', taskName = '', attach = '';
   List orderServices = [{'name':'S 1', 'id':'1'},{'name':'S 2', 'id':'2'}];
   var statusCode = 1;
   var ord;
   _TaskIdState(this.token ,this.ord);
   var id, serial;
+  bool _start = true;
   @override
   void initState() {
     // TODO: implement initState
@@ -71,14 +76,15 @@ class _TaskIdState extends State<TaskId> {
     _orderDate= date.split(" ")[0];
     _orderTime  = date.split(" ")[1].toString().split('.')[0];
     if(statusCode == 2){// finished
-      date = ord['EndDate'];
+      date = ord['EndDate'] ;
+      date??= ord['StartDate'];
       date = DateTime.parse(date.replaceAll('T', ' ')).add(-timeDiff).toString();
       _finishDate = date.split(" ")[0];
       _finishTime = date.split(" ")[1].toString().split('.')[0];
     }
     //selectedTime = TimeOfDay.now();
-    var addressArea = ord['OrderService']['Order']['Address']['Area']['Name'];
-    var addressCity = ord['OrderService']['Order']['Address']['Area']['City']['Name'];
+    var addressArea = ord['OrderService']['Order']['Title']??'';
+    var addressCity = ord['OrderService']['Order']['Address']['Title']??'';
     var addressNotes = ord['OrderService']['Order']['Address']['notes'];
     var addressBuilding = ord['OrderService']['Order']['Address']['building'];
     var addressFloor = ord['OrderService']['Order']['Address']['floor'];
@@ -88,7 +94,8 @@ class _TaskIdState extends State<TaskId> {
         " / " + addressBuilding + " / " + addressFloor + " / " + addressAppartment;
     _phone = ord['OrderService']['Order']['User']['Mobile'];
     _orderDetails = ord['Notes'];
-
+    _lat = ord['OrderService']['Order']['Address']['lat'].toString()??'';
+    _lng = ord['OrderService']['Order']['Address']['lng'].toString()??'';
     try{
       attach = ord['OrderService']['OrderServiceAttatchs'][0]['FilePath'].toString();
     }catch(e){
@@ -107,27 +114,12 @@ class _TaskIdState extends State<TaskId> {
         child: Scaffold(
           key: _key,
           resizeToAvoidBottomInset: true,
-          appBar: new AppBar(
-            toolbarHeight: barHight,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.only(
-                  bottomRight: Radius.circular(MediaQuery.of(context).size.height / 80 * 3),
-                  bottomLeft: Radius.circular(MediaQuery.of(context).size.height / 80 * 3)),
-            ),
-            backgroundColor: AppColors.blue,
-            title: MyWidget(context).appBarTittle(barHight, _key),
-            actions: [
-              new IconButton(
-                icon: new Icon(Icons.keyboard_backspace_outlined),
-                onPressed: () => Navigator.of(context).pop(),
-              )
-            ],
-          ),
+          appBar: MyWidget.appBar(title: '$taskName', withoutCart: true),
           endDrawer: MyWidget(context).drawer(barHight, MediaQuery.of(context).size.height / 80 * 3, ()=>_setState()),
           backgroundColor: Colors.grey[100],
           body: SingleChildScrollView(
             child: Column(children: [
-              _topYellowDriver(),
+              MyWidget.topYellowDriver(),
               SizedBox(
                 height: MediaQuery.of(context).size.height / 180,
               ),
@@ -137,26 +129,15 @@ class _TaskIdState extends State<TaskId> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/25),
-                      child: Text(
-                        taskName,
-                        style: TextStyle(
-                          color: AppColors.black,
-                          fontSize: MediaQuery.of(context).size.width / 12,
-                          fontWeight: FontWeight.normal,
-                        ),
-                      ),
-                    ),
                     SizedBox(
                       height: MediaQuery.of(context).size.height / 180,
                     ),
                     Container(
                       width: MediaQuery.of(context).size.width / 1.2,
-                      height: MediaQuery.of(context).size.height *(0.7*0.95),
+                      height: MediaQuery.of(context).size.height *(0.75),
                       decoration: BoxDecoration(
                         color: AppColors.white,
-                        boxShadow: [BoxShadow(
+                        boxShadow: const [BoxShadow(
                           color: AppColors.white,//Colors.grey.withOpacity(0.5),
                           spreadRadius: 2,
                           blurRadius: 3,
@@ -184,7 +165,10 @@ class _TaskIdState extends State<TaskId> {
                               ),
                             ),
                             _iconText(Colors.grey, Icons.person, _name, MainAxisAlignment.start),
-                            _iconText(Colors.grey, Icons.location_on_outlined, _location, MainAxisAlignment.start),
+                            GestureDetector(
+                              onTap: ()=> openMap(_lat, _lng),
+                              child: _iconText(Colors.grey, Icons.location_on_outlined, _location, MainAxisAlignment.start),
+                            ),
                             _iconText(Colors.grey, Icons.call, _phone, MainAxisAlignment.start),
                             SizedBox(height: MediaQuery.of(context).size.height/80,),
                             Divider(height: 1, thickness: 2, color: Colors.grey[400],),
@@ -274,8 +258,7 @@ class _TaskIdState extends State<TaskId> {
                                 )
                             ),
                             SizedBox(height: MediaQuery.of(context).size.height/80,),
-                            MyWidget(context).raisedButton(isBoss?AppLocalizations.of(context)!.translate('Ok'):AppLocalizations.of(context)!.translate('Finish Task'), () => _finishTask(), MediaQuery.of(context).size.width, chCircle)
-
+                            MyWidget(context).raisedButton(isBoss?AppLocalizations.of(context)!.translate('Ok'):AppLocalizations.of(context)!.translate(_start?'Start Task':'Finish Task'), () => !_start? _finishTask(): _startTask(), AppWidth.w70, chCircle)
                           ],
                         ),
                       ),
@@ -289,21 +272,6 @@ class _TaskIdState extends State<TaskId> {
 
     );
 
-  }
-
-  _topYellowDriver(){
-    return   Center(
-      child: Container(
-        alignment: Alignment.center,
-        width: MediaQuery.of(context).size.width / 1.2,
-        height: MediaQuery.of(context).size.height / 80,
-        decoration: BoxDecoration(
-          color: AppColors.yellow,
-          borderRadius:
-          BorderRadius.vertical(bottom: Radius.circular(MediaQuery.of(context).size.height / 80)),
-        ),
-      ),
-    );
   }
 
   _containerName(desc, padding, height, width, controller, fontSize){
@@ -481,7 +449,7 @@ class _TaskIdState extends State<TaskId> {
       },
       child: Container(
         alignment: Alignment.center,
-        height: MediaQuery.of(context).size.height * 0.12,
+        height: AppHeight.h14,
         width: MediaQuery.of(context).size.width /1.2,
         decoration: image == null ? BoxDecoration(
           boxShadow: [
@@ -524,7 +492,7 @@ class _TaskIdState extends State<TaskId> {
       onTap: () => api!.showImage(imagePath),
       child:Container(
       alignment: Alignment.center,
-      height: MediaQuery.of(context).size.height * 0.11,
+      height: AppHeight.h14,
       width: MediaQuery.of(context).size.width / 1.2,
       decoration: BoxDecoration(
         image: DecorationImage(
@@ -577,5 +545,51 @@ class _TaskIdState extends State<TaskId> {
     //setState(() {});
     }
     return;
+  }
+
+  _startTask() async{
+    if(isBoss){
+      Navigator.pop(context);
+      return;
+    }
+    setState(() {
+      chCircle = true;
+    });
+    String startDate = DateFormat('yyyy-MM-dd hh:mm:ss.sss').format(DateTime.now().add(timeDiff)).replaceAll(" ", "T") + "Z";
+    bool _suc;
+    var fcmToken = '';
+    for(int i =0; i< groupUsers.length; i++){
+      if(groupUsers[i]['isBoss'] == true)
+        fcmToken = groupUsers[i]['Users']['FBKey'];
+    }
+    if(xFile != null) {
+      _suc = await api!.updateWorkerTask(ord['Id'], ord['WorkerId'], ord['OrderServicesId'], ord['Notes'], startDate, ord['EndDate'], 'workerNotes', token, ord['Name'], File(xFile!.path),fcmToken, message: AppLocalizations.of(context!)!.translate('good luck task is started'));
+    } else {
+      _suc = await api!.updateWorkerTask(ord['Id'], ord['WorkerId'], ord['OrderServicesId'], ord['Notes'], startDate, ord['EndDate'], 'workerNotes', token, ord['Name'], 'File(xFile!.path)',fcmToken, message: AppLocalizations.of(context!)!.translate('good luck task is started'));
+    }
+    if (_suc){
+      updateWokerLocationPackground();
+      openMap(_lat, _lng);
+      _start = false;
+      //Navigator.pop(context);
+     // APIService.flushBar(AppLocalizations.of(context)!.translate('Task is Finished'));
+      setState(() {
+        chCircle = false;
+      });
+      //new Timer(Duration(seconds:2), ()=>setState(() {}));
+      //setState(() {});
+    }
+    return;
+  }
+
+  Future<void> openMap(String latitude, String longitude) async {
+    await getCurrentLocation();
+    String googleUrl = 'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
+    googleUrl = "https://www.google.com/maps/dir/${currentLocation!.latitude??''},${currentLocation!.longitude}/$latitude,$longitude";
+    if (await canLaunch(googleUrl)) {
+      await launch(googleUrl);
+    } else {
+      throw 'Could not open the map.';
+    }
   }
 }

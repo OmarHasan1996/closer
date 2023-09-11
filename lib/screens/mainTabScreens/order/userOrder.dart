@@ -7,9 +7,11 @@ import 'package:closer/api/api_service.dart';
 import 'package:closer/color/MyColors.dart';
 import 'package:closer/const.dart';
 import 'package:closer/constant/app_size.dart';
+import 'package:closer/constant/functions.dart';
 import 'package:closer/localizations.dart';
 import 'package:closer/screens/Payment.dart';
-import 'package:closer/screens/checkout.dart';
+import 'package:closer/screens/order/checkout.dart';
+import 'package:closer/screens/order/orderRecipt.dart';
 import 'package:date_format/date_format.dart';
 import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:flutter/material.dart';
@@ -231,11 +233,8 @@ class _UserOrderState extends State<UserOrder> {
                                                   //totalPrice =0;
                                                   return GestureDetector(
                                                     onTap: () {
-                                                      /*_showOrderDetails(
-                                                                orderData[index],
-                                                                index + 1);*/
-                                                      // order details
-                                                     },
+                                                      MyApplication.navigateTo(context, OrderRecipt(order: _finishedOrderData[index],));
+                                                      },
                                                     child: MyWidget.myOrderlist(
                                                         _finishedOrderData[index],
                                                         index + 1, ()=> _setState(), chCircle),
@@ -306,6 +305,7 @@ class _UserOrderState extends State<UserOrder> {
     }
     return price;
   }
+
   _tap(String text) {
     return Tab(
       height: min(AppWidth.w6, AppHeight.h2*1.5)*2,
@@ -320,6 +320,7 @@ class _UserOrderState extends State<UserOrder> {
       ),
     );
   }
+
   _finishOrder() async {
     setState(() {
       adr.clear();
@@ -345,11 +346,13 @@ class _UserOrderState extends State<UserOrder> {
           ));
     }
   }
+
   _setState() {
     setState(() {
 
     });
   }
+
   ImageProvider? image = null;
   String? path ;
   XFile? xFile;

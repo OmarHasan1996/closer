@@ -7,7 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class OrderRecipt extends StatefulWidget {
-  const OrderRecipt({Key? key}) : super(key: key);
+  var order;
+  OrderRecipt({Key? key, required this.order}) : super(key: key);
 
   @override
   State<OrderRecipt> createState() => _OrderReciptState();
@@ -25,6 +26,19 @@ class _OrderReciptState extends State<OrderRecipt> {
   String _addressPhone = '999';
   String _addressNote = '999';
   List _orderItems = [1,2];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _num = widget.order['Serial'].toString();
+    _numDelivery = widget.order['Serial'].toString();
+    _date = widget.order['EndDate']??'';
+    _addressTitle = widget.order['Address']['Title'];
+    _addressPhone = "${widget.order['Address']['building']??''} - ${widget.order['Address']['appartment']}";
+    _addressNote = widget.order['Address']['notes'];
+    _orderItems = widget.order['Servicess'];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -73,28 +87,59 @@ class _OrderReciptState extends State<OrderRecipt> {
                     Column(
                       children: _orderItems.map((e) =>
                           _tableRow1(color: AppColors.gray, scale: 0.35,
-                              text1: AppLocalizations.of(context)!.translate('Item Description'),
-                              text2: AppLocalizations.of(context)!.translate('Price'),
-                              text3: AppLocalizations.of(context)!.translate('QTY'),
-                              text4: AppLocalizations.of(context)!.translate('Total')
+                              text1: e['Service']['Name'],
+                              text2: e['Service']['Price'],
+                              text3: e['Quantity'],
                           ),).toList(),
                     ),
+                    SizedBox(height: AppHeight.h1,),
                     Row(
-                    children: [
+                      children: [
                       Expanded(
                         flex: 5,
-                        child: MyWidget(context).textHead10('text1', color: AppColors.black, scale: 0.4),
+
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          MyWidget(context).textHead10('Payment Method', color: AppColors.black, scale: 0.4),
+                          MyWidget(context).textHead10('Payment Method', color: AppColors.gray, scale: 0.35),
+                        ],
+                        ),
                       ),
                       Expanded(
-                        flex: 2,
-                        child: MyWidget(context).textHead10('text1', color: AppColors.gray, scale: 0.4),
-                      ),
-                      Expanded(
-                        flex: 2,
-                        child: MyWidget(context).textHead10('text1', color: AppColors.gray, scale: 0.4),
+                        flex: 5,
+                        child: Padding(
+                          padding: EdgeInsets.all(AppPadding.p10),
+                          child: Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  MyWidget(context).textHead10('SubTotal:', color: AppColors.gray, scale: 0.32),
+                                  MyWidget(context).textHead10('17.9', color: AppColors.black, scale: 0.4),
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  MyWidget(context).textHead10('Tax:', color: AppColors.gray, scale: 0.32),
+                                  MyWidget(context).textHead10('--', color: AppColors.black, scale: 0.4),
+                                ],
+                              ),
+                              Divider(thickness: 1, color: AppColors.gray,),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  MyWidget(context).textHead10('Tax:', color: AppColors.gray, scale: 0.32),
+                                  MyWidget(context).textHead10('--', color: AppColors.black, scale: 0.4),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
                     ],
-                  ),
+                    ),
                     Divider(color: AppColors.black, thickness: 1,),
                     MyWidget(context).textHead10(AppLocalizations.of(context)!.translate('Terms & Condition'), color: AppColors.black, scale: 0.4),
                     MyWidget(context).textBlack20(AppLocalizations.of(context)!.translate('Terms & Condition desc'), scale: 0.7, color: AppColors.gray),
@@ -133,29 +178,30 @@ class _OrderReciptState extends State<OrderRecipt> {
 
   }
 
-  Widget _tableRow1({required color, required scale, required text1, required text2, required text3, required text4}){
+  Widget _tableRow1({required color, required scale, required text1, required text2, required text3}){
+    var text4 = text2 * text3;
     return  Column(
       children: [
         Row(
           children: [
             Expanded(
               flex: 5,
-              child: MyWidget(context).textHead10(text1, color: color, scale: scale),
+              child: MyWidget(context).textHead10('$text1', color: color, scale: scale),
             ),
             Container(color: AppColors.black, height: FontSize.s16*2, width: 1,),
             Expanded(
               flex: 2,
-              child: MyWidget(context).textHead10(text2, color: color, scale: scale, textAlign: TextAlign.center),
+              child: MyWidget(context).textHead10('$text2', color: color, scale: scale, textAlign: TextAlign.center),
             ),
             Container(color: AppColors.black, height: FontSize.s16*2, width: 1,),
             Expanded(
               flex: 1,
-              child: MyWidget(context).textHead10(text3, color: color, scale: scale, textAlign: TextAlign.center),
+              child: MyWidget(context).textHead10('$text3', color: color, scale: scale, textAlign: TextAlign.center),
             ),
             Container(color: AppColors.black, height: FontSize.s16*2, width: 1,),
             Expanded(
               flex: 2,
-              child: MyWidget(context).textHead10(text4, color: color, scale: scale, textAlign: TextAlign.center),
+              child: MyWidget(context).textHead10('$text4', color: color, scale: scale, textAlign: TextAlign.center),
             )
           ],
         ),
