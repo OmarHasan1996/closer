@@ -21,7 +21,7 @@ import 'dart:convert';
 
 //import 'package:mr_service/module/login_module.dart';
 import 'package:closer/screens/loading_screen.dart';
-import 'package:closer/screens/newOrder.dart';
+import 'package:closer/screens/order/newOrder.dart';
 import 'package:closer/screens/signin.dart';
 import 'package:path/path.dart';
 
@@ -817,7 +817,8 @@ class APIService {
   }
 
   updateWorkerTask(taskId, workerId, serviceId, supervisorNotes, startDate, endDate, workerNotes, token, taskName, file, fcmToken,
-      {message}) async {
+      {message, status}) async {
+    status??=2;
     message??=AppLocalizations.of(context!)!.translate('good luck task is finished');
     var apiUrl = Uri.parse('$apiDomain/Main/WorkerTask/WorkerTask_Update?');
     List<Map<String, dynamic>> serviceTmp = [];
@@ -837,7 +838,7 @@ class APIService {
       "Id": taskId.toString(), //orderId
       "WorkerId": workerId.toString(),
       "OrderServicesId": serviceId.toString(), //serviceId
-      "Status": 2,
+      "Status": status,
       "Notes": supervisorNotes.toString(), //supervisorNotes
       "StartDate": startDate,
       "Name": taskName,

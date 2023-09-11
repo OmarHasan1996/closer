@@ -10,7 +10,7 @@ import 'package:closer/screens/Payment.dart';
 import 'package:flutter/material.dart';
 import 'package:closer/api/api_service.dart';
 import 'package:closer/color/MyColors.dart';
-import 'package:closer/screens/newOrder.dart';
+import 'package:closer/screens/order/newOrder.dart';
 import 'package:closer/screens/signin.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:progress_indicators/progress_indicators.dart';
@@ -23,6 +23,182 @@ class MyWidget{
 
   MyWidget(this.context) {
     _padButtonV = min(MediaQuery.of(context).size.height / 80, MediaQuery.of(context).size.width / 25);
+  }
+
+  static myTasklist(ord, index, Function() setState, chCircle,) {
+    var serial = ord['OrderService']['Order']['Serial']??1;
+    var taskName = ord['Name'];
+    var Id = ord['OrderService']['OrderId'];
+    var workerName = ord['User']['Name'] + ' ' + ord['User']['LastName'];
+    var date = ord['StartDate'];
+    var addressArea = ord['OrderService']['Order']['Address']['Title'];
+    var statusCode = ord['Status'].toString();
+    //statusCode = '2';
+    String status = "";
+    Color statusColor = Colors.grey;
+    switch (statusCode) {
+      case "8":
+        {
+          //return SizedBox(height: 0.001,);
+          status = AppLocalizations.of(navigatorKey.currentContext!)!.translate("finished");
+          statusColor = Colors.grey;
+        }
+        break;
+      case "7":
+        {
+          //return SizedBox(height: 0.001,);
+          status = AppLocalizations.of(navigatorKey.currentContext!)!.translate("Pending");
+          statusColor = Colors.grey;
+        }
+        break;
+      case "6":
+        {
+          //return SizedBox(height: 0.001,);
+          status = AppLocalizations.of(navigatorKey.currentContext!)!.translate("payed");
+          statusColor = AppColors.green;
+        }
+        break;
+      case "5":
+        {
+          status = AppLocalizations.of(navigatorKey.currentContext!)!.translate("Rejected");
+          statusColor = AppColors.red;
+        }
+        break;
+      case "4":
+        {
+          status = AppLocalizations.of(navigatorKey.currentContext!)!.translate("Pending");
+          statusColor = AppColors.blue;
+        }
+        break;
+      case "3":
+        {
+          status = AppLocalizations.of(navigatorKey.currentContext!)!.translate("Change Date");
+          statusColor = AppColors.blue;
+        }
+        break;
+      case "2":
+        {
+          status = AppLocalizations.of(navigatorKey.currentContext!)!.translate("finished");
+          statusColor = AppColors.blue;
+        }
+        break;
+      case "1":
+        {
+          status = AppLocalizations.of(navigatorKey.currentContext!)!.translate("Pending");
+          statusColor = Colors.grey;
+        }
+        break;
+      default:
+        {
+          status = AppLocalizations.of(navigatorKey.currentContext!)!.translate("Pending");
+          statusColor = Colors.grey;
+        }
+        break;
+    }
+    orderCard(index, statusColor, status, addressArea, amount,String date, statusCode, Id, serial, {String? taskName}) {
+      return Padding(
+        padding: EdgeInsets.symmetric(
+            vertical: MediaQuery.of(navigatorKey.currentContext!).size.height / 200,
+            horizontal: MediaQuery.of(navigatorKey.currentContext!).size.width / 40),
+        child: Card(
+            shape: RoundedRectangleBorder(
+              borderRadius:
+              BorderRadius.circular(AppHeight.h2),
+              side: BorderSide(
+                color: statusColor,
+                width: 2.0,
+              ),
+            ),
+            child: Stack(
+              children: [
+                Align(
+                  alignment: Alignment.center,
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: AppWidth.w2),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            MyWidget(navigatorKey.currentContext!).textBlack20(taskName ?? AppLocalizations.of(navigatorKey.currentContext!)!.translate('Order Id: ') + serial.toString(), scale: 0.85),
+                            SizedBox(
+                              width: AppWidth.w1,
+                              //child: Text(),
+                            ),
+                            Container(
+                              alignment: Alignment.centerRight,
+                              width: MediaQuery.of(navigatorKey.currentContext!).size.width * 0.5,
+                              height: MediaQuery.of(navigatorKey.currentContext!).size.height / 10,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  const Expanded(
+                                    flex: 1,
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                      children: [Text("")],
+                                    ),
+                                  ),
+                                  Expanded(
+                                    flex: 1,
+                                    child: status != null? GestureDetector(
+                                      onTap: () {},
+                                      child:
+                                      MyWidget(navigatorKey.currentContext!).textBlack20(status, scale: 0.85, color: statusColor),
+                                      /*Icon(
+                                Icons.close_outlined,
+                                size: MediaQuery.of(context).size.width / 18,
+                                color: Colors.grey,
+                              ),*/
+                                    ):SizedBox(height: 0,),//IconButton(onPressed: () => rejectOrder(), icon: Icon(Icons.delete_forever_outlined)),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            MyWidget(navigatorKey.currentContext!).textGrayk28(addressArea, color: Colors.grey)
+                          ],
+                        ),
+                        SizedBox(
+                          height: MediaQuery.of(navigatorKey.currentContext!).size.height / 80,
+                        ),
+                        Divider(
+                          color: Colors.grey[900],
+                          height: 1,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            MyWidget(navigatorKey.currentContext!).textBlack20(amount.toString(), scale: 0.85),
+                            /* SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.01,
+                            //child: Text(),
+                          ),*/
+                            Container(
+                                alignment: Alignment.centerRight,
+                                //width: MediaQuery.of(context).size.width * 0.5,
+                                height: AppHeight.h10,
+                                child:
+                                MyWidget(navigatorKey.currentContext!).textBlack20(DateTime.parse(date.replaceAll('T', ' ')).add(-timeDiff).toString().split(' ')[0], scale: 0.85)
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            )),
+      );
+    }
+    String address = /*addressCity + " / " +*/ addressArea??'';
+    return orderCard(index, statusColor, status, address, workerName, date, statusCode, Id, serial, taskName: taskName);
   }
 
   static myOrderlist(ord, index, Function() setState, chCircle,) {

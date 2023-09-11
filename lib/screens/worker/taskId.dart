@@ -563,9 +563,9 @@ class _TaskIdState extends State<TaskId> {
         fcmToken = groupUsers[i]['Users']['FBKey'];
     }
     if(xFile != null) {
-      _suc = await api!.updateWorkerTask(ord['Id'], ord['WorkerId'], ord['OrderServicesId'], ord['Notes'], startDate, ord['EndDate'], 'workerNotes', token, ord['Name'], File(xFile!.path),fcmToken, message: AppLocalizations.of(context!)!.translate('good luck task is started'));
+      _suc = await api!.updateWorkerTask(ord['Id'], ord['WorkerId'], ord['OrderServicesId'], ord['Notes'], startDate, ord['EndDate'], 'workerNotes', token, ord['Name'], File(xFile!.path),fcmToken, message: AppLocalizations.of(context!)!.translate('good luck task is started'), status: 1);
     } else {
-      _suc = await api!.updateWorkerTask(ord['Id'], ord['WorkerId'], ord['OrderServicesId'], ord['Notes'], startDate, ord['EndDate'], 'workerNotes', token, ord['Name'], 'File(xFile!.path)',fcmToken, message: AppLocalizations.of(context!)!.translate('good luck task is started'));
+      _suc = await api!.updateWorkerTask(ord['Id'], ord['WorkerId'], ord['OrderServicesId'], ord['Notes'], startDate, ord['EndDate'], 'workerNotes', token, ord['Name'], 'File(xFile!.path)',fcmToken, message: AppLocalizations.of(context!)!.translate('good luck task is started'), status: 1);
     }
     if (_suc){
       updateWokerLocationPackground();
