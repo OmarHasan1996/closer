@@ -71,7 +71,7 @@ class _RegisterState extends State<Register> {
     requiredValidator = RequiredValidator(errorText: AppLocalizations.of(context)!.translate('Required'));
     return Scaffold(
         //resizeToAvoidBottomInset :false,
-        backgroundColor: AppColors.blue,
+        backgroundColor: AppColors.mainColor,
         body: DoubleBackToCloseApp(
           child: Form(
               key: _formKey,

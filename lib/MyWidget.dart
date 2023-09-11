@@ -1142,7 +1142,7 @@ class MyWidget{
   }
 
   textFiled(textController, hintText, labelText,{email, password, clickIcon()?, obscureText, passwordText}){
-     email??=false;
+     email??= false;
      password??= false;
      obscureText??= false;
      passwordText??= '';
