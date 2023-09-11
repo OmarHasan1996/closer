@@ -284,15 +284,6 @@ class _UpdateAddressState extends State<UpdateAddress> {
     );
   }
 
-  _jumbingDotes(bool loading) {
-    if (loading)
-      return JumpingDotsProgressIndicator(
-        fontSize: 40.0,
-        numberOfDots: 7,
-      );
-    else
-      return SizedBox();
-  }
 
   DropdownMenuItem<String> buildMenuItem(String item) => DropdownMenuItem(
     value: item,

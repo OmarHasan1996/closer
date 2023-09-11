@@ -363,8 +363,11 @@ iOS: ca-app-pub-3940256099942544/1712485313
         _workerOrder(),
       ),
       //My profile
-      Container(
-        child: DoubleBackToCloseApp(
+      DoubleBackToCloseApp(
+          snackBar: SnackBar(
+            content: Text(AppLocalizations.of(context)!
+                .translate('Tap back again to leave')),
+          ),
           child: Padding(
             padding: EdgeInsets.symmetric(
                 horizontal: MediaQuery.of(context).size.width / 20),
@@ -372,7 +375,7 @@ iOS: ca-app-pub-3940256099942544/1712485313
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                _topYellowDriver(),
+                MyWidget.topYellowDriver(),
                 SizedBox(
                   height: MediaQuery.of(context).size.height / 80,
                 ),
@@ -383,7 +386,7 @@ iOS: ca-app-pub-3940256099942544/1712485313
                     builder : (BuildContext context, AsyncSnapshot snap){
                       if(snap.connectionState == ConnectionState.waiting){
                         _loading = true;
-                        return _jumbingDotes(_loading);
+                        return MyWidget.jumbingDotes(_loading);
                         return SizedBox();
                       }
                       else{
@@ -580,12 +583,8 @@ iOS: ca-app-pub-3940256099942544/1712485313
               ],
             ),
           ),
-          snackBar: SnackBar(
-            content: Text(AppLocalizations.of(context)!
-                .translate('Tap back again to leave')),
-          ),
         ),
-      )
+
     ];
 
     void _onItemTapped(int index) {
@@ -634,51 +633,19 @@ iOS: ca-app-pub-3940256099942544/1712485313
       ;
   }
 
-  _finishOrder() async {
-    setState(() {
-      adr.clear();
-    });
-    setState(() {
-      getAddress(userData!.content!.id);
-    });
-    await Future.delayed(
-        Duration(
-            seconds: 1));
-    if (order
-        .isNotEmpty) {
-      Navigator.of(
-          context)
-          .push(
-          MaterialPageRoute(
-            builder: (context) =>
-            new CheckOutScreen(
-              token: token,
-              service:
-              service,
-            ),
-          ));
-    }
-  }
-
-  _jumbingDotes(bool loading){
-    if(loading)
-      return JumpingDotsProgressIndicator(
-        fontSize: 40.0,
-        numberOfDots:7,
-      );
-    else
-      return SizedBox();
-  }
-
   _workerOrder(){
-    if(isBoss)
+    if(isBoss) {
       return DoubleBackToCloseApp(
+      snackBar: SnackBar(
+        content: Text(AppLocalizations.of(context)!
+            .translate('Tap back again to leave')),
+      ),
       child: Column(
         //crossAxisAlignment: CrossAxisAlignment.center,
         //mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _topYellowDriver(),
+          MyWidget.topYellowDriver(),
           ////////////////////////////////////////////////////////////////////
           ////////////////////////////////////////////////////////////////////
           SizedBox(
@@ -709,7 +676,7 @@ iOS: ca-app-pub-3940256099942544/1712485313
                       length: 3, // length of tabs
                       initialIndex: _initialOrderTab,
                       child: Container(
-                        decoration: new BoxDecoration(
+                        decoration: BoxDecoration(
                           color: AppColors.white,
                           borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(
@@ -722,7 +689,7 @@ iOS: ca-app-pub-3940256099942544/1712485313
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: <Widget>[
                             Container(
-                              decoration: new BoxDecoration(
+                              decoration: BoxDecoration(
                                 color: AppColors.WhiteSelver,
                                 borderRadius: BorderRadius.only(
                                   topLeft: Radius.circular(
@@ -737,7 +704,7 @@ iOS: ca-app-pub-3940256099942544/1712485313
                                 indicatorColor: Colors.transparent,
                                 labelColor: AppColors.yellow,
                                 unselectedLabelColor: Colors.grey,
-                                indicator: BoxDecoration(
+                                indicator: const BoxDecoration(
                                   color: AppColors.white,
                                   borderRadius: BorderRadius.only(
                                     topLeft: Radius.circular(15),
@@ -775,7 +742,7 @@ iOS: ca-app-pub-3940256099942544/1712485313
                                             builder : (BuildContext context, AsyncSnapshot snap){
                                               if(snap.connectionState == ConnectionState.waiting){
                                                 _loading = true;
-                                                return _jumbingDotes(_loading);
+                                                return MyWidget.jumbingDotes(_loading);
                                                 return SizedBox();
                                               }
                                               else{
@@ -822,7 +789,7 @@ iOS: ca-app-pub-3940256099942544/1712485313
                                               builder : (BuildContext context, AsyncSnapshot snap){
                                                 if(snap.connectionState == ConnectionState.waiting){
                                                   _loading = true;
-                                                  return _jumbingDotes(_loading);
+                                                  return MyWidget.jumbingDotes(_loading);
                                                   return SizedBox();
                                                 }
                                                 else{
@@ -868,7 +835,7 @@ iOS: ca-app-pub-3940256099942544/1712485313
                                             builder : (BuildContext context, AsyncSnapshot snap){
                                               if(snap.connectionState == ConnectionState.waiting){
                                                 _loading = true;
-                                                return _jumbingDotes(_loading);
+                                                return MyWidget.jumbingDotes(_loading);
                                                 return SizedBox();
                                               }
                                               else{
@@ -915,20 +882,16 @@ iOS: ca-app-pub-3940256099942544/1712485313
               ),
             ),
           ),
-          _bottomYellowDriver(),
+          MyWidget.bottomYellowDriver(),
         ],
       ),
-      snackBar: SnackBar(
-        content: Text(AppLocalizations.of(context)!
-            .translate('Tap back again to leave')),
-      ),
     );
-    else
+    } else
       return DoubleBackToCloseApp(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _topYellowDriver(),
+            MyWidget.topYellowDriver(),
             ////////////////////////////////////////////////////////////////////
             ////////////////////////////////////////////////////////////////////
             SizedBox(
@@ -1026,7 +989,7 @@ iOS: ca-app-pub-3940256099942544/1712485313
                                                 builder : (BuildContext context, AsyncSnapshot snap){
                                                   if(snap.connectionState == ConnectionState.waiting){
                                                     _loading = true;
-                                                    return _jumbingDotes(_loading);
+                                                    return MyWidget.jumbingDotes(_loading);
                                                   }
                                                   else{
                                                     _loading = false;
@@ -1074,7 +1037,7 @@ iOS: ca-app-pub-3940256099942544/1712485313
                                               builder : (BuildContext context, AsyncSnapshot snap){
                                                 if(snap.connectionState == ConnectionState.waiting){
                                                   _loading = true;
-                                                  return _jumbingDotes(_loading);
+                                                  return MyWidget.jumbingDotes(_loading);
                                                 }
                                                 else{
                                                   _loading = false;
@@ -1115,7 +1078,7 @@ iOS: ca-app-pub-3940256099942544/1712485313
                 ),
               ),
             ),
-            _bottomYellowDriver(),
+            MyWidget.bottomYellowDriver(),
           ],
         ),
         snackBar: SnackBar(
@@ -1141,37 +1104,6 @@ iOS: ca-app-pub-3940256099942544/1712485313
 
   _goAbout() {
     Navigator.pushNamed(context, 'about');
-  }
-
-  _topYellowDriver() {
-    return Center(
-      child: Container(
-        alignment: Alignment.center,
-        width: MediaQuery.of(context).size.width / 1.2,
-        height: MediaQuery.of(context).size.height / 80,
-        decoration: BoxDecoration(
-          color: AppColors.yellow,
-          borderRadius: BorderRadius.vertical(
-              bottom: Radius.circular(MediaQuery.of(context).size.height / 80)),
-        ),
-      ),
-    );
-  }
-
-  _bottomYellowDriver() {
-    return Container(
-        child: Column(
-      children: [
-        Container(
-          alignment: Alignment.center,
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height / 90,
-          decoration: BoxDecoration(
-            color: AppColors.yellow,
-          ),
-        ),
-      ],
-    ));
   }
 
   _tap(String text) {

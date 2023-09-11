@@ -172,7 +172,7 @@ class _SubServiceScreenState extends State<SubServiceScreen> {
           body: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-            _topYellowDriver(),
+            MyWidget.topYellowDriver(),
             SizedBox(
               height: MediaQuery.of(context).size.height / 160,
             ),
@@ -198,7 +198,7 @@ class _SubServiceScreenState extends State<SubServiceScreen> {
                   ),
                   Align(
                     alignment: Alignment.center,
-                    child: _jumbingDotes(_loading),
+                    child: MyWidget.jumbingDotes(_loading),
                   ),
                   _transScreen?
                   MyWidget(context).transScreen():SizedBox()
@@ -428,20 +428,6 @@ class _SubServiceScreenState extends State<SubServiceScreen> {
     );
   }
 
-  _topYellowDriver(){
-    return   Center(
-      child: Container(
-        alignment: Alignment.center,
-        width: MediaQuery.of(context).size.width / 1.2,
-        height: MediaQuery.of(context).size.height / 80,
-        decoration: BoxDecoration(
-          color: AppColors.yellow,
-          borderRadius:
-          BorderRadius.vertical(bottom: Radius.circular(MediaQuery.of(context).size.height / 80)),
-        ),
-      ),
-    );
-  }
 
   _setState(){
     setState(() {});
@@ -545,20 +531,6 @@ class _SubServiceScreenState extends State<SubServiceScreen> {
         ).show(context);
       }
     }
-  }
-
-  _jumbingDotes(bool loading){
-    if(loading)
-      return Container(
-        height: double.infinity,
-        color: Colors.white24,
-        child:  JumpingDotsProgressIndicator(
-          fontSize: 40.0,
-          numberOfDots:7,
-        ),
-      );
-    else
-      return SizedBox();
   }
 
 }

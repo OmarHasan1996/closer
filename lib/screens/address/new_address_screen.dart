@@ -201,7 +201,7 @@ class _NewAddressScreenState extends State<NewAddressScreen> {
               ),
             ),
             _getDataFromServer
-                ? Center(child: _jumbingDotes(_getDataFromServer))
+                ? Center(child: MyWidget.jumbingDotes(_getDataFromServer))
                 : SizedBox(
                     height: MediaQuery.of(context).size.height / 80,
                   ),
@@ -396,16 +396,6 @@ class _NewAddressScreenState extends State<NewAddressScreen> {
         ),
       ),
     );
-  }
-
-  _jumbingDotes(bool loading) {
-    if (loading)
-      return JumpingDotsProgressIndicator(
-        fontSize: 40.0,
-        numberOfDots: 7,
-      );
-    else
-      return SizedBox();
   }
 
   DropdownMenuItem<String> buildMenuItem(String item) => DropdownMenuItem(

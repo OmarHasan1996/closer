@@ -93,7 +93,7 @@ class _ManageTaskState extends State<ManageTask> {
           backgroundColor: Colors.grey[100],
           body: SingleChildScrollView(
             child: Column(children: [
-              _topYellowDriver(),
+              MyWidget.topYellowDriver(),
               SizedBox(
                 height: MediaQuery.of(context).size.height / 80,
               ),
@@ -264,20 +264,6 @@ class _ManageTaskState extends State<ManageTask> {
 
   }
 
-  _topYellowDriver(){
-    return   Center(
-      child: Container(
-        alignment: Alignment.center,
-        width: MediaQuery.of(context).size.width / 1.2,
-        height: MediaQuery.of(context).size.height / 80,
-        decoration: BoxDecoration(
-          color: AppColors.yellow,
-          borderRadius:
-          BorderRadius.vertical(bottom: Radius.circular(MediaQuery.of(context).size.height / 80)),
-        ),
-      ),
-    );
-  }
 
   _taskList(){
     List _task = [];

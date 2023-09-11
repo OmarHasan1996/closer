@@ -673,7 +673,7 @@ class MyWidget{
                     padding: EdgeInsets.symmetric(
                         vertical: MediaQuery.of(context).size.height / 37 * 0,
                         horizontal: MediaQuery.of(context).size.width / 12),
-                    child: _topYellowDriver(),
+                    child: MyWidget.topYellowDriver(),
                   ),
                   Padding(
                     padding: EdgeInsets.symmetric(
@@ -1067,21 +1067,6 @@ class MyWidget{
 
   _goAbout() {
     Navigator.pushNamed(context, 'about');
-  }
-
-  _topYellowDriver() {
-    return Center(
-      child: Container(
-        alignment: Alignment.center,
-        width: MediaQuery.of(context).size.width / 1.2,
-        height: MediaQuery.of(context).size.height / 80,
-        decoration: BoxDecoration(
-          color: AppColors.yellow,
-          borderRadius: BorderRadius.vertical(
-              bottom: Radius.circular(MediaQuery.of(context).size.height / 80)),
-        ),
-      ),
-    );
   }
 
   raisedButton(text , press, width, chLogIn, {height, colorText, buttonText, padV, textH, roundBorder}){
