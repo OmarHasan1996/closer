@@ -117,6 +117,31 @@ class APIService {
 
   }
 
+  static Future checkLocation(var orderId, serviceId) async {
+    try{
+      var url;
+      url = Uri.parse("$apiDomain/WorkerTask/WorkerTask_checklocation?orderid=$orderId");
+       http.Response response = await http.get(
+        url, headers: {"Authorization": token,},
+      );
+      print(jsonDecode(response.body));
+      if (response.statusCode == 200) {
+        print("getOrderders success");
+        serviceLocation = await jsonDecode(response.body);
+        //editTransactionMyOrders(transactions![0], myOrders);
+        //print(myOrders);
+        //print("****************************");
+        //print(jsonDecode(response.body));
+      }
+      else{
+        serviceLocation.clear();
+      }
+    }catch(e){
+
+    }
+
+  }
+
   static dialogBuilder(text) {
     if (navigatorKey.currentContext != null) {
       return showDialog<void>(
@@ -302,6 +327,30 @@ class APIService {
     }
     catch(e){
       flushBar(AppLocalizations.of(context!)!.translate('please! check your network connection'));
+      print(e);
+      chLogIn = false;
+    }
+  }
+
+  static userLatLangUpdate(lat, lang, id) async{
+    try{
+      http.Response response = await http.post(
+          Uri.parse('$apiDomain/Main/Users/Location_Update?'),
+          body: jsonEncode({
+            "UserId": id.toString(),
+            "lat": lat.toString(),
+            "lng": lang.toString(),
+          }),
+          headers: {
+            "Accept-Language": trrrr.LocalizationService.getCurrentLocale().languageCode,
+            "Accept": "application/json",
+            "content-type": "application/json",
+            "Authorization": token,
+          });
+      print(response.body);
+    }
+    catch(e){
+      flushBar(AppLocalizations.of(navigatorKey.currentContext!)!.translate('please! check your network connection'));
       print(e);
       chLogIn = false;
     }

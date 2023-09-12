@@ -15,7 +15,7 @@ List orderAmount = [];
 List allSubServices = [];
 int orderCounter = 0;
 LoginData? userData;
-
+List serviceLocation = [];
 Map<String, dynamic> myOrders = new Map<String, dynamic>();
 Map<String, dynamic> NewOrdersSupervisor = new Map<String, dynamic>();
 

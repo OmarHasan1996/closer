@@ -359,6 +359,7 @@ class _UserOrderState extends State<UserOrder> {
   XFile? xFile;
 
   _openTrackingPage(driverId){
+   // APIService.checkLocation(orderId, serviceId);
     MyApplication.navigateTo(context, OrderTrackingPage(driverId: driverId,));
   }
 
