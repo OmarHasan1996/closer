@@ -9,7 +9,6 @@ import 'package:get/get.dart';
 class OrderRecipt extends StatefulWidget {
   var order;
   OrderRecipt({Key? key, required this.order}) : super(key: key);
-
   @override
   State<OrderRecipt> createState() => _OrderReciptState();
 }
@@ -101,7 +100,7 @@ class _OrderReciptState extends State<OrderRecipt> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          MyWidget(context).textHead10('Payment Method', color: AppColors.black, scale: 0.4),
+                          MyWidget(context).textHead10(AppLocalizations.of(context)!.translate('Payment Method'), color: AppColors.black, scale: 0.4),
                           MyWidget(context).textHead10('Payment Method', color: AppColors.gray, scale: 0.35),
                         ],
                         ),
@@ -115,14 +114,14 @@ class _OrderReciptState extends State<OrderRecipt> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  MyWidget(context).textHead10('SubTotal:', color: AppColors.gray, scale: 0.32),
-                                  MyWidget(context).textHead10('17.9', color: AppColors.black, scale: 0.4),
+                                  MyWidget(context).textHead10(AppLocalizations.of(context)!.translate('SubTotal:'), color: AppColors.gray, scale: 0.32),
+                                  MyWidget(context).textHead10(_sumPrice().toString(), color: AppColors.black, scale: 0.4),
                                 ],
                               ),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  MyWidget(context).textHead10('Tax:', color: AppColors.gray, scale: 0.32),
+                                  MyWidget(context).textHead10('Total:', color: AppColors.gray, scale: 0.32),
                                   MyWidget(context).textHead10('--', color: AppColors.black, scale: 0.4),
                                 ],
                               ),
@@ -178,6 +177,13 @@ class _OrderReciptState extends State<OrderRecipt> {
 
   }
 
+  _sumPrice(){
+    var p = 0.0;
+    for(var e in _orderItems){
+      p += e['Service']['Price'];
+    }
+    return p;
+  }
   Widget _tableRow1({required color, required scale, required text1, required text2, required text3}){
     var text4 = text2 * text3;
     return  Column(
@@ -208,7 +214,6 @@ class _OrderReciptState extends State<OrderRecipt> {
         Divider(height: 1, color: AppColors.black,)
       ],
     );
-
   }
 
   _download() {}

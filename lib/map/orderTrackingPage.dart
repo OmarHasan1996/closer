@@ -6,7 +6,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:location/location.dart';
 class OrderTrackingPage extends StatefulWidget {
-  const OrderTrackingPage({Key? key}) : super(key: key);
+  String driverId;
+  OrderTrackingPage({Key? key, required this.driverId}) : super(key: key);
   @override
   State<OrderTrackingPage> createState() => OrderTrackingPageState();
 }
@@ -25,7 +26,6 @@ class OrderTrackingPageState extends State<OrderTrackingPage> {
     getCurrentLocation();
     //setCustomMarkerIcon();
     getPolyPoints();
-
     super.initState();
   }
 
@@ -41,8 +41,8 @@ class OrderTrackingPageState extends State<OrderTrackingPage> {
 
   Widget googleMaps(){
     return GoogleMap(
-      initialCameraPosition: const CameraPosition(
-        target: sourceLocation,
+      initialCameraPosition: CameraPosition(
+        target: LatLng(currentLocation!.latitude??25.2867729,currentLocation!.longitude??55.3742941),
         zoom: 13.5,
       ),
       markers: {

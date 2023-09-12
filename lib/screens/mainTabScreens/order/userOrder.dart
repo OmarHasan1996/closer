@@ -9,6 +9,7 @@ import 'package:closer/const.dart';
 import 'package:closer/constant/app_size.dart';
 import 'package:closer/constant/functions.dart';
 import 'package:closer/localizations.dart';
+import 'package:closer/map/orderTrackingPage.dart';
 import 'package:closer/screens/Payment.dart';
 import 'package:closer/screens/order/checkout.dart';
 import 'package:closer/screens/order/orderRecipt.dart';
@@ -297,7 +298,7 @@ class _UserOrderState extends State<UserOrder> {
     }
   }
 
-   double sumPrice() {
+  double sumPrice() {
     double price = 0.0;
     for (int i = 0; i < order.length; i++) {
       price = price + order[i][0][0]["Price"] * int.parse(order[i][1]);
@@ -356,6 +357,11 @@ class _UserOrderState extends State<UserOrder> {
   ImageProvider? image = null;
   String? path ;
   XFile? xFile;
+
+  _openTrackingPage(driverId){
+    MyApplication.navigateTo(context, OrderTrackingPage(driverId: driverId,));
+  }
+
   _showOrderDetails(ord, index,{bool? dateIsSelected}) {
     dateIsSelected??=false;
     var Id;
