@@ -6,8 +6,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:location/location.dart';
 class OrderTrackingPage extends StatefulWidget {
-  String driverId;
-  OrderTrackingPage({Key? key, required this.driverId}) : super(key: key);
+  String orderServiceId;
+  OrderTrackingPage({Key? key, required this.orderServiceId}) : super(key: key);
   @override
   State<OrderTrackingPage> createState() => OrderTrackingPageState();
 }
@@ -18,7 +18,8 @@ class OrderTrackingPageState extends State<OrderTrackingPage> {
   BitmapDescriptor sourceIcon = BitmapDescriptor.defaultMarker;
   BitmapDescriptor destinationIcon = BitmapDescriptor.defaultMarker;
   BitmapDescriptor currentLocationIcon = BitmapDescriptor.defaultMarker;
-  LocationData? currentLocation;
+  //LocationData? currentLocation;
+  LatLng? currentWorkerLocation;
 
 
   @override
@@ -27,12 +28,13 @@ class OrderTrackingPageState extends State<OrderTrackingPage> {
     //setCustomMarkerIcon();
     getPolyPoints();
     super.initState();
+
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: currentLocation == null
+      body: currentWorkerLocation == null
           ? const Center(child: Text("Loading"))
           :googleMaps(),
     );
@@ -42,7 +44,7 @@ class OrderTrackingPageState extends State<OrderTrackingPage> {
   Widget googleMaps(){
     return GoogleMap(
       initialCameraPosition: CameraPosition(
-        target: LatLng(currentLocation!.latitude??25.2867729,currentLocation!.longitude??55.3742941),
+        target: LatLng(currentWorkerLocation!.latitude??25.2867729,currentWorkerLocation!.longitude??55.3742941),
         zoom: 13.5,
       ),
       markers: {
@@ -50,7 +52,7 @@ class OrderTrackingPageState extends State<OrderTrackingPage> {
           markerId: const MarkerId("currentLocation"),
           icon: currentLocationIcon,
           position: LatLng(
-              currentLocation!.latitude!, currentLocation!.longitude!),
+              currentWorkerLocation!.latitude!, currentWorkerLocation!.longitude!),
         ),
         Marker(
           markerId: const MarkerId("source"),
@@ -123,18 +125,32 @@ class OrderTrackingPageState extends State<OrderTrackingPage> {
 
   void getCurrentLocation() async {
     Location location = Location();
-    await location.getLocation().then(
-          (location) {
-        currentLocation = location;
-      },
-    );
-    setState(() {
-
-    });
     GoogleMapController googleMapController = await _controller.future;
+    Timer.periodic(Duration(seconds: 2), (timer) async{
+      await location.getLocation().then(
+            (location) {
+          //currentLocation = location;
+              currentWorkerLocation = LatLng(location.latitude!, location.longitude!);
+        },
+      );
+      googleMapController.animateCamera(
+        CameraUpdate.newCameraPosition(
+          CameraPosition(
+            zoom: 13.5,
+            target: currentWorkerLocation!,
+          ),
+        ),
+      );
+      setState(() {});
+      setState(() {
+
+      });
+    });
+
     location.onLocationChanged.listen(
           (newLoc) {
-        currentLocation = newLoc;
+        //currentWorkerLocation = newLoc;
+            currentWorkerLocation = LatLng(newLoc.latitude!, newLoc.longitude!);
         googleMapController.animateCamera(
           CameraUpdate.newCameraPosition(
             CameraPosition(

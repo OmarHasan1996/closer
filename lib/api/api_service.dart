@@ -10,6 +10,7 @@ import 'package:dio/dio.dart';
 import 'package:easy_image_viewer/easy_image_viewer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:http/http.dart'as http;
@@ -23,6 +24,7 @@ import 'dart:convert';
 import 'package:closer/screens/loading_screen.dart';
 import 'package:closer/screens/order/newOrder.dart';
 import 'package:closer/screens/signin.dart';
+import 'package:location/location.dart';
 import 'package:path/path.dart';
 
 import '../const.dart';
@@ -117,24 +119,25 @@ class APIService {
 
   }
 
-  static Future checkLocation(var orderId, serviceId) async {
+  static Future checkLocation(var orderserviceid) async {
     try{
       var url;
-      url = Uri.parse("$apiDomain/WorkerTask/WorkerTask_checklocation?orderid=$orderId");
+      url = Uri.parse("$apiDomain/WorkerTask/WorkerTask_checklocation?orderserviceid=$orderserviceid");
        http.Response response = await http.get(
         url, headers: {"Authorization": token,},
       );
       print(jsonDecode(response.body));
       if (response.statusCode == 200) {
         print("getOrderders success");
-        serviceLocation = await jsonDecode(response.body);
+        var serviceLocation = await jsonDecode(response.body);
+        return LatLng(serviceLocation['Data']['WorkerTasks']['User']['lat']??0.55, serviceLocation['Data']['WorkerTasks']['User']['lng']??0.55);
         //editTransactionMyOrders(transactions![0], myOrders);
         //print(myOrders);
         //print("****************************");
         //print(jsonDecode(response.body));
       }
       else{
-        serviceLocation.clear();
+        //serviceLocation.clear();
       }
     }catch(e){
 

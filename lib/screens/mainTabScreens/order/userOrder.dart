@@ -20,6 +20,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
 import '../../signin.dart';
+
 class UserOrder extends StatefulWidget {
   UserOrder({Key? key, required this.initialOrderTab}) : super(key: key);
   int initialOrderTab = 0;
@@ -33,8 +34,8 @@ class _UserOrderState extends State<UserOrder> {
   Widget build(BuildContext context) {
     return DoubleBackToCloseApp(
       snackBar: SnackBar(
-        content: Text(AppLocalizations.of(context)!
-            .translate('Tap back again to leave')),
+        content: Text(
+            AppLocalizations.of(context)!.translate('Tap back again to leave')),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -48,18 +49,18 @@ class _UserOrderState extends State<UserOrder> {
                 vertical: MediaQuery.of(context).size.height / 100,
                 horizontal: MediaQuery.of(context).size.width / 20),
             child: Container(
-              //alignment: Alignment.topLeft,
+                //alignment: Alignment.topLeft,
                 padding: EdgeInsets.only(
                     left: MediaQuery.of(context).size.width / 20,
                     right: MediaQuery.of(context).size.width / 20),
-                child: MyWidget(context).textTitle15(AppLocalizations.of(context)!.translate('My Order'))
-            ),
+                child: MyWidget(context).textTitle15(
+                    AppLocalizations.of(context)!.translate('My Order'))),
           ),
           Expanded(
             child: Container(
               child: Padding(
                 padding: EdgeInsets.symmetric(
-                  //vertical: MediaQuery.of(context).size.width / 22,
+                    //vertical: MediaQuery.of(context).size.width / 22,
                     horizontal: MediaQuery.of(context).size.width / 22),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -85,11 +86,9 @@ class _UserOrderState extends State<UserOrder> {
                                 color: AppColors.WhiteSelver,
                                 borderRadius: BorderRadius.only(
                                   topLeft: Radius.circular(
-                                      MediaQuery.of(context).size.height /
-                                          51),
+                                      MediaQuery.of(context).size.height / 51),
                                   topRight: Radius.circular(
-                                      MediaQuery.of(context).size.height /
-                                          51),
+                                      MediaQuery.of(context).size.height / 51),
                                 ),
                               ),
                               child: TabBar(
@@ -114,7 +113,8 @@ class _UserOrderState extends State<UserOrder> {
                               ),
                             ),
                             SizedBox(
-                              height: MediaQuery.of(context).size.height / 2.05, //height of TabBarView
+                              height: MediaQuery.of(context).size.height /
+                                  2.05, //height of TabBarView
                               child: TabBarView(
                                 physics: const NeverScrollableScrollPhysics(),
                                 children: <Widget>[
@@ -129,10 +129,10 @@ class _UserOrderState extends State<UserOrder> {
                                           itemBuilder: (context, index) {
                                             //totalPrice =0;s
                                             return GestureDetector(
-                                              onTap: () {
-                                              },
-                                              child:
-                                              MyWidget(context).orderlist(order[index],1,()=>_setState()),
+                                              onTap: () {},
+                                              child: MyWidget(context)
+                                                  .orderlist(order[index], 1,
+                                                      () => _setState()),
                                             );
                                           },
                                           addAutomaticKeepAlives: false,
@@ -140,28 +140,43 @@ class _UserOrderState extends State<UserOrder> {
                                       ),
                                       Padding(
                                         padding: EdgeInsets.symmetric(
-                                            horizontal:
-                                            MediaQuery.of(context)
-                                                .size
-                                                .width /
+                                            horizontal: MediaQuery.of(context)
+                                                    .size
+                                                    .width /
                                                 22),
                                         child: Column(
                                           children: [
-                                            MyWidget(context).textBlack20(AppLocalizations.of(
-                                                context)!.translate('TOTAL')),
-                                            MyWidget(context).textTitle15("${AppLocalizations.of(context)!.translate('TRY')} ${sumPrice().toStringAsFixed(3)}", color: Colors.blue),
+                                            MyWidget(context).textBlack20(
+                                                AppLocalizations.of(context)!
+                                                    .translate('TOTAL')),
+                                            MyWidget(context).textTitle15(
+                                                "${AppLocalizations.of(context)!.translate('TRY')} ${sumPrice().toStringAsFixed(3)}",
+                                                color: Colors.blue),
                                             Padding(
-                                              padding:
-                                              EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height / 200,),
+                                              padding: EdgeInsets.symmetric(
+                                                vertical: MediaQuery.of(context)
+                                                        .size
+                                                        .height /
+                                                    200,
+                                              ),
                                               child: Container(
-                                                width:
-                                                MediaQuery.of(context)
-                                                    .size
-                                                    .width /
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
                                                     1.2,
                                                 // ignore: deprecated_member_use
-                                                child: MyWidget(context).raisedButton(AppLocalizations.of(
-                                                    context)!.translate('Finished Order'), () => _finishOrder(),  MediaQuery.of(context).size.width/1.7, false),
+                                                child: MyWidget(context)
+                                                    .raisedButton(
+                                                        AppLocalizations.of(
+                                                                context)!
+                                                            .translate(
+                                                                'Finished Order'),
+                                                        () => _finishOrder(),
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width /
+                                                            1.7,
+                                                        false),
                                               ),
                                             ),
                                           ],
@@ -170,75 +185,90 @@ class _UserOrderState extends State<UserOrder> {
                                     ],
                                   ),
                                   ////////// Tab2
-                                  Container(child: Column(
+                                  Container(
+                                    child: Column(
+                                      children: [
+                                        Expanded(
+                                          child: FutureBuilder(
+                                            future: _getMyOrders(
+                                                userData!.content!.id),
+                                            builder: (BuildContext context,
+                                                AsyncSnapshot snap) {
+                                              if (snap.connectionState ==
+                                                  ConnectionState.waiting) {
+                                                _loading = true;
+                                                return MyWidget.jumbingDotes(
+                                                    _loading);
+                                                return SizedBox();
+                                              } else {
+                                                //return SizedBox();
+                                                _loading = false;
+                                                return ListView.builder(
+                                                  itemCount: _orderData != null
+                                                      ? _orderData.length
+                                                      : 0,
+                                                  itemBuilder:
+                                                      (context, index) {
+                                                    //totalPrice =0;
+                                                    return GestureDetector(
+                                                      onTap: () {
+                                                        _showOrderDetails(
+                                                            _orderData[index],
+                                                            index + 1);
+                                                      },
+                                                      child:
+                                                          MyWidget.myOrderlist(
+                                                              _orderData[index],
+                                                              index + 1,
+                                                              () => _setState(),
+                                                              chCircle),
+                                                    );
+                                                  },
+                                                  addAutomaticKeepAlives: false,
+                                                );
+                                              }
+                                            },
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  ////////// Tab3
+                                  Column(
                                     children: [
                                       Expanded(
-                                        child:
-                                        FutureBuilder(
-                                          future: _getMyOrders(userData!.content!.id),
-                                          builder : (BuildContext context, AsyncSnapshot snap){
-                                            if(snap.connectionState == ConnectionState.waiting){
+                                        child: FutureBuilder(
+                                          future: _getMyOrders(
+                                              userData!.content!.id),
+                                          builder: (BuildContext context,
+                                              AsyncSnapshot snap) {
+                                            if (snap.connectionState ==
+                                                ConnectionState.waiting) {
                                               _loading = true;
-                                              return MyWidget.jumbingDotes(_loading);
+                                              return MyWidget.jumbingDotes(
+                                                  _loading);
                                               return SizedBox();
-                                            }
-                                            else{
+                                            } else {
                                               //return SizedBox();
                                               _loading = false;
                                               return ListView.builder(
                                                 itemCount:
-                                                _orderData != null
-                                                    ? _orderData.length
-                                                    : 0,
+                                                    _finishedOrderData.length,
                                                 itemBuilder: (context, index) {
                                                   //totalPrice =0;
                                                   return GestureDetector(
                                                     onTap: () {
                                                       _showOrderDetails(
-                                                          _orderData[index],
+                                                          _finishedOrderData[index],
                                                           index + 1);
-                                                       },
+                                                      //    MyApplication.navigateTo(context, OrderRecipt(order: _finishedOrderData[index],));
+                                                    },
                                                     child: MyWidget.myOrderlist(
-                                                        _orderData[index],
-                                                        index + 1, ()=> _setState(), chCircle),
-                                                  );
-                                                },
-                                                addAutomaticKeepAlives: false,
-                                              );
-                                            }
-                                          },
-                                        ),
-                                      )
-                                    ],
-                                  ),),
-                                  ////////// Tab3
-                                  Column(
-                                    children: [
-                                      Expanded(
-                                        child:
-                                        FutureBuilder(
-                                          future:  _getMyOrders(userData!.content!.id),
-                                          builder : (BuildContext context, AsyncSnapshot snap){
-                                            if(snap.connectionState == ConnectionState.waiting){
-                                              _loading = true;
-                                              return MyWidget.jumbingDotes(_loading);
-                                              return SizedBox();
-                                            }
-                                            else{
-                                              //return SizedBox();
-                                              _loading = false;
-                                              return ListView.builder(
-                                                itemCount:
-                                                _finishedOrderData.length,
-                                                itemBuilder: (context, index) {
-                                                  //totalPrice =0;
-                                                  return GestureDetector(
-                                                    onTap: () {
-                                                      MyApplication.navigateTo(context, OrderRecipt(order: _finishedOrderData[index],));
-                                                      },
-                                                    child: MyWidget.myOrderlist(
-                                                        _finishedOrderData[index],
-                                                        index + 1, ()=> _setState(), chCircle),
+                                                        _finishedOrderData[
+                                                            index],
+                                                        index + 1,
+                                                        () => _setState(),
+                                                        chCircle),
                                                   );
                                                 },
                                                 addAutomaticKeepAlives: false,
@@ -266,34 +296,36 @@ class _UserOrderState extends State<UserOrder> {
       ),
     );
   }
+
   List _orderData = [];
   List _finishedOrderData = [];
   bool chCircle = false;
   bool _loading = true;
-  Future _getMyOrders(id) async{
+  Future _getMyOrders(id) async {
     await APIService.getMyOrders(id);
-    if(myOrders.isNotEmpty){
+    if (myOrders.isNotEmpty) {
       var k = myOrders['Total'];
       _orderData.clear();
       for (int i = 0; i < k; i++) {
         _orderData.add(myOrders['Data'][i]);
       }
-        _orderData.sort((a, b) {
-          var adate = a['OrderDate'/*'InsertDate'*/]; //before -> var adate = a.expiry;
-          var bdate = b['OrderDate'/*'InsertDate'*/]; //before -> var bdate = b.expiry;
-          return bdate.compareTo(adate);
-        });
-        _finishedOrderData.clear();
-        //finishedOrderData.add(orderData[0]);
-        for(int i=0; i<_orderData.length; i++){
-          if(_orderData[i]['Status'] == 8){
-            _finishedOrderData.add(_orderData[i]);
-            _orderData.removeAt(i);
-            i--;
-          }
+      _orderData.sort((a, b) {
+        var adate =
+            a['OrderDate' /*'InsertDate'*/]; //before -> var adate = a.expiry;
+        var bdate =
+            b['OrderDate' /*'InsertDate'*/]; //before -> var bdate = b.expiry;
+        return bdate.compareTo(adate);
+      });
+      _finishedOrderData.clear();
+      //finishedOrderData.add(orderData[0]);
+      for (int i = 0; i < _orderData.length; i++) {
+        if (_orderData[i]['Status'] == 8) {
+          _finishedOrderData.add(_orderData[i]);
+          _orderData.removeAt(i);
+          i--;
         }
-    }
-    else{
+      }
+    } else {
       _orderData.clear();
     }
   }
@@ -309,12 +341,11 @@ class _UserOrderState extends State<UserOrder> {
 
   _tap(String text) {
     return Tab(
-      height: min(AppWidth.w6, AppHeight.h2*1.5)*2,
+      height: min(AppWidth.w6, AppHeight.h2 * 1.5) * 2,
       child: Center(
         child: GestureDetector(
           onDoubleTap: () {
-            setState(() {
-            });
+            setState(() {});
           },
           child: MyWidget(context).textTap25(text),
         ),
@@ -329,82 +360,93 @@ class _UserOrderState extends State<UserOrder> {
     setState(() {
       APIService.getAddress(userData!.content!.id);
     });
-    await Future.delayed(
-        Duration(
-            seconds: 1));
-    if (order
-        .isNotEmpty) {
-      Navigator.of(
-          context)
-          .push(
-          MaterialPageRoute(
-            builder: (context) =>
-            new CheckOutScreen(
-              token: token,
-              service:
-              service,
-            ),
-          ));
+    await Future.delayed(Duration(seconds: 1));
+    if (order.isNotEmpty) {
+      Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => new CheckOutScreen(
+          token: token,
+          service: service,
+        ),
+      ));
     }
   }
 
   _setState() {
-    setState(() {
-
-    });
+    setState(() {});
   }
 
   ImageProvider? image = null;
-  String? path ;
+  String? path;
   XFile? xFile;
 
-  _openTrackingPage(driverId){
-   // APIService.checkLocation(orderId, serviceId);
-    MyApplication.navigateTo(context, OrderTrackingPage(driverId: driverId,));
+  _openTrackingPage(orderServiceId) {
+    APIService.checkLocation(orderServiceId);
+    MyApplication.navigateTo(
+        context,
+        OrderTrackingPage(
+          orderServiceId: orderServiceId,
+        ));
   }
 
-  _showOrderDetails(ord, index,{bool? dateIsSelected}) {
-    dateIsSelected??=false;
+  _showOrderDetails(ord, index, {bool? dateIsSelected}) {
+    dateIsSelected ??= false;
     var Id;
-    Id = ord['Servicess'][0]['OrderId'] ;
-    var serial; serial = ord['Serial'];
-    var amount; amount = ord['Amount'].toString();
+    Id = ord['Servicess'][0]['OrderId'];
+    var serial;
+    serial = ord['Serial'];
+    var amount;
+    amount = ord['Amount'].toString();
     var date;
     var time;
-    try{
-      ord['OrderDate'] = DateTime.parse(ord['OrderDate'].replaceAll('T', ' ')).add(-timeDiff).toString();
+    try {
+      ord['OrderDate'] = DateTime.parse(ord['OrderDate'].replaceAll('T', ' '))
+          .add(-timeDiff)
+          .toString();
       date = ord['OrderDate'].split(" ")[0];
       time = ord['OrderDate'].split(" ")[1];
-      ord['OrderDate'] = DateTime.parse(ord['OrderDate'].replaceAll('T', ' ')).add(timeDiff).toString();
-    }catch(e){
-      ord['OrderDate'] = DateTime.parse(ord['OrderDate'].replaceAll('T', ' ')).add(-timeDiff).toString();
+      ord['OrderDate'] = DateTime.parse(ord['OrderDate'].replaceAll('T', ' '))
+          .add(timeDiff)
+          .toString();
+    } catch (e) {
+      ord['OrderDate'] = DateTime.parse(ord['OrderDate'].replaceAll('T', ' '))
+          .add(-timeDiff)
+          .toString();
       date = ord['OrderDate'].split(" ")[0];
       time = ord['OrderDate'].split(" ")[1];
-      ord['OrderDate'] = DateTime.parse(ord['OrderDate'].replaceAll('T', ' ')).add(timeDiff).toString();
+      ord['OrderDate'] = DateTime.parse(ord['OrderDate'].replaceAll('T', ' '))
+          .add(timeDiff)
+          .toString();
     }
     //selectedTime = TimeOfDay.now();
-    if(!dateIsSelected){
-      selectedTime = TimeOfDay(hour: int.parse(time.split(':')[0]),minute: int.parse(time.split(':')[1]));
-      //selectedDate = DateTime.now();
-      selectedDate = DateTime.parse(date +" " + time);
-      _dateController.text=date;
-      _timeController.text=time;
+    if (!dateIsSelected) {
+      selectedTime = TimeOfDay(
+          hour: int.parse(time.split(':')[0]),
+          minute: int.parse(time.split(':')[1]));
+      selectedDate = DateTime.parse(date + " " + time);
+      _dateController.text = date;
+      _timeController.text = time;
     }
-    var addressArea; addressArea = ord['Address']['Title']??'';
-    var addressCity; addressCity = ord['Address']['Title']??'';
-    var addressNotes; addressNotes = ord['Address']['notes'];
-    var addressBuilding; addressBuilding = ord['Address']['building'];
-    var addressFloor; addressFloor = ord['Address']['floor'];
-    var addressAppartment; addressAppartment = ord['Address']['appartment'];
+    var addressArea;
+    addressArea = ord['Address']['Title'] ?? '';
+    var addressNotes;
+    addressNotes = ord['Address']['notes'];
+    var addressBuilding;
+    addressBuilding = ord['Address']['building'];
+    var addressFloor;
+    addressFloor = ord['Address']['floor'];
+    var addressAppartment;
+    addressAppartment = ord['Address']['appartment'];
     var statusCode = ord['Status'].toString();
     bool change = false;
-    if(statusCode == "3")
-      change = true;
-    //change = true;
+    if (statusCode == "3") change = true;
     List service = [];
-    var userName;  userName = ord['User']['Name'];
-    var userLastName;  userLastName = ord['User']['LastName'];
-    var userMobile;  userMobile = ord['User']['Mobile'];
+    service = ord['Servicess'];
+    var userName;
+    userName = ord['User']['Name'];
+    var userLastName;
+    userLastName = ord['User']['LastName'];
+    var userMobile;
+    userMobile = ord['User']['Mobile'];
     showDialog(
       context: context,
       builder: (context) => Dialog(
@@ -420,58 +462,47 @@ class _UserOrderState extends State<UserOrder> {
               children: [
                 Stack(
                   children: [
-                    /*Align(
-                    alignment: Alignment.topRight,
-                    child: IconButton(icon: Icon(Icons.close),color : MyColors.black, onPressed: ()=>Navigator.pop(context),),
-                  ),*/
                     Text(
-                      AppLocalizations.of(context)!.translate('Order Id: ') + serial.toString(),
+                      AppLocalizations.of(context)!.translate('Order Id: ') +
+                          serial.toString(),
                       style: TextStyle(
                         color: AppColors.black,
                         fontSize: MediaQuery.of(context).size.width / 24,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    /*Align(
-                    alignment: Alignment.centerLeft,
-                    child: Padding(
-                      padding: EdgeInsets.only(top: MediaQuery.of(context).size.width / 23),
-                      child: Text(
-                        addressArea,
-                        style: TextStyle(
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ),
-                  ),*/
                   ],
                 ),
-                SizedBox(height: MediaQuery.of(context).size.height/160,),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height / 160,
+                ),
                 MyWidget.card(
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      MyWidget.textHeader(AppLocalizations.of(context)!.translate("User Name")),
+                      MyWidget.textHeader(
+                          AppLocalizations.of(context)!.translate("User Name")),
                       MyWidget.text(userName + " " + userLastName),
                     ],
                   ),
                 ),
-                MyWidget.card(Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    MyWidget.textHeader(
-                        AppLocalizations.of(context)!.translate("Address")),
-                    MyWidget.text(addressArea +
-                        " / " +
-                        addressNotes +
-                        " / " +
-                        addressBuilding +
-                        " / " +
-                        addressFloor +
-                        " / " +
-                        addressAppartment),
-                  ],
-                ),
+                MyWidget.card(
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      MyWidget.textHeader(
+                          AppLocalizations.of(context)!.translate("Address")),
+                      MyWidget.text(addressArea +
+                          " / " +
+                          addressNotes +
+                          " / " +
+                          addressBuilding +
+                          " / " +
+                          addressFloor +
+                          " / " +
+                          addressAppartment),
+                    ],
+                  ),
                 ),
                 MyWidget.card(
                   Column(
@@ -485,30 +516,48 @@ class _UserOrderState extends State<UserOrder> {
                 ),
                 _dateCard(change),
                 _timeCard(change),
-                SizedBox(height: MediaQuery.of(context).size.height/200,),
-                MyWidget.textHeader(AppLocalizations.of(context)!.translate('Services')),
-                SizedBox(height: MediaQuery.of(context).size.height/200,),
                 SizedBox(
-                  height: MediaQuery.of(context).size.height/7,
+                  height: MediaQuery.of(context).size.height / 200,
+                ),
+                MyWidget.textHeader(
+                    AppLocalizations.of(context)!.translate('Services')),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height / 200,
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height / 7,
                   child: ListView.builder(
-                    itemCount:service.length,
+                    itemCount: service.length,
                     itemBuilder: (context, index) {
-                      return MyWidget.card(Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(child: MyWidget.text(service[index]['name'])),
-                          SizedBox(width: MediaQuery.of(context).size.width/30,),
-                          MyWidget.textHeader(amount.toString()/*service[index]['price']*/),
-                        ],
-                      ),);
+                      return MyWidget.card(
+                        GestureDetector(
+                          onTap: ()=> ord['Status']==7?_openTrackingPage(service[index]['Service']['Id']):null,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                  child: MyWidget.text(service[index]['Service']['Name'])),
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width / 30,
+                              ),
+                              MyWidget.textHeader(
+                                  amount.toString() /*service[index]['price']*/),
+                            ],
+                          ),
+                        ),
+                      );
                     },
                   ),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    _button(change ? AppLocalizations.of(context)!.translate('Save') : AppLocalizations.of(context)!.translate('Ok'), () => _save(ord,change,index),MediaQuery.of(context).size.width/1.7),
-                    // _button(AppLocalizations.of(context)!.translate('Close'), _close),
+                    _button(
+                        change
+                            ? AppLocalizations.of(context)!.translate('Save')
+                            : AppLocalizations.of(context)!.translate('Ok'),
+                        () => _save(ord, change, index),
+                        MediaQuery.of(context).size.width / 1.7),
                   ],
                 )
               ],
@@ -519,7 +568,7 @@ class _UserOrderState extends State<UserOrder> {
     );
   }
 
-  _button(text, click(),width) {
+  _button(text, click(), width) {
     return Padding(
       padding: EdgeInsets.symmetric(
         vertical: MediaQuery.of(context).size.height / 100,
@@ -527,23 +576,25 @@ class _UserOrderState extends State<UserOrder> {
       child: Container(
         width: width,
         // ignore: deprecated_member_use
-        child: MyWidget(context).raisedButton(text, () => click(),  width, chCircle),
+        child: MyWidget(context)
+            .raisedButton(text, () => click(), width, chCircle),
       ),
     );
   }
-  _save(ord,bool change, index) async{
+
+  _save(ord, bool change, index) async {
     //change = true;
-    if(!change){
+    if (!change) {
       Navigator.pop(context);
       return;
     }
     var date = ord['OrderDate'].split(" ")[0];
     var time = ord['OrderDate'].split(" ")[1];
-    //selectedTime = TimeOfDay.now();
-    //selectedTime = TimeOfDay(hour: int.parse(time.split(':')[0]),minute: int.parse(time.split(':')[1]));
-    //selectedDate = DateTime.now();
-    //selectedDate = DateTime.parse(date +" " + time);
-    if(selectedDate == DateTime.parse(date +" " + time) && selectedTime == TimeOfDay(hour: int.parse(time.split(':')[0]),minute: int.parse(time.split(':')[1]))){
+    if (selectedDate == DateTime.parse(date + " " + time) &&
+        selectedTime ==
+            TimeOfDay(
+                hour: int.parse(time.split(':')[0]),
+                minute: int.parse(time.split(':')[1]))) {
       Navigator.pop(context);
       return;
     }
@@ -552,17 +603,17 @@ class _UserOrderState extends State<UserOrder> {
     });
     Navigator.pop(context);
     _showOrderDetails(ord, index, dateIsSelected: true);
-    bool _suc = await APIService(context: context).updateOrder(token, ord, 4, null, selectedDate, selectedTime);
-    if (_suc){
+    bool _suc = await APIService(context: context)
+        .updateOrder(token, ord, 4, null, selectedDate, selectedTime);
+    if (_suc) {
       Navigator.pop(context);
-      APIService.flushBar(AppLocalizations.of(context)!.translate('Order Saved'));
-      new Timer(Duration(seconds:2), ()=>setState(() {}));
-      //setState(() {});
+      APIService.flushBar(
+          AppLocalizations.of(context)!.translate('Order Saved'));
+      new Timer(Duration(seconds: 2), () => setState(() {}));
     }
     setState(() {
       chCircle = false;
     });
-
   }
 
   TextEditingController _dateController = TextEditingController();
@@ -588,7 +639,6 @@ class _UserOrderState extends State<UserOrder> {
       });
     }
   }
-
 
   TimeOfDay? selectedTime;
   TextEditingController _timeController = TextEditingController();
@@ -627,7 +677,7 @@ class _UserOrderState extends State<UserOrder> {
         color: AppColors.white,
         boxShadow: [
           BoxShadow(
-            color: change? AppColors.blue : Colors.grey.withOpacity(0.5),
+            color: change ? AppColors.blue : Colors.grey.withOpacity(0.5),
             spreadRadius: 2,
             blurRadius: 3,
             offset: Offset(0, 1), // changes position of shadow
@@ -639,22 +689,26 @@ class _UserOrderState extends State<UserOrder> {
       child: Padding(
         padding: EdgeInsets.symmetric(
           horizontal: MediaQuery.of(context).size.width / 40,
-          vertical: MediaQuery.of(context).size.height / 60*0,
+          vertical: MediaQuery.of(context).size.height / 60 * 0,
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Icon(Icons.date_range, color: change? AppColors.blue : AppColors.black,),
+            Icon(
+              Icons.date_range,
+              color: change ? AppColors.blue : AppColors.black,
+            ),
             Expanded(
               flex: 1,
-              child:InkWell(
+              child: InkWell(
                 onTap: () {
-                  if(change)
-                    _selectDate(context);
+                  if (change) _selectDate(context);
                 },
                 child: TextFormField(
-                  style:
-                  TextStyle(fontSize: min(MediaQuery.of(context).size.width / 20, MediaQuery.of(context).size.height / 45), color: change ? AppColors.blue: AppColors.black),
+                  style: TextStyle(
+                      fontSize: min(MediaQuery.of(context).size.width / 20,
+                          MediaQuery.of(context).size.height / 45),
+                      color: change ? AppColors.blue : AppColors.black),
                   textAlign: TextAlign.center,
                   enabled: false,
                   keyboardType: TextInputType.text,
@@ -670,6 +724,7 @@ class _UserOrderState extends State<UserOrder> {
       ),
     );
   }
+
   String? _setTime, _setDate;
 
   _timeCard(bool change) {
@@ -685,7 +740,7 @@ class _UserOrderState extends State<UserOrder> {
         color: AppColors.white,
         boxShadow: [
           BoxShadow(
-            color: change? AppColors.blue :Colors.grey.withOpacity(0.5),
+            color: change ? AppColors.blue : Colors.grey.withOpacity(0.5),
             spreadRadius: 2,
             blurRadius: 3,
             offset: Offset(0, 1), // changes position of shadow
@@ -697,22 +752,24 @@ class _UserOrderState extends State<UserOrder> {
       child: Padding(
         padding: EdgeInsets.symmetric(
           horizontal: MediaQuery.of(context).size.width / 40,
-          vertical: MediaQuery.of(context).size.height / 60*0,
+          vertical: MediaQuery.of(context).size.height / 60 * 0,
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Icon(Icons.timer_outlined, color: change? AppColors.blue : AppColors.black),
+            Icon(Icons.timer_outlined,
+                color: change ? AppColors.blue : AppColors.black),
             Expanded(
               flex: 1,
-              child:InkWell(
+              child: InkWell(
                 onTap: () {
-                  if(change)
-                    _selectTime(context);
+                  if (change) _selectTime(context);
                 },
                 child: TextFormField(
-                  style:
-                  TextStyle(fontSize: min(MediaQuery.of(context).size.width / 20, MediaQuery.of(context).size.height / 45), color: change ? AppColors.blue: AppColors.black),
+                  style: TextStyle(
+                      fontSize: min(MediaQuery.of(context).size.width / 20,
+                          MediaQuery.of(context).size.height / 45),
+                      color: change ? AppColors.blue : AppColors.black),
                   textAlign: TextAlign.center,
                   enabled: false,
                   keyboardType: TextInputType.text,
@@ -728,6 +785,4 @@ class _UserOrderState extends State<UserOrder> {
       ),
     );
   }
-
-
 }
