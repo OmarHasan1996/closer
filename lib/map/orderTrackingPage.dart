@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:closer/api/api_service.dart';
 import 'package:closer/constant/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -33,6 +34,7 @@ class OrderTrackingPageState extends State<OrderTrackingPage> {
 
   @override
   Widget build(BuildContext context) {
+    getCurrentLocation();
     return Scaffold(
       body: currentWorkerLocation == null
           ? const Center(child: Text("Loading"))
@@ -124,13 +126,13 @@ class OrderTrackingPageState extends State<OrderTrackingPage> {
   }
 
   void getCurrentLocation() async {
-    Location location = Location();
+    //Location location = Location();
     GoogleMapController googleMapController = await _controller.future;
     Timer.periodic(Duration(seconds: 2), (timer) async{
-      await location.getLocation().then(
+      await APIService.checkLocation(widget.orderServiceId).then(
             (location) {
           //currentLocation = location;
-              currentWorkerLocation = LatLng(location.latitude!, location.longitude!);
+              if(location!=null) currentWorkerLocation = LatLng(location!.latitude, location!.longitude);
         },
       );
       googleMapController.animateCamera(
@@ -147,7 +149,7 @@ class OrderTrackingPageState extends State<OrderTrackingPage> {
       });
     });
 
-    location.onLocationChanged.listen(
+    /*location.onLocationChanged.listen(
           (newLoc) {
         //currentWorkerLocation = newLoc;
             currentWorkerLocation = LatLng(newLoc.latitude!, newLoc.longitude!);
@@ -164,7 +166,7 @@ class OrderTrackingPageState extends State<OrderTrackingPage> {
         );
         setState(() {});
       },
-    );
+    );*/
   }
 
 }

@@ -6,6 +6,7 @@ import 'package:closer/color/MyColors.dart';
 import 'package:closer/const.dart';
 import 'package:closer/constant/app_size.dart';
 import 'package:closer/localizations.dart';
+import 'package:closer/map/location.dart';
 import 'package:closer/screens/signin.dart';
 import 'package:closer/screens/superVisior/orderID.dart';
 import 'package:closer/screens/worker/taskId.dart';
@@ -278,7 +279,8 @@ class _WorkerOrderState extends State<WorkerOrder> {
         ),
       );
     } else {
-    return DoubleBackToCloseApp(
+    //  updateWokerLocationPackground();
+      return DoubleBackToCloseApp(
       snackBar: SnackBar(
         content: Text(AppLocalizations.of(context)!
             .translate('Tap back again to leave')),

@@ -119,7 +119,7 @@ class APIService {
 
   }
 
-  static Future checkLocation(var orderserviceid) async {
+  static Future<LatLng?> checkLocation(var orderserviceid) async {
     try{
       var url;
       url = Uri.parse("$apiDomain/WorkerTask/WorkerTask_checklocation?orderserviceid=$orderserviceid");

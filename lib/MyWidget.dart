@@ -224,7 +224,7 @@ class MyWidget{
       case "7":
         {
           //return SizedBox(height: 0.001,);
-          status = AppLocalizations.of(navigatorKey.currentContext!)!.translate("Pending");
+          status = AppLocalizations.of(navigatorKey.currentContext!)!.translate("Tracking");
           statusColor = Colors.grey;
         }
         break;

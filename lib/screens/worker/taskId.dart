@@ -81,6 +81,8 @@ class _TaskIdState extends State<TaskId> {
       date = DateTime.parse(date.replaceAll('T', ' ')).add(-timeDiff).toString();
       _finishDate = date.split(" ")[0];
       _finishTime = date.split(" ")[1].toString().split('.')[0];
+    }else if(statusCode == 3){
+      _start =false;
     }
     //selectedTime = TimeOfDay.now();
     var addressArea = ord['OrderService']['Order']['Title']??'';
@@ -563,9 +565,9 @@ class _TaskIdState extends State<TaskId> {
         fcmToken = groupUsers[i]['Users']['FBKey'];
     }
     if(xFile != null) {
-      _suc = await api!.updateWorkerTask(ord['Id'], ord['WorkerId'], ord['OrderServicesId'], ord['Notes'], startDate, ord['EndDate'], 'workerNotes', token, ord['Name'], File(xFile!.path),fcmToken, message: AppLocalizations.of(context!)!.translate('good luck task is started'), status: 1);
+      _suc = await api!.updateWorkerTask(ord['Id'], ord['WorkerId'], ord['OrderServicesId'], ord['Notes'], startDate, ord['EndDate'], 'workerNotes', token, ord['Name'], File(xFile!.path),fcmToken, message: AppLocalizations.of(context!)!.translate('good luck task is started'), status: 3);
     } else {
-      _suc = await api!.updateWorkerTask(ord['Id'], ord['WorkerId'], ord['OrderServicesId'], ord['Notes'], startDate, ord['EndDate'], 'workerNotes', token, ord['Name'], 'File(xFile!.path)',fcmToken, message: AppLocalizations.of(context!)!.translate('good luck task is started'), status: 1);
+      _suc = await api!.updateWorkerTask(ord['Id'], ord['WorkerId'], ord['OrderServicesId'], ord['Notes'], startDate, ord['EndDate'], 'workerNotes', token, ord['Name'], 'File(xFile!.path)',fcmToken, message: AppLocalizations.of(context!)!.translate('good luck task is started'), status: 3);
     }
     if (_suc){
       updateWokerLocationPackground();
