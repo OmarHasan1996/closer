@@ -259,10 +259,8 @@ class _UserOrderState extends State<UserOrder> {
                                                   //totalPrice =0;
                                                   return GestureDetector(
                                                     onTap: () {
-                                                      _showOrderDetails(
-                                                          _finishedOrderData[index],
-                                                          index + 1);
-                                                      //    MyApplication.navigateTo(context, OrderRecipt(order: _finishedOrderData[index],));
+                                                      //_showOrderDetails(_finishedOrderData[index], index + 1);
+                                                         MyApplication.navigateTo(context, OrderRecipt(order: _finishedOrderData[index],));
                                                     },
                                                     child: MyWidget.myOrderlist(
                                                         _finishedOrderData[
@@ -534,7 +532,7 @@ class _UserOrderState extends State<UserOrder> {
                         GestureDetector(
                           onTap: ()=> ord['Status']==7?
                           _openTrackingPage(service[index]['Id'], LatLng(ord['Address']['lat'], ord['Address']['lng']))
-                              :_openTrackingPage(service[index]['Id'], LatLng(ord['Address']['lat'], ord['Address']['lng'])),//null,
+                              :null,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [

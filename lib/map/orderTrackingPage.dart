@@ -1,13 +1,16 @@
 import 'dart:async';
+import 'dart:typed_data';
 import 'package:closer/api/api_service.dart';
 import 'package:closer/color/MyColors.dart';
 import 'package:closer/constant/app_size.dart';
 import 'package:closer/constant/strings.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 // ignore: depend_on_referenced_packages
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:location/location.dart';
+import 'dart:ui' as ui;
 class OrderTrackingPage extends StatefulWidget {
   final String orderServiceId;
   final LatLng distination;
@@ -30,13 +33,14 @@ class OrderTrackingPageState extends State<OrderTrackingPage> {
   void initState() {
     destination = widget.distination;
     getCurrentLocation();
-    //setCustomMarkerIcon();
+    setCustomMarkerIcon();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     getPolyPoints();
+    setCustomMarkerIcon();
     return Scaffold(
       body: currentWorkerLocation == null
           ? const Center(child: Text("Loading"))
@@ -62,12 +66,12 @@ class OrderTrackingPageState extends State<OrderTrackingPage> {
         zoom: 13.5,
       ),
       markers: {
-        Marker(
+        markerCar==null?Marker(
           markerId: const MarkerId("currentLocation"),
           icon: currentLocationIcon,
-          position: LatLng(
-              currentWorkerLocation!.latitude!, currentWorkerLocation!.longitude!),
-        ),
+          position: LatLng(currentWorkerLocation!.latitude!, currentWorkerLocation!.longitude!),
+        ):markerCar!,
+
         /*Marker(
           markerId: const MarkerId("source"),
           icon: sourceIcon,
@@ -117,70 +121,34 @@ class OrderTrackingPageState extends State<OrderTrackingPage> {
 
    }
   }
-
-  void setCustomMarkerIcon() {
-    BitmapDescriptor.fromAssetImage(
-        ImageConfiguration.empty, "assets/Pin_source.png")
-        .then(
-          (icon) {
-        sourceIcon = icon;
-      },
-    );
-    BitmapDescriptor.fromAssetImage(
-        ImageConfiguration.empty, "assets/Pin_destination.png")
-        .then(
-          (icon) {
-        destinationIcon = icon;
-      },
-    );
-    BitmapDescriptor.fromAssetImage(
-        ImageConfiguration.empty, "assets/Badge.png")
-        .then(
-          (icon) {
-        currentLocationIcon = icon;
-      },
-    );
+  Marker? markerCar;
+  void setCustomMarkerIcon() async{
+    if(markerCar==null){
+      final Uint8List? markerIcon = await getBytesFromAsset('assets/images/car_map.png', 100);
+      markerCar = Marker(
+        icon: BitmapDescriptor.fromBytes(markerIcon!),
+        position: LatLng(currentWorkerLocation!.latitude, currentWorkerLocation!.longitude),
+        markerId: const MarkerId("currentLocation"),
+      );
+    }
   }
-
+  Future<Uint8List?> getBytesFromAsset(String path, int width) async {
+    ByteData data = await rootBundle.load(path);
+    ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(), targetWidth: width);
+    ui.FrameInfo fi = await codec.getNextFrame();
+    return (await fi.image.toByteData(format: ui.ImageByteFormat.png))?.buffer.asUint8List();
+  }
   Timer? _timer;
   void getCurrentLocation() async {
-    //Location location = Location();
-   // GoogleMapController googleMapController = await _controller.future;
-   _timer = Timer.periodic(Duration(seconds: 3), (timer) async{
+   _timer = Timer.periodic(Duration(seconds: 4), (timer) async{
       await APIService.checkLocation(widget.orderServiceId).then(
             (location) {
           //currentLocation = location;
               if(location!=null) currentWorkerLocation = LatLng(location!.latitude, location!.longitude);
         },
       );
-      /*googleMapController.animateCamera(
-        CameraUpdate.newCameraPosition(
-          CameraPosition(
-            zoom: 13.5,
-            target: currentWorkerLocation!,
-          ),
-        ),
-      );*/
       setState(() {});
     });
-    /*location.onLocationChanged.listen(
-          (newLoc) {
-        //currentWorkerLocation = newLoc;
-            currentWorkerLocation = LatLng(newLoc.latitude!, newLoc.longitude!);
-        googleMapController.animateCamera(
-          CameraUpdate.newCameraPosition(
-            CameraPosition(
-              zoom: 13.5,
-              target: LatLng(
-                newLoc.latitude!,
-                newLoc.longitude!,
-              ),
-            ),
-          ),
-        );
-        setState(() {});
-      },
-    );*/
   }
 
 }
