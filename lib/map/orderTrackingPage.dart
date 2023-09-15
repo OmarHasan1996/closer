@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'package:closer/api/api_service.dart';
+import 'package:closer/color/MyColors.dart';
+import 'package:closer/constant/app_size.dart';
 import 'package:closer/constant/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -7,15 +9,16 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:location/location.dart';
 class OrderTrackingPage extends StatefulWidget {
-  String orderServiceId;
-  OrderTrackingPage({Key? key, required this.orderServiceId}) : super(key: key);
+  final String orderServiceId;
+  final LatLng distination;
+  OrderTrackingPage({Key? key, required this.orderServiceId, required this.distination}) : super(key: key);
   @override
   State<OrderTrackingPage> createState() => OrderTrackingPageState();
 }
 class OrderTrackingPageState extends State<OrderTrackingPage> {
   final Completer<GoogleMapController> _controller = Completer();
-  static const LatLng sourceLocation = LatLng(25.297593, 55.378071);
-  static const LatLng destination = LatLng(25.2867729,55.3742941);
+ // static const LatLng sourceLocation = LatLng(25.297593, 55.378071);
+  late final LatLng destination;
   BitmapDescriptor sourceIcon = BitmapDescriptor.defaultMarker;
   BitmapDescriptor destinationIcon = BitmapDescriptor.defaultMarker;
   BitmapDescriptor currentLocationIcon = BitmapDescriptor.defaultMarker;
@@ -25,24 +28,33 @@ class OrderTrackingPageState extends State<OrderTrackingPage> {
 
   @override
   void initState() {
+    destination = widget.distination;
     getCurrentLocation();
     //setCustomMarkerIcon();
-    getPolyPoints();
     super.initState();
-
   }
 
   @override
   Widget build(BuildContext context) {
-    getCurrentLocation();
+    getPolyPoints();
     return Scaffold(
       body: currentWorkerLocation == null
           ? const Center(child: Text("Loading"))
-          :googleMaps(),
+          :
+          Stack(
+            children: [
+              googleMaps(),
+              Padding(
+                padding: EdgeInsets.all(AppPadding.p20),
+                child: CloseButton(onPressed: (){
+                  if(_timer!=null) _timer!.cancel();
+                  Navigator.of(context).pop();
+                }, color: AppColors.mainColor,
+                ),
+              ),   ],
+          )
     );
   }
-
-
   Widget googleMaps(){
     return GoogleMap(
       initialCameraPosition: CameraPosition(
@@ -56,11 +68,11 @@ class OrderTrackingPageState extends State<OrderTrackingPage> {
           position: LatLng(
               currentWorkerLocation!.latitude!, currentWorkerLocation!.longitude!),
         ),
-        Marker(
+        /*Marker(
           markerId: const MarkerId("source"),
           icon: sourceIcon,
           position: sourceLocation,
-        ),
+        ),*/
         Marker(
           markerId: const MarkerId("destination"),
           icon: destinationIcon,
@@ -84,21 +96,26 @@ class OrderTrackingPageState extends State<OrderTrackingPage> {
   List<LatLng> polylineCoordinates = [];
 
   void getPolyPoints() async {
-    PolylinePoints polylinePoints = PolylinePoints();
-    PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
-        Strings.mapKey, // Your Google Map Key
-      PointLatLng(sourceLocation.latitude, sourceLocation.longitude),
-      PointLatLng(destination.latitude, destination.longitude),
-      travelMode: TravelMode.driving,
-    );
-    if (result.points.isNotEmpty) {
-      result.points.forEach(
-            (PointLatLng point) => polylineCoordinates.add(
-          LatLng(point.latitude, point.longitude),
-        ),
-      );
-      setState(() {});
-    }
+   try{
+     PolylinePoints polylinePoints = PolylinePoints();
+     PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
+       Strings.mapKey, // Your Google Map Key
+       PointLatLng(currentWorkerLocation!.latitude, currentWorkerLocation!.longitude),
+       PointLatLng(destination.latitude, destination.longitude),
+       travelMode: TravelMode.driving,
+     );
+     if (result.points.isNotEmpty) {
+       result.points.forEach(
+             (PointLatLng point) => polylineCoordinates.add(
+           LatLng(point.latitude, point.longitude),
+         ),
+       );
+       setState(() {});
+     }
+
+   }catch(e){
+
+   }
   }
 
   void setCustomMarkerIcon() {
@@ -125,30 +142,27 @@ class OrderTrackingPageState extends State<OrderTrackingPage> {
     );
   }
 
+  Timer? _timer;
   void getCurrentLocation() async {
     //Location location = Location();
-    GoogleMapController googleMapController = await _controller.future;
-    Timer.periodic(Duration(seconds: 2), (timer) async{
+   // GoogleMapController googleMapController = await _controller.future;
+   _timer = Timer.periodic(Duration(seconds: 3), (timer) async{
       await APIService.checkLocation(widget.orderServiceId).then(
             (location) {
           //currentLocation = location;
               if(location!=null) currentWorkerLocation = LatLng(location!.latitude, location!.longitude);
         },
       );
-      googleMapController.animateCamera(
+      /*googleMapController.animateCamera(
         CameraUpdate.newCameraPosition(
           CameraPosition(
             zoom: 13.5,
             target: currentWorkerLocation!,
           ),
         ),
-      );
+      );*/
       setState(() {});
-      setState(() {
-
-      });
     });
-
     /*location.onLocationChanged.listen(
           (newLoc) {
         //currentWorkerLocation = newLoc;

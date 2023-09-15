@@ -16,6 +16,7 @@ import 'package:closer/screens/order/orderRecipt.dart';
 import 'package:date_format/date_format.dart';
 import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
@@ -379,12 +380,12 @@ class _UserOrderState extends State<UserOrder> {
   String? path;
   XFile? xFile;
 
-  _openTrackingPage(orderServiceId) {
-    APIService.checkLocation(orderServiceId);
+  _openTrackingPage(orderServiceId, LatLng address) {
+  //  APIService.checkLocation(orderServiceId);
     MyApplication.navigateTo(
         context,
         OrderTrackingPage(
-          orderServiceId: orderServiceId,
+          orderServiceId: orderServiceId, distination: address,
         ));
   }
 
@@ -531,7 +532,9 @@ class _UserOrderState extends State<UserOrder> {
                     itemBuilder: (context, index) {
                       return MyWidget.card(
                         GestureDetector(
-                          onTap: ()=> ord['Status']==7?_openTrackingPage(service[index]['Id']):_openTrackingPage(service[index]['Id']),//null,
+                          onTap: ()=> ord['Status']==7?
+                          _openTrackingPage(service[index]['Id'], LatLng(ord['Address']['lat'], ord['Address']['lng']))
+                              :_openTrackingPage(service[index]['Id'], LatLng(ord['Address']['lat'], ord['Address']['lng'])),//null,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [

@@ -122,26 +122,31 @@ class APIService {
   static Future<LatLng?> checkLocation(var orderserviceid) async {
     try{
       var url;
-      url = Uri.parse("$apiDomain/WorkerTask/WorkerTask_checklocation?orderserviceid=$orderserviceid");
+      url = Uri.parse("$apiDomain/Main/WorkerTask/WorkerTask_checklocation?orderserviceid=$orderserviceid");
        http.Response response = await http.get(
         url, headers: {"Authorization": token,},
       );
       print(jsonDecode(response.body));
       if (response.statusCode == 200) {
         print("getOrderders success");
-        var serviceLocation = await jsonDecode(response.body);
-        return LatLng(serviceLocation['Data']['WorkerTasks']['User']['lat']??0.55, serviceLocation['Data']['WorkerTasks']['User']['lng']??0.55);
+        serviceLocation = await jsonDecode(response.body);
+        var lat = serviceLocation['Data'][0]['WorkerTasks'][0]['User']['lat']??25.55;
+        var lng = serviceLocation['Data'][0]['WorkerTasks'][0]['User']['lng']??55.55;
+        return LatLng(lat, lng);
         //editTransactionMyOrders(transactions![0], myOrders);
         //print(myOrders);
         //print("****************************");
         //print(jsonDecode(response.body));
       }
       else{
+        return null;
         //serviceLocation.clear();
       }
     }catch(e){
+      return null;
 
     }
+    return null;
 
   }
 
