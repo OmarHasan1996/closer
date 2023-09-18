@@ -32,9 +32,13 @@ class AppLocalizations {
     return true;
   }
 
+  List<String> currency = ['TL', 'RS'];
   // This method will be called from every widget which needs a localized text
   String translate(String key) {
     String s = '';
+    if(key == 'TRY'){
+      return currency[1];
+    }
     try{
       _localizedStrings[key] == 'null'? s = '' : s = _localizedStrings[key]!;
     }catch(e){

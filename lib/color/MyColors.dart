@@ -16,10 +16,11 @@ class AppColors {
  static const yellow = const Color(0xffffca05) ;
  static const red = const Color(0xff970303) ;
  static const blue = const Color(0xff2e3191);
+ static const purple1 = const Color(0xffE9866C);
  static const purple = const Color.fromARGB(1000,110, 77, 141);
  static const mainColor = const Color(0xffE23C11);
  static const mainColor1 = const Color(0xffF79420);
- static const buttonTextColor = const Color(0xff343434);
+ static const buttonTextColor = const Color(0xffffffff);
  static const textColorWhite = const Color(0xffFFFFFF);
  static const textColorBlack = const Color(0xff000000);
  static const textColorGray = const Color(0xff6A6A6A);

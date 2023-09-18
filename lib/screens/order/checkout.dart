@@ -300,7 +300,6 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                                 child: DropdownButtonHideUnderline(
                                                   child: DropdownButton<String>(
                                                     //isExpanded: true,
-
                                                     value: value3,
                                                     iconSize: 0.0,
                                                     hint: Row(

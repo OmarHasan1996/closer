@@ -42,6 +42,8 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:closer/screens/signin.dart' as signIn;
 import 'package:firebase_remote_config/firebase_remote_config.dart';
+
+import 'screens/language/Languages.dart';
 ///Receive message when app is in background solution for on message
 Future<void> backgroundHandler(RemoteMessage message) async{
   print(message.data.toString());
@@ -127,7 +129,7 @@ class MyApp extends StatelessWidget {
           //locale: LocalizationService().getCurrentLocale(),
           //fallbackLocale: Locale('en', 'US'),
           navigatorKey: navigatorKey,
-          home: LoadingScreen(email: '',),
+          home: Languages(),//LoadingScreen(email: '',),
           routes: {
             'about': (context) => about(),
             'changeLang': (context) => ChangeLang(),
