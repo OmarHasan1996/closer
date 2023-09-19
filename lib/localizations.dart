@@ -47,24 +47,6 @@ class AppLocalizations {
     return s;
   }
 
-  // Your keys defined below
-  /*String get title {
-    return Intl.message(
-      'Hello World',
-      name: 'title',
-      desc: 'Title for the Localized application',
-    );
-  }
-
-  String welcome(String name) {
-    return Intl.message(
-      'Welcome {name}',
-      name: 'welcome',
-      desc: 'Welcome message',
-      args: [name],
-    );
-  }
-*/
 }
 
 class AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

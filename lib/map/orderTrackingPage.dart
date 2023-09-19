@@ -140,7 +140,14 @@ class OrderTrackingPageState extends State<OrderTrackingPage> {
   }
   Timer? _timer;
   void getCurrentLocation() async {
-   _timer = Timer.periodic(Duration(seconds: 4), (timer) async{
+    await APIService.checkLocation(widget.orderServiceId).then(
+          (location) {
+        //currentLocation = location;
+        if(location!=null) currentWorkerLocation = LatLng(location!.latitude, location!.longitude);
+      },
+    );
+    setState(() {});
+    _timer = Timer.periodic(Duration(seconds: 4), (timer) async{
       await APIService.checkLocation(widget.orderServiceId).then(
             (location) {
           //currentLocation = location;

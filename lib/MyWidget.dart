@@ -14,6 +14,7 @@ import 'package:closer/screens/order/newOrder.dart';
 import 'package:closer/screens/signin.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:progress_indicators/progress_indicators.dart';
+import 'package:rating_dialog/rating_dialog.dart';
 import 'const.dart';
 import 'localization_service.dart';
 import 'localizations.dart';
@@ -202,21 +203,25 @@ class MyWidget{
   }
 
   static myOrderlist(ord, index, Function() setState, chCircle,) {
-    var serial;!worker? serial = ord['Serial'] : serial= ord['OrderService']['Order']['Serial'];
-    var Id;!worker? Id = ord['Servicess'][0]['OrderId'] : Id= ord['OrderService']['OrderId'];
-    var amount; !worker? amount = ord['Amount'].toString(): amount = ord['OrderService']['Order']['Amount'];
-    var date; !worker? date = ord['OrderDate']:date = ord['OrderService']['Order']['OrderDate'];
-    var addressArea; !worker? addressArea = ord['Address']['Title']??'':addressArea = ord['OrderService']['Order']['Address']['Title']??'';
-    var addressCity; !worker? addressCity = ord['Address']['Title']??'': addressCity = ord['OrderService']['Order']['Address']['Title']??'';
-    var statusCode; !worker? statusCode = ord['Status'].toString():statusCode = ord['Status'].toString();
+    var serial; serial = ord['Serial'];
+    var Id;Id = ord['Servicess'][0]['OrderId'];
+    var amount; amount = ord['Amount'].toString();
+    var date; date = ord['OrderDate'];
+    var addressArea; addressArea = ord['Address']['Title']??'';
+    var addressCity; addressCity = ord['Address']['Title']??'';
+    var statusCode; statusCode = ord['Status'].toString();
+    var rate = 3;
+    var rateNote = 'rateNote rateNote rateNote';
     amount = amount.toString() +" \.${AppLocalizations.of(navigatorKey.currentContext!)!.translate('TRY')} ";
     //statusCode = '2';
     String status = "";
     Color statusColor = Colors.grey;
+    bool showReview = false;
     switch (statusCode) {
       case "8":
         {
           //return SizedBox(height: 0.001,);
+          showReview = true;
           status = AppLocalizations.of(navigatorKey.currentContext!)!.translate("finished");
           statusColor = Colors.grey;
         }
@@ -322,6 +327,64 @@ class MyWidget{
           break;
       }
     }
+    _review({required orderId}){
+
+      final _dialog = RatingDialog(
+        initialRating: 1.0,
+        // your app's name?
+        title: MyWidget(navigatorKey.currentContext!).textBlack20("#"+AppLocalizations.of(navigatorKey.currentContext!)!.translate('Order Id: ') + serial.toString(), scale: 0.9),
+        // encourage your user to leave a high rating?
+        message: MyWidget(navigatorKey.currentContext!).textBlack20(AppLocalizations.of(navigatorKey.currentContext!)!.translate('Reviews are public and include your account and device info'), scale: 0.8),
+        // your app's logo?
+        image: Image.asset('assets/images/logo000.png', height: AppHeight.h18,),
+        submitButtonText: 'Submit',
+        submitButtonTextStyle: TextStyle(color: AppColors.mainColor, fontSize: FontSize.s20),
+        commentHint: AppLocalizations.of(navigatorKey.currentContext!)!.translate('Describe your experience'),
+        starColor: AppColors.mainColor,
+        onCancelled: () => print('cancelled'),
+        onSubmitted: (response) {
+          print('rating: ${response.rating}, comment: ${response.comment}');
+          // TODO: add your own logic
+        },
+      );
+
+      // show the dialog
+      showDialog(
+        context: navigatorKey.currentContext!,
+        barrierDismissible: true, // set to false if you want to force a rating
+        builder: (context) => _dialog,
+      );
+    }
+    _reviewWidget({required bool reviewed}){
+      return Column(
+        children: [
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: AppHeight.h1),
+            child: Divider(
+              color: Colors.grey[900],
+              height: 1,
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              MyWidget(navigatorKey.currentContext!).textBlack20(AppLocalizations.of(navigatorKey.currentContext!)!.translate(reviewed?'Ratings and Reviews':'Write a Review'), scale: 0.8),
+              IconButton(onPressed: ()=>_review(orderId: Id), icon: Icon(reviewed?Icons.edit_outlined:Icons.arrow_forward, color: AppColors.mainColor,)),
+              ],
+          ),
+          reviewed?
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ratingStars(rate: rate),
+              MyWidget(navigatorKey.currentContext!).textBlack20(rateNote, scale: 0.7),
+              SizedBox(height: AppHeight.h1,)
+            ],
+          ):
+          SizedBox()
+        ],
+      );
+    }
 
     cardButton(statusCode, color, id, index) {
       if(worker) return SizedBox(
@@ -394,15 +457,15 @@ class MyWidget{
     orderCard(index, statusColor, status, addressArea, amount,String date, statusCode, Id, serial, {String? taskName}) {
       return Padding(
         padding: EdgeInsets.symmetric(
-            vertical: MediaQuery.of(navigatorKey.currentContext!).size.height / 200,
+            vertical: AppHeight.h1/2,
             horizontal: MediaQuery.of(navigatorKey.currentContext!).size.width / 40),
         child: Card(
             shape: RoundedRectangleBorder(
               borderRadius:
-              BorderRadius.circular(AppHeight.h2),
+              BorderRadius.circular(AppWidth.w4),
               side: BorderSide(
                 color: statusColor,
-                width: 2.0,
+                width: 1.0,
               ),
             ),
             child: Stack(
@@ -410,81 +473,36 @@ class MyWidget{
                 Align(
                   alignment: Alignment.center,
                   child: Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: AppWidth.w2),
+                    padding: EdgeInsets.symmetric(horizontal: AppWidth.w4,),
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        SizedBox(height: AppHeight.h2,),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             MyWidget(navigatorKey.currentContext!).textBlack20(taskName ?? AppLocalizations.of(navigatorKey.currentContext!)!.translate('Order Id: ') + serial.toString(), scale: 0.85),
-                            SizedBox(
-                              width: AppWidth.w1,
-                              //child: Text(),
-                            ),
-                            Container(
-                              alignment: Alignment.centerRight,
-                              width: MediaQuery.of(navigatorKey.currentContext!).size.width * 0.5,
-                              height: MediaQuery.of(navigatorKey.currentContext!).size.height / 10,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  const Expanded(
-                                    flex: 1,
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                      CrossAxisAlignment.start,
-                                      children: [Text("")],
-                                    ),
-                                  ),
-                                  Expanded(
-                                    flex: 1,
-                                    child: status != null? GestureDetector(
-                                      onTap: () {},
-                                      child:
-                                      MyWidget(navigatorKey.currentContext!).textBlack20(status, scale: 0.85, color: statusColor),
-                                      /*Icon(
-                                Icons.close_outlined,
-                                size: MediaQuery.of(context).size.width / 18,
-                                color: Colors.grey,
-                              ),*/
-                                    ):SizedBox(height: 0,),//IconButton(onPressed: () => rejectOrder(), icon: Icon(Icons.delete_forever_outlined)),
-                                  ),
-                                ],
-                              ),
-                            ),
+                            MyWidget(navigatorKey.currentContext!).textBlack20(status, scale: 0.85, color: statusColor),
                           ],
                         ),
-                        Row(
-                          children: [
-                            MyWidget(navigatorKey.currentContext!).textGrayk28(addressArea, color: Colors.grey)
-                          ],
-                        ),
-                        SizedBox(
-                          height: MediaQuery.of(navigatorKey.currentContext!).size.height / 80,
-                        ),
-                        Divider(
-                          color: Colors.grey[900],
-                          height: 1,
+                        SizedBox(height: AppHeight.h1,),
+                        MyWidget(navigatorKey.currentContext!).textGrayk28(addressArea, color: Colors.grey),
+                        Padding(
+                          padding: EdgeInsets.symmetric(vertical: AppHeight.h1),
+                          child: Divider(
+                            color: Colors.grey[900],
+                            height: 1,
+                          ),
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            MyWidget(navigatorKey.currentContext!).textBlack20(amount.toString(), scale: 0.85),
-                            /* SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.01,
-                            //child: Text(),
-                          ),*/
-                            Container(
-                                alignment: Alignment.centerRight,
-                                //width: MediaQuery.of(context).size.width * 0.5,
-                                height: AppHeight.h10,
-                                child:
-                                MyWidget(navigatorKey.currentContext!).textBlack20(DateTime.parse(date.replaceAll('T', ' ')).add(-timeDiff).toString().split(' ')[0], scale: 0.85)
-                            ),
+                            MyWidget(navigatorKey.currentContext!).textBlack20(amount.toString(), scale: 0.85, color: AppColors.red),
+                            MyWidget(navigatorKey.currentContext!).textBlack20(DateTime.parse(date.replaceAll('T', ' ')).add(-timeDiff).toString().split(' ')[0], scale: 0.85),
                           ],
                         ),
+                        showReview?_reviewWidget(reviewed: true):SizedBox(),
+                        SizedBox(height: showReview? AppHeight.h1/2:AppHeight.h2,),
                       ],
                     ),
                   ),
@@ -497,7 +515,18 @@ class MyWidget{
             )),
       );
     }
-    return orderCard(index, statusColor, status, addressArea, amount, date, statusCode, Id, serial);
+     return orderCard(index, statusColor, status, addressArea, amount, date, statusCode, Id, serial);
+  }
+
+  static ratingStars({required int rate}){
+    List<bool> l = [];
+    for(int i=0; i<5; i++){
+      if(rate > i) l.add(true);
+      else l.add(false);
+    }
+    return Row(
+      children: l.map((e) => Icon(e?Icons.star : Icons.star_border_outlined, color: AppColors.mainColor,)).toList(),
+    );
   }
 
   static textHeader(text) {
@@ -558,6 +587,7 @@ class MyWidget{
       ),
     );
   }
+
   static loadBannerAdd(){
     return SizedBox();
     /*bannerSize = AdmobBannerSize.ADAPTIVE_BANNER(

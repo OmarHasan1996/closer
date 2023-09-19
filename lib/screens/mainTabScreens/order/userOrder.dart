@@ -45,18 +45,6 @@ class _UserOrderState extends State<UserOrder> {
           SizedBox(
             height: MediaQuery.of(context).size.height / 300,
           ),
-          Padding(
-            padding: EdgeInsets.symmetric(
-                vertical: MediaQuery.of(context).size.height / 100,
-                horizontal: MediaQuery.of(context).size.width / 20),
-            child: Container(
-                //alignment: Alignment.topLeft,
-                padding: EdgeInsets.only(
-                    left: MediaQuery.of(context).size.width / 20,
-                    right: MediaQuery.of(context).size.width / 20),
-                child: MyWidget(context).textTitle15(
-                    AppLocalizations.of(context)!.translate('My Order'))),
-          ),
           Expanded(
             child: Container(
               child: Padding(
@@ -114,8 +102,7 @@ class _UserOrderState extends State<UserOrder> {
                               ),
                             ),
                             SizedBox(
-                              height: MediaQuery.of(context).size.height /
-                                  2.05, //height of TabBarView
+                              height: AppHeight.h60, //height of TabBarView
                               child: TabBarView(
                                 physics: const NeverScrollableScrollPhysics(),
                                 children: <Widget>[
@@ -200,9 +187,7 @@ class _UserOrderState extends State<UserOrder> {
                                                 _loading = true;
                                                 return MyWidget.jumbingDotes(
                                                     _loading);
-                                                return SizedBox();
                                               } else {
-                                                //return SizedBox();
                                                 _loading = false;
                                                 return ListView.builder(
                                                   itemCount: _orderData != null
