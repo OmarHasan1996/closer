@@ -515,7 +515,7 @@ class _UserOrderState extends State<UserOrder> {
                     itemBuilder: (context, index) {
                       return MyWidget.card(
                         GestureDetector(
-                          onTap: ()=> ord['Status']==7?
+                          onTap: ()=> ord['Status']==7 || ord['Status']==6?
                           _openTrackingPage(service[index]['Id'], LatLng(ord['Address']['lat'], ord['Address']['lng']))
                               :null,
                           child: Row(

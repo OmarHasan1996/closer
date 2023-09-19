@@ -71,7 +71,7 @@ class _TaskIdState extends State<TaskId> {
     var workerName = ord['User']['Name'] + ' ' + ord['User']['LastName'];
     var date = ord['StartDate'];
     statusCode = ord['Status'];
-    taskName = ord['Name'];
+    taskName = ord['Name']??'';
     date = DateTime.parse(date.replaceAll('T', ' ')).add(-timeDiff).toString();
     _orderDate= date.split(" ")[0];
     _orderTime  = date.split(" ")[1].toString().split('.')[0];
@@ -588,7 +588,9 @@ class _TaskIdState extends State<TaskId> {
     await getCurrentLocation();
     String googleUrl = 'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
     googleUrl = "https://www.google.com/maps/dir/${currentLocation!.latitude??''},${currentLocation!.longitude}/$latitude,$longitude";
+    // ignore: deprecated_member_use
     if (await canLaunch(googleUrl)) {
+      // ignore: deprecated_member_use
       await launch(googleUrl);
     } else {
       throw 'Could not open the map.';

@@ -402,14 +402,7 @@ class _WorkerOrderState extends State<WorkerOrder> {
                                                         Navigator.push(this.context, MaterialPageRoute(builder: (context) => TaskId(token, _orderData[index]),),).then((_) {
                                                           setState(() {});
                                                         });
-                                                        /*_showOrderDetails(
-                                                orderData[index],
-                                                index + 1);*/
-                                                        // order details
-                                                        //**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**
-                                                        //**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**
-                                                        //**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**
-                                                      },
+                                                        },
                                                       child: MyWidget.myTasklist(
                                                           _orderData[index],
                                                           index + 1,()=> _setState(), chCircle),
@@ -445,9 +438,9 @@ class _WorkerOrderState extends State<WorkerOrder> {
                                                     //totalPrice =0;
                                                     return GestureDetector(
                                                       onTap: () {
-                                                        /*_showOrderDetails(
-                                                              orderData[index],
-                                                              index + 1);*/
+                                                       /* Navigator.push(this.context, MaterialPageRoute(builder: (context) => TaskId(token, _finishedOrderData[index]),),).then((_) {
+                                                          setState(() {});
+                                                        });*/
                                                       },
                                                       child: MyWidget.myTasklist(
                                                           _finishedOrderData[index],
@@ -490,10 +483,6 @@ class _WorkerOrderState extends State<WorkerOrder> {
       for (int i = 0; i < k; i++) {
         _orderData.add(myOrders['Data'][i]);
       }
-      /*myOrders.forEach((key, value) {
-        //if(key == 'Data')
-        orderData.add(myOrders[key]);
-      });*/
         _orderData.sort((a, b) {
           var adate = a['StartDate']; //before -> var adate = a.expiry;
           var bdate = b['StartDate']; //before -> var bdate = b.expiry;
@@ -506,6 +495,8 @@ class _WorkerOrderState extends State<WorkerOrder> {
               _finishedOrderData.add(_orderData[i]);
               _orderData.removeAt(i);
               i--;
+            }else if(_orderData[i]['Status'] == 3 && !isBoss){
+              updateWokerLocationPackground();
             }
           }
         }

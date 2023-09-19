@@ -206,85 +206,6 @@ class _SubServiceScreenState extends State<SubServiceScreen> {
               ),
             ),
             loadBannerAdd(),
-
-            /* Container(
-                child: Column(
-                  children: [
-                    Container(
-                      alignment: Alignment.center,
-                      width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height / 90,
-                      decoration: BoxDecoration(
-                        color: Color(0xffffca05),
-                      ),
-                    ),
-                    Container(
-                      alignment: Alignment.center,
-                      width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height / 10,
-                      decoration: BoxDecoration(
-                        color: Color(0xff2e3191),
-                      ),
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(
-                            vertical: 0,
-                            horizontal: MediaQuery.of(context).size.width / 7),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Column(
-                              children: [
-                                Icon(
-                                  Icons.home_outlined,
-                                  color: Color(0xffffca05),
-                                  size: MediaQuery.of(context).size.width / 9,
-                                ),
-                                Text(
-                                  'Home'.tr,
-                                  style: TextStyle(
-                                    color: Color(0xffffca05),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Column(
-                              children: [
-                                Icon(
-                                  Icons.shopping_cart_outlined,
-                                  color: Colors.white,
-                                  size: MediaQuery.of(context).size.width / 9,
-                                ),
-                                Text(
-                                  'My Order'.tr,
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Column(
-                              children: [
-                                Icon(
-                                  Icons.face,
-                                  color: Colors.white,
-                                  size: MediaQuery.of(context).size.width / 9,
-                                ),
-                                Text(
-                                  'My profile'.tr,
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ],
-                            ),
-
-                            //icons(Icons.home_outlined, "Home",),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ))*/
           ]),
         ),
     );
@@ -427,7 +348,6 @@ class _SubServiceScreenState extends State<SubServiceScreen> {
       ),
     );
   }
-
 
   _setState(){
     setState(() {});

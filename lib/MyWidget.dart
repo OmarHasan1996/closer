@@ -34,31 +34,10 @@ class MyWidget{
     var date = ord['StartDate'];
     var addressArea = ord['OrderService']['Order']['Address']['Title'];
     var statusCode = ord['Status'].toString();
-    //statusCode = '2';
+   // statusCode = '1';
     String status = "";
     Color statusColor = Colors.grey;
     switch (statusCode) {
-      case "8":
-        {
-          //return SizedBox(height: 0.001,);
-          status = AppLocalizations.of(navigatorKey.currentContext!)!.translate("finished");
-          statusColor = Colors.grey;
-        }
-        break;
-      case "7":
-        {
-          //return SizedBox(height: 0.001,);
-          status = AppLocalizations.of(navigatorKey.currentContext!)!.translate("Pending");
-          statusColor = Colors.grey;
-        }
-        break;
-      case "6":
-        {
-          //return SizedBox(height: 0.001,);
-          status = AppLocalizations.of(navigatorKey.currentContext!)!.translate("payed");
-          statusColor = AppColors.green;
-        }
-        break;
       case "5":
         {
           status = AppLocalizations.of(navigatorKey.currentContext!)!.translate("Rejected");
@@ -73,7 +52,7 @@ class MyWidget{
         break;
       case "3":
         {
-          status = AppLocalizations.of(navigatorKey.currentContext!)!.translate("Change Date");
+          status = AppLocalizations.of(navigatorKey.currentContext!)!.translate("At the road");
           statusColor = AppColors.blue;
         }
         break;
@@ -284,7 +263,7 @@ class MyWidget{
     }
     void _goToPay(i) {
       Navigator.push(navigatorKey.currentContext!,
-          MaterialPageRoute(builder: (context) => Payment(ord, token))).then((_) {setState;});
+          MaterialPageRoute(builder: (context) => Payment(ord, token))).then((_) {setState();});
     }
 
     String address = addressCity + " / " + addressArea;
@@ -297,10 +276,10 @@ class MyWidget{
           {
             bool _suc = await APIService(context: navigatorKey.currentContext).destroyOrder(Id);
             if (_suc){
-              setState;
+              setState();
               APIService.flushBar(AppLocalizations.of(navigatorKey.currentContext!)!.translate('Order Destroy'));
              // Timer(Duration(seconds:1), ()=>setState(() {}));
-              setState;
+              setState();
             }
           }
           break;
@@ -451,7 +430,7 @@ class MyWidget{
         //padding: EdgeInsets.only(top: MediaQuery.of(context).size.height/5),
         //height: double.infinity,
         alignment: Alignment.bottomCenter,
-        child: MyWidget(navigatorKey.currentContext!).raisedButton(text, () => clickCardButton,  AppWidth.w28, chCircle, buttonText: color, colorText: Colors.grey, roundBorder:  AppHeight.h2, padV: AppHeight.h2),
+        child: MyWidget(navigatorKey.currentContext!).raisedButton(text, () => clickCardButton(),  AppWidth.w28, chCircle, buttonText: color, colorText: Colors.grey, roundBorder:  AppHeight.h2, padV: AppHeight.h2),
       );
     }
     orderCard(index, statusColor, status, addressArea, amount,String date, statusCode, Id, serial, {String? taskName}) {

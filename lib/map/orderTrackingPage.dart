@@ -27,7 +27,7 @@ class OrderTrackingPageState extends State<OrderTrackingPage> {
   BitmapDescriptor currentLocationIcon = BitmapDescriptor.defaultMarker;
   //LocationData? currentLocation;
   LatLng? currentWorkerLocation;
-
+  String _text = "loading";
 
   @override
   void initState() {
@@ -43,7 +43,7 @@ class OrderTrackingPageState extends State<OrderTrackingPage> {
     setCustomMarkerIcon();
     return Scaffold(
       body: currentWorkerLocation == null
-          ? const Center(child: Text("Loading"))
+          ? Center(child: Text(_text))
           :
           Stack(
             children: [
@@ -55,7 +55,8 @@ class OrderTrackingPageState extends State<OrderTrackingPage> {
                   Navigator.of(context).pop();
                 }, color: AppColors.mainColor,
                 ),
-              ),   ],
+              ),
+            ],
           )
     );
   }
@@ -109,9 +110,9 @@ class OrderTrackingPageState extends State<OrderTrackingPage> {
        travelMode: TravelMode.driving,
      );
      if (result.points.isNotEmpty) {
+       result.points.removeAt(result.points.length-1);
        result.points.forEach(
-             (PointLatLng point) => polylineCoordinates.add(
-           LatLng(point.latitude, point.longitude),
+             (PointLatLng point) => polylineCoordinates.add(LatLng(point.latitude, point.longitude),
          ),
        );
        setState(() {});
@@ -140,22 +141,17 @@ class OrderTrackingPageState extends State<OrderTrackingPage> {
   }
   Timer? _timer;
   void getCurrentLocation() async {
-    await APIService.checkLocation(widget.orderServiceId).then(
-          (location) {
-        //currentLocation = location;
-        if(location!=null) currentWorkerLocation = LatLng(location!.latitude, location!.longitude);
-      },
-    );
-    setState(() {});
-    _timer = Timer.periodic(Duration(seconds: 4), (timer) async{
+   _timer = Timer.periodic(Duration(seconds: 25), (timer) async{
       await APIService.checkLocation(widget.orderServiceId).then(
             (location) {
           //currentLocation = location;
               if(location!=null) currentWorkerLocation = LatLng(location!.latitude, location!.longitude);
+              else _text = "Can't reach order location";
         },
       );
       setState(() {});
     });
   }
+
 
 }

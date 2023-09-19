@@ -130,9 +130,16 @@ class APIService {
       if (response.statusCode == 200) {
         print("getOrderders success");
         serviceLocation = await jsonDecode(response.body);
-        var lat = serviceLocation['Data'][0]['WorkerTasks'][0]['User']['lat']??25.55;
-        var lng = serviceLocation['Data'][0]['WorkerTasks'][0]['User']['lng']??55.55;
-        return LatLng(lat, lng);
+        for(var t in serviceLocation['Data'][0]['WorkerTasks']){
+          if(t['User']['lng']==null || t['User']['lat']==null){
+            //flushBar("Can't get driver location");
+          }else{
+            var lat = t['User']['lat']??25.55;
+            var lng = t['User']['lng']??55.55;
+            return LatLng(lat, lng);
+          }
+        }
+
         //editTransactionMyOrders(transactions![0], myOrders);
         //print(myOrders);
         //print("****************************");
@@ -916,7 +923,7 @@ class APIService {
         "Id": taskId.toString(), //orderId
         "WorkerId": workerId.toString(),
         "OrderServicesId": serviceId.toString(), //serviceId
-        "Status": 2,
+        "Status": status,
         "Notes": supervisorNotes.toString(), //supervisorNotes
         "StartDate": startDate,
         "Name": taskName,

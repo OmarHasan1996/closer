@@ -108,8 +108,9 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
   TimeOfDay? _maxStartTime, _minEndTime;
 
   TimeOfDay _stringToTimeOfDay(String tod) {
+
     final format = DateFormat.jm(); //"6:00 AM"
-    return TimeOfDay.fromDateTime(format.parse(tod));
+    return TimeOfDay.fromDateTime(format.parse(tod + ' AM'));
   }
   @override
   void initState() {
@@ -126,12 +127,12 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
       }catch(e){}
       try{
         if(_stringToTimeOfDay(o[0][0]['StartServeDate']).compareTo(_maxStartTime!)>0){
-          _maxStartTime??= _stringToTimeOfDay(o[0][0]['StartServeDate']/*.replaceAll('T', ' ')*/).add(-timeDiff);
+          _maxStartTime??= _stringToTimeOfDay(o[0][0]['StartServeDate']/*.replaceAll('T', ' ')*/);
         }
       }catch(e){}
       try{
         if(_stringToTimeOfDay(o[0][0]['EndServeDate']).compareTo(_minEndTime!)<0){
-          _minEndTime??= _stringToTimeOfDay(o[0][0]['EndServeDate']/*.replaceAll('T', ' ')*/).add(-timeDiff);
+          _minEndTime??= _stringToTimeOfDay(o[0][0]['EndServeDate']/*.replaceAll('T', ' ')*/);
         }
       }catch(e){}
     }
@@ -197,7 +198,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                       crossAxisAlignment:
                                       CrossAxisAlignment.start,
                                       children: [
-                                        Icon(
+                                        const Icon(
                                           Icons.error_outline,
                                           color: Colors.grey,
                                         ),
@@ -222,12 +223,12 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                           color: Colors.grey.withOpacity(0.5),
                                           spreadRadius: 2,
                                           blurRadius: 3,
-                                          offset: Offset(
+                                          offset: const Offset(
                                               0, 1), // changes position of shadow
                                         ),
                                       ],
                                       borderRadius:
-                                      BorderRadius.all(Radius.circular(20)),
+                                      const BorderRadius.all(Radius.circular(20)),
                                     ),
                                     child: Padding(
                                       padding: EdgeInsets.symmetric(
@@ -276,59 +277,47 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                           ),
                                           Expanded(
                                             flex: 1,
-                                            child: Padding(
+                                            child: Container(
+                                              margin: EdgeInsets.symmetric(
+                                                  horizontal: MediaQuery.of(context).size.width / 40,
+                                                  vertical: MediaQuery.of(context).size.height / 160),
                                               padding: EdgeInsets.symmetric(
-                                                  horizontal:
-                                                  MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                      40,
-                                                  vertical: MediaQuery.of(context)
-                                                      .size
-                                                      .height /
-                                                      160),
-                                              child: Container(
-                                                padding: EdgeInsets.symmetric(
-                                                  horizontal: MediaQuery.of(context).size.width / 20,
-                                                  vertical: AppHeight.h1,
-                                                ),
-                                                decoration: BoxDecoration(
-                                                  color: Colors.grey[200],
-                                                  borderRadius: BorderRadius.all(
-                                                      Radius.circular(MediaQuery.of(context).size.height / 40)),
-                                                ),
-                                                child: DropdownButtonHideUnderline(
-                                                  child: DropdownButton<String>(
-                                                    //isExpanded: true,
-                                                    value: value3,
-                                                    iconSize: 0.0,
-                                                    hint: Row(
-                                                      children: [
-                                                        Expanded(
-                                                            flex: 1,
-                                                            child: Icon(
-                                                              Icons.pin_drop_outlined,
-                                                              color: Colors.grey,
-                                                            )),
-                                                        Expanded(
-                                                            flex: 9,
-                                                            child: Text(
-                                                              "City/Town/Near By Near By something",
-                                                              overflow:
-                                                              TextOverflow.ellipsis,
-                                                              style: TextStyle(
-                                                                fontSize: min(MediaQuery.of(context).size.width / 30,MediaQuery.of(context).size.height / 69),
-                                                              ),
-                                                            )),
-                                                        Icon(Icons.arrow_drop_down_outlined),
-                                                      ],
-                                                    ),
-                                                    items: Address.map(buildMenuItem).toList(),
-                                                    onChanged: (value3) =>
-                                                        setState(() {
-                                                          this.value3 = value3;
-                                                        }),
+                                                horizontal: MediaQuery.of(context).size.width / 20,
+                                                vertical: AppHeight.h1,
+                                              ),
+                                              decoration: BoxDecoration(
+                                                color: Colors.grey[200],
+                                                borderRadius: BorderRadius.all(Radius.circular(MediaQuery.of(context).size.height / 40)),
+                                              ),
+                                              child: DropdownButtonHideUnderline(
+                                                child: DropdownButton<String>(
+                                                  isExpanded: true,
+                                                  value: value3,
+                                                  iconSize: 0.0,
+                                                  hint: Row(
+                                                    children: [
+                                                      const Icon(
+                                                        Icons.pin_drop_outlined,
+                                                        color: Colors.grey,
+                                                      ),
+                                                      Expanded(
+                                                        child: Text(
+                                                          "City/Town/Near By Near By something",
+                                                          overflow:
+                                                          TextOverflow.ellipsis,
+                                                          style: TextStyle(
+                                                            fontSize: min(MediaQuery.of(context).size.width / 30,MediaQuery.of(context).size.height / 69),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      const Icon(Icons.arrow_drop_down_outlined),
+                                                    ],
                                                   ),
+                                                  items: Address.map(buildMenuItem).toList(),
+                                                  onChanged: (value3) =>
+                                                      setState(() {
+                                                        this.value3 = value3;
+                                                      }),
                                                 ),
                                               ),
                                             ),
@@ -356,12 +345,12 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                           color: Colors.grey.withOpacity(0.5),
                                           spreadRadius: 2,
                                           blurRadius: 3,
-                                          offset: Offset(
+                                          offset: const Offset(
                                               0, 1), // changes position of shadow
                                         ),
                                       ],
                                       borderRadius:
-                                      BorderRadius.all(Radius.circular(20)),
+                                      const BorderRadius.all(Radius.circular(20)),
                                     ),
                                     child: Padding(
                                       padding: EdgeInsets.symmetric(
@@ -402,7 +391,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                                             color:
                                                             Colors.grey[200],
                                                             borderRadius:
-                                                            BorderRadius.all(
+                                                            const BorderRadius.all(
                                                                 Radius
                                                                     .circular(
                                                                     50)),
@@ -438,10 +427,10 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                                                           val;
                                                                     },
                                                                     decoration: InputDecoration(
-                                                                        disabledBorder: UnderlineInputBorder(borderSide: BorderSide.none),
+                                                                        disabledBorder: const UnderlineInputBorder(borderSide: BorderSide.none),
                                                                         // labelText: 'Time',
                                                                         hintText: AppLocalizations.of(context)!.translate('press'),
-                                                                        contentPadding: EdgeInsets.only(top: 0.0)),
+                                                                        contentPadding: const EdgeInsets.only(top: 0.0)),
                                                                   ),
                                                                 ),
                                                               ),
@@ -499,7 +488,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                                             color:
                                                             Colors.grey[200],
                                                             borderRadius:
-                                                            BorderRadius.all(
+                                                            const BorderRadius.all(
                                                                 Radius
                                                                     .circular(
                                                                     50)),
@@ -530,10 +519,10 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                                                           val;
                                                                     },
                                                                     decoration: InputDecoration(
-                                                                        disabledBorder: UnderlineInputBorder(borderSide: BorderSide.none),
+                                                                        disabledBorder: const UnderlineInputBorder(borderSide: BorderSide.none),
                                                                         // labelText: 'Time',
                                                                         hintText: AppLocalizations.of(context)!.translate('press'),
-                                                                        contentPadding: EdgeInsets.all(5)),
+                                                                        contentPadding: const EdgeInsets.all(5)),
                                                                   ),
                                                                 ),
                                                               ),
@@ -633,11 +622,11 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
         children: [
           Row(
             children: [
-              Icon(Icons.pin_drop_outlined),
+              const Icon(Icons.pin_drop_outlined),
               Flexible(
                 child: Text(
                   tmp['Address'],
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: AppColors.black,
                   ),
                 ),
@@ -653,16 +642,23 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
   Padding _orderlist(ord, index) {
     var name = ord[0][0]['Name'];
     String? startTime, endTime;
+    bool outOfTime = false;
     try{
-      startTime = DateTime.parse(ord[0][0]['StartServeDate']/*.replaceAll('T', ' ')*/).add(-timeDiff).toString();
-      endTime = DateTime.parse(ord[0][0]['EndServeDate']/*.replaceAll('T', ' ')*/).add(-timeDiff).toString();
-    }catch(e){}
+      startTime = ord[0][0]['StartServeDate']/*.replaceAll('T', ' ')*/.toString();
+      endTime = ord[0][0]['EndServeDate']/*.replaceAll('T', ' ')*/.toString();
+      if(selectedTime!= null){
+        if(selectedTime!.compareTo(_stringToTimeOfDay(startTime))<0) outOfTime = true;
+        if(selectedTime!.compareTo(_stringToTimeOfDay(endTime))>0) outOfTime = true;
+      }
+    }catch(e){
+      print('AAAA');
+    }
     return Padding(
       padding: EdgeInsets.symmetric(
         vertical: MediaQuery.of(context).size.height / 160,
       ),
       child: Container(
-        child: MyWidget(context).textBlack20('${index + 1}' + '- ' + '$name [$startTime - $endTime]', color: Colors.grey[600], bold: false, scale: 0.9),
+        child: MyWidget(context).textBlack20('${index + 1}' + '- ' + '$name [$startTime - $endTime]', color: !outOfTime?Colors.grey[600]:AppColors.red, bold: false, scale: 0.9),
       ),
     );
   }
@@ -834,7 +830,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
         size: MediaQuery.of(context).size.width / 18,
         color: AppColors.white,
       ),
-      duration: Duration(seconds: 3),
+      duration: const Duration(seconds: 3),
       shouldIconPulse: false,
       flushbarPosition: FlushbarPosition.TOP,
       borderRadius: BorderRadius.all(Radius.circular(
