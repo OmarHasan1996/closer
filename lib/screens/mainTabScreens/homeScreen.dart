@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:math';
+import 'package:closer/constant/apiUrl.dart';
 import 'package:closer/constant/font_size.dart';
 import 'package:http/http.dart' as http;
 import 'package:another_flushbar/flushbar.dart';
@@ -172,11 +173,14 @@ class _HomeScreenState extends State<HomeScreen> {
   Future _getServiceData(tokenn) async {
     //token = tokenn;
     print(tokenn);
-    var url = Uri.parse('$apiDomain/Main/Services/Services_Read?filter=ServiceParentId~eq~null');
+    var url = Uri.parse('${ApiUrl.mainServiceRead}filter=Service.ServiceParentId~eq~null');
     http.Response response = await http.get(url, headers: {"Authorization": tokenn!,},);
     if (response.statusCode == 200) {
       var item = await json.decode(response.body)["result"]['Data'];
-      service = item;
+      service.clear();// = item;
+      for(var e in item){
+        service.add(e['Service']);
+      }
       editTransactionService(transactions![0], service);
       //Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => MainScreen(token: tokenn, service: service,selectedIndex: 0, initialOrderTab: 0,),),);
     } else {
@@ -191,9 +195,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void getSubServiceData(var id, {String? search}) async {
     try{
-      var url = Uri.parse('$apiDomain/Main/Services/Services_Read?filter=ServiceParentId~eq~$id');
+      var url = Uri.parse('${ApiUrl.mainServiceRead}filter=Service.ServiceParentId~eq~$id');
       if(search != null)
-        url = Uri.parse('$apiDomain/Main/Services/Services_Read?');
+        url = Uri.parse('${ApiUrl.mainServiceRead}');
       http.Response response = await http.get(
         url,
         headers: {
@@ -207,7 +211,8 @@ class _HomeScreenState extends State<HomeScreen> {
               () {
                 if(search != null){
                   List t = [];
-                  for(var i in item){
+                  for(var e in item){
+                    var i=e['Service'];
                     if(i['ServiceParentId']!=null&& (i['Name'].toString().toLowerCase().contains(search.toLowerCase())||i['Desc'].toString().toLowerCase().contains(search.toLowerCase()))){
                       t.add(i);
                     }
@@ -215,7 +220,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   subservice = t;
                 }
                 else{
-                  subservice = item;
+                  subservice.clear();// = item;
+                  for(var e in item){
+                    subservice.add(e['Service']);
+                  }
+                  //subservice = item;
                 }
                 editTransactionService(transactions![0], service);
                 editTransactionSubService(transactions![0], subservice, id);

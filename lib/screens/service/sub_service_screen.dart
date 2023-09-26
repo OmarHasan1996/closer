@@ -3,6 +3,7 @@ import 'dart:math';
 
 //import 'package:admob_flutter/admob_flutter.dart';
 import 'package:another_flushbar/flushbar.dart';
+import 'package:closer/constant/apiUrl.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -39,14 +40,17 @@ class _SubServiceScreenState extends State<SubServiceScreen> {
   getSubServiceDecData(var id) async {
    try{
      // print(id);
-     var url = Uri.parse('$apiDomain/Main/Services/Services_Read?filter=IsMain~eq~false~and~Id~eq~$id');
+     var url = Uri.parse('${ApiUrl.mainServiceRead}filter=Service.IsMain~eq~false~and~Service.Id~eq~$id');
      http.Response response = await http.get(url, headers: {
        "Authorization": token,
      });
      if (response.statusCode == 200) {
        var item = json.decode(response.body)["result"]['Data'];
        setState(() {
-         subservicedec = item;
+         subservicedec.clear();// = item;
+         for(var e in item){
+           subservicedec.add(e['Service']);
+         }
          editTransactionUserUserInfo(transactions![0], userInfo);
          editTransactionServiceDec(transactions![0], subservicedec, id);
          //print(subservicedec);
@@ -355,7 +359,7 @@ class _SubServiceScreenState extends State<SubServiceScreen> {
 
   getSubServiceData(var id) async {
     try{
-      var url = Uri.parse('$apiDomain/Main/Services/Services_Read?filter=ServiceParentId~eq~$id');
+      var url = Uri.parse('${ApiUrl.mainServiceRead}filter=Service.ServiceParentId~eq~$id');
       http.Response response = await http.get(
         url,
         headers: {
@@ -387,7 +391,10 @@ class _SubServiceScreenState extends State<SubServiceScreen> {
             messageSize: MediaQuery.of(context).size.width / 22,
           ).show(context);
         } else {
-          _subservice = item;
+          _subservice.clear();// = item;
+          for(var e in item){
+            _subservice.add(e['Service']);
+          }
           editTransactionSubService(transactions![0], _subservice, id);
           Navigator.push(context, new MaterialPageRoute(builder: (context) => new SubServiceScreen(token: token, subservice: _subservice),),).then((_) {
             // This block runs when you have returned back to the 1st Page from 2nd.

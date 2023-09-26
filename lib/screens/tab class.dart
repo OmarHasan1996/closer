@@ -1,5 +1,6 @@
 
 
+import 'package:closer/constant/apiUrl.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -30,7 +31,7 @@ class _SubServiceScreenState extends State<SubServiceScreen> {
   void getSubServiceDecData(var id) async {
    // print(id);
     var url =
-    Uri.parse('$apiDomain/Main/Services/Services_Read?filter=IsMain~eq~false~and~Id~eq~$id');
+    Uri.parse('${ApiUrl.mainServiceRead}filter=Service.IsMain~eq~false~and~Service.Id~eq~$id');
 
     http.Response response = await http.get(url, headers: {
       "Authorization": token,
@@ -39,8 +40,10 @@ class _SubServiceScreenState extends State<SubServiceScreen> {
 
       var item = json.decode(response.body)["result"]['Data'];
       setState(() {
-
-        subservicedec = item;
+        subservicedec.clear();// = item;
+        for(var e in item){
+          subservicedec.add(e['Service']);
+        }
         //print(subservicedec);
       });
 

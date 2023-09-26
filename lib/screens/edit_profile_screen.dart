@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 
+import 'package:closer/constant/apiUrl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
@@ -382,11 +383,16 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     setState(() {
       checkSave = true;
     });
-    var url = Uri.parse('$apiDomain/Main/Services/Services_Read?filter=IsMain~eq~true');
+    var url = Uri.parse('${ApiUrl.mainServiceRead}filter=Service.IsMain~eq~true');
     http.Response response = await http.get(url, headers: {"Authorization": token,},);
     if (response.statusCode == 200) {
       var item = json.decode(response.body)["result"]['Data'];
-      setState(() {service = item;},);
+      setState(() {
+        service.clear();// = item;
+        for(var e in item){
+          service.add(e['Service']);
+        }
+        },);
     } else {
       setState(
             () {

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:closer/constant/apiUrl.dart';
 import 'package:closer/constant/app_size.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -72,7 +73,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
   Future getServiceData(tokenn) async {
     token = tokenn;
     print(tokenn);
-    var url = Uri.parse('$apiDomain/Main/Services/Services_Read?filter=ServiceParentId~eq~null');
+    var url = Uri.parse('${ApiUrl.mainServiceRead}filter=Service.ServiceParentId~eq~null');
     http.Response response = await http.get(url, headers: {"Authorization": tokenn!,},);
     print(json.decode(response.body));
     if (response.statusCode == 200) {
@@ -84,7 +85,10 @@ class _LoadingScreenState extends State<LoadingScreen> {
           i--;
         }
       }*/
-      setState(() {service = item;},);
+      setState(() { service.clear();// = item;
+      for(var e in item){
+        service.add(e['Service']);
+      }},);
       editTransactionService(transactions![0], service);
       setState(() => chLogIn = false);
       Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => MainScreen(token: tokenn, service: service,selectedIndex: 0, initialOrderTab: 0,),),);

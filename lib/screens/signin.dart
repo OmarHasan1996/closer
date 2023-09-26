@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:another_flushbar/flushbar.dart';
+import 'package:closer/constant/apiUrl.dart';
 import 'package:closer/constant/functions.dart';
 import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:flutter/cupertino.dart';
@@ -36,7 +37,7 @@ class SignIn extends StatefulWidget {
 
 class _SignInState extends State<SignIn> {
   void getServiceData() async {
-    var url = Uri.parse('$apiDomain/Main/Services/Services_Read?filter=ServiceParentId~eq~null');
+    var url = Uri.parse('${ApiUrl.mainServiceRead}filter=Service.ServiceParentId~eq~null');
     http.Response response = await http.get(url, headers: {
       "Authorization": token,
     });
@@ -51,7 +52,10 @@ class _SignInState extends State<SignIn> {
             i--;
           }
         }*/
-        service = item;
+        service.clear();// = item;
+        for(var e in item){
+          service.add(e['Service']);
+        }
       });
       setState(() => chLogIn = false);
       Navigator.of(context).pushReplacement(MaterialPageRoute(
