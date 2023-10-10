@@ -114,12 +114,8 @@ dependency_overrides:
   firebase_core_platform_interface: 4.8.0
 
 flutter_native_splash:
-  color: "#ffffff"
+  color: "#eeffff"
   image: assets/images/logo000.png
-  branding: assets/images/logo000.png
-    #android_12:
-    # color: "#ffffff"
-  #image: assets/images/logo.png
   android: true
   ios: true
 

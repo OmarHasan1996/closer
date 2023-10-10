@@ -6,6 +6,7 @@ import 'package:closer/constant/app_size.dart';
 import 'package:date_format/date_format.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get_connect/http/src/response/response.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
@@ -105,6 +106,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
       });
   }
 
+  bool _getCoupons = false;
   TimeOfDay? _maxStartTime, _minEndTime;
 
   TimeOfDay _stringToTimeOfDay(String tod) {
@@ -149,31 +151,28 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
     _height = MediaQuery.of(context).size.height;
     _width = MediaQuery.of(context).size.width;
     dateTime = DateFormat.yMd().format(DateTime.now());
+    var _couponConroller = TextEditingController();
     return SafeArea(
         child: Scaffold(
           appBar: MyWidget.appBar(title: AppLocalizations.of(context)!.translate('Checkout'), isMain: false, withoutCart: true),
           backgroundColor: Colors.grey[100],
-          body: SingleChildScrollView(
-            child: Column(
-              children: [
-                MyWidget.topYellowDriver(),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height / 300,
-                ),
-
-                Container(
-                  //height: MediaQuery.of(context).size.height / 1.5,
-                  padding: EdgeInsets.symmetric(
-                      vertical: MediaQuery.of(context).size.height / 200,
-                      horizontal: MediaQuery.of(context).size.width / 22),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        height: AppHeight.h45,
-                        child: SingleChildScrollView(
-                          child: Padding(
+          body: Column(
+            children: [
+              MyWidget.topYellowDriver(),
+              SizedBox(
+                height: MediaQuery.of(context).size.height / 300,
+              ),
+              Flexible(
+                flex: 1,
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                      vertical: MediaQuery.of(context).size.height / 80,
+                      horizontal: AppWidth.w4,
+                    ),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          Padding(
                             padding: EdgeInsets.symmetric(
                                 vertical:
                                 MediaQuery.of(context).size.height / 200,
@@ -547,57 +546,105 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                               ],
                             ),
                           ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                          vertical: MediaQuery.of(context).size.height / 180,
-                        ),
-                        child: MyWidget(context).textBlack20(AppLocalizations.of(context)!.translate('Provider and Service'))
-                      ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height / 80*0,
-                      ),
-                      Container(
-                        height: AppHeight.h16,
-                        child: ListView.builder(
-                          itemCount: order.length,
-                          itemBuilder: (context, index) {
-                            return _orderlist(order[index], index);
-                          },
-                          addAutomaticKeepAlives: false,
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                          vertical: MediaQuery.of(context).size.height / 80,
-                        ),
-                        child: Container(
-                          alignment: Alignment.center,
-                          width: MediaQuery.of(context).size.width,
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width / 80,),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                MyWidget(context).textTitle15(AppLocalizations.of(context)!.translate('TOTAL'), color: Colors.grey),
-                                SizedBox(
-                                  width: MediaQuery.of(context).size.width / 20,
+                          Container(
+                            alignment: Alignment.center,
+                            margin: EdgeInsets.symmetric(
+                              vertical: MediaQuery.of(context).size.height / 80,
+                                horizontal: AppWidth.w1
+                            ),
+                            padding: EdgeInsets.symmetric(
+                                horizontal:
+                                MediaQuery.of(context).size.width /
+                                    80,
+                                vertical:
+                                MediaQuery.of(context).size.height /
+                                    80),
+
+                            width: MediaQuery.of(context).size.width,
+                            decoration: BoxDecoration(
+                              color: AppColors.white,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.5),
+                                  spreadRadius: 2,
+                                  blurRadius: 3,
+                                  offset: const Offset(
+                                      0, 1), // changes position of shadow
                                 ),
-                                MyWidget(context).textTitle15('${sumPrice().round()}' + AppLocalizations.of(context)!.translate('TRY') ,color: Colors.blue)
                               ],
+                              borderRadius:
+                              const BorderRadius.all(Radius.circular(20)),
+                            ),
+                            child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  SvgPicture.asset('assets/images/coupons.svg', height: AppHeight.h6,),
+                                  SizedBox(
+                                    width: AppWidth.w50,
+                                    child: TextFormField(
+                                      controller: _couponConroller = TextEditingController(),
+                                      decoration: InputDecoration(
+                                          hintText: AppLocalizations.of(context)!.translate('Coupon')
+                                      ),
+                                      style: TextStyle(
+                                      ),
+                                    ),
+                                  ),
+                                  MyWidget(context).raisedButton(AppLocalizations.of(context)!.translate('Apply'), ()=> _applyCoupon(), AppWidth.w20, _getCoupons, padV: 0.0, textH: MediaQuery.of(context).size.width / 35),
+                                ],
+                              ),
+                          ),
+                          Padding(
+                              padding: EdgeInsets.symmetric(
+                                vertical: MediaQuery.of(context).size.height / 180,
+                              ),
+                              child: MyWidget(context).textBlack20(AppLocalizations.of(context)!.translate('Provider and Service'))
+                          ),
+                          Container(
+                            height: AppHeight.h16*0.9,
+                            child: ListView.builder(
+                              itemCount: order.length,
+                              itemBuilder: (context, index) {
+                                return _orderlist(order[index], index);
+                              },
+                              addAutomaticKeepAlives: false,
                             ),
                           ),
-                        ),
+                        ],
                       ),
-                      MyWidget(context).raisedButton(AppLocalizations.of(context)!.translate('Confirm'), () async =>sendOrder(userData!.content!.id)
-                      , MediaQuery.of(context).size.width/1.2, _sendingOrder),
-                    ],
+                    ),
+                  )
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(
+                  vertical: MediaQuery.of(context).size.height / 80,
+                  horizontal: AppWidth.w4,
+                ),
+                child: Container(
+                  alignment: Alignment.center,
+                  width: MediaQuery.of(context).size.width,
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width / 80,),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        MyWidget(context).textTitle15(AppLocalizations.of(context)!.translate('TOTAL'), color: Colors.grey),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width / 20,
+                        ),
+                        MyWidget(context).textTitle15('${sumPrice().round()}' + AppLocalizations.of(context)!.translate('TRY') ,color: Colors.blue)
+                      ],
+                    ),
                   ),
                 ),
-              ],
-            ),
+              ),
+              MyWidget(context).raisedButton(AppLocalizations.of(context)!.translate('Confirm'), () async =>sendOrder(userData!.content!.id)
+                  , MediaQuery.of(context).size.width/1.2, _sendingOrder, height: AppHeight.h4),
+              SizedBox(height: AppHeight.h1,),
+
+
+            ],
           )
           ,
         ),
@@ -840,6 +887,16 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
       message: text,
       messageSize: MediaQuery.of(context).size.width / 22,
     ).show(context);
+  }
+
+  _applyCoupon() async{
+    setState(() {
+      _getCoupons = true;
+    });
+    await APIService.getCouponRead();
+    setState(() {
+      _getCoupons = false;
+    });
   }
 
 }

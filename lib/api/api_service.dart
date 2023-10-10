@@ -3,13 +3,16 @@ import 'dart:io';
 import 'package:another_flushbar/flushbar.dart';
 import 'package:closer/api/respons/loginData.dart';
 import 'package:closer/api/respons/registerData.dart';
+import 'package:closer/constant/apiUrl.dart';
 import 'package:closer/constant/app_size.dart';
 import 'package:closer/constant/functions.dart';
 import 'package:closer/main.dart';
+import 'package:closer/screens/language/Languages.dart';
 import 'package:dio/dio.dart';
 import 'package:easy_image_viewer/easy_image_viewer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -39,6 +42,70 @@ class APIService {
   static MyFirebase myFirebase = new MyFirebase();
   BuildContext? context;
   APIService({this.context});
+
+  static Future getCityData(countryId) async {
+    print("getCityData is called");
+    var url = Uri.parse('$apiDomain/Main/City/City_Read');
+    http.Response response = await http.get(
+      url,
+      headers: {
+        "Authorization": token,
+      },
+    );
+    if (response.statusCode == 200) {
+      city.clear();
+      print("response.statusCode is 200");
+      var item = json.decode(response.body);
+          for (int i = 0; i < item["Data"].length; i++) {
+            if (item["Data"][i]["CountryId"]== countryId) {
+              city.add(item["Data"][i]);
+            }
+          }
+    } else {
+    }
+    print("getCityData finished");
+  }
+
+  static Future getCouponRead() async {
+    var url = Uri.parse('$apiDomain/Main/Coupons/Coupon_Read');
+    http.Response response = await http.get(
+      url,
+      headers: {
+        "Authorization": token,
+      },
+    );
+    coupons.clear();
+    if (response.statusCode == 200) {
+      print("response.statusCode is 200");
+      var item = json.decode(response.body);
+      for(var i in item['Data']){
+        coupons.add(i);
+      }
+      print(item);
+    } else {
+    }
+  }
+
+  static Future getCountryData() async {
+    var url = Uri.parse('$apiDomain/Main/Country/Country_Read');
+    http.Response response = await http.get(
+      url,
+      headers: {
+        "Authorization": token,
+      },
+    );
+    if (response.statusCode == 200) {
+      country.clear();
+      var item = json.decode(response.body);
+          for (var i in item["Data"]) {
+            country.add(i);
+            /*if (item["Data"][i]["Name"] == 'C') {
+              country.add(item["Data"][i]["Name"]);
+            }*/
+          }
+    } else {
+    }
+  }
 
   static Future getMyOrders(var id) async {
     try{
@@ -268,6 +335,24 @@ class APIService {
     }
     return null;
   }
+  static Future<bool> _checkCountry() async{
+    final box = GetStorage();
+    print(box.read('city'));
+    myCity = box.read('city')?? myCity;
+    myCountry = box.read('country')?? myCountry;
+    myCurrency = box.read('currency')?? myCurrency;
+    await APIService.getCountryData();
+    var _selectedCountry = 0;
+    if(box.read('country') != null){
+      _selectedCountry = country.indexWhere((element) => element['Name']==myCountry)??0;
+    }
+    await APIService.getCityData(country[_selectedCountry]['Id']);
+    if(box.read('city') == null) return true;
+    else{
+      cityId = city[city.indexWhere((element) => element['Name']==myCity)]['Id'].toString();
+      return false;
+    }
+  }
 
   static Future<LoginData?> login(email , password) async{
     var fcmToken;
@@ -292,8 +377,16 @@ class APIService {
           });
       if(response.statusCode ==200){
         var m =  loginDataFromJson( response.body);
+        token = m.content!.token;
+        if(await _checkCountry()){
+          var _selectedCity = 0;
+          var _selectedCountry = 0;
+          var _selectedLang = 0;
+          // ignore: use_build_context_synchronously
+          MyApplication.navigateTo(navigatorKey.currentContext!, Languages(main: true, selectedCity: _selectedCity, selectedCountry: _selectedCountry, selectedLang: _selectedLang,));
+          return null;
+        }
         return m;
-
       }
     }
     catch(e){
@@ -545,7 +638,7 @@ class APIService {
       "CustomerId": "$id",
       "Amount": amount,
       "InsertDate": insertDateTime,
-      "Status": 1,
+      "Status": 2,
       "PayType": 1,
       "AddressId": value3,
       "OrderDate": orderDateTime,
@@ -772,6 +865,39 @@ class APIService {
     } else {
       print(response.body);
       print(response.statusCode);
+      return false;
+    }
+  }
+
+  static rateOrder({orderId, rateNote, rateScore})async{
+    print("tttttttttttttt:   " +token);
+    var apiUrl = Uri.parse(
+        "$apiDomain/Main/Orders/Orders_Rate?");
+    Map mapDate = {
+      "OrderId": orderId,
+      "RateNote": rateNote,
+      "RateScore": rateScore.round(),
+    };
+    http.Response response =
+    await http.post(apiUrl, body: jsonEncode(mapDate), headers: {
+      "Accept": "application/json",
+      "content-type": "application/json",
+      "Authorization": token,
+    });
+    print((response));
+    if (response.statusCode == 200) {
+      if (jsonDecode(response.body)['Errors'] == null ||
+          jsonDecode(response.body)['Errors'] == '') {
+        print('success');
+        return true;
+      } else {
+        flushBar('Fail!\n' + jsonDecode(response.body)['Errors']);
+        return false;
+      }
+      //Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => MainScreen(token: token, service: service, selectedIndex: 1,),),);
+    } else {
+      print(response.statusCode);
+      print('fail');
       return false;
     }
   }

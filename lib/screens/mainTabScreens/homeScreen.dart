@@ -173,7 +173,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Future _getServiceData(tokenn) async {
     //token = tokenn;
     print(tokenn);
-    var url = Uri.parse('${ApiUrl.mainServiceRead}filter=Service.ServiceParentId~eq~null');
+    var url = Uri.parse('${ApiUrl.mainServiceRead}cityid=$cityId&filter=Service.ServiceParentId~eq~null');
     http.Response response = await http.get(url, headers: {"Authorization": tokenn!,},);
     if (response.statusCode == 200) {
       var item = await json.decode(response.body)["result"]['Data'];
@@ -195,9 +195,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void getSubServiceData(var id, {String? search}) async {
     try{
-      var url = Uri.parse('${ApiUrl.mainServiceRead}filter=Service.ServiceParentId~eq~$id');
+      var url = Uri.parse('${ApiUrl.mainServiceRead}cityid=$cityId&filter=Service.ServiceParentId~eq~$id');
       if(search != null)
-        url = Uri.parse('${ApiUrl.mainServiceRead}');
+        url = Uri.parse('${ApiUrl.mainServiceRead}cityid=$cityId&');
       http.Response response = await http.get(
         url,
         headers: {

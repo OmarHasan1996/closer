@@ -3,8 +3,10 @@ import 'dart:convert';
 
 import 'package:closer/constant/apiUrl.dart';
 import 'package:closer/constant/app_size.dart';
+import 'package:closer/screens/language/Languages.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:http/http.dart' as http;
@@ -21,6 +23,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../MyWidget.dart';
 import '../boxes.dart';
 import 'package:closer/constant/images.dart';
+
+import '../constant/functions.dart';
 bool x = true;
 List service = [];
 
@@ -53,7 +57,6 @@ class _LoadingScreenState extends State<LoadingScreen> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback(_afterLayout);
-    checkLastLogin();
     super.initState();
     print(token);
      // ignore: unnecessary_null_comparison
@@ -73,7 +76,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
   Future getServiceData(tokenn) async {
     token = tokenn;
     print(tokenn);
-    var url = Uri.parse('${ApiUrl.mainServiceRead}filter=Service.ServiceParentId~eq~null');
+    var url = Uri.parse('${ApiUrl.mainServiceRead}cityid=$cityId&filter=Service.ServiceParentId~eq~null');
     http.Response response = await http.get(url, headers: {"Authorization": tokenn!,},);
     print(json.decode(response.body));
     if (response.statusCode == 200) {
@@ -112,6 +115,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
     setState(() => chLogIn = false);
     Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => MainScreen(token: tokenn, service: service,selectedIndex: 0, initialOrderTab: 0,),),);
   }
+
 
   //SignIn Or fill UserData and getServiceData
   Future<void> checkLogin() async {
@@ -328,10 +332,11 @@ class _LoadingScreenState extends State<LoadingScreen> {
 
   void _afterLayout(Duration timeStamp) {
     LocalizationService().changeLocale(LocalizationService().getCurrentLang(),context);
+    checkLastLogin();
   }
 
   startTime() async {
-    var duration = new Duration(seconds:10000000000);
+    var duration = new Duration(seconds:100);
      return new Timer(duration, checkLogin);
   }
 

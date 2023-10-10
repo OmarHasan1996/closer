@@ -37,7 +37,7 @@ class SignIn extends StatefulWidget {
 
 class _SignInState extends State<SignIn> {
   void getServiceData() async {
-    var url = Uri.parse('${ApiUrl.mainServiceRead}filter=Service.ServiceParentId~eq~null');
+    var url = Uri.parse('${ApiUrl.mainServiceRead}cityid=$cityId&filter=Service.ServiceParentId~eq~null');
     http.Response response = await http.get(url, headers: {
       "Authorization": token,
     });

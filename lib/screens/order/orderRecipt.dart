@@ -87,7 +87,7 @@ class _OrderReciptState extends State<OrderRecipt> {
                       children: _orderItems.map((e) =>
                           _tableRow1(color: AppColors.gray, scale: 0.35,
                               text1: e['Service']['Name'],
-                              text2: e['Service']['Price'],
+                              text2: e['Service']['Price']??0.0,
                               text3: e['Quantity'],
                           ),).toList(),
                     ),
@@ -180,7 +180,7 @@ class _OrderReciptState extends State<OrderRecipt> {
   _sumPrice(){
     var p = 0.0;
     for(var e in _orderItems){
-      p += e['Service']['Price'];
+      p += e['Service']['Price']??0.0;
     }
     return p;
   }

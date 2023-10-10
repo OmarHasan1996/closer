@@ -383,7 +383,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     setState(() {
       checkSave = true;
     });
-    var url = Uri.parse('${ApiUrl.mainServiceRead}filter=Service.IsMain~eq~true');
+    var url = Uri.parse('${ApiUrl.mainServiceRead}cityid=$cityId&filter=Service.IsMain~eq~true');
     http.Response response = await http.get(url, headers: {"Authorization": token,},);
     if (response.statusCode == 200) {
       var item = json.decode(response.body)["result"]['Data'];

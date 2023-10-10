@@ -65,6 +65,9 @@ class LocalizationService extends Translations{
     final locale =getLocaleFromLanguage(lang);
     final box = GetStorage();
     box.write('lng', lang);
+    box.write('country', myCountry);
+    box.write('city', myCity);
+    box.write('currency', myCurrency);
     Get.updateLocale(locale!);
   }
 
@@ -108,6 +111,9 @@ class LocalizationService extends Translations{
 
 String getCurrentLang(){
     final box = GetStorage();
+    myCity = box.read('city')?? myCity;
+    myCountry = box.read('country')?? myCountry;
+    myCurrency = box.read('currency')?? myCurrency;
     return box.read('lng')!= null?box.read('lng'):'English';
 }
 

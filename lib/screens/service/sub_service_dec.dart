@@ -45,6 +45,7 @@ class _SubServiceDecState extends State<SubServiceDec> {
   final GlobalKey<ScaffoldState> _key = GlobalKey(); // Create a key
 
   _SubServiceDecState(this.token, this.subservicedec);
+  var _price = 0.0;
 
   @override
   void initState() {
@@ -60,9 +61,16 @@ class _SubServiceDecState extends State<SubServiceDec> {
     var barHight = MediaQuery.of(context).size.height / 5.7;
     //getServiceData();
     api = APIService(context: context);
-
+    var discountService =
+        subservicedec[0]['DiscountsServices'] ?? subservicedec[0]['Service']['DiscountsServices'];
+    var disAmount = 0.0;
+    if (discountService != null && discountService.length > 0) {
+      disAmount = discountService[0]['DiscountAmount'];
+    }
+    _price = subservicedec[0]['Price'] - disAmount;
     return SafeArea(
         key: _key,
+
         child: Scaffold(
           resizeToAvoidBottomInset: true,
           appBar: MyWidget.appBar(title: '', isMain: false),
@@ -147,7 +155,6 @@ class _SubServiceDecState extends State<SubServiceDec> {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       SingleChildScrollView(
-                                        scrollDirection: Axis.horizontal,
                                         child: MyWidget(context).textTitle15(subservicedec[0]['Name'], bold: true)
                                       ),
                                       Expanded(
@@ -317,12 +324,10 @@ class _SubServiceDecState extends State<SubServiceDec> {
                                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                         children: [
                                                           MyWidget(context).textBlack20(AppLocalizations.of(context)!.translate("Price")),
-
                                                           Expanded(
                                                             flex: 1,
                                                             child:
-                                                            MyWidget(context).textBlack20(' '+(double.parse(subservicedec[0]['Price'].toString())*int.parse(_amountController.text)).toStringAsFixed(3)+' TL', color: AppColors.gray),
-
+                                                            MyWidget(context).textBlack20('  '+prettify(_price  * int.parse(_amountController.text)) + ' ' + AppLocalizations.of(context)!.translate('TRY'), color: AppColors.gray),
                                                           ),
                                                         ],
                                                       ),
@@ -446,13 +451,23 @@ class _SubServiceDecState extends State<SubServiceDec> {
 
   _addToMyOrder() {
     setState(() {});
+    subservicedec[0]['Price'] = _price;
     subservicedec.add({"Notes": noteController.text});
-    order.add([subservicedec,_amountController.text]);
+    bool addNew = true;
+    order.forEach((element) {
+      if(element[0][0]['Id']==subservicedec[0]['Id']){
+        addNew = false;
+        element[1] = (int.parse(_amountController.text) + int.parse(element[1])).toString();
+      }
+    });
+    if(addNew){
+      order.add([subservicedec,_amountController.text]);
+    }
     //order[order.length] = ;
     print(subservicedec);
     orderCounter++;
     print(orderCounter);
-    prices = prices + subservicedec[0]['Price'] * int.parse(_amountController.text);
+    prices = prices + _price * int.parse(_amountController.text);
 
     // print(order[6]);
     //Flushbar().dismiss();

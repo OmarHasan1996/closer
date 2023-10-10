@@ -10,6 +10,7 @@ import 'model/transaction.dart';
 late APIService apiService;
 final apiDomain = 'https://api.mr-service.co';
 List order = [];
+String cityId = '23';
 List task = [];
 List orderAmount = [];
 List allSubServices = [];
@@ -18,10 +19,14 @@ LoginData? userData;
 var serviceLocation;
 Map<String, dynamic> myOrders = new Map<String, dynamic>();
 Map<String, dynamic> NewOrdersSupervisor = new Map<String, dynamic>();
-
+//String myCountry = 'Turkey', myCity = 'Istanbul', myCurrency = 'TL';
+String? myCountry , myCity , myCurrency;
 var userInfo;
-final List<String> country = [];
-final List<String> city = [];
+final List country = [];
+final List<String> userCountry = [];
+final List<String> userCity = [];
+final List  city = [];
+final List  coupons = [];
 final List<String> area = [];
 final List<String> adr = [];
 // ignore: deprecated_member_use
@@ -36,6 +41,7 @@ var groupId = 2;
 bool worker = false, isBoss = false;
 var timeDiff = new Duration(seconds: 0);
 
+String prettify(double d) => d.toStringAsFixed(2).replaceFirst(RegExp(r'\.?0*$'), '');
 String? getBannerAdUnitId() {
   if (Platform.isIOS) {
     return 'ca-app-pub-5051441163313137/9983771734';

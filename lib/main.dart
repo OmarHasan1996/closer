@@ -16,7 +16,7 @@ import 'package:closer/localizations.dart';
 import 'package:closer/screens/Payment.dart';
 import 'package:closer/screens/about.dart';
 import 'package:closer/screens/superVisior/addTask.dart';
-import 'package:closer/screens/changeLang.dart';
+import 'package:closer/screens/language/changeLang.dart';
 /*
 import 'package:mr_service_2/screens/change_password.dart';
 */
@@ -123,7 +123,7 @@ class MyApp extends StatelessWidget {
             // from the list (English, in this case).
           },
           theme: new ThemeData(
-            primarySwatch: Colors.indigo,
+            primarySwatch: Colors.deepOrange,
           ),
           //translations: LocalizationService(),
           //locale: LocalizationService().getCurrentLocale(),

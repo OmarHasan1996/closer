@@ -6,7 +6,7 @@ import 'package:closer/const.dart';
 import 'package:closer/localization_service.dart';
 import 'package:closer/localizations.dart';
 
-import '../MyWidget.dart';
+import '../../MyWidget.dart';
 
 class ChangeLang extends StatefulWidget {
   @override

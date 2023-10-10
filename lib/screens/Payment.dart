@@ -135,7 +135,7 @@ class _PaymentState extends State<Payment> {
       resizeToAvoidBottomInset: true,
       backgroundColor: Colors.grey[100],
       key: _scaffoldKey,
-      appBar: _appBar(barHight),
+      appBar: MyWidget.appBar(title: AppLocalizations.of(context)!.translate('payment'), ),
       endDrawer: MyWidget(context).drawer(barHight, MediaQuery.of(context).size.height / 80 * 3, ()=> _setState()),
       body: Container(
         width: double.infinity,
@@ -146,17 +146,6 @@ class _PaymentState extends State<Payment> {
               SizedBox(
                 height: MediaQuery.of(context).size.height / 80,
               ),
-              Text(
-                AppLocalizations.of(context)!.translate('payment'),
-                style: TextStyle(
-                    color: AppColors.black,
-                    fontSize: MediaQuery.of(context).size.width / 10,
-                    fontWeight: FontWeight.bold,
-                    fontFamily: 'OpenSans'),
-              ),
-              /*SizedBox(
-                height: MediaQuery.of(context).size.height / 80,
-              ),*/
               _cardCheck(MediaQuery.of(context).size.width),
               //_bottun(AppLocalizations.of(context)!.translate('Bay Cash'),_bayCash),
               _card(AppLocalizations.of(context)!.translate('cardHolderName'), cardHolderNameControler, '', MediaQuery.of(context).size.width, false, false),
@@ -342,7 +331,7 @@ class _PaymentState extends State<Payment> {
         totalSwitches: 2,
         labels: [AppLocalizations.of(context)!.translate('cash'), AppLocalizations.of(context)!.translate('card')],
         //icons: [Icons.credit_card, Icons.credit_card],
-        activeBgColors: [[AppColors.blue],[AppColors.blue]],
+        activeBgColors: [[AppColors.mainColor],[AppColors.mainColor]],
         animate: true, // with just animate set to true, default curve = Curves.easeIn
         curve: Curves.bounceInOut, // animate must be set to true when using custom curve
         onToggle: (index) {

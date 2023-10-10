@@ -189,8 +189,8 @@ class MyWidget{
     var addressArea; addressArea = ord['Address']['Title']??'';
     var addressCity; addressCity = ord['Address']['Title']??'';
     var statusCode; statusCode = ord['Status'].toString();
-    var rate = 3;
-    var rateNote = 'rateNote rateNote rateNote';
+    var rate = ord['Score']??0;
+    var rateNote = ord['ScoreNote']??'';
     amount = amount.toString() +" \.${AppLocalizations.of(navigatorKey.currentContext!)!.translate('TRY')} ";
     //statusCode = '2';
     String status = "";
@@ -321,7 +321,9 @@ class MyWidget{
         commentHint: AppLocalizations.of(navigatorKey.currentContext!)!.translate('Describe your experience'),
         starColor: AppColors.mainColor,
         onCancelled: () => print('cancelled'),
-        onSubmitted: (response) {
+        onSubmitted: (response) async{
+          await APIService.rateOrder(orderId: orderId, rateNote: response.comment, rateScore: response.rating);
+          setState();
           print('rating: ${response.rating}, comment: ${response.comment}');
           // TODO: add your own logic
         },
@@ -480,7 +482,7 @@ class MyWidget{
                             MyWidget(navigatorKey.currentContext!).textBlack20(DateTime.parse(date.replaceAll('T', ' ')).add(-timeDiff).toString().split(' ')[0], scale: 0.85),
                           ],
                         ),
-                        showReview?_reviewWidget(reviewed: true):SizedBox(),
+                        showReview?_reviewWidget(reviewed: ord['Score']!=null?true:false):SizedBox(),
                         SizedBox(height: showReview? AppHeight.h1/2:AppHeight.h2,),
                       ],
                     ),
@@ -730,15 +732,17 @@ class MyWidget{
       text,
       textAlign: textAlign,
       style: TextStyle(
+
           fontSize: FontSize.s18*scale ,
           fontWeight: bold ? FontWeight.bold : FontWeight.normal,
           color: color),
     );
   }
 
-  textTap25(text, {color, bold, textAlign, scale}){
+  textTap25(text, {color, bold, textAlign, scale, lineTrought}){
     color??= AppColors.textColorGray;
     bold??= false;
+    lineTrought??= false;
     textAlign??= TextAlign.center;
     scale??=1.0;
     return Text(
@@ -746,6 +750,7 @@ class MyWidget{
       maxLines: 2,
       textAlign: textAlign,
       style: TextStyle(
+          decoration: lineTrought? TextDecoration.lineThrough : TextDecoration.none,
           fontSize: min(MediaQuery.of(context).size.width / 25, MediaQuery.of(context).size.height / 55) * scale ,
           fontWeight: bold ? FontWeight.bold : FontWeight.normal,
           color: color),

@@ -2,6 +2,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:closer/const.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -32,12 +33,11 @@ class AppLocalizations {
     return true;
   }
 
-  List<String> currency = ['TL', 'RS'];
   // This method will be called from every widget which needs a localized text
   String translate(String key) {
     String s = '';
     if(key == 'TRY'){
-      return currency[1];
+      return myCurrency??"TL";
     }
     try{
       _localizedStrings[key] == 'null'? s = '' : s = _localizedStrings[key]!;

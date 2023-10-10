@@ -31,7 +31,7 @@ class _SubServiceScreenState extends State<SubServiceScreen> {
   void getSubServiceDecData(var id) async {
    // print(id);
     var url =
-    Uri.parse('${ApiUrl.mainServiceRead}filter=Service.IsMain~eq~false~and~Service.Id~eq~$id');
+    Uri.parse('${ApiUrl.mainServiceRead}cityid=$cityId&filter=Service.IsMain~eq~false~and~Service.Id~eq~$id');
 
     http.Response response = await http.get(url, headers: {
       "Authorization": token,

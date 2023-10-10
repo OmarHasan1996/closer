@@ -368,6 +368,7 @@ class _RegisterState extends State<Register> {
       });
     }
     if (isLogIn) {
+
       getServiceData();
     }
     final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
@@ -396,7 +397,7 @@ class _RegisterState extends State<Register> {
   List service = [];
 
   void getServiceData() async {
-    var url = Uri.parse('${ApiUrl.mainServiceRead}filter=Service.ServiceParentId~eq~null');
+    var url = Uri.parse('${ApiUrl.mainServiceRead}cityid=$cityId&filter=Service.ServiceParentId~eq~null');
     http.Response response = await http.get(url, headers: {
       "Authorization": token,
     });

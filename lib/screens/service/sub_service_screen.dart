@@ -4,6 +4,8 @@ import 'dart:math';
 //import 'package:admob_flutter/admob_flutter.dart';
 import 'package:another_flushbar/flushbar.dart';
 import 'package:closer/constant/apiUrl.dart';
+import 'package:closer/constant/app_size.dart';
+import 'package:closer/constant/font_size.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -38,89 +40,94 @@ class _SubServiceScreenState extends State<SubServiceScreen> {
   List subservice = [];
   List subservicedec = [];
   getSubServiceDecData(var id) async {
-   try{
-     // print(id);
-     var url = Uri.parse('${ApiUrl.mainServiceRead}filter=Service.IsMain~eq~false~and~Service.Id~eq~$id');
-     http.Response response = await http.get(url, headers: {
-       "Authorization": token,
-     });
-     if (response.statusCode == 200) {
-       var item = json.decode(response.body)["result"]['Data'];
-       setState(() {
-         subservicedec.clear();// = item;
-         for(var e in item){
-           subservicedec.add(e['Service']);
-         }
-         editTransactionUserUserInfo(transactions![0], userInfo);
-         editTransactionServiceDec(transactions![0], subservicedec, id);
-         //print(subservicedec);
-       });
-       Navigator.push(
-           context,
-           MaterialPageRoute(
-               builder: (context) =>
-                   SubServiceDec(token: token, subservicedec: subservicedec))).then((_) {setState(() {});});
-     } else {
-       setState(() {
-         subservicedec = [];
-       });
-     }
-   }catch(e){
-     subservicedec = transactions![0].subServiceDec;
-     if(subservicedec.isEmpty){
-       await Flushbar(
-         padding: EdgeInsets.symmetric(
-             vertical: MediaQuery.of(context).size.height / 20),
-         icon: Icon(
-           Icons.error_outline,
-           size: MediaQuery.of(context).size.width / 18,
-           color: Colors.white,
-         ),
-         duration: Duration(seconds: 3),
-         shouldIconPulse: false,
-         flushbarPosition: FlushbarPosition.TOP,
-         borderRadius: BorderRadius.all(
-           Radius.circular(MediaQuery.of(context).size.height / 37),
-         ),
-         backgroundColor: Colors.grey.withOpacity(0.5),
-         barBlur: 20,
-         message: 'This service will coming soon'.tr,
-         messageSize: MediaQuery.of(context).size.width / 22,
-       ).show(context);
-     } else if(subservicedec[0]["Id"]==id) {
-       Navigator.push(
-           context,
-           MaterialPageRoute(
-               builder: (context) =>
-                   SubServiceDec(token: token, subservicedec: subservicedec))).then((_) {setState(() {});});
-     }else{
-       await Flushbar(
-         padding: EdgeInsets.symmetric(
-             vertical: MediaQuery.of(context).size.height / 20),
-         icon: Icon(
-           Icons.error_outline,
-           size: MediaQuery.of(context).size.width / 18,
-           color: Colors.white,
-         ),
-         duration: Duration(seconds: 3),
-         shouldIconPulse: false,
-         flushbarPosition: FlushbarPosition.TOP,
-         borderRadius: BorderRadius.all(
-           Radius.circular(MediaQuery.of(context).size.height / 37),
-         ),
-         backgroundColor: Colors.grey.withOpacity(0.5),
-         barBlur: 20,
-         message: 'This service will coming soon'.tr,
-         messageSize: MediaQuery.of(context).size.width / 22,
-       ).show(context);
-     }
-   }
+    try {
+      // print(id);
+      var url = Uri.parse('${ApiUrl.mainServiceRead}cityid=$cityId&filter=Service.Id~eq~$id');
+      //var url = Uri.parse('${ApiUrl.mainServiceRead}filter=Service.IsMain~eq~false~and~Service.Id~eq~$id');
+      http.Response response = await http.get(url, headers: {
+        "Authorization": token,
+      });
+      if (response.statusCode == 200) {
+        var item = json.decode(response.body)["result"]['Data'];
+        setState(() {
+          subservicedec.clear(); // = item;
+          for (var e in item) {
+            subservicedec.add(e['Service']);
+          }
+          editTransactionUserUserInfo(transactions![0], userInfo);
+          editTransactionServiceDec(transactions![0], subservicedec, id);
+          //print(subservicedec);
+        });
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => SubServiceDec(
+                    token: token, subservicedec: subservicedec))).then((_) {
+          setState(() {});
+        });
+      } else {
+        setState(() {
+          subservicedec = [];
+        });
+      }
+    } catch (e) {
+      subservicedec = transactions![0].subServiceDec;
+      if (subservicedec.isEmpty) {
+        await Flushbar(
+          padding: EdgeInsets.symmetric(
+              vertical: MediaQuery.of(context).size.height / 20),
+          icon: Icon(
+            Icons.error_outline,
+            size: MediaQuery.of(context).size.width / 18,
+            color: Colors.white,
+          ),
+          duration: Duration(seconds: 3),
+          shouldIconPulse: false,
+          flushbarPosition: FlushbarPosition.TOP,
+          borderRadius: BorderRadius.all(
+            Radius.circular(MediaQuery.of(context).size.height / 37),
+          ),
+          backgroundColor: Colors.grey.withOpacity(0.5),
+          barBlur: 20,
+          message: 'This service will coming soon'.tr,
+          messageSize: MediaQuery.of(context).size.width / 22,
+        ).show(context);
+      } else if (subservicedec[0]["Id"] == id) {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => SubServiceDec(
+                    token: token, subservicedec: subservicedec))).then((_) {
+          setState(() {});
+        });
+      } else {
+        await Flushbar(
+          padding: EdgeInsets.symmetric(
+              vertical: MediaQuery.of(context).size.height / 20),
+          icon: Icon(
+            Icons.error_outline,
+            size: MediaQuery.of(context).size.width / 18,
+            color: Colors.white,
+          ),
+          duration: Duration(seconds: 3),
+          shouldIconPulse: false,
+          flushbarPosition: FlushbarPosition.TOP,
+          borderRadius: BorderRadius.all(
+            Radius.circular(MediaQuery.of(context).size.height / 37),
+          ),
+          backgroundColor: Colors.grey.withOpacity(0.5),
+          barBlur: 20,
+          message: 'This service will coming soon'.tr,
+          messageSize: MediaQuery.of(context).size.width / 22,
+        ).show(context);
+      }
+    }
   }
 
   _SubServiceScreenState(this.token, this.subservice);
   final GlobalKey<ScaffoldState> _key = GlobalKey(); // Create a key
 
-  loadBannerAdd(){
+  loadBannerAdd() {
     return SizedBox();
     /*return AdmobBanner(
       adUnitId: getBannerAdUnitId()!,
@@ -148,12 +155,13 @@ class _SubServiceScreenState extends State<SubServiceScreen> {
     // TODO: implement initState
     super.initState();
     _subservice.clear();
-    for(int i = 0; i<subservice.length; i++){
+    for (int i = 0; i < subservice.length; i++) {
       _subservice.add(subservice[i]);
     }
     allSubServices.add(subservice);
     // print(subservice);
   }
+
   bool _loading = false, _transScreen = false;
 
   @override
@@ -161,57 +169,68 @@ class _SubServiceScreenState extends State<SubServiceScreen> {
     var barHight = MediaQuery.of(context).size.height / 5.7;
     //getServiceData();
     api = APIService(context: context);
-    var id = _subservice[_subservice.indexWhere((element) => element.length<2)]['id'];
+    var id =
+        _subservice[_subservice.indexWhere((element) => element.length < 2)]
+            ['id'];
     _subservice.sort((a, b) {
-      return a['Name'].toString().toLowerCase().compareTo(b['Name'].toString().toLowerCase());
+      return a['Name']
+          .toString()
+          .toLowerCase()
+          .compareTo(b['Name'].toString().toLowerCase());
     });
-    _subservice.removeWhere((element) => element.length<2);
-    _subservice.add({'id':id});
+    _subservice.removeWhere((element) => element.length < 2);
+    _subservice.add({'id': id});
     return SafeArea(
-        child: Scaffold(
-          key: _key,
-          appBar: MyWidget.appBar(title: _subservice.length>1?_subservice[0]['Service']['Name']:'Empty', isMain: false),
-          endDrawer: MyWidget(context).drawer(barHight, MediaQuery.of(context).size.height / 80 * 3, ()=>_setState()),
-          backgroundColor: Colors.grey[100],
-          body: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+      child: Scaffold(
+        key: _key,
+        appBar: MyWidget.appBar(
+            title: _subservice.length > 1
+                ? _subservice[0]['Service']['Name']
+                : 'Empty',
+            isMain: false),
+        endDrawer: MyWidget(context).drawer(barHight,
+            MediaQuery.of(context).size.height / 80 * 3, () => _setState()),
+        backgroundColor: Colors.grey[100],
+        body: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          MyWidget.topYellowDriver(),
+          SizedBox(
+            height: MediaQuery.of(context).size.height / 160,
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(
+                //vertical: MediaQuery.of(context).size.height / 37,
+                horizontal: MediaQuery.of(context).size.width / 10),
+            child: Container(
+              //alignment: Alignment.topLeft,
+              child: MyWidget(context).textBlack20(
+                  (_subservice.length - 1).toString() +
+                      ' ' +
+                      AppLocalizations.of(context)!
+                          .translate('Services in ...'),
+                  bold: false),
+            ),
+          ),
+          Expanded(
+            child: Stack(
               children: [
-            MyWidget.topYellowDriver(),
-            SizedBox(
-              height: MediaQuery.of(context).size.height / 160,
+                ListView.builder(
+                  itemCount: _subservice.length - 1,
+                  itemBuilder: (context, index) {
+                    return serviceRow(_subservice[index]);
+                  },
+                  addAutomaticKeepAlives: false,
+                ),
+                Align(
+                  alignment: Alignment.center,
+                  child: MyWidget.jumbingDotes(_loading),
+                ),
+                _transScreen ? MyWidget(context).transScreen() : SizedBox()
+              ],
             ),
-
-            Padding(
-              padding: EdgeInsets.symmetric(
-                  //vertical: MediaQuery.of(context).size.height / 37,
-                  horizontal: MediaQuery.of(context).size.width / 10),
-              child: Container(
-                //alignment: Alignment.topLeft,
-                child: MyWidget(context).textBlack20((_subservice.length - 1).toString() + ' ' +AppLocalizations.of(context)!.translate('Services in ...'),bold: false),
-              ),
-            ),
-            Expanded(
-              child: Stack(
-                children: [
-                  ListView.builder(
-                    itemCount: _subservice.length-1,
-                    itemBuilder: (context, index) {
-                      return serviceRow(_subservice[index]);
-                    },
-                    addAutomaticKeepAlives: false,
-                  ),
-                  Align(
-                    alignment: Alignment.center,
-                    child: MyWidget.jumbingDotes(_loading),
-                  ),
-                  _transScreen?
-                  MyWidget(context).transScreen():SizedBox()
-                ],
-              ),
-            ),
-            loadBannerAdd(),
-          ]),
-        ),
+          ),
+          loadBannerAdd(),
+        ]),
+      ),
     );
   }
 
@@ -240,19 +259,26 @@ class _SubServiceScreenState extends State<SubServiceScreen> {
     var name = ser['Name'];
     var imagepath = ser['ImagePath'];
     var price = ser['Price'];
-
+    var discountService =
+        ser['DiscountsServices'] ?? ser['Service']['DiscountsServices'];
+    var disAmount = 0.0;
+    if (discountService != null && discountService.length > 0) {
+      disAmount = discountService[0]['DiscountAmount'];
+    }
+    var priceAfterDiscount = price - disAmount;
     return Padding(
       padding: EdgeInsets.symmetric(
-          vertical: MediaQuery.of(context).size.width *0.03,
+          vertical: MediaQuery.of(context).size.width * 0.03,
           horizontal: MediaQuery.of(context).size.width / 22),
       child: Row(
         children: [
           GestureDetector(
-            onTap: ()=> APIService(context: context).showImage(imagepath),
+            onTap: () => APIService(context: context).showImage(imagepath),
             child: Container(
                 alignment: Alignment.center,
-                width: min(MediaQuery.of(context).size.width * 0.20, MediaQuery.of(context).size.height * 0.092),
-                height: min(MediaQuery.of(context).size.height / 10, MediaQuery.of(context).size.width /4.4),
+                width: min(MediaQuery.of(context).size.width * 0.20,
+                    MediaQuery.of(context).size.height * 0.092),
+                height: FontSize.s16*5.5,
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     fit: BoxFit.fill,
@@ -266,21 +292,24 @@ class _SubServiceScreenState extends State<SubServiceScreen> {
                       offset: Offset(0, 1), // changes position of shadow
                     ),
                   ],
-                  borderRadius: BorderRadius.all(Radius.circular(MediaQuery.of(context).size.height / 51)),
+                  borderRadius: BorderRadius.all(
+                      Radius.circular(MediaQuery.of(context).size.height / 51)),
                 )),
           ),
           SizedBox(
-            width: MediaQuery.of(context).size.width * 0.045,
+            width: AppWidth.w4,
           ),
           GestureDetector(
-            onTap: () async{
+            onTap: () async {
               setState(() {
                 _loading = true;
                 _transScreen = true;
               });
               var id = ser['Id'];
-              if(ser['IsMain']) await getSubServiceData(id);
-              else await getSubServiceDecData(id);
+              if (ser['IsMain'])
+                await getSubServiceData(id);
+              else
+                await getSubServiceDecData(id);
               setState(() {
                 _loading = false;
                 _transScreen = false;
@@ -288,9 +317,9 @@ class _SubServiceScreenState extends State<SubServiceScreen> {
             },
             child: Container(
               alignment: Alignment.center,
-              width: MediaQuery.of(context).size.width * 0.85 - min(MediaQuery.of(context).size.width * 0.20, MediaQuery.of(context).size.height * 0.092),
-              height: min(MediaQuery.of(context).size.height / 10, MediaQuery.of(context).size.width /4.4),
-             decoration: BoxDecoration(
+              width: AppWidth.w65,
+              height: FontSize.s16*5.5,
+              decoration: BoxDecoration(
                 color: AppColors.white,
                 boxShadow: [
                   BoxShadow(
@@ -300,7 +329,8 @@ class _SubServiceScreenState extends State<SubServiceScreen> {
                     offset: Offset(0, 1), // changes position of shadow
                   ),
                 ],
-                borderRadius: BorderRadius.all(Radius.circular(MediaQuery.of(context).size.height / 51)),
+                borderRadius: BorderRadius.all(
+                    Radius.circular(MediaQuery.of(context).size.height / 51)),
               ),
               child: Padding(
                 padding: EdgeInsets.symmetric(
@@ -314,33 +344,45 @@ class _SubServiceScreenState extends State<SubServiceScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Flexible(
+                          SizedBox(
+                            height: FontSize.s16*3,
                             child: SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
-                              child: MyWidget(context).textTitle15(name, scale: 0.95),
+                              child: MyWidget(context)
+                                  .textTitle15(name, scale: 1.1),
                             ),
                           ),
                           Flexible(
-                            child: SingleChildScrollView(
-                              child: MyWidget(context).textTap25(
-                                  (ser['IsMain'])?desc.toString(): price.toString() + ' ${AppLocalizations.of(context)!.translate('TRY')}',
-                                  ),
-                              /*child: Text(
-                                //AppLocalizations.of(context)!.translate('From') + price.toString() + ' .${AppLocalizations.of(context)!.translate('TRY')}',
-                                  (ser['IsMain'])?desc.toString(): price.toString() + ' ${AppLocalizations.of(context)!.translate('TRY')}',
-                                style: TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: MediaQuery.of(context).size.width / 25,
-                                ),
-                              ),*/
-                            ),
+                            flex: 2,
+                            child: Row(children: [
+                              priceAfterDiscount == price
+                                  ? SizedBox()
+                                  : MyWidget(context).textTap25(prettify(price),
+                                      lineTrought: true),
+                              SizedBox(width: AppWidth.w2,),
+                              (ser['IsMain'])
+                                  ? SizedBox(
+                                      child: SingleChildScrollView(
+                                        scrollDirection: Axis.horizontal,
+                                        child: MyWidget(context).textTap25(
+                                            desc.toString(),
+                                            textAlign: TextAlign.start),
+                                      ),
+                                      width: AppWidth.w40,
+                                    )
+                                  : MyWidget(context).textTap25(
+                                      prettify(priceAfterDiscount).toString() +
+                                          ' ${AppLocalizations.of(context)!.translate('TRY')}',
+                                      color: AppColors.mainColor,
+                                      scale: 1.1),
+                            ]),
                           ),
                         ],
                       ),
                     ),
                     Icon(
-                      Icons.keyboard_arrow_right,
-                      size: min(MediaQuery.of(context).size.height / 45, MediaQuery.of(context).size.width /20),
+                      Icons.arrow_forward_ios,
+                      size: min(MediaQuery.of(context).size.height / 45,
+                          MediaQuery.of(context).size.width / 20),
                       color: Colors.grey,
                     ),
                   ],
@@ -353,13 +395,14 @@ class _SubServiceScreenState extends State<SubServiceScreen> {
     );
   }
 
-  _setState(){
+  _setState() {
     setState(() {});
   }
 
   getSubServiceData(var id) async {
-    try{
-      var url = Uri.parse('${ApiUrl.mainServiceRead}filter=Service.ServiceParentId~eq~$id');
+    try {
+      var url = Uri.parse(
+          '${ApiUrl.mainServiceRead}cityid=$cityId&filter=Service.ServiceParentId~eq~$id');
       http.Response response = await http.get(
         url,
         headers: {
@@ -368,9 +411,9 @@ class _SubServiceScreenState extends State<SubServiceScreen> {
       );
       if (response.statusCode == 200) {
         var item = json.decode(response.body)["result"]['Data'];
-            //editTransactionService(transactions![0], service);
-            //editTransactionUserUserInfo(transactions![0], userInfo);
-        if (item.length==0) {
+        //editTransactionService(transactions![0], service);
+        //editTransactionUserUserInfo(transactions![0], userInfo);
+        if (item.length == 0) {
           await Flushbar(
             padding: EdgeInsets.symmetric(
                 vertical: MediaQuery.of(context).size.height / 20),
@@ -387,34 +430,41 @@ class _SubServiceScreenState extends State<SubServiceScreen> {
             ),
             backgroundColor: Colors.grey.withOpacity(0.5),
             barBlur: 20,
-            message: AppLocalizations.of(context)!.translate('This service will coming soon'),
+            message: AppLocalizations.of(context)!
+                .translate('This service will coming soon'),
             messageSize: MediaQuery.of(context).size.width / 22,
           ).show(context);
         } else {
-          _subservice.clear();// = item;
-          for(var e in item){
+          _subservice.clear(); // = item;
+          for (var e in item) {
             _subservice.add(e['Service']);
           }
           editTransactionSubService(transactions![0], _subservice, id);
-          Navigator.push(context, new MaterialPageRoute(builder: (context) => new SubServiceScreen(token: token, subservice: _subservice),),).then((_) {
+          Navigator.push(
+            context,
+            new MaterialPageRoute(
+              builder: (context) =>
+                  new SubServiceScreen(token: token, subservice: _subservice),
+            ),
+          ).then((_) {
             // This block runs when you have returned back to the 1st Page from 2nd.
             setState(() {
-              allSubServices.removeAt(allSubServices.length-1);
-              _subservice = allSubServices[allSubServices.length-1];
+              allSubServices.removeAt(allSubServices.length - 1);
+              _subservice = allSubServices[allSubServices.length - 1];
               // Call setState to refresh the page.
             });
           });
         }
       } else {
         setState(
-              () {
+          () {
             _subservice = [];
           },
         );
       }
-    }catch(e){
+    } catch (e) {
       _subservice = transactions![0].subService;
-      if(_subservice.length==1){
+      if (_subservice.length == 1) {
         await Flushbar(
           padding: EdgeInsets.symmetric(
               vertical: MediaQuery.of(context).size.height / 20),
@@ -434,9 +484,15 @@ class _SubServiceScreenState extends State<SubServiceScreen> {
           message: 'This service will coming soon'.tr,
           messageSize: MediaQuery.of(context).size.width / 22,
         ).show(context);
-      } else if(_subservice[_subservice.length-1]["id"]==id) {
-        Navigator.push(context, new MaterialPageRoute(builder: (context) => new SubServiceScreen(token: token, subservice: _subservice),),);
-      }else{
+      } else if (_subservice[_subservice.length - 1]["id"] == id) {
+        Navigator.push(
+          context,
+          new MaterialPageRoute(
+            builder: (context) =>
+                new SubServiceScreen(token: token, subservice: _subservice),
+          ),
+        );
+      } else {
         await Flushbar(
           padding: EdgeInsets.symmetric(
               vertical: MediaQuery.of(context).size.height / 20),
@@ -459,5 +515,4 @@ class _SubServiceScreenState extends State<SubServiceScreen> {
       }
     }
   }
-
 }

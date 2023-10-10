@@ -5,7 +5,9 @@ import 'dart:math';
 
 //import 'package:admob_flutter/admob_flutter.dart';
 import 'package:another_flushbar/flushbar.dart';
+import 'package:closer/constant/functions.dart';
 import 'package:closer/map/location.dart';
+import 'package:closer/screens/language/Languages.dart';
 import 'package:closer/screens/mainTabScreens/homeScreen.dart';
 import 'package:closer/screens/mainTabScreens/order/userOrder.dart';
 import 'package:closer/screens/mainTabScreens/order/workerOrder.dart';
@@ -15,6 +17,7 @@ import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
@@ -488,7 +491,21 @@ iOS: ca-app-pub-3940256099942544/1712485313
                 Expanded(
                   flex: 1,
                   child: GestureDetector(
-                    onTap: () => Navigator.pushNamed(context, 'changeLang'),
+                    onTap: () async{
+                      await APIService.getCountryData();
+                      var _selectedCountry = country.indexWhere((element) => element['Name']==myCountry)??0;
+                      await APIService.getCityData(country[_selectedCountry]['Id']);
+                      var _selectedCity = city.indexWhere((element) => element['Name']==myCity)??0;
+                      var _selectedLang = LocalizationService.getCurrentLangInt();
+                      final box = GetStorage();
+                      var lang = box.read('lng')??'English';
+                      if(lang == 'English') _selectedLang = 0;
+                      if(lang == 'France') _selectedLang = 2;
+                      if(lang == 'العربية') _selectedLang = 1;
+                      print(_selectedLang.toString());
+                      // ignore: use_build_context_synchronously
+                      MyApplication.navigateTo(context, Languages(main: false, selectedCity: _selectedCity, selectedCountry: _selectedCountry, selectedLang: _selectedLang,));
+                      },// Navigator.pushNamed(context, 'changeLang'),
                     child: MyWidget(context).rowIconProfile(Icons.language_outlined, AppLocalizations.of(context)!.translate("Change Language")),
                   ),
                 ),
