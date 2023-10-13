@@ -94,10 +94,11 @@ class _RegisterState extends State<Register> {
                         Text(
                           AppLocalizations.of(context)!.translate('Sign Up'),
                           style: TextStyle(
+        fontFamily: 'comfortaa',
                               color: AppColors.white,
                               fontSize: MediaQuery.of(context).size.width/10,
                               fontWeight: FontWeight.bold,
-                              fontFamily: 'OpenSans'),
+                             ),
                         ),
                       ],
                     ),
@@ -133,14 +134,17 @@ class _RegisterState extends State<Register> {
                                     invalidNumberMessage: '',
                                     //autovalidateMode: AutovalidateMode.onUserInteraction,
                                     //controller: phoneController,
-                                    style: TextStyle(color: AppColors.white, fontSize: min(MediaQuery.of(context).size.width/25,MediaQuery.of(context).size.height/55)),
+                                    style: TextStyle(
+        fontFamily: 'comfortaa',color: AppColors.white, fontSize: min(MediaQuery.of(context).size.width/25,MediaQuery.of(context).size.height/55)),
                                     decoration: InputDecoration(
                                       labelText: AppLocalizations.of(context)!.translate('Phone Number'),
                                       labelStyle: TextStyle(
+        fontFamily: 'comfortaa',
                                         fontSize: min(MediaQuery.of(context).size.width/25, MediaQuery.of(context).size.height/55),
                                         color: AppColors.white,
                                       ),
                                       errorStyle: TextStyle(
+        fontFamily: 'comfortaa',
                                           fontSize:min(MediaQuery.of(context).size.width/25, MediaQuery.of(context).size.height/55)
                                       ),
                                       enabledBorder: OutlineInputBorder(
@@ -243,14 +247,17 @@ class _RegisterState extends State<Register> {
         },
 
         autovalidateMode: AutovalidateMode.onUserInteraction,
-        style: TextStyle(color: AppColors.white, fontSize: MediaQuery.of(context).size.width/25),
+        style: TextStyle(
+        fontFamily: 'comfortaa',color: AppColors.white, fontSize: MediaQuery.of(context).size.width/25),
         decoration: InputDecoration(
           labelText: labelText,
           labelStyle: TextStyle(
+        fontFamily: 'comfortaa',
             fontSize: MediaQuery.of(context).size.width/20,
             color:AppColors.white,
           ),
           errorStyle: TextStyle(
+        fontFamily: 'comfortaa',
             fontSize: MediaQuery.of(context).size.width/24,
           ),
           enabledBorder: OutlineInputBorder(

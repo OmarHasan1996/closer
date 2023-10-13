@@ -52,6 +52,7 @@ class _AddTaskState extends State<AddTask> {
                 child: Text(
                   item['name'],
                   style: TextStyle(
+        fontFamily: 'comfortaa',
                     fontSize: MediaQuery.of(context).size.width/25,
                     color: AppColors.black,
                   ),
@@ -158,6 +159,7 @@ class _AddTaskState extends State<AddTask> {
                                 child: Text(
                                   AppLocalizations.of(context)!.translate('Choose Worker'),
                                   style: TextStyle(
+        fontFamily: 'comfortaa',
                                     color: AppColors.black,
                                     fontSize: MediaQuery.of(context).size.width/18,
                                   ),
@@ -192,6 +194,7 @@ class _AddTaskState extends State<AddTask> {
           child: Text(
             desc,
             style: TextStyle(
+        fontFamily: 'comfortaa',
               color: Colors.black38,
               fontSize: MediaQuery.of(context).size.width/25,
             ),
@@ -223,10 +226,12 @@ class _AddTaskState extends State<AddTask> {
             //readOnly: true,
             textAlign: TextAlign.left,
             controller: controller,
-            style: TextStyle(fontSize: fontSize),
+            style: TextStyle(
+        fontFamily: 'comfortaa',fontSize: fontSize),
             decoration: InputDecoration(
               hintText: hint,
-              hintStyle: TextStyle(fontSize: fontSize/1.5, color: Colors.black26),
+              hintStyle: TextStyle(
+        fontFamily: 'comfortaa',fontSize: fontSize/1.5, color: Colors.black26),
               border: InputBorder.none,
             ),
           ),),
@@ -257,6 +262,7 @@ class _AddTaskState extends State<AddTask> {
               child: Text(
                 AppLocalizations.of(this.context)!.translate('Worker') + ' ' + (index+1).toString(),
                 style: TextStyle(
+        fontFamily: 'comfortaa',
                   color: AppColors.black,
                   fontSize: MediaQuery.of(context).size.width/22,
                 ),
@@ -297,6 +303,7 @@ class _AddTaskState extends State<AddTask> {
                         TextOverflow
                             .ellipsis,
                         style: TextStyle(
+        fontFamily: 'comfortaa',
                           fontSize: MediaQuery.of(
                               context)
                               .size
@@ -365,6 +372,7 @@ class _AddTaskState extends State<AddTask> {
             : Text(
           text,
           style: TextStyle(
+        fontFamily: 'comfortaa',
               fontSize: MediaQuery.of(context).size.width / 22,
               color: MyColors.buttonTextColor,
               fontWeight: FontWeight.bold),
@@ -550,7 +558,8 @@ class _AddTaskState extends State<AddTask> {
                 },
                 child: TextFormField(
                   style:
-                  TextStyle(fontSize: MediaQuery.of(context).size.width / 22, color: AppColors.black),
+                  TextStyle(
+        fontFamily: 'comfortaa',fontSize: MediaQuery.of(context).size.width / 22, color: AppColors.black),
                   textAlign: TextAlign.center,
                   enabled: false,
                   keyboardType: TextInputType.text,
@@ -605,7 +614,8 @@ class _AddTaskState extends State<AddTask> {
                 },
                 child: TextFormField(
                   style:
-                  TextStyle(fontSize: MediaQuery.of(context).size.width / 22, color: AppColors.black),
+                  TextStyle(
+        fontFamily: 'comfortaa',fontSize: MediaQuery.of(context).size.width / 22, color: AppColors.black),
                   textAlign: TextAlign.center,
                   enabled: false,
                   keyboardType: TextInputType.text,

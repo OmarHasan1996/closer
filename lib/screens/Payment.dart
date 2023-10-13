@@ -228,7 +228,8 @@ class _PaymentState extends State<Payment> {
                 flex: 1,
                 child: Text(
                   headerText,
-                  style: TextStyle(color: Colors.grey,
+                  style: TextStyle(
+        fontFamily: 'comfortaa',color: Colors.grey,
                     fontSize: MediaQuery.of(context).size.width / 28,
                   ),
                 ),
@@ -265,19 +266,23 @@ class _PaymentState extends State<Payment> {
                   obscureText: obscureText,
                   controller: controller,
                   style: TextStyle(
+        fontFamily: 'comfortaa',
                       color: AppColors.black,
                       fontSize: MediaQuery.of(context).size.width / 20),
                   decoration: InputDecoration(
                     hintText: hintText,
                     labelText: AppLocalizations.of(context)!.translate('Email Address'),
                     errorStyle: TextStyle(
+        fontFamily: 'comfortaa',
                         fontSize:
                         MediaQuery.of(context).size.width / 24),
                     labelStyle: TextStyle(
+        fontFamily: 'comfortaa',
                       fontSize: MediaQuery.of(context).size.width / 20,
                       color: Colors.white,
                     ),
                     hintStyle: TextStyle(
+        fontFamily: 'comfortaa',
                       fontSize: MediaQuery.of(context).size.width / 20,
                       color: Colors.grey,
                     ),
@@ -368,6 +373,7 @@ class _PaymentState extends State<Payment> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(AppLocalizations.of(context)!.translate('Bay Cash'),style: TextStyle(
+        fontFamily: 'comfortaa',
                   color: MyColors.black,
                   fontSize: MediaQuery.of(context).size.width / 15,
                   fontWeight: FontWeight.normal,
@@ -541,25 +547,29 @@ class _PaymentState extends State<Payment> {
         Text('Current source:'),
         Text(
           JsonEncoder.withIndent('  ').convert(_source?.toJson() ?? {}),
-          style: TextStyle(fontFamily: "Monospace"),
+          style: TextStyle(
+        fontFamily: 'comfortaa',fontFamily: "Monospace"),
         ),
         Divider(),
         Text('Current token:'),
         Text(
           JsonEncoder.withIndent('  ').convert(_paymentToken?.toJson() ?? {}),
-          style: TextStyle(fontFamily: "Monospace"),
+          style: TextStyle(
+        fontFamily: 'comfortaa',fontFamily: "Monospace"),
         ),
         Divider(),
         Text('Current payment method:'),
         Text(
           JsonEncoder.withIndent('  ').convert(_paymentMethod?.toJson() ?? {}),
-          style: TextStyle(fontFamily: "Monospace"),
+          style: TextStyle(
+        fontFamily: 'comfortaa',fontFamily: "Monospace"),
         ),
         Divider(),
         Text('Current payment intent:'),
         Text(
           JsonEncoder.withIndent('  ').convert(_paymentIntent?.toJson() ?? {}),
-          style: TextStyle(fontFamily: "Monospace"),
+          style: TextStyle(
+        fontFamily: 'comfortaa',fontFamily: "Monospace"),
         ),
         Divider(),
         Text('Current error: $_error'),
@@ -586,6 +596,7 @@ class _PaymentState extends State<Payment> {
         )
             : Text(text,
           style: TextStyle(
+        fontFamily: 'comfortaa',
               fontSize:
               MediaQuery.of(context).size.width / 20,
               color: MyColors.buttonTextColor,
@@ -699,7 +710,8 @@ class _PaymentState extends State<Payment> {
               Expanded(
                 flex: 1,
                 child: Text(headerText,
-                  style: TextStyle(color: Colors.grey, fontSize: MediaQuery.of(context).size.width / 28,),),
+                  style: TextStyle(
+        fontFamily: 'comfortaa',color: Colors.grey, fontSize: MediaQuery.of(context).size.width / 28,),),
               ),
               Expanded(
                 flex: 2,
@@ -711,7 +723,8 @@ class _PaymentState extends State<Payment> {
                           _selectDate(context);
                         },
                         child: TextFormField(
-                          style: TextStyle(fontSize: MediaQuery.of(context).size.width / 20),
+                          style: TextStyle(
+        fontFamily: 'comfortaa',fontSize: MediaQuery.of(context).size.width / 20),
                           //textAlign: TextAlign.left,
                           enabled: false,
                           keyboardType: TextInputType.text,

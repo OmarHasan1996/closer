@@ -44,6 +44,7 @@ class _ManageTaskState extends State<ManageTask> {
                 child: Text(
                   item['name'],
                   style: TextStyle(
+        fontFamily: 'comfortaa',
                     color: AppColors.black,
                   ),
                 ),
@@ -109,6 +110,7 @@ class _ManageTaskState extends State<ManageTask> {
                         AppLocalizations.of(context)!.translate('Manage Tasks') + ' (' + _service['Service']['Name'] + ')',
                         maxLines: 1,
                         style: TextStyle(
+        fontFamily: 'comfortaa',
                           color: AppColors.black,
                           fontSize: MediaQuery.of(context).size.width / 19,
                           fontWeight: FontWeight.normal,
@@ -144,6 +146,7 @@ class _ManageTaskState extends State<ManageTask> {
                               child: Text(
                                 AppLocalizations.of(context)!.translate('Address Details'),
                                 style: TextStyle(
+        fontFamily: 'comfortaa',
                                   color: AppColors.black,
                                   fontSize: MediaQuery.of(context).size.width / 25,
                                   fontWeight: FontWeight.normal,
@@ -162,6 +165,7 @@ class _ManageTaskState extends State<ManageTask> {
                                 AppLocalizations.of(context)!.translate('Service Attachment:'),
                                 //AppLocalizations.of(context)!.translate('Order Details'),
                                 style: TextStyle(
+        fontFamily: 'comfortaa',
                                   color: AppColors.black,
                                   fontSize: MediaQuery.of(context).size.width / 22,
                                   fontWeight: FontWeight.normal,
@@ -185,6 +189,7 @@ class _ManageTaskState extends State<ManageTask> {
                                   _orderDetails,
                                   maxLines: null,
                                   style: TextStyle(
+        fontFamily: 'comfortaa',
                                     color: Colors.grey,
                                     fontSize: MediaQuery.of(context).size.width / 30,
                                     fontWeight: FontWeight.normal,
@@ -237,6 +242,7 @@ class _ManageTaskState extends State<ManageTask> {
                                 child: Text(
                                   AppLocalizations.of(context)!.translate('List Of Tasks'),
                                   style: TextStyle(
+        fontFamily: 'comfortaa',
                                     color: AppColors.black,
                                     fontSize: MediaQuery.of(context).size.width / 23,
                                     fontWeight: FontWeight.normal,
@@ -293,6 +299,7 @@ class _ManageTaskState extends State<ManageTask> {
                     child: Text(
                       _task[index]['Name'].toString(),
                       style: TextStyle(
+        fontFamily: 'comfortaa',
                         color: _task[index]['Status'] == 2 ? AppColors.blue : AppColors.black,
                         fontSize: MediaQuery.of(context).size.width/24,
                       ),
@@ -301,6 +308,7 @@ class _ManageTaskState extends State<ManageTask> {
                   Expanded(
                     child: Text(_workersName, textAlign: TextAlign.end,
                       style: TextStyle(
+        fontFamily: 'comfortaa',
                         color:  _task[index]['Status'] == 2 ? AppColors.blue : AppColors.black,
                         fontSize: MediaQuery.of(context).size.width/28,
                       ),),
@@ -319,6 +327,7 @@ class _ManageTaskState extends State<ManageTask> {
         child:Text(
           AppLocalizations.of(context)!.translate('press add task to assign new worker'),
           style: TextStyle(
+        fontFamily: 'comfortaa',
             color: Colors.grey,
             fontSize: MediaQuery.of(context).size.width/24,
           ),
@@ -353,7 +362,8 @@ class _ManageTaskState extends State<ManageTask> {
           SizedBox(width: MediaQuery.of(context).size.width/30,),
           Expanded(child: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
-            child: Text(text, style: TextStyle(fontSize: MediaQuery.of(context).size.width/25, color: AppColors.buttonTextColor),),
+            child: Text(text, style: TextStyle(
+        fontFamily: 'comfortaa',fontSize: MediaQuery.of(context).size.width/25, color: AppColors.buttonTextColor),),
           )),
         ],
       ),

@@ -1,6 +1,8 @@
 import 'dart:math';
 
 import 'package:another_flushbar/flushbar.dart';
+import 'package:closer/constant/app_size.dart';
+import 'package:closer/constant/font_size.dart';
 import 'package:closer/constant/functions.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -11,9 +13,7 @@ import 'package:closer/MyWidget.dart';
 import 'package:closer/api/api_service.dart';
 import 'package:closer/color/MyColors.dart';
 import 'package:closer/localizations.dart';
-import 'package:otp_text_field/otp_field.dart';
-import 'package:otp_text_field/otp_text_field.dart';
-import 'package:otp_text_field/style.dart';
+
 import 'dart:convert';
 import '../const.dart';
 import 'main_screen.dart';
@@ -22,18 +22,20 @@ import 'package:get/get.dart';
 import 'package:closer/screens/signin.dart';
 
 import 'package:form_field_validator/form_field_validator.dart';
+import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:closer/localization_service.dart' as trrrr;
-
 
 bool chVer = false;
 String token = '';
+
 // ignore: must_be_immutable
 class Verification extends StatefulWidget {
   String value;
   String email;
   String password;
 
-  Verification({required this.value, required this.email, required this.password});
+  Verification(
+      {required this.value, required this.email, required this.password});
   @override
   _VerificationState createState() =>
       _VerificationState(this.value, this.email, this.password);
@@ -45,8 +47,8 @@ class _VerificationState extends State<Verification> {
   String password;
   bool newPassword = false;
 
-  _VerificationState(this.value, this.email, this.password){
-    password  == ''? newPassword = true: newPassword = false;
+  _VerificationState(this.value, this.email, this.password) {
+    password == '' ? newPassword = true : newPassword = false;
   }
 
   int codeLength = 0;
@@ -64,7 +66,8 @@ class _VerificationState extends State<Verification> {
 
   @override
   Widget build(BuildContext context) {
-    requiredValidator = RequiredValidator(errorText: AppLocalizations.of(context)!.translate('Required'));
+    requiredValidator = RequiredValidator(
+        errorText: AppLocalizations.of(context)!.translate('Required'));
     var active;
     if (codeLength == 6) {
       active = () {
@@ -74,107 +77,142 @@ class _VerificationState extends State<Verification> {
     } else {
       active = null;
     }
-    var heightSpace = MediaQuery.of(context).size.height/40;
+    var heightSpace = MediaQuery.of(context).size.height / 40;
     return SafeArea(
-        child: Scaffold(
-          resizeToAvoidBottomInset: true,
-          backgroundColor: AppColors.blue,
-          body: DoubleBackToCloseApp(
-              child: Container(
-                //height: MediaQuery.of(context).size.height/1.5,
-                padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height/20, horizontal: MediaQuery.of(context).size.width/10),
-                  child: ListView(
-                    //crossAxisAlignment: CrossAxisAlignment.center,
-                    //mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      !newPassword?
-                        Image.asset(
-                          'assets/images/code.png',
-                          width: MediaQuery.of(context).size.width/2,
-                          height: MediaQuery.of(context).size.height/3,
-                        ):
-                      Container(
-                          //height: MediaQuery.of(context).size.height/30,
-                          child: Column(
-                            children: [
-                              /*Image.asset(
+      child: Scaffold(
+        resizeToAvoidBottomInset: true,
+        backgroundColor: AppColors.mainColor,
+        body: DoubleBackToCloseApp(
+          child: Container(
+            //height: MediaQuery.of(context).size.height/1.5,
+            padding: EdgeInsets.symmetric(
+                vertical: MediaQuery.of(context).size.height / 20,
+                horizontal: MediaQuery.of(context).size.width / 10),
+            child: ListView(
+              //crossAxisAlignment: CrossAxisAlignment.center,
+              //mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                !newPassword
+                    ? Image.asset(
+                        'assets/images/code.png',
+                        width: MediaQuery.of(context).size.width / 2,
+                        height: MediaQuery.of(context).size.height / 3,
+                      )
+                    : Container(
+                        //height: MediaQuery.of(context).size.height/30,
+                        child: Column(
+                          children: [
+                            /*Image.asset(
                                 'assets/images/code.png',
                                 width: MediaQuery.of(context).size.width/5,
                                 height: MediaQuery.of(context).size.height/7,
                               ),*/
-                              SizedBox(
-                                height: heightSpace*2,
-                              ),
-                              Padding(
-                                padding: EdgeInsets.all(MediaQuery.of(context).size.height/70),
-                                child: MyWidget(context).textFiled(passwordController, '', AppLocalizations.of(context)!.translate('newPassword'), password: true,
-                                    obscureText: _secureText, clickIcon: ()=> {
-                                    setState(() {
-                                    _secureText = !_secureText;
-                                    })
-                                }),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.all(MediaQuery.of(context).size.height/70),
-                                child: MyWidget(context).textFiled(confirmPasswordController, '', AppLocalizations.of(context)!.translate('Confirm Password'), password: true,
-                                    obscureText: _secureText, clickIcon: ()=> {
-                                      setState(() {
-                                        _secureText = !_secureText;
-                                      })
-                                    }, passwordText: passwordController.text),
-                              ),
-                              SizedBox(
-                                height: heightSpace*2,
-                              ),
-                            ],
-                          ),
-                        ),
-                       SizedBox(
-                        height: heightSpace*2,
-                      ),
-                      Column(
-                             //height: MediaQuery.of(context).size.height/5,
-                             children: [
-                               Padding(
-                                 padding:  EdgeInsets.symmetric(
-                                     vertical: 0, horizontal: MediaQuery.of(context).size.width/20),
-                                 child: MyWidget(context).textBlack20(AppLocalizations.of(context)!.translate("Enter the 6-digit code sent to your phone"), color: AppColors.white, textAlign: TextAlign.center, ),
-                               ),
-                               SizedBox(
-                                 height: heightSpace/2,
-                               ),
-                               buildCodeBox(first: true, last: false),
-                             ],
-                        ),
-                      //Expanded(child: Container()),
-                      SizedBox(
-                        height: heightSpace*7,
-                      ),
-
-                      Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            MyWidget(context).textBlack20(AppLocalizations.of(context)!.translate("Didn't receive the code?"), color: AppColors.white, bold: false),
                             SizedBox(
-                              width: 2,
+                              height: heightSpace * 2,
                             ),
-                            GestureDetector(
-                              onTap: () {
-                                _resend();
-                              },
-                              child: MyWidget(context).textBlack20( AppLocalizations.of(context)!.translate('Resend'), color: AppColors.yellow, bold: false),
-                            )
+                            Padding(
+                              padding: EdgeInsets.all(
+                                  MediaQuery.of(context).size.height / 70),
+                              child: MyWidget(context).textFiled(
+                                  passwordController,
+                                  '',
+                                  AppLocalizations.of(context)!
+                                      .translate('newPassword'),
+                                  password: true,
+                                  obscureText: _secureText,
+                                  clickIcon: () => {
+                                        setState(() {
+                                          _secureText = !_secureText;
+                                        })
+                                      }),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.all(
+                                  MediaQuery.of(context).size.height / 70),
+                              child: MyWidget(context).textFiled(
+                                  confirmPasswordController,
+                                  '',
+                                  AppLocalizations.of(context)!
+                                      .translate('Confirm Password'),
+                                  password: true,
+                                  obscureText: _secureText,
+                                  clickIcon: () => {
+                                        setState(() {
+                                          _secureText = !_secureText;
+                                        })
+                                      },
+                                  passwordText: passwordController.text),
+                            ),
+                            SizedBox(
+                              height: heightSpace * 2,
+                            ),
                           ],
                         ),
-                      SizedBox(
-                        height: heightSpace,
                       ),
-                      MyWidget(context).raisedButton(AppLocalizations.of(context)!.translate('Confirm'), active, MediaQuery.of(context).size.width/1.3, chVer),
-                    ],
+                SizedBox(
+                  height: heightSpace * 2,
                 ),
-              ),
-            snackBar:  SnackBar(
-                  content: Text(AppLocalizations.of(context)!.translate('Tap back again to leave')),
+                Column(
+                  //height: MediaQuery.of(context).size.height/5,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                          vertical: 0,
+                          horizontal: MediaQuery.of(context).size.width / 20),
+                      child: MyWidget(context).textBlack20(
+                        AppLocalizations.of(context)!.translate(
+                            "Enter the 6-digit code sent to your phone"),
+                        color: AppColors.white,
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    SizedBox(
+                      height: heightSpace / 2,
+                    ),
+                    buildCodeBox(first: true, last: false),
+                  ],
+                ),
+                //Expanded(child: Container()),
+                SizedBox(
+                  height: heightSpace * 7,
+                ),
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    MyWidget(context).textBlack20(
+                        AppLocalizations.of(context)!
+                            .translate("Didn't receive the code?"),
+                        color: AppColors.white,
+                        bold: false),
+                    SizedBox(
+                      width: 2,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        _resend();
+                      },
+                      child: MyWidget(context).textBlack20(
+                          AppLocalizations.of(context)!.translate('Resend'),
+                          color: AppColors.yellow,
+                          bold: false),
+                    )
+                  ],
+                ),
+                SizedBox(
+                  height: heightSpace,
+                ),
+                MyWidget(context).raisedButton(
+                    AppLocalizations.of(context)!.translate('Confirm'),
+                    active,
+                    MediaQuery.of(context).size.width / 1.3,
+                    chVer),
+              ],
+            ),
+          ),
+          snackBar: SnackBar(
+            content: Text(AppLocalizations.of(context)!
+                .translate('Tap back again to leave')),
           ),
         ),
       ),
@@ -182,6 +220,50 @@ class _VerificationState extends State<Verification> {
   }
 
   Widget buildCodeBox({required bool first, last}) {
+    return Center(
+      child: Directionality(
+        textDirection: TextDirection.ltr,
+        child: PinCodeTextField(
+          appContext: context,
+          textStyle: TextStyle(
+              fontSize: FontSize.s18,
+              color: AppColors.mainColor,
+              fontFamily: 'Gotham'),
+          pastedTextStyle: TextStyle(
+              fontSize: FontSize.s16,
+              color: Colors.green.shade600,
+              fontWeight: FontWeight.bold,
+              fontFamily: 'BCArabicB'),
+          length: 6,
+          blinkWhenObscuring: true,
+          animationType: AnimationType.fade,
+          pinTheme: PinTheme(
+              shape: PinCodeFieldShape.box,
+              borderRadius: BorderRadius.circular(AppWidth.w1),
+              fieldHeight: AppWidth.w12,
+              fieldWidth: AppWidth.w12,
+              inactiveColor: AppColors.white,
+              selectedColor: AppColors.white,
+              selectedFillColor: AppColors.white,
+              inactiveFillColor: Colors.transparent,
+              activeFillColor: AppColors.white,
+              borderWidth: 12),
+          cursorColor: AppColors.black,
+          animationDuration: const Duration(milliseconds: 2),
+          enableActiveFill: true,
+          keyboardType: TextInputType.number,
+          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+          onChanged: (pin) {
+            codeLength = pin.length;
+            code = pin;
+          },
+          onCompleted: (pin) {},
+        ),
+      ),
+    );
+  }
+
+  /*Widget buildCodeBox({required bool first, last}) {
     return Center(
         child: OTPTextField(
       keyboardType: TextInputType.number,
@@ -198,6 +280,7 @@ class _VerificationState extends State<Verification> {
       fieldStyle: FieldStyle.box,
       outlineBorderRadius: MediaQuery.of(context).size.height/90,
       style: TextStyle(
+        fontFamily: 'comfortaa',
         fontSize: min(MediaQuery.of(context).size.width/15,MediaQuery.of(context).size.height/35),
         color: AppColors.white,
       ),
@@ -213,24 +296,25 @@ class _VerificationState extends State<Verification> {
 
         );
   }
-
+*/
   Future ver() async {
     setState(() => chVer = true);
-    if(newPassword){
+    if (newPassword) {
       _newPasswordVer(passwordController.text);
-    }else{
+    } else {
       _firstVer();
     }
     setState(() => chVer = false);
   }
 
-  _firstVer() async{
+  _firstVer() async {
     var apiUrl = Uri.parse('$apiDomain/Main/SignUp/SignUp_Verify');
     Map mapDate = {
       "guidParam": value,
       "txtParam": code,
     };
-    http.Response response = await http.post(apiUrl, body: jsonEncode(mapDate), headers: {
+    http.Response response =
+        await http.post(apiUrl, body: jsonEncode(mapDate), headers: {
       "Accept": "application/json",
       "content-type": "application/json",
     });
@@ -260,8 +344,9 @@ class _VerificationState extends State<Verification> {
     }
   }
 
-  _newPasswordVer(String newPassword) async{
-    var apiUrl = Uri.parse('$apiDomain/Main/SignUp/ResetPassword?UserEmail=${email}&code=$code&password=$newPassword');
+  _newPasswordVer(String newPassword) async {
+    var apiUrl = Uri.parse(
+        '$apiDomain/Main/SignUp/ResetPassword?UserEmail=${email}&code=$code&password=$newPassword');
 
     print(apiUrl.toString());
     http.Response response = await http.post(apiUrl, headers: {
@@ -299,18 +384,18 @@ class _VerificationState extends State<Verification> {
           chVer = false;
         }
       });
-    }
-    else {
+    } else {
       print(response.statusCode);
       print('A network error occurred');
     }
-
   }
 
-  void _resend() async{
-    var apiUrl = Uri.parse('$apiDomain/Main/SignUp/ReSendVerificationCode?UserEmail=$email');
+  void _resend() async {
+    var apiUrl = Uri.parse(
+        '$apiDomain/Main/SignUp/ReSendVerificationCode?UserEmail=$email');
     http.Response response = await http.post(apiUrl, headers: {
-      "Accept-Language": trrrr.LocalizationService.getCurrentLocale().languageCode,
+      "Accept-Language":
+          trrrr.LocalizationService.getCurrentLocale().languageCode,
       "Accept": "application/json",
     });
     print(jsonDecode(response.body).toString());
@@ -339,8 +424,7 @@ class _VerificationState extends State<Verification> {
           //isLogIn = true;
           //token = jsonDecode(response.body)["content"]["Token"].toString();
           //updateUserInfo(userData["content"]["Id"]);
-        }
-        else {
+        } else {
           //setState(() => chLogIn = false);
           Flushbar(
             padding: EdgeInsets.symmetric(
@@ -361,12 +445,9 @@ class _VerificationState extends State<Verification> {
           ).show(context);
         }
       });
-    }
-    else {
+    } else {
       print(response.statusCode);
       print('A network error occurred');
     }
-
   }
-
 }

@@ -191,6 +191,7 @@ class _SignInState extends State<SignIn> {
                                 )
                               : Text(AppLocalizations.of(context)!.translate('Sign In'),
                                   style: TextStyle(
+        fontFamily: 'comfortaa',
                                       fontSize:
                                           MediaQuery.of(context).size.width /
                                               20,

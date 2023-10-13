@@ -42,6 +42,7 @@ class _TaskIdState extends State<TaskId> {
                 child: Text(
                   item['name'],
                   style: TextStyle(
+        fontFamily: 'comfortaa',
                     color: AppColors.black,
                   ),
                 ),
@@ -160,6 +161,7 @@ class _TaskIdState extends State<TaskId> {
                               child: Text(
                                 AppLocalizations.of(context)!.translate('Address Details'),
                                 style: TextStyle(
+        fontFamily: 'comfortaa',
                                   color: AppColors.black,
                                   fontSize: MediaQuery.of(context).size.width / 22,
                                   fontWeight: FontWeight.normal,
@@ -180,6 +182,7 @@ class _TaskIdState extends State<TaskId> {
                               child: Text(
                                 AppLocalizations.of(context)!.translate('Task Details'),
                                 style: TextStyle(
+        fontFamily: 'comfortaa',
                                   color: AppColors.black,
                                   fontSize: MediaQuery.of(context).size.width / 22,
                                   fontWeight: FontWeight.normal,
@@ -197,6 +200,7 @@ class _TaskIdState extends State<TaskId> {
                                     _orderDetails,
                                     maxLines: null,
                                     style: TextStyle(
+        fontFamily: 'comfortaa',
                                       color: Colors.grey,
                                       fontSize: MediaQuery.of(context).size.width / 30,
                                       fontWeight: FontWeight.normal,
@@ -224,6 +228,7 @@ class _TaskIdState extends State<TaskId> {
                                 Text(
                                   '→',
                                   style: TextStyle(
+        fontFamily: 'comfortaa',
                                     color: Colors.grey,
                                     fontSize: MediaQuery.of(context).size.height / 40,
                                     fontWeight: FontWeight.normal,
@@ -285,6 +290,7 @@ class _TaskIdState extends State<TaskId> {
           child: Text(
             desc,
             style: TextStyle(
+        fontFamily: 'comfortaa',
               color: Colors.black38,
               fontSize: MediaQuery.of(context).size.width/25,
             ),
@@ -313,7 +319,8 @@ class _TaskIdState extends State<TaskId> {
             readOnly: true,
             textAlign: TextAlign.left,
             controller: controller,
-            style: TextStyle(fontSize: fontSize),
+            style: TextStyle(
+        fontFamily: 'comfortaa',fontSize: fontSize),
             decoration: InputDecoration(
               border: InputBorder.none,
             ),
@@ -343,6 +350,7 @@ class _TaskIdState extends State<TaskId> {
                 maxLines: null,
                 //textAlign: TextAlign.center,
                 style: TextStyle(
+        fontFamily: 'comfortaa',
                   color: _color,
                   fontSize: MediaQuery.of(context).size.width/22,
                 ),
@@ -384,6 +392,7 @@ class _TaskIdState extends State<TaskId> {
             :Text(
           text,
           style: TextStyle(
+        fontFamily: 'comfortaa',
               fontSize: MediaQuery.of(context).size.width / 22,
               color: MyColors.buttonTextColor,
               fontWeight: FontWeight.bold),
@@ -406,7 +415,8 @@ class _TaskIdState extends State<TaskId> {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(MediaQuery.of(context).size.height / 120))),
       //child: Icon(Icons.add),
       child: Text(AppLocalizations.of(context)!.translate('Manage Tasks'),
-          style: TextStyle(fontSize: MediaQuery.of(context).size.width / 25, color: MyColors.White, fontWeight: FontWeight.normal)),
+          style: TextStyle(
+        fontFamily: 'comfortaa',fontSize: MediaQuery.of(context).size.width / 25, color: MyColors.White, fontWeight: FontWeight.normal)),
     );
   }
 */
@@ -421,7 +431,8 @@ class _TaskIdState extends State<TaskId> {
           Expanded(child: SingleChildScrollView(
 
             scrollDirection: Axis.horizontal,
-            child: Text(text, style: TextStyle(fontSize: MediaQuery.of(context).size.width/25, color: AppColors.buttonTextColor),),
+            child: Text(text, style: TextStyle(
+        fontFamily: 'comfortaa',fontSize: MediaQuery.of(context).size.width/25, color: AppColors.buttonTextColor),),
           )),
         ],
       ),

@@ -40,6 +40,7 @@ class _aboutState extends State<about> {
                     AppLocalizations.of(context)!.translate('name'),
                     textAlign: TextAlign.center,
                     style: TextStyle(
+        fontFamily: 'comfortaa',
                         fontSize: MediaQuery.of(context).size.width / 10,
                         color: AppColors.white,
                         decoration: TextDecoration.none,
@@ -48,6 +49,7 @@ class _aboutState extends State<about> {
                   Text(AppLocalizations.of(context)!.translate('v'),
                       textAlign: TextAlign.center,
                       style: TextStyle(
+        fontFamily: 'comfortaa',
                           fontSize: MediaQuery.of(context).size.width / 20,
                           color: AppColors.WhiteSelver,
                           decoration: TextDecoration.none,
@@ -107,6 +109,7 @@ class _aboutState extends State<about> {
               txt,
               textAlign: TextAlign.center,
                 style: TextStyle(
+        fontFamily: 'comfortaa',
                     fontSize: MediaQuery.of(context).size.width / 19,
                     color: AppColors.white,
                     fontWeight: FontWeight.normal,

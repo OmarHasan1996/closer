@@ -1,7 +1,6 @@
 {
   "Price": "Price",
   "Error Connection": "Error Connection",
-
   "welcome page": "_comment",
   "lang":"Language",
   "start_button":"Let's Go",
@@ -165,7 +164,6 @@
   "invalid mobile number": "invalid mobile number",
   "Service Attachment:": "Service Attachment:",
   "press add task to assign new worker": "press add task to assign new worker",
-
   "Country": "Country",
   "Select location on map": "Select location on map",
   "Search": "Search",
@@ -173,7 +171,6 @@
   "Billing Address": "Billing Address",
   "Delivery No": "Delivery No",
   "Shipping Address": "Shipping Address",
-
   "Terms & Condition": "Terms & Condition",
   "Terms & Condition desc": "Minimalist styling is not about creating a cold, hard, empty white box of a home. It is about using simple and natural forms, and taking away layers without losing the aesthetic appeal of the space. The focus is on shape, with a furniture and accessories.\n",
   "Unit": "Unit",
@@ -188,7 +185,10 @@
   "Arabic": "Arabic",
   "French": "French",
   "Describe your experience": "Describe your experience",
-  "At the road": "At the road"
+  "At the road": "At the road",
+  "Apply": "Apply",
+  "Coupon code isn't exited": "Coupon code isn't exited",
+  "TOTAL after discount": "TOTAL AFTER DISCOUNT"
 
 
 }

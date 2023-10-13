@@ -172,6 +172,7 @@ class _NewOrderState extends State<NewOrder> {
           child: Text(
             desc,
             style: TextStyle(
+        fontFamily: 'comfortaa',
               color: Colors.black38,
               fontSize: MediaQuery.of(context).size.width/25,
             ),
@@ -200,7 +201,8 @@ class _NewOrderState extends State<NewOrder> {
             readOnly: true,
             textAlign: TextAlign.left,
             controller: controller,
-            style: TextStyle(fontSize: fontSize),
+            style: TextStyle(
+        fontFamily: 'comfortaa',fontSize: fontSize),
             decoration: InputDecoration(
               border: InputBorder.none,
             ),
@@ -224,6 +226,7 @@ class _NewOrderState extends State<NewOrder> {
         child: Text(
           text,
           style: TextStyle(
+        fontFamily: 'comfortaa',
               fontSize: MediaQuery.of(context).size.width / 22,
               color: MyColors.buttonTextColor,
               fontWeight: FontWeight.bold),
@@ -240,7 +243,8 @@ class _NewOrderState extends State<NewOrder> {
         children: [
           Icon(_icon,color: _color),
           SizedBox(width: MediaQuery.of(context).size.width/30,),
-          Text(text, style: TextStyle(fontSize: MediaQuery.of(context).size.width/25, color: AppColors.buttonTextColor),
+          Text(text, style: TextStyle(
+        fontFamily: 'comfortaa',fontSize: MediaQuery.of(context).size.width/25, color: AppColors.buttonTextColor),
             maxLines:2,
           )
         ],

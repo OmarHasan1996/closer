@@ -317,7 +317,8 @@ class MyWidget{
         // your app's logo?
         image: Image.asset('assets/images/logo000.png', height: AppHeight.h18,),
         submitButtonText: 'Submit',
-        submitButtonTextStyle: TextStyle(color: AppColors.mainColor, fontSize: FontSize.s20),
+        submitButtonTextStyle: TextStyle(
+        fontFamily: 'comfortaa',color: AppColors.mainColor, fontSize: FontSize.s20),
         commentHint: AppLocalizations.of(navigatorKey.currentContext!)!.translate('Describe your experience'),
         starColor: AppColors.mainColor,
         onCancelled: () => print('cancelled'),
@@ -478,7 +479,7 @@ class MyWidget{
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            MyWidget(navigatorKey.currentContext!).textBlack20(amount.toString(), scale: 0.85, color: AppColors.red),
+                            MyWidget(navigatorKey.currentContext!).textBlack20(prettify(amount).toString(), scale: 0.85, color: AppColors.red),
                             MyWidget(navigatorKey.currentContext!).textBlack20(DateTime.parse(date.replaceAll('T', ' ')).add(-timeDiff).toString().split(' ')[0], scale: 0.85),
                           ],
                         ),
@@ -514,9 +515,11 @@ class MyWidget{
     return Text(
       text,
       style: TextStyle(
+        fontFamily: 'comfortaa',
         color: Colors.grey,
         fontSize: AppWidth.w4,
         fontWeight: FontWeight.normal,
+        
       ),
     );
   }
@@ -528,6 +531,7 @@ class MyWidget{
         child: Text(
           text,
           style: TextStyle(
+        fontFamily: 'comfortaa',
             color: AppColors.black,
             fontSize: AppWidth.w5,
             fontWeight: FontWeight.normal,
@@ -630,7 +634,7 @@ class MyWidget{
     );
   }
 
-  static appBar({required title, isMain, withoutCart}){
+  static appBar({required title, isMain, withoutCart, key}){
     bool empty = order.isEmpty;
     isMain??=false;
     withoutCart??=false;
@@ -662,13 +666,14 @@ class MyWidget{
               children: [
                 !isMain?
                 IconButton(onPressed: ()=> Navigator.of(navigatorKey.currentContext!).pop(), icon: Icon(Icons.arrow_back)):
-                IconButton(onPressed: ()=> null, icon: Icon(Icons.list, size: AppWidth.w8), ),
+                IconButton(onPressed: ()=> key.currentState!.openDrawer(), icon: Icon(Icons.list, size: AppWidth.w8), ),
                 textTitle(title),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   //crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    !empty? Text(order.length.toString(),style: TextStyle(color: AppColors.yellow,fontSize: FontSize.s14),):SizedBox(height: FontSize.s14*2,),
+                    !empty? Text(order.length.toString(),style: TextStyle(
+        fontFamily: 'comfortaa',color: AppColors.yellow,fontSize: FontSize.s14),):SizedBox(height: FontSize.s14*2,),
                     !withoutCart?IconButton(onPressed: () => _iconPress(empty, newOrder: newOrder), icon: Icon(Icons.shopping_cart_outlined,size: AppWidth.w8,)):SizedBox(width: AppWidth.w8,)
                   ],
                 )
@@ -676,7 +681,6 @@ class MyWidget{
             )
           ],
         )
-
       ),
       actions: [
         SizedBox()
@@ -702,6 +706,7 @@ class MyWidget{
       text,
       textAlign: textAlign,
       style: TextStyle(
+        fontFamily: 'comfortaa',
           fontSize: min(MediaQuery.of(context).size.width / 20, MediaQuery.of(context).size.height / 45) * scale ,
           fontWeight: bold ? FontWeight.bold : FontWeight.normal,
           color: color),
@@ -717,6 +722,7 @@ class MyWidget{
       text,
       textAlign: textAlign,
       style: TextStyle(
+        fontFamily: 'comfortaa',
           fontSize: FontSize.s16*scale ,
           fontWeight: bold ? FontWeight.bold : FontWeight.normal,
           color: color),
@@ -732,6 +738,7 @@ class MyWidget{
       text,
       textAlign: textAlign,
       style: TextStyle(
+        fontFamily: 'comfortaa',
 
           fontSize: FontSize.s18*scale ,
           fontWeight: bold ? FontWeight.bold : FontWeight.normal,
@@ -750,6 +757,7 @@ class MyWidget{
       maxLines: 2,
       textAlign: textAlign,
       style: TextStyle(
+        fontFamily: 'comfortaa',
           decoration: lineTrought? TextDecoration.lineThrough : TextDecoration.none,
           fontSize: min(MediaQuery.of(context).size.width / 25, MediaQuery.of(context).size.height / 55) * scale ,
           fontWeight: bold ? FontWeight.bold : FontWeight.normal,
@@ -764,10 +772,11 @@ class MyWidget{
     return Text(
       text,
       style: TextStyle(
+        fontFamily: 'comfortaa',
           color: color,
           fontSize: min(MediaQuery.of(context).size.width / 10,MediaQuery.of(context).size.height / 23)*scale,
           fontWeight: FontWeight.bold,
-          fontFamily: 'OpenSans'),
+          ),
       textAlign: textAlign,
     );
   }
@@ -779,6 +788,7 @@ class MyWidget{
         text,
         maxLines: 1,
         style: TextStyle(
+        fontFamily: 'comfortaa',
         color: color,
         fontSize: min(MediaQuery.of(context).size.width / 28, MediaQuery.of(context).size.height / 64) * scale,
           fontWeight: FontWeight.bold,
@@ -792,6 +802,7 @@ class MyWidget{
         text,
         maxLines: 1,
         style: TextStyle(
+        fontFamily: 'comfortaa',
         color: AppColors.buttonTextColor,
         fontSize: min(MediaQuery.of(context).size.width / 28, MediaQuery.of(context).size.height / 65) * scale,
           fontWeight: FontWeight.bold,
@@ -830,7 +841,8 @@ class MyWidget{
             value: value,
             child: new Text(
               value,
-              style: TextStyle(color: Colors.white, fontSize: min(MediaQuery.of(context).size.height/55, MediaQuery.of(context).size.width/25)),
+              style: TextStyle(
+        fontFamily: 'comfortaa',color: Colors.white, fontSize: min(MediaQuery.of(context).size.height/55, MediaQuery.of(context).size.width/25)),
             ),
           );
         },
@@ -855,15 +867,14 @@ class MyWidget{
           child: Container(
               height: double.infinity,
               //width: MediaQuery.of(context).size.width/4*3,
-              color: Color(0xffF4F4F9),
+              color: AppColors.mainColor,
               child: Column(
                 children: [
-                  logoDrawer(barHight, radius),
                   Padding(
                     padding: EdgeInsets.symmetric(
-                        vertical: MediaQuery.of(context).size.height / 37 * 0,
-                        horizontal: MediaQuery.of(context).size.width / 12),
-                    child: MyWidget.topYellowDriver(),
+                        vertical: AppHeight.h2,
+                        horizontal: AppWidth.w4,),
+                    child: Image.asset('assets/images/logo111.png'),
                   ),
                   Padding(
                     padding: EdgeInsets.symmetric(
@@ -881,13 +892,13 @@ class MyWidget{
                           ],
                         ),
                         // ignore: deprecated_member_use
-                        button(
-                            AppLocalizations.of(context)!.translate('Log Out'),
-                                ()=>APIService(context: context).logOut,
-                            MediaQuery.of(context).size.width/1.7),
-                        button(
-                            AppLocalizations.of(context)!.translate('Contact Us'),
-                                ()=>_goAbout,MediaQuery.of(context).size.width/1.7),
+                        // button(
+                        //     AppLocalizations.of(context)!.translate('Log Out'),
+                        //         ()=>APIService(context: context).logOut,
+                        //     MediaQuery.of(context).size.width/1.7),
+                        // button(
+                        //     AppLocalizations.of(context)!.translate('Contact Us'),
+                        //         ()=>_goAbout,MediaQuery.of(context).size.width/1.7),
                       ],
                     ),
                   ),
@@ -929,6 +940,7 @@ class MyWidget{
       '${pickDate.day}-${pickDate.month}-${pickDate.year} / ${time.hour}:${time.minute}',
       maxLines: 1,
       style: TextStyle(
+        fontFamily: 'comfortaa',
         color: MyColors.black,
         fontSize: MediaQuery.of(context!).size.width / 30 * scale,
         fontWeight: FontWeight.bold,
@@ -986,6 +998,7 @@ class MyWidget{
                           Text(
                             name,
                             style: TextStyle(
+        fontFamily: 'comfortaa',
                               color: Colors.black,
                               fontSize: min(MediaQuery.of(context).size.width / 24, MediaQuery.of(context).size.height / 55) * scale,
                               fontWeight: FontWeight.bold,
@@ -1000,6 +1013,7 @@ class MyWidget{
                       child: Text(
                         price + ' ' + AppLocalizations.of(context)!.translate('TRY'),
                         style: TextStyle(
+        fontFamily: 'comfortaa',
                           color: Colors.blue,
                           fontSize: min(MediaQuery.of(context).size.width / 24, MediaQuery.of(context).size.height / 55) * scale,
                           fontWeight: FontWeight.bold,
@@ -1104,6 +1118,7 @@ class MyWidget{
                           Text(
                             name,
                             style: TextStyle(
+        fontFamily: 'comfortaa',
                               color: Colors.black,
                               fontSize: min(MediaQuery.of(context).size.width / 20, MediaQuery.of(context).size.height / 45) * scale,
                               fontWeight: FontWeight.bold,
@@ -1130,6 +1145,7 @@ class MyWidget{
                         child: Text(
                           AppLocalizations.of(context)!.translate('Send'),
                           style: TextStyle(
+        fontFamily: 'comfortaa',
                             color: Colors.blue,
                             fontSize: min(MediaQuery.of(context).size.width / 24, MediaQuery.of(context).size.height / 55) * scale,
                             fontWeight: FontWeight.bold,
@@ -1193,7 +1209,8 @@ class MyWidget{
                     mainAxisAlignment: MainAxisAlignment.center,
                     //crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      !empty? Text(order.length.toString(),style: TextStyle(color: AppColors.yellow,fontSize: min(MediaQuery.of(context).size.width/20,MediaQuery.of(context).size.height/45)),):SizedBox(height: MediaQuery.of(context).size.width/30,),
+                      !empty? Text(order.length.toString(),style: TextStyle(
+        fontFamily: 'comfortaa',color: AppColors.yellow,fontSize: min(MediaQuery.of(context).size.width/20,MediaQuery.of(context).size.height/45)),):SizedBox(height: MediaQuery.of(context).size.width/30,),
                       IconButton(onPressed: () => _iconPress(empty, newOrder: newOrder), icon: Icon(Icons.shopping_cart_outlined,size: min(MediaQuery.of(context).size.width/12, MediaQuery.of(context).size.height/26),))
                     ],
                   ):
@@ -1202,7 +1219,8 @@ class MyWidget{
                     mainAxisAlignment: MainAxisAlignment.center,
                     //crossAxisAlignment: CrossAxisAlignment.center,
                     /*children: [
-                      !task.isEmpty? Text(task.length.toString(),style: TextStyle(color: MyColors.yellow,fontSize: MediaQuery.of(context!).size.width/20),):SizedBox(height: MediaQuery.of(context!).size.width/30,),
+                      !task.isEmpty? Text(task.length.toString(),style: TextStyle(
+        fontFamily: 'comfortaa',color: MyColors.yellow,fontSize: MediaQuery.of(context!).size.width/20),):SizedBox(height: MediaQuery.of(context!).size.width/30,),
                       IconButton(onPressed: () => _iconPress(task.isEmpty, _key), icon: Icon(Icons.work,size: MediaQuery.of(context!).size.width/12,))
                     ],*/
                   ):
@@ -1210,7 +1228,8 @@ class MyWidget{
                     mainAxisAlignment: MainAxisAlignment.center,
                     //crossAxisAlignment: CrossAxisAlignment.center,
                     /*children: [
-                      !task.isEmpty? Text(task.length.toString(),style: TextStyle(color: MyColors.yellow,fontSize: MediaQuery.of(context!).size.width/20),):SizedBox(height: MediaQuery.of(context!).size.width/30,),
+                      !task.isEmpty? Text(task.length.toString(),style: TextStyle(
+        fontFamily: 'comfortaa',color: MyColors.yellow,fontSize: MediaQuery.of(context!).size.width/20),):SizedBox(height: MediaQuery.of(context!).size.width/30,),
                       IconButton(onPressed: () => _iconPress(task.isEmpty, _key), icon: Icon(Icons.work,size: MediaQuery.of(context!).size.width/12,))
                     ],*/
                   ),
@@ -1290,6 +1309,7 @@ class MyWidget{
             )
                 : Text(text,
               style: TextStyle(
+        fontFamily: 'comfortaa',
                   fontSize: textH,
                   color: colorText,
                   fontWeight: FontWeight.bold),
@@ -1360,6 +1380,7 @@ class MyWidget{
         autovalidateMode: AutovalidateMode.onUserInteraction,
           obscureText: obscureText,
         style: TextStyle(
+        fontFamily: 'comfortaa',
             color: Colors.white,
             fontSize: min(MediaQuery.of(context).size.width / 20,MediaQuery.of(context).size.height / 45)),
         decoration: password?
@@ -1367,13 +1388,16 @@ class MyWidget{
           hintText: hintText,
           labelText: labelText,
           errorStyle: TextStyle(
+        fontFamily: 'comfortaa',
             color: AppColors.black,
               fontSize: min(MediaQuery.of(context).size.width / 25,MediaQuery.of(context).size.height / 55)),
           labelStyle: TextStyle(
+        fontFamily: 'comfortaa',
             fontSize: min(MediaQuery.of(context).size.width / 25,MediaQuery.of(context).size.height / 55),
             color: Colors.white,
           ),
           hintStyle: TextStyle(
+        fontFamily: 'comfortaa',
             fontSize: min(MediaQuery.of(context).size.width / 25,MediaQuery.of(context).size.height / 55),
             color: Colors.grey,
           ),
@@ -1416,13 +1440,16 @@ class MyWidget{
           hintText: hintText,
           labelText: labelText,
           errorStyle: TextStyle(
+        fontFamily: 'comfortaa',
               color: AppColors.black,
               fontSize: min(MediaQuery.of(context).size.width / 25,MediaQuery.of(context).size.height / 55)),
           labelStyle: TextStyle(
+        fontFamily: 'comfortaa',
             fontSize: min(MediaQuery.of(context).size.width / 25,MediaQuery.of(context).size.height / 55),
             color: Colors.white,
           ),
           hintStyle: TextStyle(
+        fontFamily: 'comfortaa',
             fontSize: min(MediaQuery.of(context).size.width / 25,MediaQuery.of(context).size.height / 55),
             color: Colors.grey,
           ),
@@ -1476,6 +1503,7 @@ class MyWidget{
           autovalidateMode:
           AutovalidateMode.onUserInteraction,
           style: TextStyle(
+        fontFamily: 'comfortaa',
               color: Colors.black,
               fontSize: FontSize.s18
           ),
@@ -1501,6 +1529,7 @@ class MyWidget{
             border: InputBorder.none,
             hintText: hintText,
             hintStyle: TextStyle(
+        fontFamily: 'comfortaa',
               fontSize: FontSize.s16,
             ),
           ),
@@ -1541,6 +1570,7 @@ class MyWidget{
               child: Text(
                 text,
                 style: TextStyle(
+        fontFamily: 'comfortaa',
                   fontSize: min(MediaQuery.of(context).size.width / 20, MediaQuery.of(context).size.height / 45),
                   color: Colors.grey[600],
                 ),

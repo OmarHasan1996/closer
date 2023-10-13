@@ -275,6 +275,7 @@ class APIService {
           MyApplication.navigateToReplace(navigatorKey.currentContext!, SignIn());
         },
         child: Text(AppLocalizations.of(navigatorKey.currentContext!)!.translate('Log in Now'),style: TextStyle(
+        fontFamily: 'comfortaa',
           color: AppColors.white,
           fontSize:AppWidth.w4,
         ),),
@@ -377,7 +378,7 @@ class APIService {
           });
       if(response.statusCode ==200){
         var m =  loginDataFromJson( response.body);
-        token = m.content!.token;
+        token = m.content==null ? '' : m.content!.token;
         if(await _checkCountry()){
           var _selectedCity = 0;
           var _selectedCountry = 0;
@@ -598,7 +599,7 @@ class APIService {
 */
   }
 
-  uploadOrderWithAttachNew(id,insertDateTime,value3,orderDateTime,token) async {
+  uploadOrderWithAttachNew(id, insertDateTime, value3, orderDateTime, token, couponId, couponValue) async {
     var apiUrl = Uri.parse('$apiDomain/Main/Orders/Orders_CreateWithAttachs?');
     var request = http.MultipartRequest("POST", apiUrl);
     var amount = 0.0;
@@ -623,7 +624,7 @@ class APIService {
       }catch(e){
         attach = null;
       }
-      amount += (order[i][0][0]['Price']) * int.parse(order[i][1]);
+      amount += (order[i][0][0]['Price']) * int.parse(order[i][1]) - couponValue;
       serviceTmp.add({
         "ServiceId": order[i][0][0]['Id'],
         "Price": order[i][0][0]['Price'],
@@ -633,7 +634,6 @@ class APIService {
         // ignore: equal_keys_in_map
       });
     }
-
     FormData formdata = FormData.fromMap({
       "CustomerId": "$id",
       "Amount": amount,
@@ -643,10 +643,10 @@ class APIService {
       "AddressId": value3,
       "OrderDate": orderDateTime,
       "Notes": "string",
-      "OrderServices": serviceTmp
+      "CouponId" : couponId,
+      "OrderServices": serviceTmp,
     });
     print(token);
-
     //create multipart request for POST or PATCH method
     //add text fields
     request.fields.addAll(Map.fromEntries(formdata.fields));
@@ -688,7 +688,6 @@ class APIService {
       return false;
       print(response.statusCode);
     }
-
   }
 
  //{CustomerId: 90e73cdd-7e7e-4207-9901-08d9a4f69d2a, Amount: 300.0, InsertDate: 2021-12-08T01:29:45.045Z, Status: 1, PayType: 1, AddressId: 66b576f9-d44b-4565-b9e3-08d9a4f82388, OrderDate: 2021-12-08T13:29:00.000Z, Notes: string, OrderServices: [{ServiceId: 18, Price: 300.0, Quantity: 1, ServiceNotes: , OrderServiceAttatchs: }]}
@@ -1143,7 +1142,8 @@ class APIService {
       return;
     }
     try {
-      var _serverKey = 'AAAAOPv0WzU:APA91bHwvAAe8VSqm2XDxAIQaKw1GSepD65_sIaX0FgUuI34ekkGiYvA-Mt3Bh3lc5jM5KQyi3DD2oWmRhJYGDtCPFYSM1mCkvsaFnPjQ2gylYDvU3lGXTrUG4i4ssYBRgB_vCNInn2P';
+      var _serverKey = 'AAAA8RmDhKM:APA91bHT6bLM03mWt5dwZy0FoQMW1rTmaEtof0VBCjQO7frhX16DFXWxp3Xyzew-p1j8rhBbXmXwm75VnTX11_pJEle8KW-bBXatTLcGte9LfUJ12MbioDoKlQxAiY6yTSWxcNLpdRhR';
+      //var _serverKey = 'AAAAOPv0WzU:APA91bHwvAAe8VSqm2XDxAIQaKw1GSepD65_sIaX0FgUuI34ekkGiYvA-Mt3Bh3lc5jM5KQyi3DD2oWmRhJYGDtCPFYSM1mCkvsaFnPjQ2gylYDvU3lGXTrUG4i4ssYBRgB_vCNInn2P';
       //var _serverKey = 'AAAAOPv0WzU:APA91bH_4SPyvOt7K3n2rGhl1v6DgCAogSL5hO6hiSkqQNV6Yqh77kNlGOc-AUwBgp4Avig-6xQp5vXiyJxPBEyg1SEqKSyXX5HbQJ8qG2cNNn0XHwGxVtOx31fK0OBK6xR_fjoF9ntn';
       //var _serverKey = 'AIzaSyD-b9apuimKiEov1Ah0Aom_mg6wwEv5KWs';
       var response = await http.post(
@@ -1153,7 +1153,7 @@ class APIService {
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
           'Authorization': 'key=$_serverKey',
-          'project_id':'244745263925',
+          'project_id':'1035515167907',
         },
         body: constructFCMPayload(_token, _taskBody, _taskName),
       );

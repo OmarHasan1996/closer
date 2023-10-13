@@ -144,7 +144,8 @@ class _UploadAttachmentState extends State<UploadAttachment> {
                 Text("Progress: 0%"):
                 Text(basename("Progress: $progress"),
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 18),),
+                  style: TextStyle(
+        fontFamily: 'comfortaa',fontSize: 18),),
                 //show progress status here
               ),
 

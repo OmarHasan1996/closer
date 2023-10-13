@@ -405,6 +405,7 @@ class _NewAddressScreenState extends State<NewAddressScreen> {
             Text(
               item,
               style: TextStyle(
+        fontFamily: 'comfortaa',
                 color: Colors.black,
               ),
             ),
@@ -418,6 +419,7 @@ class _NewAddressScreenState extends State<NewAddressScreen> {
             Text(
               item,
               style: TextStyle(
+        fontFamily: 'comfortaa',
                 color: Colors.black,
               ),
             ),
@@ -431,6 +433,7 @@ class _NewAddressScreenState extends State<NewAddressScreen> {
             Text(
               item,
               style: TextStyle(
+        fontFamily: 'comfortaa',
                 color: Colors.black,
               ),
             ),

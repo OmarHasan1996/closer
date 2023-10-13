@@ -79,36 +79,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
     return SafeArea(
         child: Scaffold(
-          appBar: new AppBar(
-            automaticallyImplyLeading: false,
-            toolbarHeight: barHight,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.only(
-                bottomRight: Radius.circular(MediaQuery.of(context).size.height / 80 * 3),
-                bottomLeft: Radius.circular(MediaQuery.of(context).size.height / 80 * 3),
-              ),
-            ),
-            backgroundColor: AppColors.blue,
-            // bottom: PreferredSize(
-            //   preferredSize: Size.fromHeight(MediaQuery.of(context).size.height/5.5),
-            //   child: SizedBox(),
-            // ),
-            //leading: Image.asset('assets/images/Logo1.png'),
-            title: Padding(
-              padding: EdgeInsets.all(MediaQuery.of(context).size.height / 80 * 3),
-              child: Image.asset(
-                'assets/images/Logo1.png',
-                width: MediaQuery.of(context).size.width / 6,
-                height: barHight / 2,
-              ),
-            ),
-            actions: [
-              new IconButton(
-                icon: new Icon(Icons.arrow_back_outlined),
-                onPressed: () => Navigator.of(context).pop(),
-              )
-            ],
-          ),
+          appBar: MyWidget.appBar(title: ''),
           backgroundColor: Colors.grey[100],
           body: Column(
             children: [
@@ -150,7 +121,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         //child: Text(),
                       ),
                       // ignore: deprecated_member_use
-                      MyWidget(context).raisedButton(AppLocalizations.of(context)!.translate('Change profile Photo'), ()=>  _changeProfile(), MediaQuery.of(context).size.width /1.7, false, buttonText: AppColors.blue, colorText: AppColors.white, padV: 0.1, textH: min(MediaQuery.of(context).size.width/25, MediaQuery.of(context).size.height / 56)),
+                      MyWidget(context).raisedButton(AppLocalizations.of(context)!.translate('Change profile Photo'), ()=>  _changeProfile(), MediaQuery.of(context).size.width /1.7, false, buttonText: AppColors.mainColor, colorText: AppColors.white, padV: 0.1, textH: min(MediaQuery.of(context).size.width/25, MediaQuery.of(context).size.height / 56)),
                       /*RaisedButton(
                         elevation: 5.0,
                         shape: RoundedRectangleBorder(
@@ -162,6 +133,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           AppLocalizations.of(context)!.translate('Change profile Photo'),
                           textAlign: TextAlign.center,
                           style: TextStyle(
+        fontFamily: 'comfortaa',
                             fontSize: MediaQuery.of(context).size.width / 25,
                             color: MyColors.White,
                           ),
@@ -209,12 +181,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   controller: nameController,
                                   autovalidateMode: AutovalidateMode.onUserInteraction,
                                   style: TextStyle(
+        fontFamily: 'comfortaa',
                                       color: AppColors.black,
                                       fontSize: min(MediaQuery.of(context).size.width / 20, MediaQuery.of(context).size.height / 45)),
                                   decoration: InputDecoration(
                                     border: InputBorder.none,
                                     hintText: '${userInfo["Name"]}',
                                     hintStyle: TextStyle(
+        fontFamily: 'comfortaa',
                                         color: Colors.grey,
                                         fontSize: min(MediaQuery.of(context).size.width / 20, MediaQuery.of(context).size.height / 45)),
                                   ),
@@ -259,12 +233,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   autovalidateMode:
                                       AutovalidateMode.onUserInteraction,
                                   style: TextStyle(
+        fontFamily: 'comfortaa',
                                       color: AppColors.black,
                                       fontSize: min(MediaQuery.of(context).size.width / 20, MediaQuery.of(context).size.width / 45)),
                                   decoration: InputDecoration(
                                     border: InputBorder.none,
                                     hintText: '${userInfo["LastName"]}',
                                     hintStyle: TextStyle(
+        fontFamily: 'comfortaa',
                                         color: Colors.grey,
                                         fontSize: min(MediaQuery.of(context).size.width / 20, MediaQuery.of(context).size.height / 45)),
                                   ),

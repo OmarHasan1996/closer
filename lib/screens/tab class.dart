@@ -130,6 +130,7 @@ class _SubServiceScreenState extends State<SubServiceScreen> {
                   //"Our Services".tr,
                   subservice[0]['Service']['Name'],
                   style: TextStyle(
+        fontFamily: 'comfortaa',
                     color: Color(0xff000000),
                     fontSize: MediaQuery.of(context).size.width / 15,
                     fontWeight: FontWeight.bold,
@@ -147,6 +148,7 @@ class _SubServiceScreenState extends State<SubServiceScreen> {
                   //"Our Services".tr,
                   subservice.length.toString()+' Services in ...',
                   style: TextStyle(
+        fontFamily: 'comfortaa',
                     color: Color(0xff000000),
                     fontSize: MediaQuery.of(context).size.width / 20,
                   ),
@@ -198,6 +200,7 @@ class _SubServiceScreenState extends State<SubServiceScreen> {
                                 Text(
                                   'Home'.tr,
                                   style: TextStyle(
+        fontFamily: 'comfortaa',
                                     color: Color(0xffffca05),
                                   ),
                                 ),
@@ -213,6 +216,7 @@ class _SubServiceScreenState extends State<SubServiceScreen> {
                                 Text(
                                   'My Order'.tr,
                                   style: TextStyle(
+        fontFamily: 'comfortaa',
                                     color: Colors.white,
                                   ),
                                 ),
@@ -228,6 +232,7 @@ class _SubServiceScreenState extends State<SubServiceScreen> {
                                 Text(
                                   'My profile'.tr,
                                   style: TextStyle(
+        fontFamily: 'comfortaa',
                                     color: Colors.white,
                                   ),
                                 ),
@@ -258,6 +263,7 @@ class _SubServiceScreenState extends State<SubServiceScreen> {
         Text(
           t,
           style: TextStyle(
+        fontFamily: 'comfortaa',
             color: Colors.white,
             fontWeight: FontWeight.bold,
             fontSize: MediaQuery.of(context).size.width / 30,
@@ -346,6 +352,7 @@ class _SubServiceScreenState extends State<SubServiceScreen> {
                             child: Text(
                               name,
                               style: TextStyle(
+        fontFamily: 'comfortaa',
                                 color: Colors.black,
                                 fontSize: MediaQuery.of(context).size.width / 15,
                                 fontWeight: FontWeight.bold,
@@ -359,6 +366,7 @@ class _SubServiceScreenState extends State<SubServiceScreen> {
                             child: Text(
                               'From '.tr+price.toString()+' \$',
                               style: TextStyle(
+        fontFamily: 'comfortaa',
                                 color: Colors.grey,
                                 fontSize: MediaQuery.of(context).size.width / 25,
                               ),

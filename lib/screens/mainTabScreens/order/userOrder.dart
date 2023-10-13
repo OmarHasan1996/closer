@@ -450,6 +450,7 @@ class _UserOrderState extends State<UserOrder> {
                       AppLocalizations.of(context)!.translate('Order Id: ') +
                           serial.toString(),
                       style: TextStyle(
+        fontFamily: 'comfortaa',
                         color: AppColors.black,
                         fontSize: MediaQuery.of(context).size.width / 24,
                         fontWeight: FontWeight.bold,
@@ -526,8 +527,9 @@ class _UserOrderState extends State<UserOrder> {
                               SizedBox(
                                 width: MediaQuery.of(context).size.width / 30,
                               ),
-                              MyWidget.textHeader(
-                                  amount.toString() /*service[index]['price']*/),
+                              MyWidget.textHeader(prettify(double.parse(amount)).toString() + AppLocalizations.of(context)!.translate('TRY')/*service[index]['price']*/),
+
+                              ord['Status']!=7? Icon(Icons.location_on_outlined, color: AppColors.mainColor,):SizedBox()
                             ],
                           ),
                         ),
@@ -692,6 +694,7 @@ class _UserOrderState extends State<UserOrder> {
                 },
                 child: TextFormField(
                   style: TextStyle(
+        fontFamily: 'comfortaa',
                       fontSize: min(MediaQuery.of(context).size.width / 20,
                           MediaQuery.of(context).size.height / 45),
                       color: change ? AppColors.blue : AppColors.black),
@@ -753,6 +756,7 @@ class _UserOrderState extends State<UserOrder> {
                 },
                 child: TextFormField(
                   style: TextStyle(
+        fontFamily: 'comfortaa',
                       fontSize: min(MediaQuery.of(context).size.width / 20,
                           MediaQuery.of(context).size.height / 45),
                       color: change ? AppColors.blue : AppColors.black),

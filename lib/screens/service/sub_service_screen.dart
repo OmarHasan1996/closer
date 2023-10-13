@@ -245,6 +245,7 @@ class _SubServiceScreenState extends State<SubServiceScreen> {
         Text(
           t,
           style: TextStyle(
+        fontFamily: 'comfortaa',
             color: Colors.white,
             fontWeight: FontWeight.bold,
             fontSize: MediaQuery.of(context).size.width / 30,
@@ -278,7 +279,7 @@ class _SubServiceScreenState extends State<SubServiceScreen> {
                 alignment: Alignment.center,
                 width: min(MediaQuery.of(context).size.width * 0.20,
                     MediaQuery.of(context).size.height * 0.092),
-                height: FontSize.s16*5.5,
+                height: FontSize.s16*6,
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     fit: BoxFit.fill,
@@ -318,7 +319,7 @@ class _SubServiceScreenState extends State<SubServiceScreen> {
             child: Container(
               alignment: Alignment.center,
               width: AppWidth.w65,
-              height: FontSize.s16*5.5,
+              height: FontSize.s16*6,
               decoration: BoxDecoration(
                 color: AppColors.white,
                 boxShadow: [
@@ -345,10 +346,10 @@ class _SubServiceScreenState extends State<SubServiceScreen> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           SizedBox(
-                            height: FontSize.s16*3,
+                            height: FontSize.s16*3.5,
                             child: SingleChildScrollView(
                               child: MyWidget(context)
-                                  .textTitle15(name, scale: 1.1),
+                                  .textTitle15(name, scale: 1),
                             ),
                           ),
                           Flexible(

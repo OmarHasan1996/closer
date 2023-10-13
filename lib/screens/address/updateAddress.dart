@@ -292,6 +292,7 @@ class _UpdateAddressState extends State<UpdateAddress> {
         Text(
           item,
           style: TextStyle(
+        fontFamily: 'comfortaa',
             color: Colors.black,
           ),
         ),
@@ -305,6 +306,7 @@ class _UpdateAddressState extends State<UpdateAddress> {
         Text(
           item,
           style: TextStyle(
+        fontFamily: 'comfortaa',
             color: Colors.black,
           ),
         ),
@@ -318,6 +320,7 @@ class _UpdateAddressState extends State<UpdateAddress> {
         Text(
           item,
           style: TextStyle(
+        fontFamily: 'comfortaa',
             color: Colors.black,
           ),
         ),

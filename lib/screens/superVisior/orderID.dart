@@ -43,6 +43,7 @@ class _OrderIdState extends State<OrderId> {
                 child: Text(
                   item['name'],
                   style: TextStyle(
+        fontFamily: 'comfortaa',
                     color: AppColors.black,
                   ),
                 ),
@@ -154,6 +155,7 @@ class _OrderIdState extends State<OrderId> {
                               child: Text(
                                 AppLocalizations.of(context)!.translate('Address Details'),
                                 style: TextStyle(
+        fontFamily: 'comfortaa',
                                   color: AppColors.black,
                                   fontSize: MediaQuery.of(context).size.width / 22,
                                   fontWeight: FontWeight.normal,
@@ -171,6 +173,7 @@ class _OrderIdState extends State<OrderId> {
                               child: Text(
                                 AppLocalizations.of(context)!.translate('Order Details'),
                                 style: TextStyle(
+        fontFamily: 'comfortaa',
                                   color: AppColors.black,
                                   fontSize: MediaQuery.of(context).size.width / 22,
                                   fontWeight: FontWeight.normal,
@@ -188,6 +191,7 @@ class _OrderIdState extends State<OrderId> {
                                     _orderDetails,
                                     maxLines: null,
                                     style: TextStyle(
+        fontFamily: 'comfortaa',
                                       color: Colors.grey,
                                       fontSize: MediaQuery.of(context).size.width / 30,
                                       fontWeight: FontWeight.normal,
@@ -243,6 +247,7 @@ class _OrderIdState extends State<OrderId> {
           child: Text(
             desc,
             style: TextStyle(
+        fontFamily: 'comfortaa',
               color: Colors.black38,
               fontSize: MediaQuery.of(context).size.width/25,
             ),
@@ -271,7 +276,8 @@ class _OrderIdState extends State<OrderId> {
             readOnly: true,
             textAlign: TextAlign.left,
             controller: controller,
-            style: TextStyle(fontSize: fontSize),
+            style: TextStyle(
+        fontFamily: 'comfortaa',fontSize: fontSize),
             decoration: InputDecoration(
               border: InputBorder.none,
             ),
@@ -301,6 +307,7 @@ class _OrderIdState extends State<OrderId> {
                 maxLines: null,
                 //textAlign: TextAlign.center,
                 style: TextStyle(
+        fontFamily: 'comfortaa',
                   color: _color,
                   fontSize: MediaQuery.of(context).size.width/22,
                 ),
@@ -340,7 +347,8 @@ class _OrderIdState extends State<OrderId> {
           SizedBox(width: MediaQuery.of(context).size.width/30,),
           Expanded(child: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
-            child: Text(text, style: TextStyle(fontSize: MediaQuery.of(context).size.width/28, color: AppColors.buttonTextColor),),
+            child: Text(text, style: TextStyle(
+        fontFamily: 'comfortaa',fontSize: MediaQuery.of(context).size.width/28, color: AppColors.buttonTextColor),),
           )),
         ],
       ),

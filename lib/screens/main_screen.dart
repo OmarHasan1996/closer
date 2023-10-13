@@ -250,8 +250,10 @@ iOS: ca-app-pub-3940256099942544/1712485313
             context: context,
             builder: (context) => AlertDialog(
                   content: ListTile(
-                    title: Text(message.notification!.title.toString(),style: TextStyle(fontSize: MediaQuery.of(context).size.width/25),),
-                    subtitle: Text(message.notification!.body.toString(),style: TextStyle(fontSize: MediaQuery.of(context).size.width/20)),
+                    title: Text(message.notification!.title.toString(),style: TextStyle(
+        fontFamily: 'comfortaa',fontSize: MediaQuery.of(context).size.width/25),),
+                    subtitle: Text(message.notification!.body.toString(),style: TextStyle(
+        fontFamily: 'comfortaa',fontSize: MediaQuery.of(context).size.width/20)),
                   ),
                   actions: <Widget>[
                     ElevatedButton(
@@ -458,8 +460,7 @@ iOS: ca-app-pub-3940256099942544/1712485313
                       userInfo.length==0?APIService.flushBar(AppLocalizations.of(context)!.translate('Error Connection')):
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (context) =>
-                              new EditProfileScreen(token: token),
+                          builder: (context) => new EditProfileScreen(token: token),
                         ),
                       );
                     },
@@ -476,8 +477,7 @@ iOS: ca-app-pub-3940256099942544/1712485313
                     onTap: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (context) =>
-                              new MagageAddressScreen(token: token),
+                          builder: (context) => new MagageAddressScreen(token: token),
                         ),
                       );
                     },
@@ -540,7 +540,7 @@ iOS: ca-app-pub-3940256099942544/1712485313
                   child: GestureDetector(
                     child: MyWidget(context).rowIconProfile(Icons.mail_outline, AppLocalizations.of(context)!
                         .translate("Contact Us"),),
-                    onTap: _goAbout,
+                   // onTap: _goAbout,
                   ),
                 ),
                 SizedBox(
@@ -586,6 +586,7 @@ iOS: ca-app-pub-3940256099942544/1712485313
                                 AppLocalizations.of(context)!
                                     .translate("Log Out"),
                                 style: TextStyle(
+        fontFamily: 'comfortaa',
                                   fontSize: min(MediaQuery.of(context).size.width / 20, MediaQuery.of(context).size.height / 45),
                                   color: AppColors.black,
                                 ),
@@ -615,7 +616,7 @@ iOS: ca-app-pub-3940256099942544/1712485313
     return Scaffold(
           resizeToAvoidBottomInset: true,
           key: _key,
-          appBar: MyWidget.appBar(title: AppLocalizations.of(context)!.translate('Our Services'), isMain: true),
+          appBar: MyWidget.appBar(title: AppLocalizations.of(context)!.translate('Our Services'), isMain: true, key: _key),
           drawer: MyWidget(context).drawer(barHight, MediaQuery.of(context).size.height / 80 * 3, ()=>_setState()),
       backgroundColor: Color(0xffF4F4F9),
           body: _widgetOptions.elementAt(_selectedIndex),
@@ -664,6 +665,7 @@ iOS: ca-app-pub-3940256099942544/1712485313
     var date = Text(
       '${pickDate!.day}-${pickDate!.month}-${pickDate!.year} / ${time!.hour}:${time!.minute}',
       style: TextStyle(
+        fontFamily: 'comfortaa',
         color: MyColors.black,
         fontSize: MediaQuery.of(context).size.width / 30,
         fontWeight: FontWeight.bold,
@@ -719,6 +721,7 @@ iOS: ca-app-pub-3940256099942544/1712485313
                           Text(
                             name,
                             style: TextStyle(
+        fontFamily: 'comfortaa',
                               color: Colors.black,
                               fontSize: MediaQuery.of(context).size.width / 20 * scale,
                               fontWeight: FontWeight.bold,
@@ -733,6 +736,7 @@ iOS: ca-app-pub-3940256099942544/1712485313
                       child: Text(
                         price + ' .TRY',
                         style: TextStyle(
+        fontFamily: 'comfortaa',
                           color: Colors.blue,
                           fontSize: MediaQuery.of(context).size.width / 24 * scale,
                           fontWeight: FontWeight.bold,

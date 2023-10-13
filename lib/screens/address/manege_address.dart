@@ -139,7 +139,7 @@ class _MagageAddressScreenState extends State<MagageAddressScreen> {
                 children: [
                   Expanded(
                     flex: 8,
-                    child: MyWidget(context).textBlack20(ord[ind]['Title'],),
+                    child: MyWidget(context).textBlack20(ord[ind]['Title']??'....',),
                   ),
                   Expanded(
                     flex: 1,

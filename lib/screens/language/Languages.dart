@@ -136,7 +136,8 @@ class _LanguagesState extends State<Languages> {
           // Initial Value
           value: _countryList[_selectedCountry],
           // Down Arrow Icon
-          style: TextStyle(color: _color2, fontSize: FontSize.s20),
+          style: TextStyle(
+        fontFamily: 'comfortaa',color: _color2, fontSize: FontSize.s20),
           icon: Icon(Icons.arrow_forward_ios, color: _color2,),
           // Array list of items
           items: _countryList.map((String items) {
@@ -182,7 +183,8 @@ class _LanguagesState extends State<Languages> {
           // Initial Value
           value: _cityList[_selectedCity],
           // Down Arrow Icon
-          style: TextStyle(color: _color2, fontSize: FontSize.s20),
+          style: TextStyle(
+        fontFamily: 'comfortaa',color: _color2, fontSize: FontSize.s20),
           icon: Icon(Icons.arrow_forward_ios, color: _color2,),
           // Array list of items
           items: _cityList.map((String items) {

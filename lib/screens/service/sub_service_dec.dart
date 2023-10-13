@@ -182,18 +182,22 @@ class _SubServiceDecState extends State<SubServiceDec> {
                                           //decoration: InputDecoration(hintText:AppLocalizations.of(context)!.translate('Add your notes here!')),
                                           maxLines: null,
                                           style: TextStyle(
+        fontFamily: 'comfortaa',
                                               color: Colors.white,
                                               fontSize: min(MediaQuery.of(context).size.width / 20,MediaQuery.of(context).size.height / 45)),
                                           decoration: InputDecoration(
                                             hintText: AppLocalizations.of(context)!.translate('Add your notes here!'),
                                             //labelText: labelText,
                                             errorStyle: TextStyle(
+        fontFamily: 'comfortaa',
                                                 fontSize: min(MediaQuery.of(context).size.width / 25,MediaQuery.of(context).size.height / 55)),
                                             labelStyle: TextStyle(
+        fontFamily: 'comfortaa',
                                               fontSize: min(MediaQuery.of(context).size.width / 25,MediaQuery.of(context).size.height / 55),
                                               color: Colors.white,
                                             ),
                                             hintStyle: TextStyle(
+        fontFamily: 'comfortaa',
                                               fontSize: min(MediaQuery.of(context).size.width / 25,MediaQuery.of(context).size.height / 55),
                                               color: Colors.grey,
                                             ),
@@ -387,7 +391,6 @@ class _SubServiceDecState extends State<SubServiceDec> {
 
     );
   }
-
 
   pickFiles() async {
     /*switch (fileType) {

@@ -189,6 +189,7 @@ class _ChangeLangState extends State<ChangeLang> {
         )
             : Text(text,
           style: TextStyle(
+        fontFamily: 'comfortaa',
               fontSize:
               MediaQuery.of(context).size.width / 20,
               color: MyColors.buttonTextColor,
@@ -250,19 +251,21 @@ class _ChangeLangState extends State<ChangeLang> {
               text1,
               textAlign: TextAlign.left,
               style: TextStyle(
+        fontFamily: 'comfortaa',
                   color: AppColors.black,
                   fontSize: MediaQuery.of(context).size.width / 20,
                   fontWeight: FontWeight.normal,
-                  fontFamily: 'OpenSans'),
+                  ),
             ),
             Text(
               text2,
               textAlign: TextAlign.left,
               style: TextStyle(
+        fontFamily: 'comfortaa',
                   color: Colors.grey,
                   fontSize: MediaQuery.of(context).size.width / 25,
                   fontWeight: FontWeight.normal,
-                  fontFamily: 'OpenSans'),
+                  ),
             ),
           ],
         ),
