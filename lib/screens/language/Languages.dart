@@ -256,7 +256,8 @@ class _LanguagesState extends State<Languages> {
     myCurrency = country[_selectedCountry]['Currency'];
     cityId = city[_selectedCity]['Id'].toString();
     await LocalizationService().changeLocale(lang, context);
-    MyApplication.navigateTorePlaceUntil(context, SignIn());
+    Navigator.of(context).pop();
+    //MyApplication.navigateTorePlaceUntil(context, SignIn());
     setState(() {
       chLogIn = false;
     });

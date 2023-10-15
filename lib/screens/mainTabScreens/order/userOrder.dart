@@ -529,7 +529,7 @@ class _UserOrderState extends State<UserOrder> {
                               ),
                               MyWidget.textHeader(prettify(double.parse(amount)).toString() + AppLocalizations.of(context)!.translate('TRY')/*service[index]['price']*/),
 
-                              ord['Status']!=7? Icon(Icons.location_on_outlined, color: AppColors.mainColor,):SizedBox()
+                              ord['Status']==7? Icon(Icons.location_on_outlined, color: AppColors.mainColor,):SizedBox()
                             ],
                           ),
                         ),

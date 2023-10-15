@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
 import 'package:closer/constant/apiUrl.dart';
@@ -25,7 +26,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   TextEditingController _searchConroler = TextEditingController();
-  bool _loading = true, _transScreen = false;
+  bool _loading = true, _transScreen = false, _go = false;
   List service = [];
   List subservice = [];
   @override
@@ -58,7 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       else{
                         //return SizedBox();
                         _loading = false;
-                        return ListView.builder(
+                        return _go ? MyWidget.jumbingDotes(_go) : ListView.builder(
                           itemCount: service.length,
                           itemBuilder: (context, index) {
                             return serviceRow(service[index]);
@@ -193,7 +194,7 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  void getSubServiceData(var id, {String? search}) async {
+  Future getSubServiceData(var id, {String? search}) async {
     try{
       var url = Uri.parse('${ApiUrl.mainServiceRead}cityid=$cityId&filter=Service.ServiceParentId~eq~$id');
       if(search != null)
@@ -253,7 +254,8 @@ class _HomeScreenState extends State<HomeScreen> {
           ).show(context);
         } else {
           allSubServices.clear();
-          Navigator.push(context, MaterialPageRoute(builder: (context) => new SubServiceScreen(token: token, subservice: subservice),),).then((_) {
+          // ignore: use_build_context_synchronously
+          Navigator.push(context, MaterialPageRoute(builder: (context) => SubServiceScreen(token: token, subservice: subservice),),).then((_) {
             // This block runs when you have returned back to the 1st Page from 2nd.
             setState(() {
               // Call setState to refresh the page.
@@ -323,13 +325,13 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _search() {
-    search(){
+    search() async{
       setState(() {
-        _transScreen = true;
+        _go = true;
       });
-      getSubServiceData("id", search: _searchConroler.text);
+      await getSubServiceData("id", search: _searchConroler.text);
       setState(() {
-        _transScreen = false;
+        _go = false;
       });
     }
     return Container(

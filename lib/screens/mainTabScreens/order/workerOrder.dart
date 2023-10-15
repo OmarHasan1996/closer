@@ -240,7 +240,7 @@ class _WorkerOrderState extends State<WorkerOrder> {
                                                       //totalPrice =0;
                                                       return GestureDetector(
                                                         onTap: () {
-                                                          /*_showOrderDetails(
+                                                            /*_showOrderDetails(
                                                             finishedOrderData[index],
                                                             index + 1);*/
                                                           // order details
@@ -365,8 +365,7 @@ class _WorkerOrderState extends State<WorkerOrder> {
                               ),
                             ),
                             Container(
-                              height: MediaQuery.of(context).size.height /
-                                  2.15, //height of TabBarView
+                              height: AppHeight.h50*1.1, //height of TabBarView
                               /*decoration: BoxDecoration(
                                             border: Border(
                                                 top: BorderSide(
@@ -375,8 +374,6 @@ class _WorkerOrderState extends State<WorkerOrder> {
                               child: TabBarView(
                                 physics: NeverScrollableScrollPhysics(),
                                 children: <Widget>[
-                                  ////////// Tab1
-                                  ////////// Tab2
                                   Container(
                                     child: Column(
                                       children: [
@@ -438,7 +435,7 @@ class _WorkerOrderState extends State<WorkerOrder> {
                                                     //totalPrice =0;
                                                     return GestureDetector(
                                                       onTap: () {
-                                                       /* Navigator.push(this.context, MaterialPageRoute(builder: (context) => TaskId(token, _finishedOrderData[index]),),).then((_) {
+                                                        /*Navigator.push(this.context, MaterialPageRoute(builder: (context) => TaskId(token, _finishedOrderData[index]),),).then((_) {
                                                           setState(() {});
                                                         });*/
                                                       },

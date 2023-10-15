@@ -14,6 +14,7 @@ class AppColors {
  static const blackGray = const Color(0xff111111) ;
  static const black = const Color(0xff000000) ;
  static const yellow = const Color(0xffffca05) ;
+ static const barline = const Color(0xffECECEC) ;
  static const red = const Color(0xff970303) ;
  static const blue = const Color(0xff2e3191);
  static const purple1 = const Color(0xffE9866C);

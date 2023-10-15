@@ -184,7 +184,7 @@ class MyWidget{
   static myOrderlist(ord, index, Function() setState, chCircle,) {
     var serial; serial = ord['Serial'];
     var Id;Id = ord['Servicess'][0]['OrderId'];
-    var amount; amount = ord['Amount'].toString();
+    var amount; amount = prettify(double.parse(ord['Amount'].toString()));
     var date; date = ord['OrderDate'];
     var addressArea; addressArea = ord['Address']['Title']??'';
     var addressCity; addressCity = ord['Address']['Title']??'';
@@ -479,7 +479,7 @@ class MyWidget{
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            MyWidget(navigatorKey.currentContext!).textBlack20(prettify(amount).toString(), scale: 0.85, color: AppColors.red),
+                            MyWidget(navigatorKey.currentContext!).textBlack20(amount.toString(), scale: 0.85, color: AppColors.red),
                             MyWidget(navigatorKey.currentContext!).textBlack20(DateTime.parse(date.replaceAll('T', ' ')).add(-timeDiff).toString().split(' ')[0], scale: 0.85),
                           ],
                         ),
@@ -610,10 +610,10 @@ class MyWidget{
     return Center(
       child: Container(
         alignment: Alignment.center,
-        width: AppWidth.w80,
-        height: AppHeight.h2,
+        width: AppWidth.w90,
+        height: AppHeight.h1,
         decoration: BoxDecoration(
-          color: AppColors.yellow,
+          color: AppColors.barline,
           borderRadius: BorderRadius.vertical(
               bottom: Radius.circular(AppHeight.h2)),
         ),
@@ -628,7 +628,7 @@ class MyWidget{
         width: AppWidth.w100,
         height: AppHeight.h1,
         decoration: BoxDecoration(
-          color: AppColors.yellow,
+          color: AppColors.barline,
         ),
       ),
     );
@@ -668,15 +668,15 @@ class MyWidget{
                 IconButton(onPressed: ()=> Navigator.of(navigatorKey.currentContext!).pop(), icon: Icon(Icons.arrow_back)):
                 IconButton(onPressed: ()=> key.currentState!.openDrawer(), icon: Icon(Icons.list, size: AppWidth.w8), ),
                 textTitle(title),
-                Column(
+                withoutCart || worker? SizedBox(width: AppWidth.w8,) : Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   //crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     !empty? Text(order.length.toString(),style: TextStyle(
         fontFamily: 'comfortaa',color: AppColors.yellow,fontSize: FontSize.s14),):SizedBox(height: FontSize.s14*2,),
-                    !withoutCart?IconButton(onPressed: () => _iconPress(empty, newOrder: newOrder), icon: Icon(Icons.shopping_cart_outlined,size: AppWidth.w8,)):SizedBox(width: AppWidth.w8,)
+                    IconButton(onPressed: () => _iconPress(empty, newOrder: newOrder), icon: Icon(Icons.shopping_cart_outlined,size: AppWidth.w8,))
                   ],
-                )
+                ),
               ],
             )
           ],
@@ -934,7 +934,7 @@ class MyWidget{
     var Id = ord[0][0]['Id'];
     var name = ord[0][0]['Name'];
     var imagepath = ord[0][0]['ImagePath'];
-    var price = ord[0][0]['Price'].toString();
+    var price = prettify(ord[0][0]['Price']).toString();
     var amount = ord[1].toString();
     /*var date = Text(
       '${pickDate.day}-${pickDate.month}-${pickDate.year} / ${time.hour}:${time.minute}',

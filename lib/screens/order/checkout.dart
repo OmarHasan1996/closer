@@ -302,7 +302,10 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                                                   builder: (context) =>
                                                                       new MagageAddressScreen(
                                                                           token:
-                                                                              token))).then((value) => setState((){})),
+                                                                              token))).then((value) => setState(() async{
+                                                            await getAddress(userData!.content!.id);
+
+                                                          })),
                                                         },
                                                     MediaQuery.of(context)
                                                             .size
@@ -916,7 +919,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
     }
   }
 
-  void getAddress(var id) async {
+  Future getAddress(var id) async {
     var url = Uri.parse(
         "$apiDomain/Main/ProfileAddress/ProfileAddress_Read?filter=UserId~eq~'$id'");
     http.Response response = await http.get(

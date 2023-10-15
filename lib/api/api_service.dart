@@ -1005,7 +1005,7 @@ class APIService {
     //return response;
   }
 
-  updateWorkerTask(taskId, workerId, serviceId, supervisorNotes, startDate, endDate, workerNotes, token, taskName, file, fcmToken,
+  updateWorkerTask(taskId, workerId, serviceId, supervisorNotes, startDate, endDate, workerNotes, token, taskName, file, fcmToken,_mainOrderId,
       {message, status}) async {
     status??=2;
     message??=AppLocalizations.of(context!)!.translate('good luck task is finished');
@@ -1026,6 +1026,7 @@ class APIService {
     Map mapDate = {
       "Id": taskId.toString(), //orderId
       "WorkerId": workerId.toString(),
+      "OrderId":_mainOrderId,
       "OrderServicesId": serviceId.toString(), //serviceId
       "Status": status,
       "Notes": supervisorNotes.toString(), //supervisorNotes
@@ -1047,6 +1048,7 @@ class APIService {
       mapDate = {
         "Id": taskId.toString(), //orderId
         "WorkerId": workerId.toString(),
+        "OrderId":_mainOrderId,
         "OrderServicesId": serviceId.toString(), //serviceId
         "Status": status,
         "Notes": supervisorNotes.toString(), //supervisorNotes

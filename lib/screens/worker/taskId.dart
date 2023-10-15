@@ -55,7 +55,7 @@ class _TaskIdState extends State<TaskId> {
     );
   }
   String _lat = '', _lng='';
-  String _name = '',_location = '',_phone = '',_orderDetails = '', _orderDate = '', _orderTime = '', _finishDate = '', _finishTime = '', taskName = '', attach = '';
+  String _mainOrderId = '', _name = '',_location = '',_phone = '',_orderDetails = '', _orderDate = '', _orderTime = '', _finishDate = '', _finishTime = '', taskName = '', attach = '';
   List orderServices = [{'name':'S 1', 'id':'1'},{'name':'S 2', 'id':'2'}];
   var statusCode = 1;
   var ord;
@@ -67,6 +67,7 @@ class _TaskIdState extends State<TaskId> {
     // TODO: implement initState
     super.initState();
     //print(subservicedec);
+    _mainOrderId = ord['OrderService']['OrderId']??'';
     serial= ord['OrderService']['Order']['Serial'];
     id= ord['OrderService']['OrderId'];
     var workerName = ord['User']['Name'] + ' ' + ord['User']['LastName'];
@@ -86,17 +87,17 @@ class _TaskIdState extends State<TaskId> {
       _start =false;
     }
     //selectedTime = TimeOfDay.now();
-    var addressArea = ord['OrderService']['Order']['Title']??'';
+    var addressArea = ord['OrderService']['Order']['Address']['Area']??'';
     var addressCity = ord['OrderService']['Order']['Address']['Title']??'';
-    var addressNotes = ord['OrderService']['Order']['Address']['notes'];
-    var addressBuilding = ord['OrderService']['Order']['Address']['building'];
-    var addressFloor = ord['OrderService']['Order']['Address']['floor'];
-    var addressAppartment = ord['OrderService']['Order']['Address']['appartment'];
+    var addressNotes = ord['OrderService']['Order']['Address']['notes']??'';
+    var addressBuilding = ord['OrderService']['Order']['Address']['building']??'';
+    var addressFloor = ord['OrderService']['Order']['Address']['floor']??'';
+    var addressAppartment = ord['OrderService']['Order']['Address']['appartment']??'';
     _name = ord['OrderService']['Order']['User']['Name']+' '+ord['OrderService']['Order']['User']['LastName'];
     _location = addressArea + " / " + addressCity + " / " + addressNotes +
         " / " + addressBuilding + " / " + addressFloor + " / " + addressAppartment;
     _phone = ord['OrderService']['Order']['User']['Mobile'];
-    _orderDetails = ord['Notes'];
+    _orderDetails = ord['Notes']??"";
     _lat = ord['OrderService']['Order']['Address']['lat'].toString()??'';
     _lng = ord['OrderService']['Order']['Address']['lng'].toString()??'';
     try{
@@ -161,7 +162,7 @@ class _TaskIdState extends State<TaskId> {
                               child: Text(
                                 AppLocalizations.of(context)!.translate('Address Details'),
                                 style: TextStyle(
-        fontFamily: 'comfortaa',
+                                  fontFamily: 'comfortaa',
                                   color: AppColors.black,
                                   fontSize: MediaQuery.of(context).size.width / 22,
                                   fontWeight: FontWeight.normal,
@@ -250,7 +251,8 @@ class _TaskIdState extends State<TaskId> {
                             SizedBox(height: MediaQuery.of(context).size.height/80,),
                             Divider(height: 1, thickness: 2, color: Colors.grey[400],),
                             SizedBox(height: MediaQuery.of(context).size.height/80,),
-                            Expanded(
+                           Expanded(child: SizedBox()),
+                           /* Expanded(
                                 child: SingleChildScrollView(
                                   child: Column(
                                     children: [
@@ -263,7 +265,7 @@ class _TaskIdState extends State<TaskId> {
                                     ],
                                   ),
                                 )
-                            ),
+                            ),*/
                             SizedBox(height: MediaQuery.of(context).size.height/80,),
                             MyWidget(context).raisedButton(isBoss?AppLocalizations.of(context)!.translate('Ok'):AppLocalizations.of(context)!.translate(_start?'Start Task':'Finish Task'), () => !_start? _finishTask(): _startTask(), AppWidth.w70, chCircle)
                           ],
@@ -276,7 +278,6 @@ class _TaskIdState extends State<TaskId> {
             ]),
           ),
         ),
-
     );
 
   }
@@ -428,12 +429,8 @@ class _TaskIdState extends State<TaskId> {
         children: [
           Icon(_icon,color: _color),
           SizedBox(width: MediaQuery.of(context).size.width/30,),
-          Expanded(child: SingleChildScrollView(
-
-            scrollDirection: Axis.horizontal,
-            child: Text(text, style: TextStyle(
-        fontFamily: 'comfortaa',fontSize: MediaQuery.of(context).size.width/25, color: AppColors.buttonTextColor),),
-          )),
+          Expanded(child: Text(text, style: TextStyle(
+              fontFamily: 'comfortaa',fontSize: MediaQuery.of(context).size.width/25, color: AppColors.black),)),
         ],
       ),
     );
@@ -545,9 +542,9 @@ class _TaskIdState extends State<TaskId> {
         fcmToken = groupUsers[i]['Users']['FBKey'];
     }
     if(xFile != null)
-      _suc = await api!.updateWorkerTask(ord['Id'], ord['WorkerId'], ord['OrderServicesId'], ord['Notes'], ord['StartDate'], endDate, 'workerNotes', token, ord['Name'], File(xFile!.path),fcmToken);
+      _suc = await api!.updateWorkerTask(ord['Id'], ord['WorkerId'], ord['OrderServicesId'], ord['Notes'], ord['StartDate'], endDate, 'workerNotes', token, ord['Name'], File(xFile!.path),fcmToken, _mainOrderId);
     else
-      _suc = await api!.updateWorkerTask(ord['Id'], ord['WorkerId'], ord['OrderServicesId'], ord['Notes'], ord['StartDate'], endDate, 'workerNotes', token, ord['Name'], 'File(xFile!.path)',fcmToken);
+      _suc = await api!.updateWorkerTask(ord['Id'], ord['WorkerId'], ord['OrderServicesId'], ord['Notes'], ord['StartDate'], endDate, 'workerNotes', token, ord['Name'], 'File(xFile!.path)',fcmToken, _mainOrderId);
     if (_suc){
     Navigator.pop(context);
     APIService.flushBar(AppLocalizations.of(context)!.translate('Task is Finished'));
@@ -557,6 +554,10 @@ class _TaskIdState extends State<TaskId> {
     //new Timer(Duration(seconds:2), ()=>setState(() {}));
     //setState(() {});
     }
+    setState(() {
+      chCircle = false;
+    });
+
     return;
   }
 
@@ -576,9 +577,9 @@ class _TaskIdState extends State<TaskId> {
         fcmToken = groupUsers[i]['Users']['FBKey'];
     }
     if(xFile != null) {
-      _suc = await api!.updateWorkerTask(ord['Id'], ord['WorkerId'], ord['OrderServicesId'], ord['Notes'], startDate, ord['EndDate'], 'workerNotes', token, ord['Name'], File(xFile!.path),fcmToken, message: AppLocalizations.of(context!)!.translate('good luck task is started'), status: 3);
+      _suc = await api!.updateWorkerTask(ord['Id'], ord['WorkerId'], ord['OrderServicesId'], ord['Notes'], startDate, ord['EndDate'], 'workerNotes', token, ord['Name'], File(xFile!.path),fcmToken, message: AppLocalizations.of(context!)!.translate('good luck task is started'), status: 3, _mainOrderId);
     } else {
-      _suc = await api!.updateWorkerTask(ord['Id'], ord['WorkerId'], ord['OrderServicesId'], ord['Notes'], startDate, ord['EndDate'], 'workerNotes', token, ord['Name'], 'File(xFile!.path)',fcmToken, message: AppLocalizations.of(context!)!.translate('good luck task is started'), status: 3);
+      _suc = await api!.updateWorkerTask(ord['Id'], ord['WorkerId'], ord['OrderServicesId'], ord['Notes'], startDate, ord['EndDate'], 'workerNotes', token, ord['Name'], 'File(xFile!.path)',fcmToken, message: AppLocalizations.of(context!)!.translate('good luck task is started'), status: 3, _mainOrderId);
     }
     if (_suc){
       updateWokerLocationPackground();
@@ -592,6 +593,9 @@ class _TaskIdState extends State<TaskId> {
       //new Timer(Duration(seconds:2), ()=>setState(() {}));
       //setState(() {});
     }
+    setState(() {
+      chCircle = false;
+    });
     return;
   }
 
