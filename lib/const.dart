@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:admob_flutter/admob_flutter.dart';
 import 'package:closer/api/api_service.dart';
 import 'package:closer/api/respons/loginData.dart';
 
@@ -44,37 +45,37 @@ var timeDiff = new Duration(seconds: 0);
 String prettify(double d) => d.toStringAsFixed(2).replaceFirst(RegExp(r'\.?0*$'), '');
 String? getBannerAdUnitId() {
   if (Platform.isIOS) {
-    return 'ca-app-pub-5051441163313137/9983771734';
+    return 'ca-app-pub-5051441163313137/1086082504';
   } else if (Platform.isAndroid) {
-    return 'ca-app-pub-5051441163313137/2483727686';
+    return 'ca-app-pub-5051441163313137/4753864776';
   }
   return null;
 }
 
 String? getInterstitialAdUnitId() {
   if (Platform.isIOS) {
-    return 'ca-app-pub-5051441163313137/4854733985';
+    return 'ca-app-pub-5051441163313137/3128957760';
   } else if (Platform.isAndroid) {
-    return 'ca-app-pub-5051441163313137/4488451213';
+    return 'ca-app-pub-5051441163313137/3065378587';
   }
   return null;
 }
 
 String? getRewardBasedVideoAdUnitId() {
   if (Platform.isIOS) {
-    return 'ca-app-pub-5051441163313137/9915488976';
+    return 'ca-app-pub-5051441163313137/6613741359';
   } else if (Platform.isAndroid) {
-    return 'ca-app-pub-5051441163313137/9961938045';
+    return 'ca-app-pub-5051441163313137/3361672304';
   }
   return null;
 }
-/*
+
 AdmobBannerSize? bannerSize;
 late AdmobInterstitial interstitialAd;
-late AdmobReward rewardAd;*/
+late AdmobReward rewardAd;
 
 showInterstitialAdd() async{
-  /*final isLoaded = await interstitialAd.isLoaded;
+  final isLoaded = await interstitialAd.isLoaded;
   if (isLoaded ?? false) {
     interstitialAd.show();
     interstitialAd.load();
@@ -82,12 +83,12 @@ showInterstitialAdd() async{
     //showSnackBar('Interstitial ad is still loading...');
     interstitialAd.load();
     print('Interstitial ad is still loading...');
-  }*/
+  }
 }
 
 showRewardAdd() async {
   // Run this before displaying any ad.
- /* await Admob.requestTrackingAuthorization();
+ await Admob.requestTrackingAuthorization();
   if (await rewardAd.isLoaded) {
     rewardAd.show();
     rewardAd.load();
@@ -95,7 +96,7 @@ showRewardAdd() async {
     //showSnackBar('Reward ad is still loading...');
     rewardAd.load();
     print('Interstitial ad is still loading...');
-  }*/
+  }
 }
 
 

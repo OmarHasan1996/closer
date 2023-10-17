@@ -3,7 +3,7 @@
 <plist version="1.0">
 	<dict>
 		<key>GADApplicationIdentifier</key>
-		<string>ca-app-pub-5051441163313137~5046305670</string>
+		<string>ca-app-pub-5051441163313137~8964572520</string>
 		<key>io.flutter.embedded_views_preview</key>
 		<true/>
 		<key>NSUserTrackingUsageDescription</key>
@@ -70,9 +70,21 @@
         			<string>Editor</string>
         			<key>CFBundleURLSchemes</key>
         			<array>
+        				<string>fb307513638666764</string>
         				<string>com.googleusercontent.apps.1035515167907-g236vqb7nlaf2o4muvr97l59si5qrnq9</string>
         			</array>
         		</dict>
         	</array>
+        <key>FacebookAppID</key>
+         <string>307513638666764</string>
+        <key>FacebookDisplayName</key>
+         <string>Closer</string>
+         <key>LSApplicationQueriesSchemes</key>
+         <array>
+        	<string>fbapi</string>
+           	<string>fb-messenger-share-api</string>
+           	<string>fbauth2</string>
+           	<string>fbshareextension</string>
+         </array>
 	</dict>
 </plist>
