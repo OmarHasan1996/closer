@@ -11,7 +11,7 @@ import 'model/transaction.dart';
 late APIService apiService;
 final apiDomain = 'https://api.mr-service.co';
 List order = [];
-String cityId = '23';
+String cityId = '1';
 List task = [];
 List orderAmount = [];
 List allSubServices = [];

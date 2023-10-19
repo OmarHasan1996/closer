@@ -303,15 +303,30 @@ iOS: ca-app-pub-3940256099942544/1712485313
     });
     mainService = service;
     api.userLang(trrrr.LocalizationService.getCurrentLangInt(), userData!.content!.id);
+
   }
 
-  void _afterLayout(Duration timeStamp) {
+  void _afterLayout(Duration timeStamp) async{
     /*new Timer(Duration(seconds:5), ()=>setState(()
     {
       getMyOrders(
         userData["content"]["Id"]);
       _loading = false;
     }));*/
+    if (await APIService.checkCountry()) {
+      var _selectedCity = 0;
+      var _selectedCountry = 0;
+      var _selectedLang = 0;
+      // ignore: use_build_context_synchronously
+      MyApplication.navigateTo(
+          navigatorKey.currentContext!,
+          Languages(
+            main: true,
+            selectedCity: _selectedCity,
+            selectedCountry: _selectedCountry,
+            selectedLang: _selectedLang,
+          ));
+    }
   }
 
   /*

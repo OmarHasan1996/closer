@@ -369,7 +369,7 @@ class APIService {
     return null;
   }
 
-  static Future<bool> _checkCountry() async {
+  static Future<bool> checkCountry() async {
     try{
       final box = GetStorage();
       print(box.read('city'));
@@ -431,7 +431,6 @@ class APIService {
                 password: password,
               ));
           chLogIn = false;
-
         }
         else if(m.errorDes.isNotEmpty){
           flushBar(m.errorDes);
@@ -439,21 +438,7 @@ class APIService {
         }
         else{
           token = m.content == null ? '' : m.content!.token!;
-          if (await _checkCountry()) {
-            var _selectedCity = 0;
-            var _selectedCountry = 0;
-            var _selectedLang = 0;
-            // ignore: use_build_context_synchronously
-            MyApplication.navigateTo(
-                navigatorKey.currentContext!,
-                Languages(
-                  main: true,
-                  selectedCity: _selectedCity,
-                  selectedCountry: _selectedCountry,
-                  selectedLang: _selectedLang,
-                ));
-            return null;
-          }
+
           chLogIn = false;
           return m;
         }
