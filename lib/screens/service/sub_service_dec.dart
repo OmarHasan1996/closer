@@ -22,18 +22,18 @@ import 'package:closer/MyWidget.dart';
 // ignore: must_be_immutable
 class SubServiceDec extends StatefulWidget {
   String token;
-  List subservicedec = [];
+  List subservicedec;
   SubServiceDec({required this.token, required this.subservicedec});
 
   @override
   _SubServiceDecState createState() =>
-      _SubServiceDecState(this.token, this.subservicedec);
+      _SubServiceDecState(this.token);
 }
 
 class _SubServiceDecState extends State<SubServiceDec> {
   String? lng;
   String token;
-  List subservicedec = [];
+  List _subservicedec = [];
   TextEditingController _amountController = new TextEditingController();
   var fileTypeList = ['All', 'Image', 'Video', 'Audio', 'MultipleFile'];
   FilePickerResult? result;
@@ -44,7 +44,7 @@ class _SubServiceDecState extends State<SubServiceDec> {
   APIService? api;
   final GlobalKey<ScaffoldState> _key = GlobalKey(); // Create a key
 
-  _SubServiceDecState(this.token, this.subservicedec);
+  _SubServiceDecState(this.token);
   var _price = 0.0;
 
   @override
@@ -54,6 +54,7 @@ class _SubServiceDecState extends State<SubServiceDec> {
     //print(subservicedec);
     _amountController.text = "1";
     noteController.text="";
+    widget.subservicedec.forEach((element) {_subservicedec.add(element);});
   }
 
   @override
@@ -61,16 +62,14 @@ class _SubServiceDecState extends State<SubServiceDec> {
     var barHight = MediaQuery.of(context).size.height / 5.7;
     //getServiceData();
     api = APIService(context: context);
-    var discountService =
-        subservicedec[0]['DiscountsServices'] ?? subservicedec[0]['Service']['DiscountsServices'];
+    var discountService = _subservicedec[0]['DiscountsServices'] ?? _subservicedec[0]['Service']['DiscountsServices'];
     var disAmount = 0.0;
     if (discountService != null && discountService.length > 0) {
       disAmount = discountService[0]['DiscountAmount'];
     }
-    _price = subservicedec[0]['Price'] - disAmount;
+    _price = _subservicedec[0]['Price'] - disAmount;
     return SafeArea(
         key: _key,
-
         child: Scaffold(
           resizeToAvoidBottomInset: true,
           appBar: MyWidget.appBar(title: '', isMain: false),
@@ -94,13 +93,13 @@ class _SubServiceDecState extends State<SubServiceDec> {
                           alignment: Alignment.center,
                           width: MediaQuery.of(context).size.width,
                           //height: MediaQuery.of(context).size.height,
-                          child: !subservicedec.isEmpty?Column(
+                          child: !_subservicedec.isEmpty?Column(
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               //image
                               GestureDetector(
-                                onTap: ()=> APIService(context: context).showImage(subservicedec[0]['ImagePath']),
+                                onTap: ()=> APIService(context: context).showImage(_subservicedec[0]['ImagePath']),
                                 child: Container(
                                     width: MediaQuery.of(context).size.width / 1.2,
                                     height: MediaQuery.of(context).size.height * (0.2*0.7),
@@ -108,7 +107,7 @@ class _SubServiceDecState extends State<SubServiceDec> {
                                       color: AppColors.white,
                                       image: DecorationImage(
                                         fit: BoxFit.contain,
-                                        image: NetworkImage(subservicedec[0]['ImagePath']),
+                                        image: NetworkImage(_subservicedec[0]['ImagePath']),
                                       ),
                                       boxShadow: [
                                         BoxShadow(
@@ -156,7 +155,7 @@ class _SubServiceDecState extends State<SubServiceDec> {
                                     children: [
                                       MyWidget(context).textTitle15(AppLocalizations.of(context)!.translate('Name') + ': ', bold: true, scale: 1.2),
                                       SingleChildScrollView(
-                                        child: MyWidget(context).textTitle15(subservicedec[0]['Name'], bold: true)
+                                        child: MyWidget(context).textTitle15(_subservicedec[0]['Name'], bold: true)
                                       ),
                                       Expanded(
                                           flex: 3,
@@ -169,12 +168,12 @@ class _SubServiceDecState extends State<SubServiceDec> {
                                                   Row(
                                                     children: [
                                                       MyWidget(context).textTitle15(AppLocalizations.of(context)!.translate('Unit') + ': ', bold: true, scale: 1.2),
-                                                      MyWidget(context).textTitle15('${subservicedec[0]['Service']['Unit']?? subservicedec[0]['Unit']}', bold: true),
+                                                      MyWidget(context).textTitle15('${_subservicedec[0]['Service']['Unit']?? _subservicedec[0]['Unit']}', bold: true),
                                                     ],
                                                   ),
                                                   SizedBox(height: AppHeight.h2,),
                                                   MyWidget(context).textTitle15(AppLocalizations.of(context)!.translate('Description') + ":", bold: true, scale: 1.2),
-                                                  MyWidget(context).textTap25(subservicedec[0]['Desc'].toString(), scale: 1.2, textAlign: TextAlign.start),
+                                                  MyWidget(context).textTap25(_subservicedec[0]['Desc'].toString(), scale: 1.2, textAlign: TextAlign.start),
                                                   SizedBox(height: AppHeight.h1,),
                                                 ],
                                               )
@@ -395,7 +394,6 @@ class _SubServiceDecState extends State<SubServiceDec> {
              ]),
           ),
         ),
-
     );
   }
 
@@ -448,8 +446,8 @@ class _SubServiceDecState extends State<SubServiceDec> {
     print(file!.extension);*/
     print(file!.path);
     _file = File(file!.path);
-    subservicedec[0]['Service']['File'] = _file;
-    print(subservicedec);
+    _subservicedec[0]['Service']['File'] = _file;
+    print(_subservicedec);
     _flushbar(AppLocalizations.of(context)!.translate('Attachment is added... Finish the order to upload'));
     flushBarStatus = true;
     Timer(Duration(seconds: 3), ()=> {flushBarStatus = false});
@@ -461,20 +459,20 @@ class _SubServiceDecState extends State<SubServiceDec> {
 
   _addToMyOrder() {
     setState(() {});
-    subservicedec[0]['Price'] = _price;
-    subservicedec.add({"Notes": noteController.text});
+    _subservicedec[0]['Price'] = _price;
+    _subservicedec.add({"Notes": noteController.text});
     bool addNew = true;
     order.forEach((element) {
-      if(element[0][0]['Id']==subservicedec[0]['Id']){
+      if(element[0][0]['Id']==_subservicedec[0]['Id']){
         addNew = false;
         element[1] = (int.parse(_amountController.text) + int.parse(element[1])).toString();
       }
     });
     if(addNew){
-      order.add([subservicedec,_amountController.text]);
+      order.add([_subservicedec,_amountController.text]);
     }
     //order[order.length] = ;
-    print(subservicedec);
+    print(_subservicedec);
     orderCounter++;
     print(orderCounter);
     prices = prices + _price * int.parse(_amountController.text);
@@ -482,7 +480,7 @@ class _SubServiceDecState extends State<SubServiceDec> {
     // print(order[6]);
     //Flushbar().dismiss();
 
-    subservicedec = [];
+    _subservicedec = [];
     if(!flushBarStatus)
       Navigator.of(context).pop();
     else{

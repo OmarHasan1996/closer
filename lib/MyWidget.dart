@@ -1300,11 +1300,12 @@ class MyWidget{
                   borderRadius: BorderRadius.circular(
                       roundBorder)),
             ),
+            onPressed: chLogIn==true?()=>{}: press,
             //elevation: 5.0,
             child: chLogIn == true
-                ? CircularProgressIndicator(
+                ? const CircularProgressIndicator(
               valueColor: AlwaysStoppedAnimation<Color>(
-                  AppColors.blue),
+                  AppColors.mainColor),
               backgroundColor: Colors.grey,
             )
                 : Text(text,
@@ -1314,7 +1315,6 @@ class MyWidget{
                   color: colorText,
                   fontWeight: FontWeight.bold),
             ),
-            onPressed: () => press(),
           ),
         )
       ],

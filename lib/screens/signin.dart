@@ -97,6 +97,9 @@ class _SignInState extends State<SignIn> {
         resizeToAvoidBottomInset: false,
         backgroundColor: AppColors.mainColor,
         body: DoubleBackToCloseApp(
+          snackBar: SnackBar(
+            content: Text(AppLocalizations.of(context)!.translate('Tap back again to leave')),
+          ),
           child: Builder(builder: (context) {
             return Form(
               key: _formKey,
@@ -489,9 +492,6 @@ class _SignInState extends State<SignIn> {
               ),
             );
           }),
-          snackBar: SnackBar(
-            content: Text(AppLocalizations.of(context)!.translate('Tap back again to leave')),
-          ),
         ),
       );
 
@@ -702,7 +702,7 @@ class _SignInState extends State<SignIn> {
     print(jsonDecode(response.body));
     if (response.statusCode == 200) {
       print("we're good");
-      userData = jsonDecode(response.body);
+      //userData = jsonDecode(response.body);
       setState(() {
         if (jsonDecode(response.body)['Errors'] == "") {
           Navigator.of(context).push(MaterialPageRoute(

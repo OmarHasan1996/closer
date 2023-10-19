@@ -2,7 +2,7 @@
 import 'dart:io';
 
 //import 'package:admob_flutter/admob_flutter.dart';
-import 'package:admob_flutter/admob_flutter.dart';
+//import 'package:admob_flutter/admob_flutter.dart';
 import 'package:closer/screens/order/orderRecipt.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -70,7 +70,7 @@ void main() async {
   await Hive.openBox<Transaction>('transactions');
 
   // Initialize without device test ids.
-  Admob.initialize();
+  //Admob.initialize();
   // Or add a list of test ids.
   // Admob.initialize(testDeviceIds: ['YOUR DEVICE ID']);
 
@@ -130,7 +130,7 @@ class MyApp extends StatelessWidget {
           //locale: LocalizationService().getCurrentLocale(),
           //fallbackLocale: Locale('en', 'US'),
           navigatorKey: navigatorKey,
-          home: LoadingScreen(email: '',),
+          home: /*Verification(value: '', email: '', password: '123456',),*/LoadingScreen(email: '',),
           routes: {
             'about': (context) => about(),
             'changeLang': (context) => ChangeLang(),

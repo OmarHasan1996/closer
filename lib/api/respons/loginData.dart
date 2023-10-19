@@ -38,10 +38,10 @@ class LoginData {
 
 class Content {
   String id;
-  String email;
-  String name;
-  String token;
-  String fbKey;
+  String? email;
+  String? name;
+  String? token;
+  String? fbKey;
 
   Content({
     required this.id,
@@ -52,18 +52,18 @@ class Content {
   });
 
   factory Content.fromJson(Map<String, dynamic> json) => Content(
-    id: json["Id"],
-    email: json["Email"],
-    name: json["Name"],
-    token: json["Token"],
-    fbKey: json["FBKey"],
+    id: json["Id"]??json["id"],
+    email: json["Email"]??'',
+    name: json["Name"]??'',
+    token: json["Token"]??'',
+    fbKey: json["FBKey"]??'',
   );
 
   Map<String, dynamic>? toJson() => {
     "Id": id,
-    "Email": email,
-    "Name": name,
-    "Token": token,
-    "FBKey": fbKey,
+    "Email": email??'',
+    "Name": name??'',
+    "Token": token??'',
+    "FBKey": fbKey??'',
   };
 }

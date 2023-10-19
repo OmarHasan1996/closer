@@ -8,6 +8,7 @@ import 'package:closer/constant/app_size.dart';
 import 'package:closer/constant/functions.dart';
 import 'package:closer/main.dart';
 import 'package:closer/screens/language/Languages.dart';
+import 'package:closer/screens/valid_code.dart';
 import 'package:dio/dio.dart';
 import 'package:easy_image_viewer/easy_image_viewer.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +17,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:http/http.dart'as http;
+import 'package:http/http.dart' as http;
 import 'package:closer/color/MyColors.dart';
 import 'package:closer/firebase/Firebase.dart';
 import 'package:closer/localizations.dart';
@@ -38,7 +39,6 @@ import 'package:closer/localizations.dart';
 import 'package:closer/localization_service.dart' as trrrr;
 
 class APIService {
-
   static MyFirebase myFirebase = new MyFirebase();
   BuildContext? context;
   APIService({this.context});
@@ -56,13 +56,12 @@ class APIService {
       city.clear();
       print("response.statusCode is 200");
       var item = json.decode(response.body);
-          for (int i = 0; i < item["Data"].length; i++) {
-            if (item["Data"][i]["CountryId"]== countryId) {
-              city.add(item["Data"][i]);
-            }
-          }
-    } else {
-    }
+      for (int i = 0; i < item["Data"].length; i++) {
+        if (item["Data"][i]["CountryId"] == countryId) {
+          city.add(item["Data"][i]);
+        }
+      }
+    } else {}
     print("getCityData finished");
   }
 
@@ -78,12 +77,11 @@ class APIService {
     if (response.statusCode == 200) {
       print("response.statusCode is 200");
       var item = json.decode(response.body);
-      for(var i in item['Data']){
+      for (var i in item['Data']) {
         coupons.add(i);
       }
       print(item);
-    } else {
-    }
+    } else {}
   }
 
   static Future getCountryData() async {
@@ -97,26 +95,29 @@ class APIService {
     if (response.statusCode == 200) {
       country.clear();
       var item = json.decode(response.body);
-          for (var i in item["Data"]) {
-            country.add(i);
-            /*if (item["Data"][i]["Name"] == 'C') {
+      for (var i in item["Data"]) {
+        country.add(i);
+        /*if (item["Data"][i]["Name"] == 'C') {
               country.add(item["Data"][i]["Name"]);
             }*/
-          }
-    } else {
-    }
+      }
+    } else {}
   }
 
   static Future getMyOrders(var id) async {
-    try{
+    try {
       var url;
-      !worker?
-      url = Uri.parse("$apiDomain/Main/Orders/Orders_Read?filter=CustomerId~eq~'$id'")
-          :isBoss?
-      url = Uri.parse("$apiDomain/Main/Orders/Orders_Read?"):
-      url = Uri.parse('');
+      !worker
+          ? url = Uri.parse(
+              "$apiDomain/Main/Orders/Orders_Read?filter=CustomerId~eq~'$id'")
+          : isBoss
+              ? url = Uri.parse("$apiDomain/Main/Orders/Orders_Read?")
+              : url = Uri.parse('');
       http.Response response = await http.get(
-        url, headers: {"Authorization": token,},
+        url,
+        headers: {
+          "Authorization": token,
+        },
       );
       print(jsonDecode(response.body));
       if (response.statusCode == 200) {
@@ -126,22 +127,24 @@ class APIService {
         //print(myOrders);
         //print("****************************");
         //print(jsonDecode(response.body));
-      }
-      else{
+      } else {
         myOrders.clear();
       }
-    }catch(e){
+    } catch (e) {
       //myOrders = transactions![0].myOrders;
     }
     print('here');
-    if(worker && isBoss){
+    if (worker && isBoss) {
       NewOrdersSupervisor = myOrders;
-      try{
-        var url = Uri.parse("$apiDomain/Main/WorkerTask/WorkerTask_Read?filter=OrderService.GroupId~eq~$groupId");
+      try {
+        var url = Uri.parse(
+            "$apiDomain/Main/WorkerTask/WorkerTask_Read?filter=OrderService.GroupId~eq~$groupId");
         http.Response response = await http.get(
-          url, headers: {
-          "Authorization": token,
-        },);
+          url,
+          headers: {
+            "Authorization": token,
+          },
+        );
         print(jsonDecode(response.body));
         if (response.statusCode == 200) {
           print("getOrderders success");
@@ -151,24 +154,27 @@ class APIService {
           //print(myOrders);
           //print("****************************");
           //print(jsonDecode(response.body));
-        }
-        else{
+        } else {
           myOrders.clear();
         }
-      }catch(e){
+      } catch (e) {
         myOrders.clear();
 
         //myOrders.clear();
         //myOrders = transactions![0].myOrders;
       }
-    }else if(worker && !isBoss){
+    } else if (worker && !isBoss) {
       NewOrdersSupervisor.clear();
-      try{
+      try {
         /*filter=UserId~eq~'$id'*/
-        var url = Uri.parse("$apiDomain/Main/WorkerTask/WorkerTask_Read?filter=WorkerId~eq~'$id'");
-        http.Response response = await http.get(url, headers: {
-          "Authorization": token,
-        },);
+        var url = Uri.parse(
+            "$apiDomain/Main/WorkerTask/WorkerTask_Read?filter=WorkerId~eq~'$id'");
+        http.Response response = await http.get(
+          url,
+          headers: {
+            "Authorization": token,
+          },
+        );
         print(jsonDecode(response.body));
         if (response.statusCode == 200) {
           print("getOrderders success");
@@ -178,31 +184,34 @@ class APIService {
           //print("****************************");
           //print(jsonDecode(response.body));
         }
-      }catch(e){
+      } catch (e) {
         myOrders.clear();
         //myOrders = transactions![0].myOrders;
       }
     }
-
   }
 
   static Future<LatLng?> checkLocation(var orderserviceid) async {
-    try{
+    try {
       var url;
-      url = Uri.parse("$apiDomain/Main/WorkerTask/WorkerTask_checklocation?orderserviceid=$orderserviceid");
-       http.Response response = await http.get(
-        url, headers: {"Authorization": token,},
+      url = Uri.parse(
+          "$apiDomain/Main/WorkerTask/WorkerTask_checklocation?orderserviceid=$orderserviceid");
+      http.Response response = await http.get(
+        url,
+        headers: {
+          "Authorization": token,
+        },
       );
       print(jsonDecode(response.body));
       if (response.statusCode == 200) {
         print("getOrderders success");
         serviceLocation = await jsonDecode(response.body);
-        for(var t in serviceLocation['Data'][0]['WorkerTasks']){
-          if(t['User']['lng']==null || t['User']['lat']==null){
+        for (var t in serviceLocation['Data'][0]['WorkerTasks']) {
+          if (t['User']['lng'] == null || t['User']['lat'] == null) {
             //flushBar("Can't get driver location");
-          }else{
-            var lat = t['User']['lat']??25.55;
-            var lng = t['User']['lng']??55.55;
+          } else {
+            var lat = t['User']['lat'] ?? 25.55;
+            var lng = t['User']['lng'] ?? 55.55;
             return LatLng(lat, lng);
           }
         }
@@ -211,17 +220,14 @@ class APIService {
         //print(myOrders);
         //print("****************************");
         //print(jsonDecode(response.body));
-      }
-      else{
+      } else {
         return null;
         //serviceLocation.clear();
       }
-    }catch(e){
+    } catch (e) {
       return null;
-
     }
     return null;
-
   }
 
   static dialogBuilder(text) {
@@ -234,7 +240,8 @@ class APIService {
             backgroundColor: Colors.transparent,
             child: Container(
               height: AppHeight.h40,
-              padding: EdgeInsets.symmetric(horizontal: AppPadding.p10, vertical: AppPadding.p20),
+              padding: EdgeInsets.symmetric(
+                  horizontal: AppPadding.p10, vertical: AppPadding.p20),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(AppWidth.w4)),
                 color: AppColors.mainColor.withOpacity(0.9),
@@ -242,13 +249,22 @@ class APIService {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Icon(Icons.info_outline_rounded, size: AppHeight.h10, color: AppColors.white,),
-                  SizedBox(height: AppHeight.h1,),
+                  Icon(
+                    Icons.info_outline_rounded,
+                    size: AppHeight.h10,
+                    color: AppColors.white,
+                  ),
+                  SizedBox(
+                    height: AppHeight.h1,
+                  ),
                   //MyWidget.bodyText(text, scale: 0.7, maxLine: 7, color: AppColors.white),
-                  SizedBox(height: AppHeight.h1,),
+                  SizedBox(
+                    height: AppHeight.h1,
+                  ),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: AppPadding.p20),
-                    child: SizedBox(),//MyWidget.elevatedButton(text: 'Close'.tr(), press: ()=> Navigator.of(context).pop(), backcolor: AppColors.mainColor2, height: AppHeight.h4 ,fontSize: FontSize.s16),
+                    child:
+                        SizedBox(), //MyWidget.elevatedButton(text: 'Close'.tr(), press: ()=> Navigator.of(context).pop(), backcolor: AppColors.mainColor2, height: AppHeight.h4 ,fontSize: FontSize.s16),
                   ),
                 ],
               ),
@@ -259,139 +275,192 @@ class APIService {
     }
   }
 
-  static flushBarErrorRigester(message) async{
+  static flushBarErrorRigester(message) async {
     await Flushbar(
-      icon: Icon(Icons.error_outline,size: AppWidth.w5,color: AppColors.white,),
+      icon: Icon(
+        Icons.error_outline,
+        size: AppWidth.w5,
+        color: AppColors.white,
+      ),
       shouldIconPulse: false,
       flushbarPosition: FlushbarPosition.TOP,
       borderRadius: BorderRadius.all(Radius.circular(AppHeight.h2)),
-      backgroundColor: Colors.grey.withOpacity(0.5) ,
+      backgroundColor: Colors.grey.withOpacity(0.5),
       barBlur: 20,
       message: message,
-      messageSize:AppWidth.w4 ,
+      messageSize: AppWidth.w4,
       // ignore: deprecated_member_use
       mainButton: ElevatedButton(
         onPressed: () {
-          MyApplication.navigateToReplace(navigatorKey.currentContext!, SignIn());
+          MyApplication.navigateToReplace(
+              navigatorKey.currentContext!, SignIn());
         },
-        child: Text(AppLocalizations.of(navigatorKey.currentContext!)!.translate('Log in Now'),style: TextStyle(
-        fontFamily: 'comfortaa',
-          color: AppColors.white,
-          fontSize:AppWidth.w4,
-        ),),
+        child: Text(
+          AppLocalizations.of(navigatorKey.currentContext!)!
+              .translate('Log in Now'),
+          style: TextStyle(
+            fontFamily: 'comfortaa',
+            color: AppColors.white,
+            fontSize: AppWidth.w4,
+          ),
+        ),
       ),
-
     ).show(navigatorKey.currentContext!);
   }
+
   static Future<RegisterData?> register({
-   required String firstName,
-   required String lastName,
-   required String mobile,
-   required String email,
-   required String password,
-  }) async{
-    try{
-    var  apiUrl =Uri.parse('$apiDomain/Main/SignUp/SignUp_Create');
-    Map mapDate = {
-      "Name": firstName,
-      "LastName": lastName,
-      "Mobile": mobile,
-      "Email": email,
-      "Password": password,
-    };
-    http.Response response = await http.post(apiUrl,body:jsonEncode(mapDate),headers: {
-      "Accept-Language": LocalizationService.getCurrentLocale().languageCode,
-      "Accept": "application/json",
-      "content-type": "application/json",
-    });
-    if (response.statusCode == 200) {
-      String x= response.body;
-      if(jsonDecode(x)["Errors"] == '' || jsonDecode(x)["Errors"] == null){
-        var value =jsonDecode(x)["Data"][0]["Id"].toString();
-        RegisterData _model = registerDataFromJson(x);
-        //userData = _model.data;
-        return _model;
+    required String firstName,
+    required String lastName,
+    required String mobile,
+    required String email,
+    required String password,
+  }) async {
+    try {
+      var apiUrl = Uri.parse('$apiDomain/Main/SignUp/SignUp_Create');
+      Map mapDate = {
+        "Name": firstName,
+        "LastName": lastName,
+        "Mobile": mobile,
+        "Email": email,
+        "Password": password,
+      };
+      print(jsonEncode(mapDate));
+      http.Response response =
+          await http.post(apiUrl, body: jsonEncode(mapDate), headers: {
+        "Accept-Language": LocalizationService.getCurrentLocale().languageCode,
+        "Accept": "application/json",
+        "content-type": "application/json",
+      });
+      if (response.statusCode == 200) {
+        String x = response.body;
+        if (jsonDecode(x)["Errors"] == '' || jsonDecode(x)["Errors"] == null) {
+          var value = jsonDecode(x)["Data"][0]["Id"].toString();
+          RegisterData _model = registerDataFromJson(x);
+          //userData = _model.data;
+          return _model;
+        } else {
+          await flushBarErrorRigester(jsonDecode(x)["Errors"]);
+        }
+      } else if (response.statusCode == 500) {
+        await Flushbar(
+          icon: Icon(
+            Icons.error_outline,
+            size: AppWidth.w5,
+            color: AppColors.white,
+          ),
+          duration: Duration(seconds: 5),
+          shouldIconPulse: false,
+          flushbarPosition: FlushbarPosition.TOP,
+          borderRadius: BorderRadius.all(Radius.circular(AppHeight.h2)),
+          backgroundColor: Colors.grey.withOpacity(0.5),
+          barBlur: 20,
+          message: AppLocalizations.of(navigatorKey.currentContext!)!
+              .translate('Server is busy try again later'),
+          messageSize: AppWidth.w5,
+        ).show(navigatorKey.currentContext!);
+      } else {
+        await flushBarErrorRigester(
+            AppLocalizations.of(navigatorKey.currentContext!)!
+                .translate('This Email Already Existed'));
       }
-      else{
-        await flushBarErrorRigester(jsonDecode(x)["Errors"]);
-      }
-    } else if (response.statusCode == 500) {
-      await Flushbar(
-        icon: Icon(Icons.error_outline,size: AppWidth.w5,color: AppColors.white,),
-        duration: Duration(seconds: 5),
-        shouldIconPulse: false,
-        flushbarPosition: FlushbarPosition.TOP,
-        borderRadius: BorderRadius.all(Radius.circular(AppHeight.h2)),
-        backgroundColor: Colors.grey.withOpacity(0.5) ,
-        barBlur: 20,
-        message: AppLocalizations.of(navigatorKey.currentContext!)!.translate('Server is busy try again later'),
-        messageSize:AppWidth.w5 ,
-      ).show(navigatorKey.currentContext!);
-    }
-    else{
-      await flushBarErrorRigester(AppLocalizations.of(navigatorKey.currentContext!)!.translate('This Email Already Existed'));
-    }
-    }catch(e){
+    } catch (e) {
       dialogBuilder(e.toString());
     }
     return null;
   }
-  static Future<bool> _checkCountry() async{
-    final box = GetStorage();
-    print(box.read('city'));
-    myCity = box.read('city')?? myCity;
-    myCountry = box.read('country')?? myCountry;
-    myCurrency = box.read('currency')?? myCurrency;
-    await APIService.getCountryData();
-    var _selectedCountry = 0;
-    if(box.read('country') != null){
-      _selectedCountry = country.indexWhere((element) => element['Name']==myCountry)??0;
+
+  static Future<bool> _checkCountry() async {
+    try{
+      final box = GetStorage();
+      print(box.read('city'));
+      myCity = box.read('city') ?? myCity;
+      myCountry = box.read('country') ?? myCountry;
+      myCurrency = box.read('currency') ?? myCurrency;
+      await APIService.getCountryData();
+      var _selectedCountry = 0;
+      if (box.read('country') != null) {
+        _selectedCountry = country.indexWhere((element) => element['Name'] == myCountry) < 0 ? 0 : country.indexWhere((element) => element['Name'] == myCountry);
+      }
+      await APIService.getCityData(country[_selectedCountry]['Id']);
+      if (box.read('city') == null)
+        return true;
+      else {
+        cityId = city[city.indexWhere((element) => element['Name'] == myCity)]['Id'].toString();
+        return false;
+      }
+    }catch(e){
+      return true;
     }
-    await APIService.getCityData(country[_selectedCountry]['Id']);
-    if(box.read('city') == null) return true;
-    else{
-      cityId = city[city.indexWhere((element) => element['Name']==myCity)]['Id'].toString();
-      return false;
-    }
+
   }
 
-  static Future<LoginData?> login(email , password) async{
+  static Future<LoginData?> login(email, password) async {
     var fcmToken;
-    try{
+    try {
       fcmToken = await myFirebase.getToken();
       print(fcmToken);
-    }
-    catch(e){
-      fcmToken='';
+    } catch (e) {
+      fcmToken = '';
       print(e);
       flushBar(e.toString());
       chLogIn = false;
     }
-    try{
+    try {
       http.Response response = await http.post(
           Uri.parse('$apiDomain/api/Auth/login?'),
-          body: jsonEncode({"UserName": email, "Password": password, "FBKey":fcmToken.toString()}),
+          body: jsonEncode({
+            "UserName": email,
+            "Password": password,
+            "FBKey": fcmToken.toString()
+          }),
           headers: {
-            "Accept-Language": trrrr.LocalizationService.getCurrentLocale().languageCode,
+            "Accept-Language":
+                trrrr.LocalizationService.getCurrentLocale().languageCode,
             "Accept": "application/json",
             "content-type": "application/json",
           });
-      if(response.statusCode ==200){
-        var m =  loginDataFromJson( response.body);
-        token = m.content==null ? '' : m.content!.token;
-        if(await _checkCountry()){
-          var _selectedCity = 0;
-          var _selectedCountry = 0;
-          var _selectedLang = 0;
-          // ignore: use_build_context_synchronously
-          MyApplication.navigateTo(navigatorKey.currentContext!, Languages(main: true, selectedCity: _selectedCity, selectedCountry: _selectedCountry, selectedLang: _selectedLang,));
-          return null;
+      if (response.statusCode == 200) {
+        //if(response.body['eroor'])
+        var m = loginDataFromJson(response.body);
+        if(m.errorCode == 2){
+          MyApplication.navigateTo(
+              navigatorKey.currentContext!,
+              Verification(
+                value: m.content!.id,
+                email: email,
+                password: password,
+              ));
+          chLogIn = false;
+
         }
-        return m;
+        else if(m.errorDes.isNotEmpty){
+          flushBar(m.errorDes);
+          chLogIn = false;
+        }
+        else{
+          token = m.content == null ? '' : m.content!.token!;
+          if (await _checkCountry()) {
+            var _selectedCity = 0;
+            var _selectedCountry = 0;
+            var _selectedLang = 0;
+            // ignore: use_build_context_synchronously
+            MyApplication.navigateTo(
+                navigatorKey.currentContext!,
+                Languages(
+                  main: true,
+                  selectedCity: _selectedCity,
+                  selectedCountry: _selectedCountry,
+                  selectedLang: _selectedLang,
+                ));
+            return null;
+          }
+          chLogIn = false;
+          return m;
+        }
       }
-    }
-    catch(e){
-      flushBar(AppLocalizations.of(navigatorKey.currentContext!)!.translate('please! check your network connection'));
+    } catch (e) {
+      flushBar(AppLocalizations.of(navigatorKey.currentContext!)!
+          .translate('please! check your network connection'));
       print(e);
       chLogIn = false;
     }
@@ -399,7 +468,7 @@ class APIService {
   }
 
   static getAddress(var id) async {
-    try{
+    try {
       var url = Uri.parse(
           "$apiDomain/Main/ProfileAddress/ProfileAddress_Read?filter=UserId~eq~'$id'");
       http.Response response = await http.get(
@@ -411,67 +480,71 @@ class APIService {
       if (response.statusCode == 200) {
         var item = json.decode(response.body)["result"]['Data'];
 
-            Address = item;
+        Address = item;
       } else {
         print(response.statusCode);
-            Address = [];
+        Address = [];
       }
-    }catch(e){
+    } catch (e) {
       Address = transactions![0].Address;
     }
   }
 
-  userLang(langNum , id) async{
-    try{
+  userLang(langNum, id) async {
+    try {
       http.Response response = await http.post(
           Uri.parse('$apiDomain/Main/Users/UserLang_Update?'),
-          body: jsonEncode({"intParam": langNum.toString(), "guidParam": id.toString()}),
+          body: jsonEncode(
+              {"intParam": langNum.toString(), "guidParam": id.toString()}),
           headers: {
-            "Accept-Language": trrrr.LocalizationService.getCurrentLocale().languageCode,
+            "Accept-Language":
+                trrrr.LocalizationService.getCurrentLocale().languageCode,
             "Accept": "application/json",
             "content-type": "application/json",
             "Authorization": token,
           });
       print(response.body);
-    }
-    catch(e){
-      flushBar(AppLocalizations.of(context!)!.translate('please! check your network connection'));
+    } catch (e) {
+      flushBar(AppLocalizations.of(context!)!
+          .translate('please! check your network connection'));
       print(e);
       chLogIn = false;
     }
   }
 
-  static userLatLangUpdate(lat, lang, id) async{
-    try{
-      http.Response response = await http.post(
-          Uri.parse('$apiDomain/Main/Users/Location_Update?'),
-          body: jsonEncode({
-            "UserId": id.toString(),
-            "lat": lat.toString(),
-            "lng": lang.toString(),
-          }),
-          headers: {
-            "Accept-Language": trrrr.LocalizationService.getCurrentLocale().languageCode,
+  static userLatLangUpdate(lat, lang, id) async {
+    try {
+      http.Response response =
+          await http.post(Uri.parse('$apiDomain/Main/Users/Location_Update?'),
+              body: jsonEncode({
+                "UserId": id.toString(),
+                "lat": lat.toString(),
+                "lng": lang.toString(),
+              }),
+              headers: {
+            "Accept-Language":
+                trrrr.LocalizationService.getCurrentLocale().languageCode,
             "Accept": "application/json",
             "content-type": "application/json",
             "Authorization": token,
           });
       print(response.body);
-    }
-    catch(e){
-      flushBar(AppLocalizations.of(navigatorKey.currentContext!)!.translate('please! check your network connection'));
+    } catch (e) {
+      flushBar(AppLocalizations.of(navigatorKey.currentContext!)!
+          .translate('please! check your network connection'));
       print(e);
       chLogIn = false;
     }
   }
 
-  static flushBar(text){
+  static flushBar(text) {
     Flushbar(
       padding: EdgeInsets.symmetric(
-          vertical: AppHeight.h2*1.5,),
+        vertical: AppHeight.h2 * 1.5,
+      ),
       icon: Icon(
         Icons.error_outline,
-        size: AppHeight.h2*1.5,
+        size: AppHeight.h2 * 1.5,
         color: AppColors.white,
       ),
       duration: Duration(seconds: 3),
@@ -485,7 +558,8 @@ class APIService {
     ).show(navigatorKey.currentContext!);
   }
 
-  uploadOrderWithAttach(id,insertDateTime,value3,orderDateTime,token) async {
+  uploadOrderWithAttach(
+      id, insertDateTime, value3, orderDateTime, token) async {
     var apiUrl = Uri.parse('$apiDomain/Main/Orders/Orders_CreateWithAttachs?');
     var request = http.MultipartRequest("POST", apiUrl);
     var amount = 0.0;
@@ -493,11 +567,12 @@ class APIService {
     for (int i = 0; i < order.length; i++) {
       var attach;
       List<Map<String, dynamic>> serviceAttach = [];
-      try{
+      try {
         //attach = await MultipartFile.fromFile(order[i][0][0]['Service']['File'].path.toString(), filename: order[i][0][0]['Service']['File'].name);
-        attach = await http.MultipartFile.fromPath("File", order[i][0][0]['Service']['File'].path.toString());
+        attach = await http.MultipartFile.fromPath(
+            "File", order[i][0][0]['Service']['File'].path.toString());
         request.files.add(attach);
-        for (int j=0; j<1; j++){
+        for (int j = 0; j < 1; j++) {
           serviceAttach.add({
             "FilePath": attach.filename,
             "AttNotes": "AttNotes",
@@ -505,7 +580,7 @@ class APIService {
             "AttFile": {"File": attach}
           });
         }
-      }catch(e){
+      } catch (e) {
         attach = null;
       }
       amount += (order[i][0][0]['Price']) * int.parse(order[i][1]);
@@ -514,7 +589,7 @@ class APIService {
         "Price": order[i][0][0]['Price'],
         "Quantity": int.parse(order[i][1]),
         "ServiceNotes": order[i][0][1]["Notes"],
-        "OrderServiceAttatchs": attach == null?'' :  serviceAttach,
+        "OrderServiceAttatchs": attach == null ? '' : serviceAttach,
         // ignore: equal_keys_in_map
       });
     }
@@ -555,15 +630,16 @@ class APIService {
       var responseData = await response.stream.toBytes();
       var responseString = String.fromCharCodes(responseData);
       print(responseString);
-      try{
-        if (jsonDecode(responseString)['Errors'] == null || jsonDecode(responseString)['Errors'] == ''){
+      try {
+        if (jsonDecode(responseString)['Errors'] == null ||
+            jsonDecode(responseString)['Errors'] == '') {
           print('success');
           return true;
-        }else{
+        } else {
           flushBar(jsonDecode(responseString)['Errors']);
           return false;
         }
-      }catch(e){
+      } catch (e) {
         return true;
       }
     } else {
@@ -599,7 +675,8 @@ class APIService {
 */
   }
 
-  uploadOrderWithAttachNew(id, insertDateTime, value3, orderDateTime, token, couponId, couponValue) async {
+  uploadOrderWithAttachNew(id, insertDateTime, value3, orderDateTime, token,
+      couponId, couponValue) async {
     var apiUrl = Uri.parse('$apiDomain/Main/Orders/Orders_CreateWithAttachs?');
     var request = http.MultipartRequest("POST", apiUrl);
     var amount = 0.0;
@@ -607,13 +684,13 @@ class APIService {
     for (int i = 0; i < order.length; i++) {
       var attach;
       List<Map<String, dynamic>> serviceAttach = [];
-      try{
+      try {
         var file = order[i][0][0]['Service']['File'];
         String base64Image = base64Encode(file.readAsBytesSync());
         String fileName = file.path.split("/").last;
         attach = 'ok';
         //attach = await http.MultipartFile.fromPath("File", order[i][0][0]['Service']['File'].path.toString());
-        for (int j=0; j<1; j++){
+        for (int j = 0; j < 1; j++) {
           serviceAttach.add({
             "FilePath": fileName,
             "File": base64Image,
@@ -621,16 +698,17 @@ class APIService {
             "AttId": "$id",
           });
         }
-      }catch(e){
+      } catch (e) {
         attach = null;
       }
-      amount += (order[i][0][0]['Price']) * int.parse(order[i][1]) - couponValue;
+      amount +=
+          (order[i][0][0]['Price']) * int.parse(order[i][1]) - couponValue;
       serviceTmp.add({
         "ServiceId": order[i][0][0]['Id'],
         "Price": order[i][0][0]['Price'],
         "Quantity": int.parse(order[i][1]),
         "ServiceNotes": order[i][0][1]["Notes"],
-        "OrderServiceAttatchs": attach == null?'' :  serviceAttach,
+        "OrderServiceAttatchs": attach == null ? '' : serviceAttach,
         // ignore: equal_keys_in_map
       });
     }
@@ -643,7 +721,7 @@ class APIService {
       "AddressId": value3,
       "OrderDate": orderDateTime,
       "Notes": "string",
-      "CouponId" : couponId,
+      "CouponId": couponId,
       "OrderServices": serviceTmp,
     });
     print(token);
@@ -651,7 +729,8 @@ class APIService {
     //add text fields
     request.fields.addAll(Map.fromEntries(formdata.fields));
     request.headers.addAll({
-      "Accept-Language": trrrr.LocalizationService.getCurrentLocale().languageCode,
+      "Accept-Language":
+          trrrr.LocalizationService.getCurrentLocale().languageCode,
       "Accept": "application/json",
       "content-type": "application/json",
       "Authorization": token,
@@ -669,15 +748,16 @@ class APIService {
       var responseData = await response.stream.toBytes();
       var responseString = String.fromCharCodes(responseData);
       print(responseString);
-      try{
-        if (jsonDecode(responseString)['Errors'] == null || jsonDecode(responseString)['Errors'] == ''){
+      try {
+        if (jsonDecode(responseString)['Errors'] == null ||
+            jsonDecode(responseString)['Errors'] == '') {
           print('success');
           return true;
-        }else{
+        } else {
           flushBar(jsonDecode(responseString)['Errors']);
           return false;
         }
-      }catch(e){
+      } catch (e) {
         return true;
       }
     } else {
@@ -690,9 +770,10 @@ class APIService {
     }
   }
 
- //{CustomerId: 90e73cdd-7e7e-4207-9901-08d9a4f69d2a, Amount: 300.0, InsertDate: 2021-12-08T01:29:45.045Z, Status: 1, PayType: 1, AddressId: 66b576f9-d44b-4565-b9e3-08d9a4f82388, OrderDate: 2021-12-08T13:29:00.000Z, Notes: string, OrderServices: [{ServiceId: 18, Price: 300.0, Quantity: 1, ServiceNotes: , OrderServiceAttatchs: }]}
+  //{CustomerId: 90e73cdd-7e7e-4207-9901-08d9a4f69d2a, Amount: 300.0, InsertDate: 2021-12-08T01:29:45.045Z, Status: 1, PayType: 1, AddressId: 66b576f9-d44b-4565-b9e3-08d9a4f82388, OrderDate: 2021-12-08T13:29:00.000Z, Notes: string, OrderServices: [{ServiceId: 18, Price: 300.0, Quantity: 1, ServiceNotes: , OrderServiceAttatchs: }]}
   //{CustomerId: 90e73cdd-7e7e-4207-9901-08d9a4f69d2a, Amount: 300.0, InsertDate: 2021-12-08T01:31:02.002Z, Status: 1, PayType: 1, AddressId: 66b576f9-d44b-4565-b9e3-08d9a4f82388, OrderDate: 2021-12-08T13:29:00.000Z, Notes: string, OrderServices[0][ServiceId]: 18, OrderServices[0][Price]: 300.0, OrderServices[0][Quantity]: 1, OrderServices[0][ServiceNotes]: , OrderServices[0][OrderServiceAttatchs]: }
-  uploadOrderWithoutAttach(id,insertDateTime,value3,orderDateTime,token) async {
+  uploadOrderWithoutAttach(
+      id, insertDateTime, value3, orderDateTime, token) async {
     var apiUrl = Uri.parse('$apiDomain/Main/Orders/Orders_CreateWithAttachs?');
     //dont use http://localhost , because emulator don't get that address
     //insted use your local IP address or use live URL
@@ -723,7 +804,8 @@ class APIService {
     };
     print(jsonEncode(jsonEncode(mapDate)));
 
-    http.Response response = await http.post(apiUrl, body: jsonEncode(jsonEncode(mapDate)), headers: {
+    http.Response response = await http
+        .post(apiUrl, body: jsonEncode(jsonEncode(mapDate)), headers: {
       "Accept": "application/json",
       "content-type": "application/json",
       "Authorization": token,
@@ -742,19 +824,23 @@ class APIService {
     return response;
   }
 
-  uploadOrderWithAttachment(id,insertDateTime,value3,orderDateTime,token) async {
-    var request = http.MultipartRequest("POST", Uri.parse("$apiDomain/Main/Orders/Orders_CreateWithAttachs?"));
+  uploadOrderWithAttachment(
+      id, insertDateTime, value3, orderDateTime, token) async {
+    var request = http.MultipartRequest(
+        "POST", Uri.parse("$apiDomain/Main/Orders/Orders_CreateWithAttachs?"));
     var amount = 0.0;
     List<Map<String, dynamic>> serviceTmp = [];
     for (int i = 0; i < order.length; i++) {
-      var attach = await http.MultipartFile.fromPath('file_field', order[i][0][0]['Service']['File'].path.toString(), filename:order[i][0][0]['Service']['File'].name);
+      var attach = await http.MultipartFile.fromPath(
+          'file_field', order[i][0][0]['Service']['File'].path.toString(),
+          filename: order[i][0][0]['Service']['File'].name);
       List<Map<String, dynamic>> serviceAttach = [];
-      for (int j=0; j<1; j++){
+      for (int j = 0; j < 1; j++) {
         serviceAttach.add({
           "FilePath": attach.filename,
           "AttNotes": "AttNotes",
           "AttId": "new guid",
-          "AttFile": {"File" : attach}
+          "AttFile": {"File": attach}
         });
       }
       amount += (order[i][0][0]['Price']) * int.parse(order[i][1]);
@@ -766,7 +852,7 @@ class APIService {
         "OrderServiceAttatchs": serviceAttach
         //"File": await http.MultipartFile.fromPath('file_field', order[i][0][0]['Service']['File'].path.toString(), filename:order[i][0][0]['Service']['File'].name),
       });
-    }   //add text fields
+    } //add text fields
     request.fields.addAll({
       "CustomerId": "$id",
       "Amount": amount.toString(),
@@ -792,26 +878,31 @@ class APIService {
     var responseData = await response.stream.toBytes();
     var responseString = String.fromCharCodes(responseData);
     print(responseString);
-
-
   }
 
-  updateOrder(token, _order, status, payType, selectedDate, selectedTime)async{
+  updateOrder(
+      token, _order, status, payType, selectedDate, selectedTime) async {
     //update
     // ignore: unnecessary_null_comparison
-    if(status == null) status = _order['Status'];
+    if (status == null) status = _order['Status'];
     // ignore: unnecessary_null_comparison
-    if(payType == null) payType = _order['PayType'];
+    if (payType == null) payType = _order['PayType'];
     // ignore: unnecessary_null_comparison
     String orderDateTime;
-    if(selectedDate == null || selectedTime == null) orderDateTime = _order['OrderDate'];
-    else{
-      orderDateTime = DateTime(selectedDate!.year, selectedDate!.month, selectedDate!.day, selectedTime!.hour, selectedTime!.minute).add(timeDiff).toString().replaceAll(" ", "T") + "Z";
+    if (selectedDate == null || selectedTime == null)
+      orderDateTime = _order['OrderDate'];
+    else {
+      orderDateTime = DateTime(selectedDate!.year, selectedDate!.month,
+                  selectedDate!.day, selectedTime!.hour, selectedTime!.minute)
+              .add(timeDiff)
+              .toString()
+              .replaceAll(" ", "T") +
+          "Z";
     }
     var apiUrl = Uri.parse('$apiDomain/Main/Orders/Orders_Update?');
     var amount = 0.0;
     List<Map<String, dynamic>> serviceTmp = [];
-    var k=_order['Servicess'].length;
+    var k = _order['Servicess'].length;
     for (int i = 0; i < k; i++) {
       serviceTmp.add({
         "Id": _order["Servicess"][i]['Id'],
@@ -837,8 +928,10 @@ class APIService {
     };
     print(jsonEncode(mapDate));
     print(token);
-    http.Response response = await http.post(apiUrl, body: jsonEncode(mapDate), headers: {
-      "Accept-Language": trrrr.LocalizationService.getCurrentLocale().languageCode,
+    http.Response response =
+        await http.post(apiUrl, body: jsonEncode(mapDate), headers: {
+      "Accept-Language":
+          trrrr.LocalizationService.getCurrentLocale().languageCode,
       "Accept": "application/json",
       "content-type": "application/json",
       "Authorization": token,
@@ -847,18 +940,20 @@ class APIService {
     if (response.statusCode == 200) {
       print(response.body);
       print('success');
-      try{
-        if (jsonDecode(response.body)['Errors'] == null || jsonDecode(response.body)['Errors'] == ''){
-          if(status == 8){
-            _sendPushMessage(_order['User']['FBKey'], 'order' + _order['Serial'], 'your order is finished');
+      try {
+        if (jsonDecode(response.body)['Errors'] == null ||
+            jsonDecode(response.body)['Errors'] == '') {
+          if (status == 8) {
+            _sendPushMessage(_order['User']['FBKey'],
+                'order' + _order['Serial'], 'your order is finished');
           }
           print('success');
           return true;
-        }else{
+        } else {
           flushBar(jsonDecode(response.body)['Errors']);
           return false;
         }
-      }catch(e){
+      } catch (e) {
         return true;
       }
     } else {
@@ -868,17 +963,16 @@ class APIService {
     }
   }
 
-  static rateOrder({orderId, rateNote, rateScore})async{
-    print("tttttttttttttt:   " +token);
-    var apiUrl = Uri.parse(
-        "$apiDomain/Main/Orders/Orders_Rate?");
+  static rateOrder({orderId, rateNote, rateScore}) async {
+    print("tttttttttttttt:   " + token);
+    var apiUrl = Uri.parse("$apiDomain/Main/Orders/Orders_Rate?");
     Map mapDate = {
       "OrderId": orderId,
       "RateNote": rateNote,
       "RateScore": rateScore.round(),
     };
     http.Response response =
-    await http.post(apiUrl, body: jsonEncode(mapDate), headers: {
+        await http.post(apiUrl, body: jsonEncode(mapDate), headers: {
       "Accept": "application/json",
       "content-type": "application/json",
       "Authorization": token,
@@ -901,14 +995,15 @@ class APIService {
     }
   }
 
-  destroyOrder(id,)async{
-    var apiUrl = Uri.parse(
-        "$apiDomain/Main/Orders/Orders_Destroy?");
+  destroyOrder(
+    id,
+  ) async {
+    var apiUrl = Uri.parse("$apiDomain/Main/Orders/Orders_Destroy?");
     Map mapDate = {
       "guidParam": id,
     };
     http.Response response =
-    await http.post(apiUrl, body: jsonEncode(mapDate), headers: {
+        await http.post(apiUrl, body: jsonEncode(mapDate), headers: {
       "Accept": "application/json",
       "content-type": "application/json",
       "Authorization": token,
@@ -933,7 +1028,7 @@ class APIService {
 
   logOut() async {
     final SharedPreferences sharedPreferences =
-    await SharedPreferences.getInstance();
+        await SharedPreferences.getInstance();
     sharedPreferences.setString('token', "");
     sharedPreferences.setString('password', "");
     sharedPreferences.setString('facebookEmail', "");
@@ -952,7 +1047,8 @@ class APIService {
     // Navigator.of(context).pushNamed('main_screen');
   }
 
-  createWorkerTask(orderId, workerId, serviceId, supervisorNotes, startDate, endDate, workerNotes, token, workerFcmToken, taskName) async {
+  createWorkerTask(orderId, workerId, serviceId, supervisorNotes, startDate,
+      endDate, workerNotes, token, workerFcmToken, taskName) async {
     var apiUrl = Uri.parse('$apiDomain/Main/WorkerTask/WorkerTask_Create?');
     //dont use http://localhost , because emulator don't get that address
     //insted use your local IP address or use live URL
@@ -967,13 +1063,15 @@ class APIService {
       "StartDate": startDate,
       "Name": taskName,
       //"EndDate": endDate,
-      "ResDesc": workerNotes.toString()// workerNotes
+      "ResDesc": workerNotes.toString() // workerNotes
     };
 
     print(jsonEncode(mapDate));
 
-    http.Response response = await http.post(apiUrl, body: jsonEncode(mapDate), headers: {
-      "Accept-Language": trrrr.LocalizationService.getCurrentLocale().languageCode,
+    http.Response response =
+        await http.post(apiUrl, body: jsonEncode(mapDate), headers: {
+      "Accept-Language":
+          trrrr.LocalizationService.getCurrentLocale().languageCode,
       "Accept": "application/json",
       "content-type": "application/json",
       "Authorization": token, //b53d0e9a-fd32-4798-a600-59e1a9a4fc7f
@@ -984,17 +1082,20 @@ class APIService {
       //Get the response from the server
       var responseString = response.body;
       print(responseString);
-      try{
-        if (jsonDecode(responseString)['Errors'] == null || jsonDecode(responseString)['Errors'] == ''){
+      try {
+        if (jsonDecode(responseString)['Errors'] == null ||
+            jsonDecode(responseString)['Errors'] == '') {
           print('success');
-          _sendPushMessage(workerFcmToken, taskName, AppLocalizations.of(context!)!.translate('You Have New Task!'));
+          _sendPushMessage(workerFcmToken, taskName,
+              AppLocalizations.of(context!)!.translate('You Have New Task!'));
           return true;
-        }else{
+        } else {
           flushBar(jsonDecode(responseString)['Errors']);
           return false;
         }
-      }catch(e){
-        _sendPushMessage(workerFcmToken, taskName, AppLocalizations.of(context!)!.translate('You Have New Task!'));
+      } catch (e) {
+        _sendPushMessage(workerFcmToken, taskName,
+            AppLocalizations.of(context!)!.translate('You Have New Task!'));
         return true;
       }
     } else {
@@ -1005,63 +1106,68 @@ class APIService {
     //return response;
   }
 
-  updateWorkerTask(taskId, workerId, serviceId, supervisorNotes, startDate, endDate, workerNotes, token, taskName, file, fcmToken,_mainOrderId,
+  updateWorkerTask(taskId, workerId, serviceId, supervisorNotes, startDate,
+      endDate, workerNotes, token, taskName, file, fcmToken, _mainOrderId,
       {message, status}) async {
-    status??=2;
-    message??=AppLocalizations.of(context!)!.translate('good luck task is finished');
+    status ??= 2;
+    message ??=
+        AppLocalizations.of(context!)!.translate('good luck task is finished');
     var apiUrl = Uri.parse('$apiDomain/Main/WorkerTask/WorkerTask_Update?');
     List<Map<String, dynamic>> serviceTmp = [];
     var attach;
     List<Map<String, dynamic>> serviceAttach = [];
     String base64Image = '', filePath = '';
-    try{
+    try {
       base64Image = base64Encode(file.readAsBytesSync());
       filePath = file.path.split("/").last;
       attach = 'ok';
-    }
-    catch(e){
+    } catch (e) {
       attach = null;
     }
 
     Map mapDate = {
       "Id": taskId.toString(), //orderId
       "WorkerId": workerId.toString(),
-      "OrderId":_mainOrderId,
+      "OrderId": _mainOrderId,
       "OrderServicesId": serviceId.toString(), //serviceId
       "Status": status,
       "Notes": supervisorNotes.toString(), //supervisorNotes
       "StartDate": startDate,
       "Name": taskName,
       "EndDate": endDate,
-      "ResDesc": workerNotes.toString(),// workerNotes
-      "WorkerTaskAttatchs": attach == null? '' : [
-        {
-          "WorkerTaskId": taskId.toString(),
-          "FilePath": filePath,
-          "FileDase64": base64Image,
-          "Notes": "nnnnn"
-        }
-      ]
+      "ResDesc": workerNotes.toString(), // workerNotes
+      "WorkerTaskAttatchs": attach == null
+          ? ''
+          : [
+              {
+                "WorkerTaskId": taskId.toString(),
+                "FilePath": filePath,
+                "FileDase64": base64Image,
+                "Notes": "nnnnn"
+              }
+            ]
     };
 
-    if(attach == null)
+    if (attach == null)
       mapDate = {
         "Id": taskId.toString(), //orderId
         "WorkerId": workerId.toString(),
-        "OrderId":_mainOrderId,
+        "OrderId": _mainOrderId,
         "OrderServicesId": serviceId.toString(), //serviceId
         "Status": status,
         "Notes": supervisorNotes.toString(), //supervisorNotes
         "StartDate": startDate,
         "Name": taskName,
         "EndDate": endDate,
-        "ResDesc": workerNotes.toString()// workerNotes
+        "ResDesc": workerNotes.toString() // workerNotes
       };
 
     print(jsonEncode(mapDate));
 
-    http.Response response = await http.post(apiUrl, body: jsonEncode(mapDate), headers: {
-      "Accept-Language": trrrr.LocalizationService.getCurrentLocale().languageCode,
+    http.Response response =
+        await http.post(apiUrl, body: jsonEncode(mapDate), headers: {
+      "Accept-Language":
+          trrrr.LocalizationService.getCurrentLocale().languageCode,
       "Accept": "application/json",
       "content-type": "application/json",
       "Authorization": token, //b53d0e9a-fd32-4798-a600-59e1a9a4fc7f
@@ -1072,17 +1178,26 @@ class APIService {
       //Get the response from the server
       var responseString = response.body;
       //print(responseString);
-      try{
-        if (jsonDecode(responseString)['Errors'] == null || jsonDecode(responseString)['Errors'] == ''){
+      try {
+        if (jsonDecode(responseString)['Errors'] == null ||
+            jsonDecode(responseString)['Errors'] == '') {
           print('success');
-          _sendPushMessage(fcmToken, taskName, message??'');//AppLocalizations.of(context!)!.translate('good luck task is finished'));
+          _sendPushMessage(
+              fcmToken,
+              taskName,
+              message ??
+                  ''); //AppLocalizations.of(context!)!.translate('good luck task is finished'));
           return true;
-        }else{
+        } else {
           flushBar(jsonDecode(responseString)['Errors']);
           return false;
         }
-      }catch(e){
-        _sendPushMessage(fcmToken, taskName, message??'');//AppLocalizations.of(context!)!.translate('good luck task is finished'));
+      } catch (e) {
+        _sendPushMessage(
+            fcmToken,
+            taskName,
+            message ??
+                ''); //AppLocalizations.of(context!)!.translate('good luck task is finished'));
         return true;
       }
     } else {
@@ -1094,9 +1209,11 @@ class APIService {
   }
 
   getGroupUsers(var id) async {
-    try{
-      var url = Uri.parse("$apiDomain/Main/GroupUsers/GroupUsers_Read?filter=GroupId~eq~$id");
-      http.Response response = await http.get(url,
+    try {
+      var url = Uri.parse(
+          "$apiDomain/Main/GroupUsers/GroupUsers_Read?filter=GroupId~eq~$id");
+      http.Response response = await http.get(
+        url,
         headers: {
           "Authorization": token,
         },
@@ -1116,7 +1233,7 @@ class APIService {
         print(token);
         print(response.statusCode);
       }
-    }catch(e){
+    } catch (e) {
       // Workers = transactions![0].Address;
     }
   }
@@ -1139,12 +1256,14 @@ class APIService {
         },
       });
     }
+
     if (_token == null) {
       print('Unable to send FCM message, no token exists.');
       return;
     }
     try {
-      var _serverKey = 'AAAA8RmDhKM:APA91bHT6bLM03mWt5dwZy0FoQMW1rTmaEtof0VBCjQO7frhX16DFXWxp3Xyzew-p1j8rhBbXmXwm75VnTX11_pJEle8KW-bBXatTLcGte9LfUJ12MbioDoKlQxAiY6yTSWxcNLpdRhR';
+      var _serverKey =
+          'AAAA8RmDhKM:APA91bHT6bLM03mWt5dwZy0FoQMW1rTmaEtof0VBCjQO7frhX16DFXWxp3Xyzew-p1j8rhBbXmXwm75VnTX11_pJEle8KW-bBXatTLcGte9LfUJ12MbioDoKlQxAiY6yTSWxcNLpdRhR';
       //var _serverKey = 'AAAAOPv0WzU:APA91bHwvAAe8VSqm2XDxAIQaKw1GSepD65_sIaX0FgUuI34ekkGiYvA-Mt3Bh3lc5jM5KQyi3DD2oWmRhJYGDtCPFYSM1mCkvsaFnPjQ2gylYDvU3lGXTrUG4i4ssYBRgB_vCNInn2P';
       //var _serverKey = 'AAAAOPv0WzU:APA91bH_4SPyvOt7K3n2rGhl1v6DgCAogSL5hO6hiSkqQNV6Yqh77kNlGOc-AUwBgp4Avig-6xQp5vXiyJxPBEyg1SEqKSyXX5HbQJ8qG2cNNn0XHwGxVtOx31fK0OBK6xR_fjoF9ntn';
       //var _serverKey = 'AIzaSyD-b9apuimKiEov1Ah0Aom_mg6wwEv5KWs';
@@ -1155,7 +1274,7 @@ class APIService {
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
           'Authorization': 'key=$_serverKey',
-          'project_id':'1035515167907',
+          'project_id': '1035515167907',
         },
         body: constructFCMPayload(_token, _taskBody, _taskName),
       );
@@ -1167,18 +1286,14 @@ class APIService {
     }
   }
 
-  showImage(src){
+  showImage(src) {
     //SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
     //SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [/*SystemUiOverlay.top,*/ SystemUiOverlay.bottom]);
-    showImageViewer(
-      context!, Image.network(src).image
-    );
+    showImageViewer(context!, Image.network(src).image);
     //SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
     //SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [SystemUiOverlay.bottom, /*SystemUiOverlay.top*/]);
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [/*SystemUiOverlay.bottom*/SystemUiOverlay.top]);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+        overlays: [/*SystemUiOverlay.bottom*/ SystemUiOverlay.top]);
     //SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [/*SystemUiOverlay.top,*/ SystemUiOverlay.bottom]);
-
   }
-
 }
-

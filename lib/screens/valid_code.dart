@@ -26,7 +26,6 @@ import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:closer/localization_service.dart' as trrrr;
 
 bool chVer = false;
-String token = '';
 
 // ignore: must_be_immutable
 class Verification extends StatefulWidget {
@@ -34,9 +33,9 @@ class Verification extends StatefulWidget {
   String email;
   String password;
 
-  Verification(
-      {required this.value, required this.email, required this.password});
+  Verification({super.key, required this.value, required this.email, required this.password});
   @override
+  // ignore: library_private_types_in_public_api
   _VerificationState createState() =>
       _VerificationState(this.value, this.email, this.password);
 }
@@ -70,9 +69,9 @@ class _VerificationState extends State<Verification> {
         errorText: AppLocalizations.of(context)!.translate('Required'));
     var active;
     if (codeLength == 6) {
-      active = () {
+      active = () async{
         print(value);
-        ver();
+        await ver();
       };
     } else {
       active = null;
@@ -83,6 +82,10 @@ class _VerificationState extends State<Verification> {
         resizeToAvoidBottomInset: true,
         backgroundColor: AppColors.mainColor,
         body: DoubleBackToCloseApp(
+          snackBar: SnackBar(
+            content: Text(AppLocalizations.of(context)!
+                .translate('Tap back again to leave')),
+          ),
           child: Container(
             //height: MediaQuery.of(context).size.height/1.5,
             padding: EdgeInsets.symmetric(
@@ -176,7 +179,6 @@ class _VerificationState extends State<Verification> {
                 SizedBox(
                   height: heightSpace * 7,
                 ),
-
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -184,7 +186,7 @@ class _VerificationState extends State<Verification> {
                         AppLocalizations.of(context)!
                             .translate("Didn't receive the code?"),
                         color: AppColors.white,
-                        bold: false),
+                        bold: false, scale: 0.9),
                     SizedBox(
                       width: 2,
                     ),
@@ -209,10 +211,6 @@ class _VerificationState extends State<Verification> {
                     chVer),
               ],
             ),
-          ),
-          snackBar: SnackBar(
-            content: Text(AppLocalizations.of(context)!
-                .translate('Tap back again to leave')),
           ),
         ),
       ),
@@ -263,67 +261,33 @@ class _VerificationState extends State<Verification> {
     );
   }
 
-  /*Widget buildCodeBox({required bool first, last}) {
-    return Center(
-        child: OTPTextField(
-      keyboardType: TextInputType.number,
-      otpFieldStyle: OtpFieldStyle(
-        borderColor: AppColors.white,
-        focusBorderColor: AppColors.yellow,
-        disabledBorderColor: AppColors.white,
-        enabledBorderColor: AppColors.white,
-      ),
-      length: 6,
-      width: MediaQuery.of(context).size.width,
-      textFieldAlignment: MainAxisAlignment.center,
-      fieldWidth:  MediaQuery.of(context).size.width/9,
-      fieldStyle: FieldStyle.box,
-      outlineBorderRadius: MediaQuery.of(context).size.height/90,
-      style: TextStyle(
-        fontFamily: 'comfortaa',
-        fontSize: min(MediaQuery.of(context).size.width/15,MediaQuery.of(context).size.height/35),
-        color: AppColors.white,
-      ),
-      onChanged: (pin) {
-        codeLength = pin.length;
-        code = pin;
-      },
-      onCompleted: (pin) {
-      },
-
-    )
-
-
-        );
-  }
-*/
   Future ver() async {
     setState(() => chVer = true);
     if (newPassword) {
-      _newPasswordVer(passwordController.text);
+      await _newPasswordVer(passwordController.text);
     } else {
-      _firstVer();
+      await _firstVer();
     }
     setState(() => chVer = false);
   }
 
   _firstVer() async {
+    print('Here');
     var apiUrl = Uri.parse('$apiDomain/Main/SignUp/SignUp_Verify');
     Map mapDate = {
       "guidParam": value,
       "txtParam": code,
     };
-    http.Response response =
-        await http.post(apiUrl, body: jsonEncode(mapDate), headers: {
+    http.Response response = await http.post(apiUrl, body: jsonEncode(mapDate), headers: {
       "Accept": "application/json",
       "content-type": "application/json",
     });
-
     if (response.statusCode == 200) {
       //print(response.body);
       // ignore: use_build_context_synchronously
       MyApplication.navigateTo(context, const SignIn());
     } else {
+      // ignore: use_build_context_synchronously
       Flushbar(
         padding: EdgeInsets.symmetric(
             vertical: MediaQuery.of(context).size.height / 30),

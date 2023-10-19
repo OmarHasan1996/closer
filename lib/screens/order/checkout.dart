@@ -116,7 +116,9 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
 
   TimeOfDay _stringToTimeOfDay(String tod) {
     final format = DateFormat.jm(); //"6:00 AM"
-    return TimeOfDay.fromDateTime(format.parse(tod + ' AM'));
+    String time = " AM";
+    if(tod.contains('12:')) time = " PM";
+    return TimeOfDay.fromDateTime(format.parse(tod + time));
   }
 
   @override
