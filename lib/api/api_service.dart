@@ -587,7 +587,7 @@ class APIService {
       "PayType": 1,
       "AddressId": value3,
       "OrderDate": orderDateTime,
-      "Notes": "string",
+      /*"Notes": "string",*/
       "OrderServices": serviceTmp
     });
     print(token);
@@ -705,7 +705,7 @@ class APIService {
       "PayType": 1,
       "AddressId": value3,
       "OrderDate": orderDateTime,
-      "Notes": "string",
+     // "Notes": "string",
       "CouponId": couponId,
       "OrderServices": serviceTmp,
     });
@@ -772,7 +772,7 @@ class APIService {
         "ServiceId": order[i][0][0]['Id'],
         "Price": order[i][0][0]['Price'],
         "Quantity": int.parse(order[i][1]),
-        "Notes": "string",
+       // "Notes": "string",
       });
     }
 
@@ -784,7 +784,7 @@ class APIService {
       "PayType": 1,
       "AddressId": value3,
       "OrderDate": orderDateTime,
-      "Notes": "string",
+     // "Notes": "string",
       "OrderServices": serviceTmp
     };
     print(jsonEncode(jsonEncode(mapDate)));
@@ -833,7 +833,7 @@ class APIService {
         "ServiceId": order[i][0][0]['Id'],
         "Price": order[i][0][0]['Price'],
         "Quantity": int.parse(order[i][1]),
-        "ServiceNotes": "string",
+        //"ServiceNotes": "string",
         "OrderServiceAttatchs": serviceAttach
         //"File": await http.MultipartFile.fromPath('file_field', order[i][0][0]['Service']['File'].path.toString(), filename:order[i][0][0]['Service']['File'].name),
       });
@@ -847,7 +847,7 @@ class APIService {
       "AddressId": value3,
       "OrderDate": orderDateTime,
       //"GroupId": 1,
-      "Notes": "string",
+     // "Notes": "string",
       //"OrderServices": serviceTmp
     });
     request.fields.keys;

@@ -113,7 +113,7 @@ class _UploadAttachmentState extends State<UploadAttachment> {
         "Price": order[i][0][0]['Price'],
         "Quantity": int.parse(order[i][1]),
         "File": await MultipartFile.fromFile(order[i][0][0]['Service']['File'].path.toString(), filename: basename(order[i][0][0]['Service']['File'].name.toString()),),
-        "Notes": "string",
+        /*"Notes": "string",*/
       });
     }
 

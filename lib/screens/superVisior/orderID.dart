@@ -184,7 +184,7 @@ class _OrderIdState extends State<OrderId> {
                               height: MediaQuery.of(context).size.height/13,
                               padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height/200),
                               child: Scrollbar(
-                                isAlwaysShown: true,
+                                //isAlwaysShown: true,
                                 child: SingleChildScrollView(
                                   //scrollDirection: Axis.vertical,
                                   child: Text(

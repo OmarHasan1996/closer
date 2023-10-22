@@ -158,7 +158,7 @@ class _SubServiceDecState extends State<SubServiceDec> {
                                         child: MyWidget(context).textTitle15(_subservicedec[0]['Name'], bold: true)
                                       ),
                                       Expanded(
-                                          flex: 3,
+                                          flex: 4,
                                           child:SingleChildScrollView(
                                               child: Column(
                                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -173,14 +173,15 @@ class _SubServiceDecState extends State<SubServiceDec> {
                                                   ),
                                                   SizedBox(height: AppHeight.h2,),
                                                   MyWidget(context).textTitle15(AppLocalizations.of(context)!.translate('Description') + ":", bold: true, scale: 1.2),
-                                                  MyWidget(context).textTap25(_subservicedec[0]['Desc'].toString(), scale: 1.2, textAlign: TextAlign.start),
+                                                  MyWidget.htmlScreen(_subservicedec[0]['Desc'].toString()),
+                                                  //MyWidget(context).textTap25(_subservicedec[0]['Desc'].toString(), scale: 1.2, textAlign: TextAlign.start),
                                                   SizedBox(height: AppHeight.h1,),
                                                 ],
                                               )
                                           )
                                       ),
                                       Expanded(
-                                        flex: 2,
+                                        flex: 1,
                                         child: TextField(
                                           textInputAction: TextInputAction.done,
                                           controller: noteController,
@@ -189,7 +190,7 @@ class _SubServiceDecState extends State<SubServiceDec> {
                                           maxLines: null,
                                           style: TextStyle(
         fontFamily: 'comfortaa',
-                                              color: Colors.white,
+                                              color: AppColors.mainColor,
                                               fontSize: min(MediaQuery.of(context).size.width / 20,MediaQuery.of(context).size.height / 45)),
                                           decoration: InputDecoration(
                                             hintText: AppLocalizations.of(context)!.translate('Add your notes here!'),

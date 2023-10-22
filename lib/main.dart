@@ -1,8 +1,6 @@
 //import 'dart:convert';
 import 'dart:io';
 
-//import 'package:admob_flutter/admob_flutter.dart';
-//import 'package:admob_flutter/admob_flutter.dart';
 import 'package:closer/screens/order/orderRecipt.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -29,6 +27,7 @@ import 'package:closer/screens/register.dart';
 import 'package:closer/screens/signin.dart';
 import 'package:closer/screens/service/sub_service_screen.dart';
 import 'package:closer/screens/valid_code.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:closer/const.dart';
@@ -70,6 +69,7 @@ void main() async {
   await Hive.openBox<Transaction>('transactions');
 
   // Initialize without device test ids.
+  MobileAds.instance.initialize();
   //Admob.initialize();
   // Or add a list of test ids.
   // Admob.initialize(testDeviceIds: ['YOUR DEVICE ID']);
@@ -84,6 +84,11 @@ class MyApp extends StatelessWidget {
   List service = [];
   bool toMainScreen= true;
 
+ /* Future<InitializationStatus> _initGoogleMobileAds() {
+    // TODO: Initialize Google Mobile Ads SDK
+    return MobileAds.instance.initialize();
+  }*/
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([
@@ -94,7 +99,7 @@ class MyApp extends StatelessWidget {
         return GetMaterialApp(
           debugShowCheckedModeBanner: false,
           // These delegates make sure that the localization data for the proper language is loaded
-          localizationsDelegates: [
+          localizationsDelegates: const [
             // THIS CLASS WILL BE ADDED LATER
             // A class which loads the translations from JSON files0
             AppLocalizations.delegate,
@@ -105,7 +110,7 @@ class MyApp extends StatelessWidget {
           ],
           /*When you want programmatically to change the current locale in your app, you can do it in the following way:*/
           //AppLocalizations.load(Locale('en', ''));
-          supportedLocales: [
+          supportedLocales: const [
             Locale('en', 'US'),
             Locale('fr', 'FR'),
             Locale('ar', 'AR'),
@@ -123,7 +128,7 @@ class MyApp extends StatelessWidget {
             // If the locale of the device is not supported, use the first one
             // from the list (English, in this case).
           },
-          theme: new ThemeData(
+          theme: ThemeData(
             primarySwatch: Colors.deepOrange,
           ),
           //translations: LocalizationService(),

@@ -6,6 +6,7 @@ import 'dart:math';
 //import 'package:admob_flutter/admob_flutter.dart';
 import 'package:another_flushbar/flushbar.dart';
 import 'package:closer/constant/functions.dart';
+import 'package:closer/helper/adHelper.dart';
 import 'package:closer/map/location.dart';
 import 'package:closer/screens/language/Languages.dart';
 import 'package:closer/screens/mainTabScreens/homeScreen.dart';
@@ -132,55 +133,6 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
-  loadBannerAdd(){
-    return SizedBox();
-    /*bannerSize = AdmobBannerSize.ADAPTIVE_BANNER(
-      // height: MediaQuery.of(context).size.height.toInt()-40,
-      width: MediaQuery.of(context).size.width.toInt(), // considering EdgeInsets.all(20.0)
-    );
-    return AdmobBanner(
-      adUnitId: getBannerAdUnitId()!,
-      adSize: bannerSize!,
-      listener: (AdmobAdEvent event,
-          Map<String, dynamic>? args) {
-        handleEvent(event, args, 'Banner');
-      },
-      onBannerCreated:
-          (AdmobBannerController controller) {
-        // Dispose is called automatically for you when Flutter removes the banner from the widget tree.
-        // Normally you don't need to worry about disposing this yourself, it's handled.
-        // If you need direct access to dispose, this is your guy!
-        // controller.dispose();
-      },
-    );*/
-  }
-
-  initAdds(){
-    // You should execute `Admob.requestTrackingAuthorization()` here before showing any ad.
-
-   /* bannerSize = AdmobBannerSize.BANNER;
-
-
-    interstitialAd = AdmobInterstitial(
-      adUnitId: getInterstitialAdUnitId()!,
-      listener: (AdmobAdEvent event, Map<String, dynamic>? args) {
-        if (event == AdmobAdEvent.closed) interstitialAd.load();
-        handleEvent(event, args, 'Interstitial');
-      },
-    );
-
-    rewardAd = AdmobReward(
-      adUnitId: getRewardBasedVideoAdUnitId()!,
-      listener: (AdmobAdEvent event, Map<String, dynamic>? args) {
-        if (event == AdmobAdEvent.closed) rewardAd.load();
-         handleEvent(event, args, 'Reward');
-      },
-    );
-
-    interstitialAd.load();
-    rewardAd.load();*/
-  }
-
   /*
 Test Id's from:
 https://developers.google.com/admob/ios/banner
@@ -220,8 +172,7 @@ iOS: ca-app-pub-3940256099942544/1712485313
     api.getGroupUsers(groupId);
     getMyOrders(userData!.content!.id);
     super.initState();
-
-    initAdds();
+    AdHelper.loadBanner();
     getAddress(userData!.content!.id);
     //getWorkersGroup(userData["content"]["Id"]);
     print("************************************************");
@@ -307,12 +258,6 @@ iOS: ca-app-pub-3940256099942544/1712485313
   }
 
   void _afterLayout(Duration timeStamp) async{
-    /*new Timer(Duration(seconds:5), ()=>setState(()
-    {
-      getMyOrders(
-        userData["content"]["Id"]);
-      _loading = false;
-    }));*/
     if (await APIService.checkCountry()) {
       var _selectedCity = 0;
       var _selectedCountry = 0;
@@ -371,6 +316,7 @@ iOS: ca-app-pub-3940256099942544/1712485313
     //getMyOrders(userData["content"]["Id"]);
     //getMyOrders('9cbc8ff2-0bc3-4ed0-f6ce-08d97b89b8984444');
     //showRewardAdd();
+    AdHelper.loadBanner();
     api = APIService(context: context);
     if(worker && _selectedIndex == 0) _selectedIndex = 1;
     var barHight = MediaQuery.of(context).size.height / 5.7;

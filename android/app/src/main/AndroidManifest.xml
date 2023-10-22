@@ -23,6 +23,9 @@
         >
        <meta-data android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyC5W3ZuBZDzn-itSlfM1EIuOFlQNObjVtY"/>
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-5051441163313137~5983185966"/>
         <activity
             android:name=".MainActivity"
             android:showWhenLocked="true"
@@ -64,9 +67,6 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
-        <meta-data
-            android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-5051441163313137~5983185966"/>
 
         <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
         <meta-data android:name="com.facebook.sdk.ClientToken" android:value="@string/facebook_client_token"/>

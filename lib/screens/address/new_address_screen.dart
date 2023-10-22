@@ -58,16 +58,20 @@ class _NewAddressScreenState extends State<NewAddressScreen> {
 
   _setAddress() {
     if (widget.newPlace != null) {
-        _titleController.text = widget.newPlace!.first.name??'';
+       // _titleController.text = widget.newPlace!.first.name??'';
         _countryController.text = widget.newPlace!.first.country??'';
         _cityController.text = widget.newPlace!.first.locality??'';
         _areaController.text = widget.newPlace!.first.subLocality??'';
         _nearController.text = widget.newPlace!.first.street??'';
     }
+    setState(() {
+
+    });
   }
 
-  void _showPlacePicker() async {
-    getCurrentLocation();
+  _showPlacePicker() async {
+    await getCurrentLocation();
+    // ignore: use_build_context_synchronously
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -77,8 +81,7 @@ class _NewAddressScreenState extends State<NewAddressScreen> {
             canPopOnNextButtonTaped: true,
             currentLatLng: currentLocation == null
                 ? LatLng(29.146727, 76.464895)
-                : LatLng(
-                    currentLocation!.latitude!, currentLocation!.longitude!),
+                : LatLng(currentLocation!.latitude!, currentLocation!.longitude!),
             onNext: (GeocodingResult? result) async{
               if(result != null)
               {
@@ -106,11 +109,11 @@ class _NewAddressScreenState extends State<NewAddressScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+   // _titleController.addListener(() {setState(() {});});
     //getCountryData();
     //getCityData();
     // print(subservice);
   }
-
   _save() async {
     print('begin');
     if(position == null){
@@ -135,9 +138,7 @@ class _NewAddressScreenState extends State<NewAddressScreen> {
       ).show(context);
       return;
     }
-    if (_titleController.text.isNotEmpty &&
-        _cityController.text.isNotEmpty &&
-        _areaController.text.isNotEmpty) {
+    if (_titleController.text.isNotEmpty) {
       setState(() {
         _saving = true;
       });
@@ -172,7 +173,7 @@ class _NewAddressScreenState extends State<NewAddressScreen> {
         ),
         backgroundColor: Colors.grey.withOpacity(0.5),
         barBlur: 20,
-        message: AppLocalizations.of(context)!.translate('Area is required'),
+        message: AppLocalizations.of(context)!.translate('Title is required'),
         messageSize: MediaQuery.of(context).size.width / 22,
       ).show(context);
     }
@@ -188,18 +189,7 @@ class _NewAddressScreenState extends State<NewAddressScreen> {
         backgroundColor: Colors.grey[100],
         body: Column(
           children: [
-            Center(
-              child: Container(
-                alignment: Alignment.center,
-                width: MediaQuery.of(context).size.width / 1.2,
-                height: MediaQuery.of(context).size.height / 80,
-                decoration: const BoxDecoration(
-                  color: Color(0xffffca05),
-                  borderRadius:
-                      BorderRadius.vertical(bottom: Radius.circular(30)),
-                ),
-              ),
-            ),
+            MyWidget.topYellowDriver(),
             _getDataFromServer
                 ? Center(child: MyWidget.jumbingDotes(_getDataFromServer))
                 : SizedBox(
@@ -256,9 +246,18 @@ class _NewAddressScreenState extends State<NewAddressScreen> {
               ),*/
             MyWidget(context).raisedButton(
                 AppLocalizations.of(context)!.translate('Pick from map'),
-                () => _showPlacePicker(),
+                 () async => await _showPlacePicker(),
                 AppWidth.w90,
                 false),
+            Padding(
+              padding: EdgeInsets.all(AppWidth.w4),
+              child: Row(
+                children: [
+                  Icon(Icons.location_on_outlined),
+                  Expanded(child: MyWidget(context).textTitle15(_nearController.text),),
+                ],
+              ),
+            ),
             Expanded(
               flex: 10,
               child: SingleChildScrollView(
@@ -348,7 +347,7 @@ class _NewAddressScreenState extends State<NewAddressScreen> {
                         ),*/
                       MyWidget(context).textFiledAddress(_titleController,
                           AppLocalizations.of(context)!.translate('Title')),
-                      MyWidget(context).textFiledAddress(_countryController,
+                     /* MyWidget(context).textFiledAddress(_countryController,
                           AppLocalizations.of(context)!.translate('Country')),
                       MyWidget(context).textFiledAddress(_cityController,
                           AppLocalizations.of(context)!.translate('City')),
@@ -356,6 +355,7 @@ class _NewAddressScreenState extends State<NewAddressScreen> {
                           AppLocalizations.of(context)!.translate('Area')),
                       MyWidget(context).textFiledAddress(_nearController,
                           AppLocalizations.of(context)!.translate('Near by')),
+                      */
                       MyWidget(context).textFiledAddress(
                           _buildingController,
                           AppLocalizations.of(context)!
@@ -366,22 +366,22 @@ class _NewAddressScreenState extends State<NewAddressScreen> {
                           _aprController,
                           AppLocalizations.of(context)!
                               .translate('Apartment number')),
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                            vertical: MediaQuery.of(context).size.height / 160,
-                            horizontal: MediaQuery.of(context).size.width / 20),
-                        child: Container(
-                          alignment: Alignment.bottomRight,
-                          // ignore: deprecated_member_use
-                          child: MyWidget(context).raisedButton(
-                              AppLocalizations.of(context)!.translate('Save'),
+                  SizedBox(height: AppHeight.h6,),
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                        vertical: MediaQuery.of(context).size.height / 160,
+                        horizontal: MediaQuery.of(context).size.width / 20),
+                    child: Container(
+                      alignment: Alignment.bottomRight,
+                      // ignore: deprecated_member_use
+                      child: MyWidget(context).raisedButton(
+                          AppLocalizations.of(context)!.translate('Save'),
                               () => _save(),
-                              MediaQuery.of(context).size.width / 1.2,
-                              _saving,
-                              buttonText: Color(0xffffca05),
-                              colorText: Colors.black),
-                        ),
-                      ),
+                          MediaQuery.of(context).size.width / 1.2,
+                          _saving,
+                          buttonText: Color(0xffffca05),
+                          colorText: Colors.black),
+                    ),),
                     ],
                   ),
                 ),
