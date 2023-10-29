@@ -77,7 +77,7 @@ class _LanguagesState extends State<Languages> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: AppHeight.h1,),
+                SizedBox(height: AppHeight.h2,),
                 Padding(
                   padding: EdgeInsets.all(AppHeight.h1),
                   child: MyWidget(context).textTitle15(AppLocalizations.of(context)!.translate('Select your country'), color: _color2),
@@ -105,8 +105,8 @@ class _LanguagesState extends State<Languages> {
                       _laguageSelect(headText: 'English', titleText: AppLocalizations.of(context)!.translate('English'), select: 0),
                       Divider(color: _color2,),
                       _laguageSelect(headText: 'العربية', titleText: AppLocalizations.of(context)!.translate('Arabic'), select: 1),
-                      Divider(color: _color2,),
-                      _laguageSelect(headText: 'Frânsk', titleText: AppLocalizations.of(context)!.translate('French'), select: 2),
+                     // Divider(color: _color2,),
+                    //  _laguageSelect(headText: 'Frânsk', titleText: AppLocalizations.of(context)!.translate('French'), select: 2),
                     ],
                   ),
                 ),
