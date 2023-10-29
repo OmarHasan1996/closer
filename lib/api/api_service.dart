@@ -8,9 +8,9 @@ import 'package:closer/constant/app_size.dart';
 import 'package:closer/constant/functions.dart';
 import 'package:closer/main.dart';
 import 'package:closer/screens/language/Languages.dart';
+import 'package:closer/screens/photoView/photoViewer.dart';
 import 'package:closer/screens/valid_code.dart';
 import 'package:dio/dio.dart';
-import 'package:easy_image_viewer/easy_image_viewer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get_storage/get_storage.dart';
@@ -1272,13 +1272,6 @@ class APIService {
   }
 
   showImage(src) {
-    //SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
-    //SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [/*SystemUiOverlay.top,*/ SystemUiOverlay.bottom]);
-    showImageViewer(context!, Image.network(src).image);
-    //SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
-    //SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [SystemUiOverlay.bottom, /*SystemUiOverlay.top*/]);
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
-        overlays: [/*SystemUiOverlay.bottom*/ SystemUiOverlay.top]);
-    //SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [/*SystemUiOverlay.top,*/ SystemUiOverlay.bottom]);
+    Navigator.of(navigatorKey.currentContext!).push(MaterialPageRoute(builder: (context) => PhotoViewer(image: src),));
   }
 }

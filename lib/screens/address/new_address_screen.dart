@@ -5,6 +5,7 @@ import 'package:another_flushbar/flushbar.dart';
 import 'package:closer/constant/app_size.dart';
 import 'package:closer/constant/functions.dart';
 import 'package:closer/constant/strings.dart';
+import 'package:closer/helper/adHelper.dart';
 import 'package:closer/map/location.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
@@ -109,10 +110,7 @@ class _NewAddressScreenState extends State<NewAddressScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-   // _titleController.addListener(() {setState(() {});});
-    //getCountryData();
-    //getCityData();
-    // print(subservice);
+    AdHelper.loadInterstitialAd(() => null);
   }
   _save() async {
     print('begin');
@@ -155,6 +153,7 @@ class _NewAddressScreenState extends State<NewAddressScreen> {
       await Future.delayed(Duration(seconds: 1));
       setState(() {});
       // ignore: use_build_context_synchronously
+      if(AdHelper.interstitialAd != null)AdHelper.interstitialAd?.show();
       MyApplication.navigateToReplace(context, MagageAddressScreen(token: token,));
     } else {
       await Flushbar(

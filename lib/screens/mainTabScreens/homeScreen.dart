@@ -157,7 +157,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                     Icon(
-                      Icons.keyboard_arrow_right,
+                      Icons.arrow_forward_ios,
                       size: min(MediaQuery.of(context).size.width / 15, MediaQuery.of(context).size.height / 35),
                       color: AppColors.yellow,
                     ),
@@ -233,6 +233,7 @@ class _HomeScreenState extends State<HomeScreen> {
               },
         );
         if (subservice.length==1) {
+          // ignore: use_build_context_synchronously
           await Flushbar(
             padding: EdgeInsets.symmetric(
                 vertical: MediaQuery.of(context).size.height / 20),
@@ -273,27 +274,29 @@ class _HomeScreenState extends State<HomeScreen> {
     catch(e){
       subservice = transactions![0].subService;
       if(subservice.length==1){
+        // ignore: use_build_context_synchronously
         await Flushbar(
           padding: EdgeInsets.symmetric(
-              vertical: MediaQuery.of(context).size.height / 20),
+              vertical: AppHeight.h4,),
           icon: Icon(
             Icons.error_outline,
-            size: MediaQuery.of(context).size.width / 18,
+            size: AppWidth.w6,
             color: Colors.white,
           ),
-          duration: Duration(seconds: 3),
+          duration: const Duration(seconds: 3),
           shouldIconPulse: false,
           flushbarPosition: FlushbarPosition.TOP,
           borderRadius: BorderRadius.all(
-            Radius.circular(MediaQuery.of(context).size.height / 37),
+            Radius.circular(AppHeight.h2*1.5),
           ),
           backgroundColor: Colors.grey.withOpacity(0.5),
           barBlur: 20,
           message: 'This service will coming soon',
-          messageSize: MediaQuery.of(context).size.width / 22,
+          messageSize: AppWidth.w5,
         ).show(context);
       } else if(subservice[subservice.length-1]["id"]==id) {
         allSubServices.clear();
+        // ignore: use_build_context_synchronously
         Navigator.push(context, MaterialPageRoute(builder: (context) => SubServiceScreen(token: token, subservice: subservice),),).then((_) {
           // This block runs when you have returned back to the 1st Page from 2nd.
           setState(() {
@@ -301,24 +304,25 @@ class _HomeScreenState extends State<HomeScreen> {
           });
         });
       }else{
+        // ignore: use_build_context_synchronously
         await Flushbar(
           padding: EdgeInsets.symmetric(
               vertical: MediaQuery.of(context).size.height / 20),
           icon: Icon(
             Icons.error_outline,
-            size: MediaQuery.of(context).size.width / 18,
+            size: AppWidth.w6,
             color: Colors.white,
           ),
-          duration: Duration(seconds: 3),
+          duration: const Duration(seconds: 3),
           shouldIconPulse: false,
           flushbarPosition: FlushbarPosition.TOP,
           borderRadius: BorderRadius.all(
-            Radius.circular(MediaQuery.of(context).size.height / 37),
+            Radius.circular(AppHeight.h2),
           ),
           backgroundColor: Colors.grey.withOpacity(0.5),
           barBlur: 20,
           message: 'This service will coming soon',
-          messageSize: MediaQuery.of(context).size.width / 22,
+          messageSize: AppWidth.w5,
         ).show(context);
       }
     }
@@ -326,10 +330,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _search() {
     search() async{
+      if(_searchConroler.text.length<2){
+        return;
+      }
       setState(() {
         _go = true;
       });
       await getSubServiceData("id", search: _searchConroler.text);
+      _searchConroler.text = '';
       setState(() {
         _go = false;
       });
@@ -342,12 +350,12 @@ class _HomeScreenState extends State<HomeScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           SizedBox(
-            width: AppWidth.w60*1.1,
+            width: AppWidth.w80*1.05,
             child: TextField(
               controller: _searchConroler,
               decoration: InputDecoration(
                 suffixIconColor: AppColors.mainColor1,
-                suffixIcon: Icon(Icons.search),
+                suffixIcon: IconButton(onPressed: ()=> search(), icon: const Icon(Icons.search)),
                 enabledBorder: OutlineInputBorder(
                   borderRadius:  BorderRadius.all(Radius.circular(AppWidth.w5)),
                   borderSide: BorderSide(color: AppColors.mainColor),
@@ -360,7 +368,8 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ),
-          MyWidget(context).raisedButton(AppLocalizations.of(context)!.translate('Go'), ()=> search(), AppWidth.w20, chLogIn, textH: FontSize.s18, buttonText: AppColors.mainColor, colorText: AppColors.white)
+          //IconButton(onPressed: ()=> search(), icon: Icon(Icons.manage_search_outlined))
+          //MyWidget(context).raisedButton(AppLocalizations.of(context)!.translate('Go'), ()=> search(), AppWidth.w20, chLogIn, textH: FontSize.s18, buttonText: AppColors.mainColor, colorText: AppColors.white)
         ],
       ),
     );

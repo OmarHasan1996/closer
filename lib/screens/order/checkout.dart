@@ -221,8 +221,8 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                       SingleChildScrollView(
                                         child: MyWidget(context).textGrayk28(
                                           AppLocalizations.of(context)!.translate('Please Confirm The Following Details Of Your Order'),
-                                          scale: 0.8,
-                                          color: Colors.grey),
+                                          scale: 1.1,
+                                          color: AppColors.black),
                                           scrollDirection: Axis.horizontal
                                       ),
                                     ],
@@ -800,7 +800,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                   width: AppWidth.w4,
                                 ),
                                 MyWidget(context).textTitle15(
-                                    '${prettify(sumPrice())}' +
+                                    prettify(sumPrice()) +
                                         AppLocalizations.of(context)!
                                             .translate('TRY'),
                                     color: AppColors.mainColor)

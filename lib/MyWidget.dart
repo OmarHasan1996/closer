@@ -588,11 +588,13 @@ class MyWidget{
 
   static loadBannerAdd(){
     if (AdHelper.bannerAd != null) {
-      return Container(
-      width: AdHelper.bannerAd!.size.width.toDouble(),
-      height: AdHelper.bannerAd!.size.height.toDouble(),
-      child: AdWidget(ad: AdHelper.bannerAd!),
-    );
+      return Center(
+        child: SizedBox(
+        width: AdHelper.bannerAd!.size.width.toDouble(),
+        height: AdHelper.bannerAd!.size.height.toDouble(),
+        child: AdWidget(ad: AdHelper.bannerAd!),
+    ),
+      );
     }
     return SizedBox();
     /*bannerSize = AdmobBannerSize.ADAPTIVE_BANNER(
@@ -782,7 +784,7 @@ class MyWidget{
       style: TextStyle(
         fontFamily: 'comfortaa',
           decoration: lineTrought? TextDecoration.lineThrough : TextDecoration.none,
-          fontSize: min(MediaQuery.of(context).size.width / 25, MediaQuery.of(context).size.height / 55) * scale ,
+          fontSize: FontSize.s16 * scale ,
           fontWeight: bold ? FontWeight.bold : FontWeight.normal,
           color: color),
     );
@@ -1307,7 +1309,7 @@ class MyWidget{
   raisedButton(text , press, width, chLogIn, {height, colorText, buttonText, padV, textH, roundBorder}){
     colorText??=AppColors.buttonTextColor;
     buttonText??=AppColors.mainColor1;
-    padV??= min(MediaQuery.of(context).size.width / 20, MediaQuery.of(context).size.height / 46);
+    padV??= AppHeight.h1;
     textH??= min(MediaQuery.of(context).size.width / 20, MediaQuery.of(context).size.height / 46);
     roundBorder??= MediaQuery.of(context).size.height / 12;
     return Row(

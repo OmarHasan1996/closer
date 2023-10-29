@@ -160,7 +160,7 @@ iOS: ca-app-pub-3940256099942544/1712485313
   @override
   void dispose() {
     //Hive.close();
-    //interstitialAd.dispose();
+    AdHelper.despose();
     //rewardAd.dispose();
     super.dispose();
   }
@@ -173,6 +173,7 @@ iOS: ca-app-pub-3940256099942544/1712485313
     getMyOrders(userData!.content!.id);
     super.initState();
     AdHelper.loadBanner();
+    AdHelper.loadInterstitialAd(() => null);
     getAddress(userData!.content!.id);
     //getWorkersGroup(userData["content"]["Id"]);
     print("************************************************");
@@ -230,27 +231,19 @@ iOS: ca-app-pub-3940256099942544/1712485313
     ///on the notification
     FirebaseMessaging.onMessageOpenedApp.listen((message) {
       //final routeFromMessage = message.data["main_screen"];
-      if(!worker) Navigator.pushAndRemoveUntil(
+      if(!worker) {
+        Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(builder: (context) => MainScreen(token: token, service: service, selectedIndex: 1, initialOrderTab: 1,)),
             (Route<dynamic> route) => false,
       );
-      else Navigator.pushAndRemoveUntil(
+      } else {
+        Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(builder: (context) => MainScreen(token: token, service: service, selectedIndex: 1, initialOrderTab: 0,)),
             (Route<dynamic> route) => false,
       );
-
-      /*Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (context) => MainScreen(
-                token: token,
-                service: service,
-                selectedIndex: 1,
-                initialOrderTab: 1,
-              )));
-      final routeFromMessage = "main_screen";
-
-      Navigator.of(context).restorablePushReplacementNamed(routeFromMessage);*/
+      }
     });
     mainService = service;
     api.userLang(trrrr.LocalizationService.getCurrentLangInt(), userData!.content!.id);
@@ -618,130 +611,6 @@ iOS: ca-app-pub-3940256099942544/1712485313
     Navigator.pushNamed(context, 'about');
   }
 
-  /*Padding orderlist(ord,scale) {
-    var Id = ord[0][0]['Id'];
-    var name = ord[0][0]['Name'];
-    var imagepath = ord[0][0]['ImagePath'];
-    var price = ord[0][0]['Price'].toString();
-    var date = Text(
-      '${pickDate!.day}-${pickDate!.month}-${pickDate!.year} / ${time!.hour}:${time!.minute}',
-      style: TextStyle(
-        fontFamily: 'comfortaa',
-        color: MyColors.black,
-        fontSize: MediaQuery.of(context).size.width / 30,
-        fontWeight: FontWeight.bold,
-      ),
-    );
-    return Padding(
-      padding: EdgeInsets.symmetric(
-          vertical: MediaQuery.of(context).size.height / 80,
-          horizontal: MediaQuery.of(context).size.width / 50),
-      child: Column(
-        children: [
-          Row(
-            children: [
-              Container(
-                  alignment: Alignment.center,
-                  width: MediaQuery.of(context).size.width * 0.20 * scale,
-                  height: MediaQuery.of(context).size.height / 10 * scale,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image: NetworkImage(imagepath),
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.5),
-                        spreadRadius: 2,
-                        blurRadius: 3,
-                        offset: Offset(0, 1), // changes position of shadow
-                      ),
-                    ],
-                    borderRadius: BorderRadius.all(Radius.circular(
-                        MediaQuery.of(context).size.height / 100)),
-                  )),
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.01 * scale,
-                //child: Text(),
-              ),
-              Container(
-                padding: EdgeInsets.only(
-                    left: MediaQuery.of(context).size.width / 22),
-                alignment: Alignment.center,
-                width: MediaQuery.of(context).size.width * 0.65 * scale,
-                height: MediaQuery.of(context).size.height / 10 * scale,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      flex: 5,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            name,
-                            style: TextStyle(
-        fontFamily: 'comfortaa',
-                              color: Colors.black,
-                              fontSize: MediaQuery.of(context).size.width / 20 * scale,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          date,
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      flex: 3,
-                      child: Text(
-                        price + ' .TRY',
-                        style: TextStyle(
-        fontFamily: 'comfortaa',
-                          color: Colors.blue,
-                          fontSize: MediaQuery.of(context).size.width / 24 * scale,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            deleteOrder(order, Id);
-                          });
-                        },
-                        child: Icon(
-                          Icons.close_outlined,
-                          size: MediaQuery.of(context).size.width / 20 * scale,
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          SizedBox(
-            height: MediaQuery.of(context).size.height / 80,
-          ),
-          Divider(
-            color: Colors.grey[900],
-            height: 1,
-          ),
-        ],
-      ),
-    );
-  }
-*/
-
-/*
-  void deleteOrder(ord, id) {
-    ord.removeWhere((item) => item[0][0]['Id'] == id);
-  }
-*/
   List orderData = [];
   List finishedOrderData = [];
   List superNewOrderData = [];
