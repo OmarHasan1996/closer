@@ -29,8 +29,10 @@ class MyWidget{
     _padButtonV = min(MediaQuery.of(context).size.height / 80, MediaQuery.of(context).size.width / 25);
   }
 
-  static htmlScreen(htmlText){
+  static htmlScreen(htmlText,{dirction}){
+    dirction??=Axis.vertical;
     return SingleChildScrollView(
+     // scrollDirection: dirction,
       child: h.Html(
         data: """
         $htmlText
@@ -861,13 +863,13 @@ class MyWidget{
 
   dropDownLang(List<String> list, setState()){
     String? lng;
-    return new DropdownButton<String>(
+    return DropdownButton<String>(
       dropdownColor: Colors.grey,
       items: list.map(
             (String value) {
-          return new DropdownMenuItem<String>(
+          return DropdownMenuItem<String>(
             value: value,
-            child: new Text(
+            child: Text(
               value,
               style: TextStyle(
         fontFamily: 'comfortaa',color: Colors.white, fontSize: min(MediaQuery.of(context).size.height/55, MediaQuery.of(context).size.width/25)),

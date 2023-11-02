@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:another_flushbar/flushbar.dart';
 import 'package:closer/constant/app_size.dart';
 import 'package:closer/constant/font_size.dart';
+import 'package:closer/helper/adHelper.dart';
 import 'package:date_format/date_format.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -128,6 +129,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
 
     //_timeController.text = formatDate(DateTime(2019, 08, 1, DateTime.now().hour, DateTime.now().minute), [hh, ':', nn, " ", am]).toString();
     super.initState();
+    AdHelper.loadInterstitialAd(() => null);
 
     for (var o in order) {
       try {
@@ -221,7 +223,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                       SingleChildScrollView(
                                         child: MyWidget(context).textGrayk28(
                                           AppLocalizations.of(context)!.translate('Please Confirm The Following Details Of Your Order'),
-                                          scale: 1.1,
+                                          scale: 0.9,
                                           color: AppColors.black),
                                           scrollDirection: Axis.horizontal
                                       ),
@@ -755,61 +757,45 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                     ),
                   ),
                 )),
-            Padding(
-              padding: EdgeInsets.symmetric(
-                vertical: MediaQuery.of(context).size.height / 100,
-                horizontal: AppWidth.w4,
-              ),
-              child: Container(
-                alignment: Alignment.center,
-                width: MediaQuery.of(context).size.width,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: MediaQuery.of(context).size.width / 80,
-                  ),
-                  child: Column(
+            Container(
+              alignment: Alignment.center,
+              width: MediaQuery.of(context).size.width,
+              padding: EdgeInsets.symmetric(horizontal: AppWidth.w8),
+              child: Column(
+                children: [
+                  SizedBox(height: AppHeight.h1/2,),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          MyWidget(context).textTitle15(
-                              AppLocalizations.of(context)!.translate('TOTAL'),
-                              color: Colors.grey),
-                          SizedBox(
-                            width: AppWidth.w4,
-                          ),
-                          MyWidget(context).textTap25(
-                              '${prettify(sumPrice() + _couponValue)}' +
-                                  AppLocalizations.of(context)!
-                                      .translate('TRY'),
-                              color: _couponValue > 0? AppColors.black: AppColors.mainColor,
-                              lineTrought: _couponValue > 0?true:false)
-                        ],
-                      ),
-                      _couponValue > 0
-                          ? Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                MyWidget(context).textTitle15(
-                                    AppLocalizations.of(context)!
-                                        .translate('TOTAL after discount'),
-                                    color: Colors.grey),
-                                SizedBox(
-                                  width: AppWidth.w4,
-                                ),
-                                MyWidget(context).textTitle15(
-                                    prettify(sumPrice()) +
-                                        AppLocalizations.of(context)!
-                                            .translate('TRY'),
-                                    color: AppColors.mainColor)
-                              ],
-                            )
-                          : SizedBox(),
+                      MyWidget(context).textHead10(AppLocalizations.of(context)!.translate('TOTAL'), color: Colors.grey, scale: 0.45),
+                      SizedBox(width: AppWidth.w4,),
+                      MyWidget(context).textTap25(
+                          prettify(sumPrice(withoutdiscount: true)) + AppLocalizations.of(context)!.translate('TRY'),
+                          color: _couponValue > 0? AppColors.black: AppColors.mainColor,
+                          lineTrought: _couponValue > 0?true:false)
                     ],
                   ),
-                ),
+                  _couponValue > 0
+                      ? Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            MyWidget(context).textHead10(
+                                AppLocalizations.of(context)!.translate('TOTAL after discount'),
+                                color: Colors.grey, scale: 0.45),
+                            SizedBox(
+                              width: AppWidth.w4,
+                            ),
+                            MyWidget(context).textTitle15(
+                                prettify(sumPrice()) +
+                                    AppLocalizations.of(context)!
+                                        .translate('TRY'),
+                                color: AppColors.mainColor)
+                          ],
+                        )
+                      : SizedBox(),
+                  SizedBox(height: AppHeight.h1/2,),
+                ],
               ),
             ),
             MyWidget(context).raisedButton(
@@ -894,12 +880,15 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
     );
   }
 
-  double sumPrice() {
+  double sumPrice({withoutdiscount}) {
+    withoutdiscount??=false;
     double price = 0.0;
     for (int i = 0; i < order.length; i++) {
       price = price + order[i][0][0]["Price"] * int.parse(order[i][1]);
     }
-    return price - _couponValue;
+    var discount = (_couponType != 2 ? _couponValue : _couponValue * price / 100);
+    if(withoutdiscount) return price;
+    else return price - discount;
   }
 
   void getMyOrders(var id) async {
@@ -978,16 +967,14 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
     }
     //{CustomerId: 90e73cdd-7e7e-4207-9901-08d9a4f69d2a, Amount: 300.0, InsertDate: 2021-12-08T01:18:43.043Z, Status: 1, PayType: 1, AddressId: 66b576f9-d44b-4565-b9e3-08d9a4f82388, OrderDate: 2021-12-08T13:18:00.000Z, Notes: string, OrderServices[0][ServiceId]: 18, OrderServices[0][Price]: 300.0, OrderServices[0][Quantity]: 1, OrderServices[0][ServiceNotes]: , OrderServices[0][OrderServiceAttatchs]: }
 
-    String orderDateTime = DateTime(selectedDate!.year, selectedDate!.month,
+    String orderDateTime = "${DateTime(selectedDate!.year, selectedDate!.month,
                 selectedDate!.day, selectedTime!.hour, selectedTime!.minute)
             .add(timeDiff)
             .toString()
-            .replaceAll(" ", "T") +
-        "Z";
-    String insertDateTime = DateFormat('yyyy-MM-dd hh:mm:ss.sss')
+            .replaceAll(" ", "T")}Z";
+    String insertDateTime = "${DateFormat('yyyy-MM-dd hh:mm:ss.sss')
             .format(DateTime.now().add(timeDiff))
-            .replaceAll(" ", "T") +
-        "Z";
+            .replaceAll(" ", "T")}Z";
     /* String insertDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
     String insertTime = DateFormat('hh:mm:ss.sss').format(DateTime.now());
     var tmp2 = DateTime.now().toUtc().toString().split(":");
@@ -1003,12 +990,15 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
     _refreshSendOrder(false);
     if (upload) {
       order.clear();
+      // ignore: use_build_context_synchronously
       _flushBar(AppLocalizations.of(context)!.translate('order added'));
       //getMyOrders(userData["content"]["Id"]);
       //setState(() {});
       showInterstitialAdd();
       showRewardAdd();
       print('1');
+      if(AdHelper.interstitialAd != null)AdHelper.interstitialAd?.show();
+      // ignore: use_build_context_synchronously
       Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(
@@ -1094,6 +1084,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
 
   var _couponId = null;
   var _couponValue = 0.0;
+  var _couponType = 1;
   _applyCoupon() async {
     setState(() {
       _getCoupons = true;
@@ -1104,15 +1095,17 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
     _couponId = null;
     coupons.forEach((element) {
       if (element['CouponCode'].toString() == _couponConroller.text) {
+        _couponType = element['CouponType'];
         _couponValue = element['CouponAmount'];
         _couponId = element['CouponId'];
         exist = true;
       }
     });
 
-    if (!exist)
-      APIService.flushBar(
-          AppLocalizations.of(context)!.translate("Coupon code isn't exited"));
+    if (!exist) {
+      // ignore: use_build_context_synchronously
+      APIService.flushBar(AppLocalizations.of(context)!.translate("Coupon code isn't exited"));
+    }
 
     setState(() {
       _getCoupons = false;

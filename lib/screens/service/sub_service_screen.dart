@@ -308,6 +308,7 @@ class _SubServiceScreenState extends State<SubServiceScreen> {
                             scrollDirection:Axis.horizontal,
                             child: MyWidget(context).textTitle15(name, scale: 1.2),
                           ),
+                          SizedBox(height: AppHeight.h1,),
                           Flexible(
                             flex: 2,
                             child: Row(children: [
@@ -319,12 +320,8 @@ class _SubServiceScreenState extends State<SubServiceScreen> {
                               (ser['IsMain'])
                                   ? SizedBox(
                                       width: AppWidth.w45,
-                                      child: SingleChildScrollView(
-                                        scrollDirection: Axis.horizontal,
-                                        child: MyWidget(context).textTap25(
-                                            desc.toString(),
-                                            textAlign: TextAlign.start),
-                                      ),
+                                      height: FontSize.s16*3,
+                                      child: MyWidget.htmlScreen(desc, dirction: Axis.horizontal),
                                     )
                                   : MyWidget(context).textTap25(
                                       '${prettify(priceAfterDiscount)} ${AppLocalizations.of(context)!.translate('TRY')}',
@@ -370,6 +367,7 @@ class _SubServiceScreenState extends State<SubServiceScreen> {
         //editTransactionService(transactions![0], service);
         //editTransactionUserUserInfo(transactions![0], userInfo);
         if (item.length == 0) {
+          // ignore: use_build_context_synchronously
           await Flushbar(
             padding: EdgeInsets.symmetric(
                 vertical: MediaQuery.of(context).size.height / 20),

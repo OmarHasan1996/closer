@@ -700,7 +700,6 @@ class _SubServiceDecState extends State<SubServiceDec> {
     }
     _flushbar(AppLocalizations.of(context)!
         .translate('Your Order Added To MY ORDER'));
-    if(AdHelper.interstitialAd != null)AdHelper.interstitialAd?.show();
 
     editTransactionOrder(transactions![0], order);
   }
