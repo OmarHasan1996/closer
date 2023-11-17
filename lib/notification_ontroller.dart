@@ -125,7 +125,7 @@ class NotificationController extends GetxController {
     setMessages(messagesNumber);
     flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
     flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<
-        AndroidFlutterLocalNotificationsPlugin>()?.requestPermission();
+        AndroidFlutterLocalNotificationsPlugin>()?.requestNotificationsPermission();
     var android = AndroidInitializationSettings('@mipmap/logo');
     var ios = DarwinInitializationSettings ();
     var initSettings = InitializationSettings(android: android, iOS: ios);

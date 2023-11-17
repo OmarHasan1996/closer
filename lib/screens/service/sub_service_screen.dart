@@ -6,6 +6,7 @@ import 'package:another_flushbar/flushbar.dart';
 import 'package:closer/constant/apiUrl.dart';
 import 'package:closer/constant/app_size.dart';
 import 'package:closer/constant/font_size.dart';
+import 'package:closer/helper/adHelper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -127,28 +128,6 @@ class _SubServiceScreenState extends State<SubServiceScreen> {
   _SubServiceScreenState(this.token, this.subservice);
   final GlobalKey<ScaffoldState> _key = GlobalKey(); // Create a key
 
-  loadBannerAdd() {
-    return SizedBox();
-    /*return AdmobBanner(
-      adUnitId: getBannerAdUnitId()!,
-      adSize: AdmobBannerSize.ADAPTIVE_BANNER(
-        // height: MediaQuery.of(context).size.height.toInt()-40,
-        width: MediaQuery.of(context).size.width.toInt(), // considering EdgeInsets.all(20.0)
-      ),
-      listener: (AdmobAdEvent event,
-          Map<String, dynamic>? args) {
-       // handleEvent(event, args, 'Banner');
-      },
-      onBannerCreated:
-          (AdmobBannerController controller) {
-        // Dispose is called automatically for you when Flutter removes the banner from the widget tree.
-        // Normally you don't need to worry about disposing this yourself, it's handled.
-        // If you need direct access to dispose, this is your guy!
-        // controller.dispose();
-      },
-    );*/
-  }
-
   APIService? api;
   @override
   void initState() {
@@ -168,6 +147,7 @@ class _SubServiceScreenState extends State<SubServiceScreen> {
   Widget build(BuildContext context) {
     var barHight = MediaQuery.of(context).size.height / 5.7;
     //getServiceData();
+    AdHelper.loadBanner();
     api = APIService(context: context);
     var id =
         _subservice[_subservice.indexWhere((element) => element.length < 2)]
@@ -228,32 +208,11 @@ class _SubServiceScreenState extends State<SubServiceScreen> {
               ],
             ),
           ),
-          loadBannerAdd(),
+          MyWidget.loadBannerAdd(),
         ]),
       ),
     );
   }
-
-  /*Column icons(IconData c, String t) {
-    return Column(
-      children: [
-        Icon(
-          c,
-          size: MediaQuery.of(context).size.width / 9,
-          color: Colors.white,
-        ),
-        Text(
-          t,
-          style: TextStyle(
-        fontFamily: 'comfortaa',
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-            fontSize: MediaQuery.of(context).size.width / 30,
-          ),
-        )
-      ],
-    );
-  }*/
 
   Padding serviceRow(ser) {
     var desc = ser['Desc'];
@@ -307,10 +266,11 @@ class _SubServiceScreenState extends State<SubServiceScreen> {
                 _transScreen = true;
               });
               var id = ser['Id'];
-              if (ser['IsMain'])
+              if (ser['IsMain']) {
                 await getSubServiceData(id);
-              else
+              } else {
                 await getSubServiceDecData(id);
+              }
               setState(() {
                 _loading = false;
                 _transScreen = false;
@@ -327,11 +287,10 @@ class _SubServiceScreenState extends State<SubServiceScreen> {
                     color: Colors.grey.withOpacity(0.5),
                     spreadRadius: 2,
                     blurRadius: 3,
-                    offset: Offset(0, 1), // changes position of shadow
+                    offset: const Offset(0, 1), // changes position of shadow
                   ),
                 ],
-                borderRadius: BorderRadius.all(
-                    Radius.circular(MediaQuery.of(context).size.height / 51)),
+                borderRadius: BorderRadius.all(Radius.circular(MediaQuery.of(context).size.height / 51)),
               ),
               child: Padding(
                 padding: EdgeInsets.symmetric(
@@ -343,36 +302,29 @@ class _SubServiceScreenState extends State<SubServiceScreen> {
                     Flexible(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          SizedBox(
-                            height: FontSize.s16*3.5,
-                            child: SingleChildScrollView(
-                              child: MyWidget(context)
-                                  .textTitle15(name, scale: 1),
-                            ),
+                          SingleChildScrollView(
+                            scrollDirection:Axis.horizontal,
+                            child: MyWidget(context).textTitle15(name, scale: 1.2),
                           ),
+                          SizedBox(height: AppHeight.h1,),
                           Flexible(
                             flex: 2,
                             child: Row(children: [
                               priceAfterDiscount == price
-                                  ? SizedBox()
+                                  ? const SizedBox()
                                   : MyWidget(context).textTap25(prettify(price),
                                       lineTrought: true),
                               SizedBox(width: AppWidth.w2,),
                               (ser['IsMain'])
                                   ? SizedBox(
-                                      child: SingleChildScrollView(
-                                        scrollDirection: Axis.horizontal,
-                                        child: MyWidget(context).textTap25(
-                                            desc.toString(),
-                                            textAlign: TextAlign.start),
-                                      ),
-                                      width: AppWidth.w40,
+                                      width: AppWidth.w45,
+                                      height: FontSize.s16*3,
+                                      child: MyWidget.htmlScreen(desc, dirction: Axis.horizontal),
                                     )
                                   : MyWidget(context).textTap25(
-                                      prettify(priceAfterDiscount).toString() +
-                                          ' ${AppLocalizations.of(context)!.translate('TRY')}',
+                                      '${prettify(priceAfterDiscount)} ${AppLocalizations.of(context)!.translate('TRY')}',
                                       color: AppColors.mainColor,
                                       scale: 1.1),
                             ]),
@@ -415,6 +367,7 @@ class _SubServiceScreenState extends State<SubServiceScreen> {
         //editTransactionService(transactions![0], service);
         //editTransactionUserUserInfo(transactions![0], userInfo);
         if (item.length == 0) {
+          // ignore: use_build_context_synchronously
           await Flushbar(
             padding: EdgeInsets.symmetric(
                 vertical: MediaQuery.of(context).size.height / 20),

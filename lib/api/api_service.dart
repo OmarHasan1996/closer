@@ -8,9 +8,9 @@ import 'package:closer/constant/app_size.dart';
 import 'package:closer/constant/functions.dart';
 import 'package:closer/main.dart';
 import 'package:closer/screens/language/Languages.dart';
+import 'package:closer/screens/photoView/photoViewer.dart';
 import 'package:closer/screens/valid_code.dart';
 import 'package:dio/dio.dart';
-import 'package:easy_image_viewer/easy_image_viewer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get_storage/get_storage.dart';
@@ -369,7 +369,7 @@ class APIService {
     return null;
   }
 
-  static Future<bool> _checkCountry() async {
+  static Future<bool> checkCountry() async {
     try{
       final box = GetStorage();
       print(box.read('city'));
@@ -431,7 +431,6 @@ class APIService {
                 password: password,
               ));
           chLogIn = false;
-
         }
         else if(m.errorDes.isNotEmpty){
           flushBar(m.errorDes);
@@ -439,21 +438,7 @@ class APIService {
         }
         else{
           token = m.content == null ? '' : m.content!.token!;
-          if (await _checkCountry()) {
-            var _selectedCity = 0;
-            var _selectedCountry = 0;
-            var _selectedLang = 0;
-            // ignore: use_build_context_synchronously
-            MyApplication.navigateTo(
-                navigatorKey.currentContext!,
-                Languages(
-                  main: true,
-                  selectedCity: _selectedCity,
-                  selectedCountry: _selectedCountry,
-                  selectedLang: _selectedLang,
-                ));
-            return null;
-          }
+
           chLogIn = false;
           return m;
         }
@@ -602,7 +587,7 @@ class APIService {
       "PayType": 1,
       "AddressId": value3,
       "OrderDate": orderDateTime,
-      "Notes": "string",
+      /*"Notes": "string",*/
       "OrderServices": serviceTmp
     });
     print(token);
@@ -720,7 +705,7 @@ class APIService {
       "PayType": 1,
       "AddressId": value3,
       "OrderDate": orderDateTime,
-      "Notes": "string",
+     // "Notes": "string",
       "CouponId": couponId,
       "OrderServices": serviceTmp,
     });
@@ -787,7 +772,7 @@ class APIService {
         "ServiceId": order[i][0][0]['Id'],
         "Price": order[i][0][0]['Price'],
         "Quantity": int.parse(order[i][1]),
-        "Notes": "string",
+       // "Notes": "string",
       });
     }
 
@@ -799,7 +784,7 @@ class APIService {
       "PayType": 1,
       "AddressId": value3,
       "OrderDate": orderDateTime,
-      "Notes": "string",
+     // "Notes": "string",
       "OrderServices": serviceTmp
     };
     print(jsonEncode(jsonEncode(mapDate)));
@@ -848,7 +833,7 @@ class APIService {
         "ServiceId": order[i][0][0]['Id'],
         "Price": order[i][0][0]['Price'],
         "Quantity": int.parse(order[i][1]),
-        "ServiceNotes": "string",
+        //"ServiceNotes": "string",
         "OrderServiceAttatchs": serviceAttach
         //"File": await http.MultipartFile.fromPath('file_field', order[i][0][0]['Service']['File'].path.toString(), filename:order[i][0][0]['Service']['File'].name),
       });
@@ -862,7 +847,7 @@ class APIService {
       "AddressId": value3,
       "OrderDate": orderDateTime,
       //"GroupId": 1,
-      "Notes": "string",
+     // "Notes": "string",
       //"OrderServices": serviceTmp
     });
     request.fields.keys;
@@ -1287,13 +1272,6 @@ class APIService {
   }
 
   showImage(src) {
-    //SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
-    //SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [/*SystemUiOverlay.top,*/ SystemUiOverlay.bottom]);
-    showImageViewer(context!, Image.network(src).image);
-    //SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
-    //SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [SystemUiOverlay.bottom, /*SystemUiOverlay.top*/]);
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
-        overlays: [/*SystemUiOverlay.bottom*/ SystemUiOverlay.top]);
-    //SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [/*SystemUiOverlay.top,*/ SystemUiOverlay.bottom]);
+    Navigator.of(navigatorKey.currentContext!).push(MaterialPageRoute(builder: (context) => PhotoViewer(image: src),));
   }
 }

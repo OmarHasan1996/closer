@@ -62,7 +62,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
      // ignore: unnecessary_null_comparison
     _addTrans();
     print('We Are Here');
-    startTime();
+    //startTime();
     apiService = APIService(context: context);
     //lng = LocalizationService().getCurrentLang();
     DateTime date = DateTime.now();

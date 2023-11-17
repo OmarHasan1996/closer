@@ -217,7 +217,7 @@ class _AddTaskState extends State<AddTask> {
             borderRadius: BorderRadius.all(Radius.circular(MediaQuery.of(context).size.height / 160)),
           ),
           child: Scrollbar(
-            isAlwaysShown: true,
+            //isAlwaysShown: true,
             child: TextField(
             showCursor: true,
             maxLines: null,

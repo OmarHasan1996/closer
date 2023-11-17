@@ -37,7 +37,8 @@ class LocalizationService extends Translations{
       AppLocalizations.delegate.load(Locale('en','US'));
       lang = MyLang = 'English';
       //langs =['English','France','Arabic','Turkish'];
-      langs =['English','Arabic','Turkish'];
+      //langs =['English','Arabic','Turkish'];
+      langs =['English','Arabic'];
     }else if(lang == 'France' || lang == 'الفرنسية'|| lang == 'France'){
       AppLocalizations.delegate.load(Locale('fr','FR'));
       lang = MyLang = 'France';
@@ -46,7 +47,8 @@ class LocalizationService extends Translations{
       AppLocalizations.delegate.load(Locale('ar','AR'));
       lang = MyLang = 'العربية';
       //langs =['الإنكليزية','الفرنسية','العربية','التركية'];
-      langs =['الإنكليزية','العربية','التركية'];
+      //langs =['الإنكليزية','العربية','التركية'];
+      langs =['الإنكليزية','العربية'];
     }else if(lang == 'التركية' || lang == 'Turkish' ||lang == 'Turkish'){
       AppLocalizations.delegate.load(Locale('tr','TR'));
       lang = MyLang = 'Turkish';
@@ -57,7 +59,8 @@ class LocalizationService extends Translations{
       AppLocalizations.delegate.load(Locale('en','US'));
       lang = MyLang = 'English';
       //langs =['English','France','Arabic','Turkish'];
-      langs =['English','Arabic','Turkish'];
+      //langs =['English','Arabic','Turkish'];
+      langs =['English','Arabic'];
     }
     //langs =[AppLocalizations.of(context)!.translate('english'),AppLocalizations.of(context)!.translate('france'),AppLocalizations.of(context)!.translate('arabic')];
     try {await APIService(context: context).userLang(getIntFromLanguage(lang), userData!.content!.id);}

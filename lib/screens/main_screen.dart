@@ -6,6 +6,7 @@ import 'dart:math';
 //import 'package:admob_flutter/admob_flutter.dart';
 import 'package:another_flushbar/flushbar.dart';
 import 'package:closer/constant/functions.dart';
+import 'package:closer/helper/adHelper.dart';
 import 'package:closer/map/location.dart';
 import 'package:closer/screens/language/Languages.dart';
 import 'package:closer/screens/mainTabScreens/homeScreen.dart';
@@ -132,55 +133,6 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
-  loadBannerAdd(){
-    return SizedBox();
-    /*bannerSize = AdmobBannerSize.ADAPTIVE_BANNER(
-      // height: MediaQuery.of(context).size.height.toInt()-40,
-      width: MediaQuery.of(context).size.width.toInt(), // considering EdgeInsets.all(20.0)
-    );
-    return AdmobBanner(
-      adUnitId: getBannerAdUnitId()!,
-      adSize: bannerSize!,
-      listener: (AdmobAdEvent event,
-          Map<String, dynamic>? args) {
-        handleEvent(event, args, 'Banner');
-      },
-      onBannerCreated:
-          (AdmobBannerController controller) {
-        // Dispose is called automatically for you when Flutter removes the banner from the widget tree.
-        // Normally you don't need to worry about disposing this yourself, it's handled.
-        // If you need direct access to dispose, this is your guy!
-        // controller.dispose();
-      },
-    );*/
-  }
-
-  initAdds(){
-    // You should execute `Admob.requestTrackingAuthorization()` here before showing any ad.
-
-   /* bannerSize = AdmobBannerSize.BANNER;
-
-
-    interstitialAd = AdmobInterstitial(
-      adUnitId: getInterstitialAdUnitId()!,
-      listener: (AdmobAdEvent event, Map<String, dynamic>? args) {
-        if (event == AdmobAdEvent.closed) interstitialAd.load();
-        handleEvent(event, args, 'Interstitial');
-      },
-    );
-
-    rewardAd = AdmobReward(
-      adUnitId: getRewardBasedVideoAdUnitId()!,
-      listener: (AdmobAdEvent event, Map<String, dynamic>? args) {
-        if (event == AdmobAdEvent.closed) rewardAd.load();
-         handleEvent(event, args, 'Reward');
-      },
-    );
-
-    interstitialAd.load();
-    rewardAd.load();*/
-  }
-
   /*
 Test Id's from:
 https://developers.google.com/admob/ios/banner
@@ -208,7 +160,7 @@ iOS: ca-app-pub-3940256099942544/1712485313
   @override
   void dispose() {
     //Hive.close();
-    //interstitialAd.dispose();
+    AdHelper.despose();
     //rewardAd.dispose();
     super.dispose();
   }
@@ -220,8 +172,8 @@ iOS: ca-app-pub-3940256099942544/1712485313
     api.getGroupUsers(groupId);
     getMyOrders(userData!.content!.id);
     super.initState();
-
-    initAdds();
+    AdHelper.loadBanner();
+    AdHelper.loadInterstitialAd(() => null);
     getAddress(userData!.content!.id);
     //getWorkersGroup(userData["content"]["Id"]);
     print("************************************************");
@@ -279,39 +231,40 @@ iOS: ca-app-pub-3940256099942544/1712485313
     ///on the notification
     FirebaseMessaging.onMessageOpenedApp.listen((message) {
       //final routeFromMessage = message.data["main_screen"];
-      if(!worker) Navigator.pushAndRemoveUntil(
+      if(!worker) {
+        Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(builder: (context) => MainScreen(token: token, service: service, selectedIndex: 1, initialOrderTab: 1,)),
             (Route<dynamic> route) => false,
       );
-      else Navigator.pushAndRemoveUntil(
+      } else {
+        Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(builder: (context) => MainScreen(token: token, service: service, selectedIndex: 1, initialOrderTab: 0,)),
             (Route<dynamic> route) => false,
       );
-
-      /*Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (context) => MainScreen(
-                token: token,
-                service: service,
-                selectedIndex: 1,
-                initialOrderTab: 1,
-              )));
-      final routeFromMessage = "main_screen";
-
-      Navigator.of(context).restorablePushReplacementNamed(routeFromMessage);*/
+      }
     });
     mainService = service;
     api.userLang(trrrr.LocalizationService.getCurrentLangInt(), userData!.content!.id);
+
   }
 
-  void _afterLayout(Duration timeStamp) {
-    /*new Timer(Duration(seconds:5), ()=>setState(()
-    {
-      getMyOrders(
-        userData["content"]["Id"]);
-      _loading = false;
-    }));*/
+  void _afterLayout(Duration timeStamp) async{
+    if (await APIService.checkCountry()) {
+      var _selectedCity = 0;
+      var _selectedCountry = 0;
+      var _selectedLang = 0;
+      // ignore: use_build_context_synchronously
+      MyApplication.navigateTo(
+          navigatorKey.currentContext!,
+          Languages(
+            main: true,
+            selectedCity: _selectedCity,
+            selectedCountry: _selectedCountry,
+            selectedLang: _selectedLang,
+          ));
+    }
   }
 
   /*
@@ -356,6 +309,7 @@ iOS: ca-app-pub-3940256099942544/1712485313
     //getMyOrders(userData["content"]["Id"]);
     //getMyOrders('9cbc8ff2-0bc3-4ed0-f6ce-08d97b89b8984444');
     //showRewardAdd();
+    AdHelper.loadBanner();
     api = APIService(context: context);
     if(worker && _selectedIndex == 0) _selectedIndex = 1;
     var barHight = MediaQuery.of(context).size.height / 5.7;
@@ -657,130 +611,6 @@ iOS: ca-app-pub-3940256099942544/1712485313
     Navigator.pushNamed(context, 'about');
   }
 
-  /*Padding orderlist(ord,scale) {
-    var Id = ord[0][0]['Id'];
-    var name = ord[0][0]['Name'];
-    var imagepath = ord[0][0]['ImagePath'];
-    var price = ord[0][0]['Price'].toString();
-    var date = Text(
-      '${pickDate!.day}-${pickDate!.month}-${pickDate!.year} / ${time!.hour}:${time!.minute}',
-      style: TextStyle(
-        fontFamily: 'comfortaa',
-        color: MyColors.black,
-        fontSize: MediaQuery.of(context).size.width / 30,
-        fontWeight: FontWeight.bold,
-      ),
-    );
-    return Padding(
-      padding: EdgeInsets.symmetric(
-          vertical: MediaQuery.of(context).size.height / 80,
-          horizontal: MediaQuery.of(context).size.width / 50),
-      child: Column(
-        children: [
-          Row(
-            children: [
-              Container(
-                  alignment: Alignment.center,
-                  width: MediaQuery.of(context).size.width * 0.20 * scale,
-                  height: MediaQuery.of(context).size.height / 10 * scale,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image: NetworkImage(imagepath),
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.5),
-                        spreadRadius: 2,
-                        blurRadius: 3,
-                        offset: Offset(0, 1), // changes position of shadow
-                      ),
-                    ],
-                    borderRadius: BorderRadius.all(Radius.circular(
-                        MediaQuery.of(context).size.height / 100)),
-                  )),
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.01 * scale,
-                //child: Text(),
-              ),
-              Container(
-                padding: EdgeInsets.only(
-                    left: MediaQuery.of(context).size.width / 22),
-                alignment: Alignment.center,
-                width: MediaQuery.of(context).size.width * 0.65 * scale,
-                height: MediaQuery.of(context).size.height / 10 * scale,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      flex: 5,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            name,
-                            style: TextStyle(
-        fontFamily: 'comfortaa',
-                              color: Colors.black,
-                              fontSize: MediaQuery.of(context).size.width / 20 * scale,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          date,
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      flex: 3,
-                      child: Text(
-                        price + ' .TRY',
-                        style: TextStyle(
-        fontFamily: 'comfortaa',
-                          color: Colors.blue,
-                          fontSize: MediaQuery.of(context).size.width / 24 * scale,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            deleteOrder(order, Id);
-                          });
-                        },
-                        child: Icon(
-                          Icons.close_outlined,
-                          size: MediaQuery.of(context).size.width / 20 * scale,
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          SizedBox(
-            height: MediaQuery.of(context).size.height / 80,
-          ),
-          Divider(
-            color: Colors.grey[900],
-            height: 1,
-          ),
-        ],
-      ),
-    );
-  }
-*/
-
-/*
-  void deleteOrder(ord, id) {
-    ord.removeWhere((item) => item[0][0]['Id'] == id);
-  }
-*/
   List orderData = [];
   List finishedOrderData = [];
   List superNewOrderData = [];

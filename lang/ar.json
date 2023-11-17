@@ -52,7 +52,7 @@
   "Add To MY ORDER":"إضافة إلى طلباتي",
   "Your Order Added To MY ORDER":"تمت إضافة طلبك لطلباتي",
   "TOTAL":"الإجمالي",
-  "Finished Order":"الطلبات المنتهية",
+  "Finished Order":"إنهاء الطلب",
   "Amount": "الكمية    ",
   "Attachment": "المرفق",
   "Edit Profile":"تعديل الملف الشخصي",
@@ -187,7 +187,10 @@
   "Describe your experience": "اوصف تجربتك معنا",
   "Apply": "تقدم",
   "Coupon code isn't exited": "رمز القسيمة غير موجود",
-  "TOTAL after discount": "المجموع بعد الخصم"
+  "TOTAL after discount": "المجموع بعد الخصم",
+  "Item Description": "وصف ",
+  "Download Receipt": "مشاركة الفاتورة",
+  "Go": "اذهب"
 
 
 

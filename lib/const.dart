@@ -11,7 +11,7 @@ import 'model/transaction.dart';
 late APIService apiService;
 final apiDomain = 'https://api.mr-service.co';
 List order = [];
-String cityId = '23';
+String cityId = '1';
 List task = [];
 List orderAmount = [];
 List allSubServices = [];
@@ -43,32 +43,6 @@ bool worker = false, isBoss = false;
 var timeDiff = new Duration(seconds: 0);
 
 String prettify(double d) => d.toStringAsFixed(2).replaceFirst(RegExp(r'\.?0*$'), '');
-String? getBannerAdUnitId() {
-  if (Platform.isIOS) {
-    return 'ca-app-pub-5051441163313137/1086082504';
-  } else if (Platform.isAndroid) {
-    return 'ca-app-pub-5051441163313137/4753864776';
-  }
-  return null;
-}
-
-String? getInterstitialAdUnitId() {
-  if (Platform.isIOS) {
-    return 'ca-app-pub-5051441163313137/3128957760';
-  } else if (Platform.isAndroid) {
-    return 'ca-app-pub-5051441163313137/3065378587';
-  }
-  return null;
-}
-
-String? getRewardBasedVideoAdUnitId() {
-  if (Platform.isIOS) {
-    return 'ca-app-pub-5051441163313137/6613741359';
-  } else if (Platform.isAndroid) {
-    return 'ca-app-pub-5051441163313137/3361672304';
-  }
-  return null;
-}
 
 /*
 AdmobBannerSize? bannerSize;

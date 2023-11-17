@@ -5,6 +5,7 @@ import 'package:closer/constant/app_size.dart';
 import 'package:closer/constant/font_size.dart';
 import 'package:closer/color/MyColors.dart';
 import 'package:closer/constant/functions.dart';
+import 'package:closer/helper/adHelper.dart';
 import 'package:closer/main.dart';
 import 'package:closer/screens/Payment.dart';
 import 'package:flutter/material.dart';
@@ -13,11 +14,13 @@ import 'package:closer/color/MyColors.dart';
 import 'package:closer/screens/order/newOrder.dart';
 import 'package:closer/screens/signin.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:progress_indicators/progress_indicators.dart';
 import 'package:rating_dialog/rating_dialog.dart';
 import 'const.dart';
 import 'localization_service.dart';
 import 'localizations.dart';
+import 'package:flutter_html/flutter_html.dart' as h;
 
 class MyWidget{
   BuildContext context;
@@ -26,12 +29,24 @@ class MyWidget{
     _padButtonV = min(MediaQuery.of(context).size.height / 80, MediaQuery.of(context).size.width / 25);
   }
 
+  static htmlScreen(htmlText,{dirction}){
+    dirction??=Axis.vertical;
+    return SingleChildScrollView(
+     // scrollDirection: dirction,
+      child: h.Html(
+        data: """
+        $htmlText
+                """,
+      ),
+    );
+  }
+
   static myTasklist(ord, index, Function() setState, chCircle,) {
     var serial = ord['OrderService']['Order']['Serial']??1;
     var taskName = ord['Name'];
     var Id = ord['OrderService']['OrderId'];
     var workerName = ord['User']['Name'] + ' ' + ord['User']['LastName'];
-    var date = ord['StartDate'];
+    var date = ord['OrderDate'];
     var addressArea = ord['OrderService']['Order']['Address']['Title'];
     var statusCode = ord['Status'].toString();
    // statusCode = '1';
@@ -574,6 +589,15 @@ class MyWidget{
   }
 
   static loadBannerAdd(){
+    if (AdHelper.bannerAd != null) {
+      return Center(
+        child: SizedBox(
+        width: AdHelper.bannerAd!.size.width.toDouble(),
+        height: AdHelper.bannerAd!.size.height.toDouble(),
+        child: AdWidget(ad: AdHelper.bannerAd!),
+    ),
+      );
+    }
     return SizedBox();
     /*bannerSize = AdmobBannerSize.ADAPTIVE_BANNER(
       // height: MediaQuery.of(context).size.height.toInt()-40,
@@ -702,14 +726,17 @@ class MyWidget{
     bold??= true;
     scale??= 1.0;
     textAlign??= TextAlign.start;
-    return Text(
-      text,
-      textAlign: textAlign,
-      style: TextStyle(
-        fontFamily: 'comfortaa',
-          fontSize: min(MediaQuery.of(context).size.width / 20, MediaQuery.of(context).size.height / 45) * scale ,
-          fontWeight: bold ? FontWeight.bold : FontWeight.normal,
-          color: color),
+    return Padding(
+      padding: EdgeInsets.only(bottom: AppHeight.h1/5),
+      child: Text(
+        text,
+        textAlign: textAlign,
+        style: TextStyle(
+          fontFamily: 'comfortaa',
+            fontSize: min(MediaQuery.of(context).size.width / 20, MediaQuery.of(context).size.height / 45) * scale ,
+            fontWeight: bold ? FontWeight.bold : FontWeight.normal,
+            color: color),
+      ),
     );
   }
 
@@ -759,7 +786,7 @@ class MyWidget{
       style: TextStyle(
         fontFamily: 'comfortaa',
           decoration: lineTrought? TextDecoration.lineThrough : TextDecoration.none,
-          fontSize: min(MediaQuery.of(context).size.width / 25, MediaQuery.of(context).size.height / 55) * scale ,
+          fontSize: FontSize.s16 * scale ,
           fontWeight: bold ? FontWeight.bold : FontWeight.normal,
           color: color),
     );
@@ -769,15 +796,18 @@ class MyWidget{
     scale??=1.0;
     color??=AppColors.white;
     textAlign?? TextAlign.start;
-    return Text(
-      text,
-      style: TextStyle(
-        fontFamily: 'comfortaa',
-          color: color,
-          fontSize: min(MediaQuery.of(context).size.width / 10,MediaQuery.of(context).size.height / 23)*scale,
-          fontWeight: FontWeight.bold,
-          ),
-      textAlign: textAlign,
+    return Padding(
+      padding:  EdgeInsets.symmetric(vertical: AppHeight.h1*0),
+      child: Text(
+        text,
+        style: TextStyle(
+          fontFamily: 'comfortaa',
+            color: color,
+            fontSize: min(MediaQuery.of(context).size.width / 10,MediaQuery.of(context).size.height / 23)*scale,
+            fontWeight: FontWeight.bold,
+            ),
+        textAlign: textAlign,
+      ),
     );
   }
 
@@ -833,13 +863,13 @@ class MyWidget{
 
   dropDownLang(List<String> list, setState()){
     String? lng;
-    return new DropdownButton<String>(
+    return DropdownButton<String>(
       dropdownColor: Colors.grey,
       items: list.map(
             (String value) {
-          return new DropdownMenuItem<String>(
+          return DropdownMenuItem<String>(
             value: value,
-            child: new Text(
+            child: Text(
               value,
               style: TextStyle(
         fontFamily: 'comfortaa',color: Colors.white, fontSize: min(MediaQuery.of(context).size.height/55, MediaQuery.of(context).size.width/25)),
@@ -1281,7 +1311,7 @@ class MyWidget{
   raisedButton(text , press, width, chLogIn, {height, colorText, buttonText, padV, textH, roundBorder}){
     colorText??=AppColors.buttonTextColor;
     buttonText??=AppColors.mainColor1;
-    padV??= min(MediaQuery.of(context).size.width / 20, MediaQuery.of(context).size.height / 46);
+    padV??= AppHeight.h1*1.5;
     textH??= min(MediaQuery.of(context).size.width / 20, MediaQuery.of(context).size.height / 46);
     roundBorder??= MediaQuery.of(context).size.height / 12;
     return Row(

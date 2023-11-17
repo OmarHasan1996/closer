@@ -7,6 +7,7 @@ import 'package:closer/api/api_service.dart';
 import 'package:closer/color/MyColors.dart';
 import 'package:closer/const.dart';
 import 'package:closer/constant/app_size.dart';
+import 'package:closer/constant/font_size.dart';
 import 'package:closer/constant/functions.dart';
 import 'package:closer/localizations.dart';
 import 'package:closer/map/orderTrackingPage.dart';
@@ -43,184 +44,108 @@ class _UserOrderState extends State<UserOrder> {
         children: [
           MyWidget.topYellowDriver(),
           SizedBox(
-            height: MediaQuery.of(context).size.height / 300,
+            height: AppHeight.h1/3,
           ),
           Expanded(
-            child: Container(
-              child: Padding(
-                padding: EdgeInsets.symmetric(
-                    //vertical: MediaQuery.of(context).size.width / 22,
-                    horizontal: MediaQuery.of(context).size.width / 22),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                    DefaultTabController(
-                      length: 3, // length of tabs
-                      initialIndex: widget.initialOrderTab,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: AppColors.white,
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(
-                                MediaQuery.of(context).size.height / 51),
-                            topRight: Radius.circular(
-                                MediaQuery.of(context).size.height / 51),
-                          ),
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                  //vertical: MediaQuery.of(context).size.width / 22,
+                  horizontal: MediaQuery.of(context).size.width / 22),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  DefaultTabController(
+                    length: 3, // length of tabs
+                    initialIndex: widget.initialOrderTab,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: AppColors.white,
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(MediaQuery.of(context).size.height / 51),
+                          topRight: Radius.circular(MediaQuery.of(context).size.height / 51),
                         ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: <Widget>[
-                            Container(
-                              decoration: BoxDecoration(
-                                color: AppColors.WhiteSelver,
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(
-                                      MediaQuery.of(context).size.height / 51),
-                                  topRight: Radius.circular(
-                                      MediaQuery.of(context).size.height / 51),
-                                ),
-                              ),
-                              child: TabBar(
-                                indicatorColor: Colors.transparent,
-                                labelColor: AppColors.yellow,
-                                unselectedLabelColor: Colors.grey,
-                                indicator: const BoxDecoration(
-                                  color: AppColors.white,
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(15),
-                                    topRight: Radius.circular(15),
-                                  ),
-                                ),
-                                tabs: [
-                                  _tap(AppLocalizations.of(context)!
-                                      .translate('NewOrders')),
-                                  _tap(AppLocalizations.of(context)!
-                                      .translate('CurrentOrders')),
-                                  _tap(AppLocalizations.of(context)!
-                                      .translate('FinishedOrders')),
-                                ],
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: <Widget>[
+                          Container(
+                            decoration: BoxDecoration(
+                              color: AppColors.WhiteSelver,
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(MediaQuery.of(context).size.height / 51),
+                                topRight: Radius.circular(MediaQuery.of(context).size.height / 51),
                               ),
                             ),
-                            SizedBox(
-                              height: AppHeight.h60, //height of TabBarView
-                              child: TabBarView(
-                                physics: const NeverScrollableScrollPhysics(),
-                                children: <Widget>[
-                                  ////////// Tab1
-                                  Column(
-                                    children: [
-                                      Expanded(
-                                        child: ListView.builder(
-                                          itemCount: order.length == 0
-                                              ? 0
-                                              : order.length,
-                                          itemBuilder: (context, index) {
-                                            //totalPrice =0;s
-                                            return GestureDetector(
-                                              onTap: () {},
-                                              child: MyWidget(context)
-                                                  .orderlist(order[index], 1,
-                                                      () => _setState()),
-                                            );
-                                          },
-                                          addAutomaticKeepAlives: false,
-                                        ),
+                            child: TabBar(
+                              indicatorColor: Colors.transparent,
+                              labelColor: AppColors.yellow,
+                              unselectedLabelColor: Colors.grey,
+                              indicator: const BoxDecoration(
+                                color: AppColors.white,
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(15),
+                                  topRight: Radius.circular(15),
+                                ),
+                              ),
+                              tabs: [
+                                _tap(AppLocalizations.of(context)!
+                                    .translate('NewOrders')),
+                                _tap(AppLocalizations.of(context)!
+                                    .translate('CurrentOrders')),
+                                _tap(AppLocalizations.of(context)!
+                                    .translate('FinishedOrders')),
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: AppHeight.h50*1.05, //height of TabBarView
+                            child: TabBarView(
+                              physics: const NeverScrollableScrollPhysics(),
+                              children: <Widget>[
+                                ////////// Tab1
+                                Column(
+                                  children: [
+                                    Expanded(
+                                      child: ListView.builder(
+                                        itemCount: order.length,
+                                        itemBuilder: (context, index) {
+                                          //totalPrice =0;s
+                                          return GestureDetector(
+                                            onTap: () {},
+                                            child: MyWidget(context)
+                                                .orderlist(order[index], 1,
+                                                    () => _setState()),
+                                          );
+                                        },
+                                        addAutomaticKeepAlives: false,
                                       ),
-                                      Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: MediaQuery.of(context)
-                                                    .size
-                                                    .width /
-                                                22),
-                                        child: Column(
-                                          children: [
-                                            MyWidget(context).textBlack20(
-                                                AppLocalizations.of(context)!
-                                                    .translate('TOTAL')),
-                                            MyWidget(context).textTitle15(
-                                                "${AppLocalizations.of(context)!.translate('TRY')} ${sumPrice().toStringAsFixed(3)}",
-                                                color: Colors.blue),
-                                            Padding(
-                                              padding: EdgeInsets.symmetric(
-                                                vertical: MediaQuery.of(context)
-                                                        .size
-                                                        .height /
-                                                    200,
-                                              ),
-                                              child: Container(
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width /
-                                                    1.2,
-                                                // ignore: deprecated_member_use
-                                                child: MyWidget(context)
-                                                    .raisedButton(
-                                                        AppLocalizations.of(
-                                                                context)!
-                                                            .translate(
-                                                                'Finished Order'),
-                                                        () => _finishOrder(),
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .width /
-                                                            1.7,
-                                                        false),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  ////////// Tab2
-                                  Container(
-                                    child: Column(
-                                      children: [
-                                        Expanded(
-                                          child: FutureBuilder(
-                                            future: _getMyOrders(
-                                                userData!.content!.id),
-                                            builder: (BuildContext context,
-                                                AsyncSnapshot snap) {
-                                              if (snap.connectionState ==
-                                                  ConnectionState.waiting) {
-                                                _loading = true;
-                                                return MyWidget.jumbingDotes(
-                                                    _loading);
-                                              } else {
-                                                _loading = false;
-                                                return ListView.builder(
-                                                  itemCount: _orderData != null
-                                                      ? _orderData.length
-                                                      : 0,
-                                                  itemBuilder:
-                                                      (context, index) {
-                                                    //totalPrice =0;
-                                                    return GestureDetector(
-                                                      onTap: () {
-                                                        _showOrderDetails(
-                                                            _orderData[index],
-                                                            index + 1);
-                                                      },
-                                                      child:
-                                                          MyWidget.myOrderlist(
-                                                              _orderData[index],
-                                                              index + 1,
-                                                              () => _setState(),
-                                                              chCircle),
-                                                    );
-                                                  },
-                                                  addAutomaticKeepAlives: false,
-                                                );
-                                              }
-                                            },
-                                          ),
-                                        )
-                                      ],
                                     ),
-                                  ),
-                                  ////////// Tab3
-                                  Column(
+                                    Padding(
+                                      padding: EdgeInsets.symmetric(horizontal: AppWidth.w2),
+                                      child: Column(
+                                        children: [
+                                          MyWidget(context).textBlack20(AppLocalizations.of(context)!.translate('TOTAL')),
+                                          MyWidget(context).textTitle15("${AppLocalizations.of(context)!.translate('TRY')} ${sumPrice().toStringAsFixed(3)}", color: Colors.blue),
+                                          Padding(
+                                            padding: EdgeInsets.symmetric(vertical: AppHeight.h1/2,),
+                                            child: MyWidget(context)
+                                                .raisedButton(
+                                                    AppLocalizations.of(
+                                                            context)!
+                                                        .translate(
+                                                            'Finished Order'),
+                                                    () => _finishOrder(),
+                                                    AppWidth.w60,
+                                                    false, height: AppHeight.h4),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                ////////// Tab2
+                                Container(
+                                  child: Column(
                                     children: [
                                       Expanded(
                                         child: FutureBuilder(
@@ -233,26 +158,27 @@ class _UserOrderState extends State<UserOrder> {
                                               _loading = true;
                                               return MyWidget.jumbingDotes(
                                                   _loading);
-                                              return SizedBox();
                                             } else {
-                                              //return SizedBox();
                                               _loading = false;
                                               return ListView.builder(
-                                                itemCount:
-                                                    _finishedOrderData.length,
-                                                itemBuilder: (context, index) {
+                                                itemCount: _orderData != null
+                                                    ? _orderData.length
+                                                    : 0,
+                                                itemBuilder:
+                                                    (context, index) {
                                                   //totalPrice =0;
                                                   return GestureDetector(
                                                     onTap: () {
-                                                      //_showOrderDetails(_finishedOrderData[index], index + 1);
-                                                         MyApplication.navigateTo(context, OrderRecipt(order: _finishedOrderData[index],));
+                                                      _showOrderDetails(
+                                                          _orderData[index],
+                                                          index + 1);
                                                     },
-                                                    child: MyWidget.myOrderlist(
-                                                        _finishedOrderData[
-                                                            index],
-                                                        index + 1,
-                                                        () => _setState(),
-                                                        chCircle),
+                                                    child:
+                                                        MyWidget.myOrderlist(
+                                                            _orderData[index],
+                                                            index + 1,
+                                                            () => _setState(),
+                                                            chCircle),
                                                   );
                                                 },
                                                 addAutomaticKeepAlives: false,
@@ -260,18 +186,64 @@ class _UserOrderState extends State<UserOrder> {
                                             }
                                           },
                                         ),
-                                      ),
+                                      )
                                     ],
                                   ),
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
+                                ),
+                                ////////// Tab3
+                                Column(
+                                  children: [
+                                    Expanded(
+                                      child: FutureBuilder(
+                                        future: _getMyOrders(
+                                            userData!.content!.id),
+                                        builder: (BuildContext context,
+                                            AsyncSnapshot snap) {
+                                          if (snap.connectionState ==
+                                              ConnectionState.waiting) {
+                                            _loading = true;
+                                            return MyWidget.jumbingDotes(
+                                                _loading);
+                                            return SizedBox();
+                                          } else {
+                                            //return SizedBox();
+                                            _loading = false;
+                                            return ListView.builder(
+                                              itemCount:
+                                                  _finishedOrderData.length,
+                                              itemBuilder: (context, index) {
+                                                //totalPrice =0;
+                                                return GestureDetector(
+                                                  onTap: () {
+                                                    //_showOrderDetails(_finishedOrderData[index], index + 1);
+                                                       MyApplication.navigateTo(context, OrderRecipt(order: _finishedOrderData[index],));
+                                                  },
+                                                  child: MyWidget.myOrderlist(
+                                                      _finishedOrderData[
+                                                          index],
+                                                      index + 1,
+                                                      () => _setState(),
+                                                      chCircle),
+                                                );
+                                              },
+                                              addAutomaticKeepAlives: false,
+                                            );
+                                          }
+                                        },
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                  SizedBox(height: AppHeight.h1/2,),
+                  MyWidget.loadBannerAdd(),
+                ],
               ),
             ),
           ),
@@ -325,7 +297,7 @@ class _UserOrderState extends State<UserOrder> {
 
   _tap(String text) {
     return Tab(
-      height: min(AppWidth.w6, AppHeight.h2 * 1.5) * 2,
+      height: FontSize.s16 * 3.5,
       child: Center(
         child: GestureDetector(
           onDoubleTap: () {
