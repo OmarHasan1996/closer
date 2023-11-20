@@ -310,9 +310,9 @@ class _LoadingScreenState extends State<LoadingScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    MyWidget(context).textBlack20(AppLocalizations.of(context)!.translate('Already have an account?'), bold: false),
+                    MyWidget(context).textBlack20(AppLocalizations.of(context)!.translate('Already have an account?'), bold: false, scale: 0.9),
                     SizedBox(
-                      width: MediaQuery.of(context).size.width / 72,
+                      width: AppWidth.w1,
                     ),
                     GestureDetector(
                       onTap: () {

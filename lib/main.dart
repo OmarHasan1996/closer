@@ -62,7 +62,7 @@ void main() async {
 
   await GetStorage.init();
 
-  NotificationController notificationController = Get.put(NotificationController());
+ NotificationController notificationController = Get.put(NotificationController());
 
   await Hive.initFlutter();
   Hive.registerAdapter(TransactionAdapter());

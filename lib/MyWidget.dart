@@ -689,8 +689,8 @@ class MyWidget{
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 !isMain?
-                IconButton(onPressed: ()=> Navigator.of(navigatorKey.currentContext!).pop(), icon: Icon(Icons.arrow_back)):
-                IconButton(onPressed: ()=> key.currentState!.openDrawer(), icon: Icon(Icons.list, size: AppWidth.w8), ),
+                IconButton(onPressed: ()=> Navigator.of(navigatorKey.currentContext!).pop(), icon: Icon(Icons.arrow_back, color: AppColors.white,)):
+                IconButton(onPressed: ()=> key.currentState!.openDrawer(), icon: Icon(Icons.list, size: AppWidth.w8, color: AppColors.white), ),
                 textTitle(title),
                 withoutCart || worker? SizedBox(width: AppWidth.w8,) : Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -698,7 +698,7 @@ class MyWidget{
                   children: [
                     !empty? Text(order.length.toString(),style: TextStyle(
         fontFamily: 'comfortaa',color: AppColors.yellow,fontSize: FontSize.s14),):SizedBox(height: FontSize.s14*2,),
-                    IconButton(onPressed: () => _iconPress(empty, newOrder: newOrder), icon: Icon(Icons.shopping_cart_outlined,size: AppWidth.w8,))
+                    IconButton(onPressed: () => _iconPress(empty, newOrder: newOrder), icon: Icon(Icons.shopping_cart_outlined,size: AppWidth.w8, color: AppColors.white))
                   ],
                 ),
               ],
