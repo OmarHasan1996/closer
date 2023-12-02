@@ -216,7 +216,7 @@ class _UserOrderState extends State<UserOrder> {
                                                 return GestureDetector(
                                                   onTap: () {
                                                     //_showOrderDetails(_finishedOrderData[index], index + 1);
-                                                       MyApplication.navigateTo(context, OrderRecipt(order: _finishedOrderData[index],));
+                                                       MyApplication.navigateTo(context, OrderReceipt(order: _finishedOrderData[index],));
                                                   },
                                                   child: MyWidget.myOrderlist(
                                                       _finishedOrderData[

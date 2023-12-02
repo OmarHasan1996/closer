@@ -7,41 +7,46 @@ import 'package:closer/localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class OrderRecipt extends StatefulWidget {
+class OrderReceipt extends StatefulWidget {
   var order;
-  OrderRecipt({Key? key, required this.order}) : super(key: key);
+  OrderReceipt({Key? key, required this.order}) : super(key: key);
   @override
-  State<OrderRecipt> createState() => _OrderReciptState();
+  State<OrderReceipt> createState() => _OrderReceiptState();
 }
 
-class _OrderReciptState extends State<OrderRecipt> {
+class _OrderReceiptState extends State<OrderReceipt> {
 
   String _num = '57898';
   String _numDelivery = '57898';
   String _date = 'July 12 , 2021';
+  String _time = '02:12 AM';
   String _addressTitleBilling = '----';
   String _addressPhoneBilling = '----';
   String _addressNoteBilling = '----';
   String _addressTitle = 'ttt';
   String _addressPhone = '999';
   String _addressNote = '999';
-  List _orderItems = [1,2];
+  List _orderItems =[];
   double _tax = 0.0;
+  String _groupName = 'Zaid Al sham';
+  String _deliverDate = '5.11.2023 5:55';
+  bool _paid = false;
+
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    _num = widget.order['Serial'].toString();
-    _numDelivery = widget.order['Serial'].toString();
-    _date = widget.order['EndDate']??'';
-    _addressTitle = widget.order['Address']['Title'];
-    _addressPhone = "${widget.order['Address']['building']??''} - ${widget.order['Address']['appartment']}";
-    _addressNote = widget.order['Address']['notes'];
-    _orderItems = widget.order['Servicess'];
-    _addressTitleBilling = widget.order['User']['Email'];
-    _addressPhoneBilling = widget.order['User']['Mobile'];
-
+   // _num = widget.order['Serial'].toString();
+   // _numDelivery = widget.order['Serial'].toString();
+    // _date = widget.order['EndDate']??'';
+    // _time = widget.order['EndDate']??'';
+   // _addressTitle = widget.order['Address']['Title'];
+   // _addressPhone = "${widget.order['Address']['building']??''} - ${widget.order['Address']['appartment']}";
+   // _addressNote = widget.order['Address']['notes'];
+   // _orderItems = widget.order['Servicess'];
+   // _addressTitleBilling = widget.order['User']['Email'];
+   // _addressPhoneBilling = widget.order['User']['Mobile'];
   }
 
   @override
@@ -80,18 +85,53 @@ class _OrderReciptState extends State<OrderRecipt> {
               MyWidget(context).textBlack20(_date, scale: 0.8),
             ],
           ),
-          MyWidget(context).textHead10(AppLocalizations.of(context)!.translate('INVOICE')  + '#  $_num', color: AppColors.red, scale: 0.4),
-          MyWidget(context).textBlack20(AppLocalizations.of(context)!.translate('Delivery No') + ': $_numDelivery', scale: 0.8),
+          MyWidget(context).textHead10(AppLocalizations.of(context)!.translate('CLOSER')  + '#  $_num', color: AppColors.red, scale: 0.4),
+          SizedBox(height: AppHeight.h1/2,),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              MyWidget(context).textBlack20(_groupName + ': $_numDelivery', scale: 0.8),
+              MyWidget(context).textBlack20(_time, scale: 0.8),
+            ],
+          ),
           Divider(color: AppColors.black, thickness: 1,),
           MyWidget(context).textHead10(AppLocalizations.of(context)!.translate('Billing Address'), color: AppColors.black, scale: 0.4),
           MyWidget(context).textBlack20(_addressTitleBilling, scale: 0.7, color: AppColors.gray),
           MyWidget(context).textBlack20(_addressPhoneBilling, scale: 0.7, color: AppColors.gray),
           //MyWidget(context).textBlack20(_addressNoteBilling, scale: 0.7, color: AppColors.gray),
           Divider(color: AppColors.gray, thickness: 1,),
-          MyWidget(context).textHead10(AppLocalizations.of(context)!.translate('Shipping Address'), color: AppColors.black, scale: 0.4),
-          MyWidget(context).textBlack20(_addressTitle, scale: 0.7, color: AppColors.gray),
-          MyWidget(context).textBlack20(_addressPhone, scale: 0.7, color: AppColors.gray),
-          MyWidget(context).textBlack20(_addressNote, scale: 0.7, color: AppColors.gray),
+          Stack(
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  MyWidget(context).textHead10(AppLocalizations.of(context)!.translate('Shipping Address'), color: AppColors.black, scale: 0.4),
+                  MyWidget(context).textBlack20(_addressTitle, scale: 0.7, color: AppColors.gray),
+                  MyWidget(context).textBlack20(_addressPhone, scale: 0.7, color: AppColors.gray),
+                  MyWidget(context).textBlack20(_addressNote, scale: 0.7, color: AppColors.gray),
+                  MyWidget(context).textBlack20(_deliverDate, scale: 0.7, color: AppColors.gray),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Transform.rotate(
+                    angle: -2/4,
+                    child: Container(
+                      margin: EdgeInsets.symmetric(horizontal: AppWidth.w4, vertical: AppHeight.h1),
+                      padding: EdgeInsets.symmetric(horizontal: AppWidth.w4, vertical: AppHeight.h1),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: AppColors.mainColor, width: 2),
+                        borderRadius: BorderRadius.all(Radius.circular(AppWidth.w1)),
+                      ),
+                      child: MyWidget(context).textHead10(_paid?AppLocalizations.of(context)!.translate('Already Paid'):AppLocalizations.of(context)!.translate('On Delivery'), color: AppColors.mainColor, scale: 0.7),
+                    ),
+                  )
+                ],
+              )
+            ],
+          ),
           Divider(color: AppColors.gray, thickness: 1,),
           _tableRow(color: AppColors.black, scale: 0.4,
               text1: AppLocalizations.of(context)!.translate('Item Description'),
