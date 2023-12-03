@@ -328,7 +328,7 @@ class _SignInState extends State<SignIn> {
                                       redirectUri:
                                        Uri.parse(
                                         //'https://flutter-sign-in-with-apple-example.glitch.me/callbacks/sign_in_with_apple',
-                                        'https://api.mr-service.co.com/callbacks/sign_in_with_apple'
+                                        'https://api.closer.com/callbacks/sign_in_with_apple'
                                       ),
                                     ),
                                 // TODO: Remove these if you have no need for them
