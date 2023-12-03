@@ -323,18 +323,10 @@ class _SignInState extends State<SignIn> {
                                 ],
                                 webAuthenticationOptions: WebAuthenticationOptions(
                                       // TODO: Set the `clientId` and `redirectUri` arguments to the values you entered in the Apple Developer portal during the setup
-                                   //redirectURL = "https://SERVER_AS_PER_THE_DOCS.glitch.me/callbacks/sign_in_with_apple";
-                                  //'https://api.mr-service.co.com/callbacks/sign_in_with_apple'
-                                  //clientID = "AS_PER_THE_DOCS";
                                       clientId:
-                                      'co.mr-service.api',
-
+                                      'co.closer.api',
                                       redirectUri:
-                                      // For web your redirect URI needs to be the host of the "current page",
-                                      // while for Android you will be using the API server that redirects back into your app via a deep link
-                                      //kIsWeb
-                                       //   ? Uri.parse('https://${window.location.host}/') :
-                                      Uri.parse(
+                                       Uri.parse(
                                         //'https://flutter-sign-in-with-apple-example.glitch.me/callbacks/sign_in_with_apple',
                                         'https://api.mr-service.co.com/callbacks/sign_in_with_apple'
                                       ),
@@ -343,27 +335,21 @@ class _SignInState extends State<SignIn> {
                                 // nonce: 'example-nonce',
                                 // state: 'example-state',
                               );
-
-                              // ignore: avoid_print
-                              print(credential);
-
                               try{
-
                                 Map mapDate = {
-                                  "Name": credential.givenName!,
-                                  "LastName": credential.familyName!.toString(),
+                                  "Name": credential.givenName??"apple",
+                                  "LastName": credential.familyName??"User",
                                   "Mobile": '',
                                   "Email": credential.email!.toString(),
                                   "Password": 'password',
                                 };
                                 setState(() => chLogIn = false);
+                                // ignore: use_build_context_synchronously
                                 Navigator.of(context).push(MaterialPageRoute(builder: (context) => new Register(true,mapDate: mapDate,)));
                                 //setState(()=>chLogIn =false);
                             }catch(e){
                                 APIService.flushBar(e.toString());
                               }
-                              // This is the endpoint that will convert an authorization code obtained
-                              // via Sign in with Apple into a session in your system
                               final signInWithAppleEndpoint = Uri(
                                 scheme: 'https',
                                 host: 'flutter-sign-in-with-apple-example.glitch.me',
@@ -381,14 +367,9 @@ class _SignInState extends State<SignIn> {
                                   if (credential.state != null) 'state': credential.state!,
                                 },
                               );
-
                               final session = await http.Client().post(
                                 signInWithAppleEndpoint,
                               );
-
-                              // If we got this far, a session based on the Apple ID credential has been created in your system,
-                              // and you can now set this as the app's session
-                              // ignore: avoid_print
                               print(session);
                             },
                             child: Container(
@@ -399,65 +380,6 @@ class _SignInState extends State<SignIn> {
                                 image: DecorationImage(
                                     image: AssetImage('assets/images/apple.png'), fit: BoxFit.cover),
                               ),
-                              /*child: SignInWithAppleButton(
-                                onPressed: () async {
-                                  final credential = await SignInWithApple.getAppleIDCredential(
-                                    scopes: [
-                                      AppleIDAuthorizationScopes.email,
-                                      AppleIDAuthorizationScopes.fullName,
-                                    ],
-                                    /*webAuthenticationOptions: WebAuthenticationOptions(
-                                      // TODO: Set the `clientId` and `redirectUri` arguments to the values you entered in the Apple Developer portal during the setup
-                                      clientId:
-                                      'de.lunaone.flutter.signinwithappleexample.service',
-
-                                      redirectUri:
-                                      // For web your redirect URI needs to be the host of the "current page",
-                                      // while for Android you will be using the API server that redirects back into your app via a deep link
-                                      kIsWeb
-                                          ? Uri.parse('https://${window.location.host}/')
-                                          : Uri.parse(
-                                        'https://flutter-sign-in-with-apple-example.glitch.me/callbacks/sign_in_with_apple',
-                                      ),
-                                    ),*/
-                                    // TODO: Remove these if you have no need for them
-                                   // nonce: 'example-nonce',
-                                   // state: 'example-state',
-                                  );
-
-                                  // ignore: avoid_print
-                                  print(credential);
-
-                                  // This is the endpoint that will convert an authorization code obtained
-                                  // via Sign in with Apple into a session in your system
-                                  final signInWithAppleEndpoint = Uri(
-                                    scheme: 'https',
-                                    host: 'flutter-sign-in-with-apple-example.glitch.me',
-                                    path: '/sign_in_with_apple',
-                                    queryParameters: <String, String>{
-                                      'code': credential.authorizationCode,
-                                      if (credential.givenName != null)
-                                        'firstName': credential.givenName!,
-                                      if (credential.familyName != null)
-                                        'lastName': credential.familyName!,
-                                      'useBundleId':
-                                      /*!kIsWeb && (Platform.isIOS || Platform.isMacOS)
-                                          ? 'true':*/
-                                           'false',
-                                      if (credential.state != null) 'state': credential.state!,
-                                    },
-                                  );
-
-                                  final session = await http.Client().post(
-                                    signInWithAppleEndpoint,
-                                  );
-
-                                  // If we got this far, a session based on the Apple ID credential has been created in your system,
-                                  // and you can now set this as the app's session
-                                  // ignore: avoid_print
-                                  print(session);
-                                },
-                              ),*/
                             ),
                           ),
                         ],

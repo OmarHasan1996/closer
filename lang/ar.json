@@ -52,6 +52,7 @@
   "Add To MY ORDER":"إضافة إلى طلباتي",
   "Your Order Added To MY ORDER":"تمت إضافة طلبك لطلباتي",
   "TOTAL":"الإجمالي",
+  "Total":"المجموع",
   "Finished Order":"إنهاء الطلب",
   "Amount": "الكمية    ",
   "Attachment": "المرفق",
@@ -192,7 +193,8 @@
   "Download Receipt": "مشاركة الفاتورة",
   "Go": "اذهب",
   "On Delivery": "عند التوصيل",
-  "Already Paid": "مدفوع مسبقاً"
+  "Already Paid": "مدفوع مسبقاً",
+  "Delivery Date": "وقت الإستلام"
 
 
 

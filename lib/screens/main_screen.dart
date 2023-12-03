@@ -572,7 +572,7 @@ iOS: ca-app-pub-3940256099942544/1712485313
           key: _key,
           appBar: MyWidget.appBar(title: AppLocalizations.of(context)!.translate('Our Services'), isMain: true, key: _key),
           drawer: MyWidget(context).drawer(barHight, MediaQuery.of(context).size.height / 80 * 3, ()=>_setState()),
-      backgroundColor: Color(0xffF4F4F9),
+      backgroundColor: AppColors.background,
           body: _widgetOptions.elementAt(_selectedIndex),
           bottomNavigationBar: BottomNavigationBar(
             items: [

@@ -59,8 +59,14 @@ class _HomeScreenState extends State<HomeScreen> {
                       else{
                         //return SizedBox();
                         _loading = false;
-                        return _go ? MyWidget.jumbingDotes(_go) : ListView.builder(
-                          itemCount: service.length,
+                        return _go ? MyWidget.jumbingDotes(_go) : GridView.builder(
+                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2, // number of items in each row
+                            mainAxisSpacing: AppWidth.w4, // spacing between rows
+                            crossAxisSpacing: AppWidth.w4, // spacing between columns
+                          ),
+                          padding: EdgeInsets.symmetric(horizontal: AppWidth.w8, vertical: AppHeight.h1), // padding around the grid
+                          itemCount: service.length, // total number of items
                           itemBuilder: (context, index) {
                             return serviceRow(service[index]);
                           },
@@ -80,19 +86,60 @@ class _HomeScreenState extends State<HomeScreen> {
     )
     ;
   }
-  Padding serviceRow(ser) {
+  Widget serviceRow(ser) {
     var name = ser['Name'];
     var imagepath = ser['ImagePath'];
     // id = ser['Id'];
-    return Padding(
-      padding: EdgeInsets.symmetric(
-          vertical: MediaQuery.of(context).size.width * 0.015,
-          horizontal: MediaQuery.of(context).size.width / 22),
-      child: Row(
+    return SizedBox(
+      child: GestureDetector(
+        onTap: () {
+          var id = ser['Id'];
+          print("id-name");
+          print(id);
+          print(name);
+          setState(() {
+            _transScreen = true;
+          });
+          getSubServiceData(id);
+          setState(() {
+            _transScreen = false;
+          });
+        },
+        child: Container(
+          padding: EdgeInsets.all(AppWidth.w2*0),
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            //border: Border.all(color: AppColors.mainColor),
+            color: AppColors.background,
+            borderRadius: BorderRadius.all(Radius.circular(AppWidth.w2)),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.5),
+                spreadRadius: 1,
+                blurRadius: 2,
+                offset: Offset(0, 1), // changes position of shadow
+              ),
+            ],
+            image: DecorationImage(image: NetworkImage(imagepath), fit: BoxFit.cover)
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Container(
+                color: AppColors.background,
+                width: double.infinity,
+                alignment: Alignment.center,
+                child: MyWidget(context).textBlack20(name,bold: false),
+              ),
+            ],
+          ),
+        ),
+      ),
+      /*Row(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Container(
+          *//*Container(
             alignment: Alignment.center,
             width: min(MediaQuery.of(context).size.width * 0.28, MediaQuery.of(context).size.height * 0.18),
             height: min(MediaQuery.of(context).size.width / 3.5, MediaQuery.of(context).size.height / 8.5),
@@ -114,7 +161,7 @@ class _HomeScreenState extends State<HomeScreen> {
           SizedBox(
             width: MediaQuery.of(context).size.width * 0.03,
             //child: Text(),
-          ),
+          ),*//*
           GestureDetector(
             onTap: () {
               var id = ser['Id'];
@@ -165,9 +212,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ),
-          )
+          ),
+
         ],
-      ),
+      ),*/
     );
   }
 

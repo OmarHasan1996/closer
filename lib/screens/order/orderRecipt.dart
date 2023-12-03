@@ -30,23 +30,25 @@ class _OrderReceiptState extends State<OrderReceipt> {
   double _tax = 0.0;
   String _groupName = 'Zaid Al sham';
   String _deliverDate = '5.11.2023 5:55';
-  bool _paid = false;
-
+  bool _paid = true;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-   // _num = widget.order['Serial'].toString();
-   // _numDelivery = widget.order['Serial'].toString();
-    // _date = widget.order['EndDate']??'';
-    // _time = widget.order['EndDate']??'';
-   // _addressTitle = widget.order['Address']['Title'];
-   // _addressPhone = "${widget.order['Address']['building']??''} - ${widget.order['Address']['appartment']}";
-   // _addressNote = widget.order['Address']['notes'];
-   // _orderItems = widget.order['Servicess'];
-   // _addressTitleBilling = widget.order['User']['Email'];
-   // _addressPhoneBilling = widget.order['User']['Mobile'];
+    _num = widget.order['Serial'].toString();
+    _numDelivery = widget.order['Serial'].toString();
+    _date = widget.order['OrderDate']==null?'':widget.order['OrderDate'].toString().split('T')[0];
+    _time = widget.order['OrderDate']==null?'':widget.order['OrderDate'].toString().split('T')[1];
+    _addressTitle = widget.order['Address']['Title'];
+    _addressPhone = "${widget.order['Address']['building']??''} - ${widget.order['Address']['appartment']}";
+    _addressNote = widget.order['Address']['notes'];
+    _orderItems = widget.order['Servicess'];
+    _addressTitleBilling = widget.order['User']['Email'];
+    _addressPhoneBilling = widget.order['User']['Mobile'];
+    _groupName = widget.order['Servicess'][0]['Group']['Name'];
+    _paid = widget.order['PayType'] == 1?false:true;
+    _deliverDate = widget.order['EndDate'] == null? ' ' : widget.order['EndDate'].toString().replaceAll('T', ' ');
   }
 
   @override
@@ -109,7 +111,6 @@ class _OrderReceiptState extends State<OrderReceipt> {
                   MyWidget(context).textBlack20(_addressTitle, scale: 0.7, color: AppColors.gray),
                   MyWidget(context).textBlack20(_addressPhone, scale: 0.7, color: AppColors.gray),
                   MyWidget(context).textBlack20(_addressNote, scale: 0.7, color: AppColors.gray),
-                  MyWidget(context).textBlack20(_deliverDate, scale: 0.7, color: AppColors.gray),
                 ],
               ),
               Row(
@@ -125,7 +126,7 @@ class _OrderReceiptState extends State<OrderReceipt> {
                         border: Border.all(color: AppColors.mainColor, width: 2),
                         borderRadius: BorderRadius.all(Radius.circular(AppWidth.w1)),
                       ),
-                      child: MyWidget(context).textHead10(_paid?AppLocalizations.of(context)!.translate('Already Paid'):AppLocalizations.of(context)!.translate('On Delivery'), color: AppColors.mainColor, scale: 0.7),
+                      child: MyWidget(context).textHead10(_paid?AppLocalizations.of(context)!.translate('card'):AppLocalizations.of(context)!.translate('cash'), color: AppColors.mainColor, scale: 0.7),
                     ),
                   )
                 ],
@@ -186,7 +187,7 @@ class _OrderReceiptState extends State<OrderReceipt> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          MyWidget(context).textHead10('Total:', color: AppColors.gray, scale: 0.4),
+                          MyWidget(context).textHead10("${AppLocalizations.of(context)!.translate('Total')}: ", color: AppColors.gray, scale: 0.4),
                           MyWidget(context).textHead10('${_sumPrice() + _tax}', color: AppColors.black, scale: 0.4),
                           SizedBox(width: AppWidth.w1,)
                         ],
@@ -198,8 +199,9 @@ class _OrderReceiptState extends State<OrderReceipt> {
             ],
           ),
           Divider(color: AppColors.black, thickness: 1,),
-          MyWidget(context).textHead10(AppLocalizations.of(context)!.translate('Terms & Condition'), color: AppColors.black, scale: 0.4),
-          MyWidget(context).textBlack20(AppLocalizations.of(context)!.translate('Terms & Condition desc'), scale: 0.7, color: AppColors.gray),
+          MyWidget(context).textHead10('${AppLocalizations.of(context)!.translate('Delivery Date')}: $_deliverDate', color: AppColors.black, scale: 0.4),
+          //MyWidget(context).textHead10(AppLocalizations.of(context)!.translate('Terms & Condition'), color: AppColors.black, scale: 0.4),
+          //MyWidget(context).textBlack20(AppLocalizations.of(context)!.translate('Terms & Condition desc'), scale: 0.7, color: AppColors.gray),
         ],
       ),
     );
