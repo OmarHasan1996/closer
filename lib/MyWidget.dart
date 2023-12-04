@@ -678,13 +678,13 @@ class MyWidget{
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            SizedBox(height: AppHeight.h1,),
+            //SizedBox(height: AppHeight.h1,),
             SvgPicture.asset(
               'assets/images/app_bar_logo.svg',
-              width: AppWidth.w20,
-              height: AppHeight.h2,
+              width: AppWidth.w40,
+              height: AppHeight.h5,
             ),
-            SizedBox(height: AppHeight.h1/2,),
+            //SizedBox(height: AppHeight.h1/2,),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

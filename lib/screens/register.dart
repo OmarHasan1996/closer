@@ -155,63 +155,66 @@ class _RegisterState extends State<Register> {
                       Padding(
                         padding: EdgeInsets.all(
                             MediaQuery.of(context).size.height / 75),
-                        child: IntlPhoneField(
-                          //keyboardType: TextInputType.number,
-                          //validator: requiredValidator,
-                          invalidNumberMessage: '',
-                          //autovalidateMode: AutovalidateMode.onUserInteraction,
-                          //controller: phoneController,
-                          style: TextStyle(
-                              fontFamily: 'comfortaa',
-                              color: AppColors.white,
-                              fontSize: min(
-                                  MediaQuery.of(context).size.width / 25,
-                                  MediaQuery.of(context).size.height / 55)),
-                          decoration: InputDecoration(
-                            labelText: AppLocalizations.of(context)!
-                                .translate('Phone Number'),
-                            labelStyle: TextStyle(
-                              fontFamily: 'comfortaa',
-                              fontSize: min(
-                                  MediaQuery.of(context).size.width / 25,
-                                  MediaQuery.of(context).size.height / 55),
-                              color: AppColors.white,
-                            ),
-                            errorStyle: TextStyle(
+                        child: Directionality(
+                          textDirection: TextDirection.ltr,
+                          child: IntlPhoneField(
+                            //keyboardType: TextInputType.number,
+                            //validator: requiredValidator,
+                            invalidNumberMessage: '',
+                            //autovalidateMode: AutovalidateMode.onUserInteraction,
+                            //controller: phoneController,
+                            style: TextStyle(
                                 fontFamily: 'comfortaa',
+                                color: AppColors.white,
                                 fontSize: min(
                                     MediaQuery.of(context).size.width / 25,
                                     MediaQuery.of(context).size.height / 55)),
-                            enabledBorder: OutlineInputBorder(
+                            decoration: InputDecoration(
+                              labelText: AppLocalizations.of(context)!
+                                  .translate('Phone Number'),
+                              labelStyle: TextStyle(
+                                fontFamily: 'comfortaa',
+                                fontSize: min(
+                                    MediaQuery.of(context).size.width / 25,
+                                    MediaQuery.of(context).size.height / 55),
+                                color: AppColors.white,
+                              ),
+                              errorStyle: TextStyle(
+                                  fontFamily: 'comfortaa',
+                                  fontSize: min(
+                                      MediaQuery.of(context).size.width / 25,
+                                      MediaQuery.of(context).size.height / 55)),
+                              enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(
+                                      MediaQuery.of(context).size.height / 12),
+                                  borderSide:
+                                      BorderSide(color: Colors.grey, width: 2)),
+                              focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(
                                     MediaQuery.of(context).size.height / 12),
                                 borderSide:
-                                    BorderSide(color: Colors.grey, width: 2)),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(
-                                  MediaQuery.of(context).size.height / 12),
-                              borderSide:
-                                  BorderSide(color: Colors.grey, width: 2),
+                                    BorderSide(color: Colors.grey, width: 2),
+                              ),
+                              errorBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(
+                                    MediaQuery.of(context).size.height / 12),
+                                borderSide:
+                                    BorderSide(color: Colors.red, width: 2),
+                              ),
+                              focusedErrorBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(
+                                    MediaQuery.of(context).size.height / 12),
+                                borderSide:
+                                    BorderSide(color: AppColors.red, width: 2),
+                              ),
                             ),
-                            errorBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(
-                                  MediaQuery.of(context).size.height / 12),
-                              borderSide:
-                                  BorderSide(color: Colors.red, width: 2),
-                            ),
-                            focusedErrorBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(
-                                  MediaQuery.of(context).size.height / 12),
-                              borderSide:
-                                  BorderSide(color: AppColors.red, width: 2),
-                            ),
+                            initialCountryCode: "OM",
+                            onChanged: (phone) {
+                              print(phone.countryCode);
+                              phoneController.text = phone.completeNumber;
+                              print(phone.completeNumber);
+                            },
                           ),
-                          initialCountryCode:
-                              WidgetsBinding.instance.window.locale.countryCode,
-                          onChanged: (phone) {
-                            phoneController.text = phone.completeNumber;
-                            print(phone.completeNumber);
-                          },
                         ),
                         /* buildContainer(phoneController, AppLocalizations.of(context)!.translate('Phone Number'),
                                       TextInputType.number, requiredValidator,false),*/
