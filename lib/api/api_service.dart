@@ -323,6 +323,8 @@ class APIService {
         "Mobile": mobile,
         "Email": email,
         "Password": password,
+        "IsVerified":false,
+        "type": 0,
       };
       print(jsonEncode(mapDate));
       http.Response response =
@@ -333,7 +335,9 @@ class APIService {
       });
       if (response.statusCode == 200) {
         String x = response.body;
+        print(x);
         if (jsonDecode(x)["Errors"] == '' || jsonDecode(x)["Errors"] == null) {
+          print(x);
           var value = jsonDecode(x)["Data"][0]["Id"].toString();
           RegisterData _model = registerDataFromJson(x);
           //userData = _model.data;

@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl_phone_field/countries.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:closer/api/api_service.dart';
 import 'package:closer/color/MyColors.dart';
@@ -149,8 +150,7 @@ class _RegisterState extends State<Register> {
                             emailController,
                             '',
                             AppLocalizations.of(context)!
-                                .translate('Email Address'),
-                            email: true),
+                                .translate('User Name')),
                       ),
                       Padding(
                         padding: EdgeInsets.all(

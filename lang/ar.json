@@ -29,7 +29,7 @@
   "Log in Now":"سجل دخول الآن",
   "Server is busy try again later":"المخدم مشغول. الرجاء المحاولة لاحقاً",
   "verification page": "_comment",
-  "Enter the 6-digit code sent to your phone":" أدخل الرمز المؤلف من ستة أرقام المرسل إلى ايميلك",
+  "Enter the 6-digit code sent to your phone":" أدخل الرمز المؤلف من ستة أرقام المرسل إلى رقم هاتفك",
   "Didn't receive the code?":"لم يتم تلقي الرمز؟",
   "Resend":"إعادة إرسال",
   "Confirm":"تأكيد",
@@ -195,6 +195,7 @@
   "On Delivery": "عند التوصيل",
   "Already Paid": "مدفوع مسبقاً",
   "Delivery Date": "وقت الإستلام"
+
 
 
 

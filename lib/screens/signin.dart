@@ -123,7 +123,7 @@ class _SignInState extends State<SignIn> {
                     ),
                     Expanded(
                       flex: 3,
-                      child: MyWidget(context).textFiled(emailController,AppLocalizations.of(context)!.translate('useremail@domain.com'),AppLocalizations.of(context)!.translate('Email Address'),email: true),
+                      child: MyWidget(context).textFiled(emailController,AppLocalizations.of(context)!.translate('useremail@domain.com'),AppLocalizations.of(context)!.translate('User Name'),),
                     ),
                     SizedBox(
                       height: MediaQuery.of(context).size.height / 60,

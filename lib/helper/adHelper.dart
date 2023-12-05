@@ -19,8 +19,8 @@ class AdHelper {
       //return 'ca-app-pub-5051441163313137/1086082504'; // closer
     } else if (Platform.isAndroid) {
       //return 'ca-app-pub-3940256099942544/6300978111'; // test
-      return 'ca-app-pub-5051441163313137/2483727686'; // mr. Service
-      //return 'ca-app-pub-5051441163313137/4753864776'; // closer
+      //return 'ca-app-pub-5051441163313137/2483727686'; // mr. Service
+      return 'ca-app-pub-5051441163313137/4753864776'; // closer
     }
     return null;
   }
@@ -30,7 +30,7 @@ class AdHelper {
       return 'ca-app-pub-5051441163313137/4854733985';// mr. Service
       return 'ca-app-pub-5051441163313137/3128957760';// closer
     } else if (Platform.isAndroid) {
-      return 'ca-app-pub-5051441163313137/4488451213';// mr. Service
+      //return 'ca-app-pub-5051441163313137/4488451213';// mr. Service
       return 'ca-app-pub-5051441163313137/3065378587';// closer
     }
     return null;
@@ -41,7 +41,7 @@ class AdHelper {
       return 'ca-app-pub-5051441163313137/9915488976';// mr. Service
       return 'ca-app-pub-5051441163313137/6613741359';// closer
     } else if (Platform.isAndroid) {
-      return 'ca-app-pub-5051441163313137/9961938045';// mr. Service
+     // return 'ca-app-pub-5051441163313137/9961938045';// mr. Service
       return 'ca-app-pub-5051441163313137/3361672304';// closer
     }
     return null;

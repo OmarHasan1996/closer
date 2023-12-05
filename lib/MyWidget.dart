@@ -326,9 +326,26 @@ class MyWidget{
       final _dialog = RatingDialog(
         initialRating: 1.0,
         // your app's name?
-        title: MyWidget(navigatorKey.currentContext!).textBlack20("#"+AppLocalizations.of(navigatorKey.currentContext!)!.translate('Order Id: ') + serial.toString(), scale: 0.9),
+        title: Text(
+          "#"+AppLocalizations.of(navigatorKey.currentContext!)!.translate('Order Id: ') + serial.toString(),
+          textAlign: TextAlign.start,
+          style: TextStyle(
+              fontFamily: 'comfortaa',
+              fontSize: FontSize.s18 ,
+              fontWeight: FontWeight.bold,
+              color: AppColors.black),
+        ),
         // encourage your user to leave a high rating?
-        message: MyWidget(navigatorKey.currentContext!).textBlack20(AppLocalizations.of(navigatorKey.currentContext!)!.translate('Reviews are public and include your account and device info'), scale: 0.8),
+       // message: MyWidget(navigatorKey.currentContext!).textBlack20(AppLocalizations.of(navigatorKey.currentContext!)!.translate('Reviews are public and include your account and device info'), scale: 0.8),
+       message: Text(
+         AppLocalizations.of(navigatorKey.currentContext!)!.translate('Reviews are public and include your account and device info'),
+         textAlign: TextAlign.start,
+         style: TextStyle(
+             fontFamily: 'comfortaa',
+             fontSize: FontSize.s16 ,
+             fontWeight: FontWeight.normal,
+             color: AppColors.black),
+       ),
         // your app's logo?
         image: Image.asset('assets/images/logo000.png', height: AppHeight.h18,),
         submitButtonText: 'Submit',
