@@ -292,19 +292,15 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                                             context)!
                                                         .translate("Address")),
                                                 MyWidget(context).raisedButton(
-                                                    AppLocalizations.of(
-                                                                context)!
-                                                            .translate('add') +
-                                                        " " +
-                                                        AppLocalizations.of(
+                                                    "${AppLocalizations.of(
+                                                                context)!.translate('add')} ${AppLocalizations.of(
                                                                 context)!
                                                             .translate(
-                                                                'Address'),
+                                                                'Address')}",
                                                     () => {
                                                           Navigator.of(context).push(
                                                               MaterialPageRoute(
-                                                                  builder: (context) =>
-                                                                      new MagageAddressScreen(
+                                                                  builder: (context) => MagageAddressScreen(
                                                                           token:
                                                                               token))).then((value) => setState(() async{
                                                             await getAddress(userData!.content!.id);
@@ -926,6 +922,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
       print(response.statusCode);
       Address = [];
     }
+    setState(() {});
   }
 
   bool _sendingOrder = false;
