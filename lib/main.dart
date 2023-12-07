@@ -1,6 +1,7 @@
 //import 'dart:convert';
 import 'dart:io';
 
+import 'package:closer/screens/boss/driverList.dart';
 import 'package:closer/screens/order/orderRecipt.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -135,7 +136,7 @@ class MyApp extends StatelessWidget {
           //locale: LocalizationService().getCurrentLocale(),
           //fallbackLocale: Locale('en', 'US'),
           navigatorKey: navigatorKey,
-          home: LoadingScreen(email: '',),
+          home: DriverList(),//LoadingScreen(email: '',),
           routes: {
             'about': (context) => about(),
             'changeLang': (context) => ChangeLang(),
