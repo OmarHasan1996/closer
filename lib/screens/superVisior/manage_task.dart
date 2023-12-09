@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:closer/constant/app_size.dart';
+import 'package:closer/constant/functions.dart';
+import 'package:closer/screens/superVisior/driverList.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:closer/api/api_service.dart';
@@ -157,7 +159,7 @@ class _ManageTaskState extends State<ManageTask> {
                             _iconText(Colors.grey, Icons.location_on_outlined, _location, MainAxisAlignment.start),
                             _iconText(Colors.grey, Icons.call, _phone, MainAxisAlignment.start),
                             SizedBox(height: MediaQuery.of(context).size.height/80,),
-                            Divider(height: 1, thickness: 2, color: Colors.grey[400],),
+                          /*  Divider(height: 1, thickness: 2, color: Colors.grey[400],),
                             SizedBox(height: MediaQuery.of(context).size.height/80,),
                             Padding(
                               padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height/200),
@@ -178,7 +180,7 @@ class _ManageTaskState extends State<ManageTask> {
                                 //_netWorkImage(_service['OrderServiceAttatchs']['FilePath']),
                               ],
                             ),
-                            /*Container(
+                            *//*Container(
                             height: MediaQuery.of(context).size.height/15,
                             padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height/200),
                             child: Scrollbar(
@@ -208,9 +210,9 @@ class _ManageTaskState extends State<ManageTask> {
                                   flex: 3,
                                   child: _iconText(Colors.grey, Icons.date_range_outlined, _orderDate, MainAxisAlignment.end)),
                             ],
-                          ),*/
+                          ),*//*
                             SizedBox(height: MediaQuery.of(context).size.height/100,),
-                            Divider(height: 1, thickness: 2, color: Colors.grey[400],),
+                            Divider(height: 1, thickness: 2, color: Colors.grey[400],),*/
                           ],
                         ),
                       ),
@@ -260,7 +262,7 @@ class _ManageTaskState extends State<ManageTask> {
                       ),
                     ),
                     SizedBox(height: MediaQuery.of(context).size.height/180,),
-                    _raisedButton(AppLocalizations.of(context)!.translate('Ok'), () => _finishAllTasks(), AppWidth.w70),
+                   // _raisedButton(AppLocalizations.of(context)!.translate('Ok'), () => _finishAllTasks(), AppWidth.w70),
                   ],
                 ),
               ),
@@ -345,9 +347,13 @@ class _ManageTaskState extends State<ManageTask> {
     return Container(
       alignment: Alignment.bottomRight,
       child: MyWidget(context).raisedButton(AppLocalizations.of(context)!.translate('add task'), ()=>  {
-        Navigator.push(this.context, MaterialPageRoute(builder: (context) => AddTask(token, _service, _orderId),),).then((_) {
+        /*Navigator.push(this.context, MaterialPageRoute(builder: (context) => AddTask(token, _service, _orderId),),).then((_) {
+          setState(() {});
+        }),*/
+        Navigator.push(this.context, MaterialPageRoute(builder: (context) => DriverList(service : _service, orderId : _orderId),)).then((_) {
           setState(() {});
         }),
+
       }, MediaQuery.of(context).size.width/1.5, false),
     );
   }
@@ -363,7 +369,7 @@ class _ManageTaskState extends State<ManageTask> {
           Expanded(child: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Text(text, style: TextStyle(
-        fontFamily: 'comfortaa',fontSize: MediaQuery.of(context).size.width/25, color: AppColors.buttonTextColor),),
+        fontFamily: 'comfortaa',fontSize: MediaQuery.of(context).size.width/25, color: AppColors.black, ),),
           )),
         ],
       ),

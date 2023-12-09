@@ -3,6 +3,7 @@ import 'dart:io';
 //import 'package:admob_flutter/admob_flutter.dart';
 import 'package:closer/api/api_service.dart';
 import 'package:closer/api/respons/loginData.dart';
+import 'package:closer/screens/superVisior/driverList.dart';
 
 import 'boxes.dart';
 import 'model/transaction.dart';
@@ -24,6 +25,7 @@ Map<String, dynamic> NewOrdersSupervisor = new Map<String, dynamic>();
 String? myCountry , myCity , myCurrency;
 var userInfo;
 final List country = [];
+final List<DriverDetails> driversList = [];
 final List<String> userCountry = [];
 final List<String> userCity = [];
 final List  city = [];

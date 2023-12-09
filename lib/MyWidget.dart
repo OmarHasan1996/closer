@@ -828,12 +828,13 @@ class MyWidget{
     );
   }
 
-  textGrayk28(text,{scale, color}){
+  textGrayk28(text,{scale, color, maxLine}){
     scale??=1;
     color??= AppColors.gray;
+    maxLine??= 1;
     return Text(
         text,
-        maxLines: 1,
+        maxLines: maxLine,
         style: TextStyle(
         fontFamily: 'comfortaa',
         color: color,

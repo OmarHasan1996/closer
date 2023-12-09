@@ -84,7 +84,7 @@ class _OrderIdState extends State<OrderId> {
     _location = addressArea + " / " + /*addressCity + " / " + */  addressNotes +
         " / " + addressBuilding + " / " + addressFloor + " / " + addressAppartment;
     _phone = ord['User']['Mobile'];
-    _orderDetails = ord['Notes'];
+    _orderDetails = ord['Notes']??'';
     _orderDetails = '';
     orderServices = ord['Servicess'];
     for(int i = 0; i<orderServices.length; i++){
@@ -217,12 +217,12 @@ class _OrderIdState extends State<OrderId> {
                             SizedBox(height: MediaQuery.of(context).size.height/80,),
                             Expanded(
                               child: Container(
-                                height: MediaQuery.of(context).size.height/7,
+                                height: MediaQuery.of(context).size.height/6,
                                 child: _manageServiceList(),
                               ),
                             ),
                             SizedBox(height: MediaQuery.of(context).size.height/80,),
-                            MyWidget(context).raisedButton(AppLocalizations.of(context)!.translate('Finish the order'), () => _finishOrder(), AppWidth.w70, chCircle)
+                           // MyWidget(context).raisedButton(AppLocalizations.of(context)!.translate('Finish the order'), () => _finishOrder(), AppWidth.w70, chCircle)
                           ],
                         ),
                       ),
@@ -338,6 +338,7 @@ class _OrderIdState extends State<OrderId> {
   }
 
   _iconText(_color, _icon, text, _mainAxisAlignment){
+    var textColor = AppColors.black;
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width*0, vertical: MediaQuery.of(context).size.height/200),
       child: Row(
@@ -348,7 +349,7 @@ class _OrderIdState extends State<OrderId> {
           Expanded(child: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Text(text, style: TextStyle(
-        fontFamily: 'comfortaa',fontSize: MediaQuery.of(context).size.width/28, color: AppColors.buttonTextColor),),
+        fontFamily: 'comfortaa',fontSize: MediaQuery.of(context).size.width/28, color: textColor),),
           )),
         ],
       ),

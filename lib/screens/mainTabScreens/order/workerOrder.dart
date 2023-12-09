@@ -34,14 +34,10 @@ class _WorkerOrderState extends State<WorkerOrder> {
               .translate('Tap back again to leave')),
         ),
         child: Column(
-          //crossAxisAlignment: CrossAxisAlignment.center,
-          //mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             MyWidget.topYellowDriver(),
-            ////////////////////////////////////////////////////////////////////
-            ////////////////////////////////////////////////////////////////////
-            SizedBox(
+             SizedBox(
               height: MediaQuery.of(context).size.height / 160,
             ),
             Padding(
@@ -53,15 +49,13 @@ class _WorkerOrderState extends State<WorkerOrder> {
                 padding: EdgeInsets.only(
                     left: MediaQuery.of(context).size.width / 20,
                     right: MediaQuery.of(context).size.width / 20),
-                child: MyWidget(context).textTitle15(
-                    AppLocalizations.of(context)!.translate('Supervisor')),
+                child: MyWidget(context).textTitle15(userInfo==null?'' :"${userInfo['Name']} ${userInfo['LastName']}", bold: true),
               ),
             ),
             Expanded(
               child: Container(
                 child: Padding(
                   padding: EdgeInsets.symmetric(
-                      //vertical: MediaQuery.of(context).size.width / 22,
                       horizontal: MediaQuery.of(context).size.width / 22),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -116,14 +110,8 @@ class _WorkerOrderState extends State<WorkerOrder> {
                                 ),
                               ),
                               Container(
-                                height: MediaQuery.of(context).size.height /
-                                    2.15, //height of TabBarView
-                                /*decoration: BoxDecoration(
-                                            border: Border(
-                                                top: BorderSide(
-                                                    color: Colors.grey,
-                                                    width: 0.5))),*/
-                                child: TabBarView(
+                                height: MediaQuery.of(context).size.height / 2.15, //height of TabBarView
+                                 child: TabBarView(
                                   physics: NeverScrollableScrollPhysics(),
                                   children: <Widget>[
                                     ////////// Tab1
@@ -147,10 +135,8 @@ class _WorkerOrderState extends State<WorkerOrder> {
                                                   _loading = false;
                                                   return ListView.builder(
                                                     itemCount:
-                                                        _superNewOrderData !=
-                                                                null
-                                                            ? _superNewOrderData
-                                                                .length
+                                                        _superNewOrderData != null
+                                                            ? _superNewOrderData.length
                                                             : 0,
                                                     itemBuilder:
                                                         (context, index) {
@@ -174,11 +160,7 @@ class _WorkerOrderState extends State<WorkerOrder> {
                                                           ).then((_) {
                                                             setState(() {});
                                                           });
-                                                          // order details
-                                                          //**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**
-                                                          //**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**
-                                                          //**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**
-                                                        },
+                                                         },
                                                         child: myNewOrderSuperVisorlist(
                                                             _superNewOrderData[
                                                                 index],
@@ -325,6 +307,8 @@ class _WorkerOrderState extends State<WorkerOrder> {
                 ),
               ),
             ),
+            MyWidget.loadBannerAdd(),
+
             MyWidget.bottomYellowDriver(),
           ],
         ),
@@ -653,7 +637,7 @@ class _WorkerOrderState extends State<WorkerOrder> {
     var amount = ord['Amount'].toString();
     var date = ord['OrderDate'];
     var addressArea = ord['Address']['Title'] ?? '';
-    var addressCity = ord['Address']['Title'] ?? '';
+    var addressNotes = ord['Address']['notes'] ?? '';
     var statusCode = ord['Status'].toString();
     //statusCode = '2';
     String status = "";
@@ -663,9 +647,8 @@ class _WorkerOrderState extends State<WorkerOrder> {
     for (int i = 0; i < task.length; i++) {
       if (task[i][0]['OrderId'] == Id) statusColor = AppColors.blue;
     }
-    String address = addressCity + " / " + addressArea;
-    return _orderCard(
-        index, statusColor, null, addressArea, amount, date, 1, Id, serial);
+    String address = addressArea + ': ' + addressNotes;
+    return _orderCard(index, statusColor, null, address, amount, date, 1, Id, serial);
   }
 
   _orderCard(index, statusColor, status, addressArea, amount, String date,
@@ -684,111 +667,50 @@ class _WorkerOrderState extends State<WorkerOrder> {
               width: 2.0,
             ),
           ),
-          child: Stack(
-            children: [
-              Align(
-                alignment: Alignment.center,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: MediaQuery.of(context).size.width / 40),
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          MyWidget(context).textBlack20(
-                              taskName == null
-                                  ? AppLocalizations.of(context)!
-                                          .translate('Order Id: ') +
-                                      serial.toString()
-                                  : taskName,
-                              scale: 0.85),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.01,
-                            //child: Text(),
-                          ),
-                          Container(
-                            padding: EdgeInsets.only(
-                                left:
-                                    MediaQuery.of(context).size.width / 22 * 0),
-                            alignment: Alignment.centerRight,
-                            width: MediaQuery.of(context).size.width * 0.5,
-                            height: MediaQuery.of(context).size.height / 10,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Expanded(
-                                  flex: 1,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [Text("")],
-                                  ),
-                                ),
-                                Expanded(
-                                  flex: 1,
-                                  child: status != null
-                                      ? GestureDetector(
-                                          onTap: () {},
-                                          child: MyWidget(context).textBlack20(
-                                              status,
-                                              scale: 0.85,
-                                              color: statusColor),
-                                          /*Icon(
-                                Icons.close_outlined,
-                                size: MediaQuery.of(context).size.width / 18,
-                                color: Colors.grey,
-                              ),*/
-                                        )
-                                      : SizedBox(
-                                          height: 0,
-                                        ), //IconButton(onPressed: () => rejectOrder(), icon: Icon(Icons.delete_forever_outlined)),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          MyWidget(context)
-                              .textGrayk28(addressArea, color: Colors.grey)
-                        ],
-                      ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height / 80,
-                      ),
-                      Divider(
-                        color: Colors.grey[900],
-                        height: 1,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          MyWidget(context)
-                              .textBlack20(amount.toString(), scale: 0.85),
-                          /* SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.01,
-                            //child: Text(),
-                          ),*/
-                          Container(
-                              alignment: Alignment.centerRight,
-                              //width: MediaQuery.of(context).size.width * 0.5,
-                              height: MediaQuery.of(context).size.height / 10,
-                              child: MyWidget(context).textBlack20(
-                                  DateTime.parse(date.replaceAll('T', ' '))
-                                      .add(-timeDiff)
-                                      .toString()
-                                      .split(' ')[0],
-                                  scale: 0.85)),
-                        ],
-                      ),
-                    ],
-                  ),
+          child: Padding(
+            padding: EdgeInsets.symmetric(
+                horizontal: AppWidth.w4, vertical: AppHeight.h1),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    MyWidget(context).textBlack20(
+                        taskName ?? AppLocalizations.of(context)!
+                            .translate('Order Id: ') +
+                            serial.toString(),
+                        scale: 0.85, color: AppColors.mainColor),
+                    MyWidget(context).textBlack20(
+                      DateTime.parse(date.replaceAll('T', ' '))
+                          .add(-timeDiff)
+                          .toString()
+                          .split(' ')[0],
+                      scale: 0.85),
+                  ],
                 ),
-              ),
-            ],
+                SizedBox(
+                  height: MediaQuery.of(context).size.height / 80,
+                ),
+                Divider(
+                  color: Colors.grey[900],
+                  height: 1,
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height / 80,
+                ),
+                Row(
+                  children: [
+                    Icon(Icons.location_on_outlined),
+                    SizedBox(
+                      width: AppWidth.w65,
+                      child: MyWidget(context).textGrayk28(addressArea, maxLine: 2)
+                    ),
+                  ],
+                ),
+              ],
+            ),
           )),
     );
   }

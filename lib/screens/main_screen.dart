@@ -391,7 +391,9 @@ iOS: ca-app-pub-3940256099942544/1712485313
                               children: [
                                 MyWidget(context).textTitle15('${userInfo == null || userInfo.isEmpty ? "" : userInfo["Name"]}'),
                                 MyWidget(context).textTap25('${userInfo == null || userInfo.isEmpty ? "" : userInfo["Email"]}'),
-                              ],
+                                worker && !isBoss? Switch(value: userInfo['OnlineStatus'] != null && userInfo['OnlineStatus'] == 1 ? true : false,
+                                    onChanged: (bool status) => _updateStatus(status)
+                                ):const SizedBox(),],
                             )
                           ],
                         );
@@ -399,6 +401,7 @@ iOS: ca-app-pub-3940256099942544/1712485313
                     },
                   ),
                 ),
+
                 Expanded(
                   flex: 1,
                   child: Divider(
@@ -570,7 +573,7 @@ iOS: ca-app-pub-3940256099942544/1712485313
     return Scaffold(
           resizeToAvoidBottomInset: true,
           key: _key,
-          appBar: MyWidget.appBar(title: AppLocalizations.of(context)!.translate('Our Services'), isMain: true, key: _key),
+          appBar: MyWidget.appBar(title:  AppLocalizations.of(context)!.translate('Our Services'), isMain: true, key: _key),
           drawer: MyWidget(context).drawer(barHight, MediaQuery.of(context).size.height / 80 * 3, ()=>_setState()),
       backgroundColor: AppColors.background,
           body: _widgetOptions.elementAt(_selectedIndex),
@@ -719,8 +722,8 @@ iOS: ca-app-pub-3940256099942544/1712485313
       }
       else{
         orderData.sort((a, b) {
-          var adate = a['StartDate']; //before -> var adate = a.expiry;
-          var bdate = b['StartDate']; //before -> var bdate = b.expiry;
+          var adate = a['StartDate']??'0'; //before -> var adate = a.expiry;
+          var bdate = b['StartDate']??'0'; //before -> var bdate = b.expiry;
           return adate.compareTo(bdate);
         });
         if(!isBoss){
@@ -939,4 +942,42 @@ iOS: ca-app-pub-3940256099942544/1712485313
     print("worker = $worker");
   }
 
+  _updateStatus(bool status) async{
+    setState(() {
+      _loading = true;
+    });
+    var apiUrl = Uri.parse('$apiDomain/Main/Users/SignUp_UpdateInfo?');
+    var request = http.MultipartRequest('POST', apiUrl);
+    request.fields['Id'] = userData!.content!.id;
+    request.fields['Name'] = userInfo["Name"];
+    request.fields['LastName'] = userInfo["LastName"];
+    request.fields['Mobile'] = userInfo["Mobile"];
+    request.fields['Email'] = userInfo["Email"];
+    request.fields['Password'] = userInfo["Password"];
+    request.fields['Type'] = userInfo["Type"].toString();
+    request.fields['OnlineStatus'] = status?'1':'0';
+    Map<String, String> headers = {
+      "Accept": "application/json",
+      "Content-type": "multipart/form-data",
+      "Authorization": token,
+    };
+    request.headers.addAll(headers);
+    var response = await request.send();
+    if (response.statusCode == 200) {
+      print(await response.stream.bytesToString());
+      updateUserInfo(userData!.content!.id);
+      print('success');
+      /*Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => MainScreen(token: token, service: service, selectedIndex: 2, initialOrderTab: 0,)),
+            (Route<dynamic> route) => false,
+      );*/
+    } else {
+      print(response.statusCode);
+      print('fail');
+    }
+    setState(() {
+      _loading = false;
+    });
+  }
 }

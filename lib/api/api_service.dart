@@ -7,6 +7,7 @@ import 'package:closer/constant/apiUrl.dart';
 import 'package:closer/constant/app_size.dart';
 import 'package:closer/constant/functions.dart';
 import 'package:closer/main.dart';
+import 'package:closer/screens/superVisior/driverList.dart';
 import 'package:closer/screens/language/Languages.dart';
 import 'package:closer/screens/photoView/photoViewer.dart';
 import 'package:closer/screens/valid_code.dart';
@@ -104,6 +105,35 @@ class APIService {
     } else {}
   }
 
+  static Future getDriverListUser() async {
+    driversList.clear();
+    var url = Uri.parse('$apiDomain/Main/Users/SignUp_Read_Workers');
+    http.Response response = await http.get(
+      url,
+      headers: {
+        "Authorization": token,
+      },
+    );
+    if (response.statusCode == 200) {
+      var item = json.decode(response.body);
+      driversList.clear();
+      for (var i in item['result']["Data"]??item["Data"]) {
+        if(i['OnlineStatus']==1){
+          var d = DriverDetails(
+              image: i['ImagePath'],
+              name: "${i['Name']??''} ${i['LastName']??''}",
+              phone: i['Mobile']??'', lat: i['lat'].toString(), long: i['lng'].toString(), id: i['Id'], fcmToken: i['FBKey']);
+        await d.calckDriverMatrix();
+         // var m = await MyApplication.bearingFromMyLocation(d.long, d.lat);
+          //d.matrixApi = m;
+          driversList.add(d);
+        }
+        /*if (item["Data"][i]["Name"] == 'C') {
+              country.add(item["Data"][i]["Name"]);
+            }*/
+      }
+    } else {}
+  }
   static Future getMyOrders(var id) async {
     try {
       var url;
@@ -881,12 +911,11 @@ class APIService {
     if (selectedDate == null || selectedTime == null)
       orderDateTime = _order['OrderDate'];
     else {
-      orderDateTime = DateTime(selectedDate!.year, selectedDate!.month,
+      orderDateTime = "${DateTime(selectedDate!.year, selectedDate!.month,
                   selectedDate!.day, selectedTime!.hour, selectedTime!.minute)
               .add(timeDiff)
               .toString()
-              .replaceAll(" ", "T") +
-          "Z";
+              .replaceAll(" ", "T")}Z";
     }
     var apiUrl = Uri.parse('$apiDomain/Main/Orders/Orders_Update?');
     var amount = 0.0;
@@ -953,7 +982,7 @@ class APIService {
   }
 
   static rateOrder({orderId, rateNote, rateScore}) async {
-    print("tttttttttttttt:   " + token);
+    print("tttttttttttttt:   $token");
     var apiUrl = Uri.parse("$apiDomain/Main/Orders/Orders_Rate?");
     Map mapDate = {
       "OrderId": orderId,
