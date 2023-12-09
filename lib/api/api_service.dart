@@ -134,6 +134,7 @@ class APIService {
       }
     } else {}
   }
+
   static Future getMyOrders(var id) async {
     try {
       var url;
@@ -962,8 +963,7 @@ class APIService {
         if (jsonDecode(response.body)['Errors'] == null ||
             jsonDecode(response.body)['Errors'] == '') {
           if (status == 8) {
-            _sendPushMessage(_order['User']['FBKey'],
-                'order' + _order['Serial'], 'your order is finished');
+            _sendPushMessage(_order['User']['FBKey'], 'order' + _order['Serial'], 'your order is finished');
           }
           print('success');
           return true;
@@ -1066,22 +1066,25 @@ class APIService {
   }
 
   createWorkerTask(orderId, workerId, serviceId, supervisorNotes, startDate,
-      endDate, workerNotes, token, workerFcmToken, taskName) async {
+      endDate, workerNotes, token, workerFcmToken, taskName, {orderDate}) async {
     var apiUrl = Uri.parse('$apiDomain/Main/WorkerTask/WorkerTask_Create?');
     //dont use http://localhost , because emulator don't get that address
     //insted use your local IP address or use live URL
     //hit "ipconfig" in windows or "ip a" in linux to get you local IP
 
+    orderDate??=startDate;
     Map mapDate = {
       //"Id": orderId.toString(), //orderId
       "WorkerId": workerId.toString(),
       "OrderServicesId": serviceId.toString(), //serviceId
       "Status": 0,
-      "Notes": supervisorNotes.toString(), //supervisorNotes
-      "StartDate": startDate,
-      "Name": taskName,
+      "OrderDate": orderDate,
+      "OrderId":orderId,
+      //"Notes": supervisorNotes.toString(), //supervisorNotes
+      //"StartDate": startDate,
+      //"Name": taskName,
       //"EndDate": endDate,
-      "ResDesc": workerNotes.toString() // workerNotes
+      //"ResDesc": workerNotes.toString() // workerNotes
     };
 
     print(jsonEncode(mapDate));
@@ -1104,8 +1107,7 @@ class APIService {
         if (jsonDecode(responseString)['Errors'] == null ||
             jsonDecode(responseString)['Errors'] == '') {
           print('success');
-          _sendPushMessage(workerFcmToken, taskName,
-              AppLocalizations.of(context!)!.translate('You Have New Task!'));
+          _sendPushMessage(workerFcmToken, taskName, AppLocalizations.of(context!)!.translate('You Have New Task!'));
           return true;
         } else {
           flushBar(jsonDecode(responseString)['Errors']);
@@ -1128,8 +1130,7 @@ class APIService {
       endDate, workerNotes, token, taskName, file, fcmToken, _mainOrderId,
       {message, status}) async {
     status ??= 2;
-    message ??=
-        AppLocalizations.of(context!)!.translate('good luck task is finished');
+    message ??= AppLocalizations.of(context!)!.translate('good luck task is finished');
     var apiUrl = Uri.parse('$apiDomain/Main/WorkerTask/WorkerTask_Update?');
     List<Map<String, dynamic>> serviceTmp = [];
     var attach;
@@ -1200,22 +1201,14 @@ class APIService {
         if (jsonDecode(responseString)['Errors'] == null ||
             jsonDecode(responseString)['Errors'] == '') {
           print('success');
-          _sendPushMessage(
-              fcmToken,
-              taskName,
-              message ??
-                  ''); //AppLocalizations.of(context!)!.translate('good luck task is finished'));
+          _sendPushMessage(fcmToken, taskName, message ?? ''); //AppLocalizations.of(context!)!.translate('good luck task is finished'));
           return true;
         } else {
           flushBar(jsonDecode(responseString)['Errors']);
           return false;
         }
       } catch (e) {
-        _sendPushMessage(
-            fcmToken,
-            taskName,
-            message ??
-                ''); //AppLocalizations.of(context!)!.translate('good luck task is finished'));
+        _sendPushMessage(fcmToken, taskName, message ?? ''); //AppLocalizations.of(context!)!.translate('good luck task is finished'));
         return true;
       }
     } else {
@@ -1280,8 +1273,7 @@ class APIService {
       return;
     }
     try {
-      var _serverKey =
-          'AAAA8RmDhKM:APA91bHT6bLM03mWt5dwZy0FoQMW1rTmaEtof0VBCjQO7frhX16DFXWxp3Xyzew-p1j8rhBbXmXwm75VnTX11_pJEle8KW-bBXatTLcGte9LfUJ12MbioDoKlQxAiY6yTSWxcNLpdRhR';
+      var _serverKey = 'AAAA8RmDhKM:APA91bHT6bLM03mWt5dwZy0FoQMW1rTmaEtof0VBCjQO7frhX16DFXWxp3Xyzew-p1j8rhBbXmXwm75VnTX11_pJEle8KW-bBXatTLcGte9LfUJ12MbioDoKlQxAiY6yTSWxcNLpdRhR';
       //var _serverKey = 'AAAAOPv0WzU:APA91bHwvAAe8VSqm2XDxAIQaKw1GSepD65_sIaX0FgUuI34ekkGiYvA-Mt3Bh3lc5jM5KQyi3DD2oWmRhJYGDtCPFYSM1mCkvsaFnPjQ2gylYDvU3lGXTrUG4i4ssYBRgB_vCNInn2P';
       //var _serverKey = 'AAAAOPv0WzU:APA91bH_4SPyvOt7K3n2rGhl1v6DgCAogSL5hO6hiSkqQNV6Yqh77kNlGOc-AUwBgp4Avig-6xQp5vXiyJxPBEyg1SEqKSyXX5HbQJ8qG2cNNn0XHwGxVtOx31fK0OBK6xR_fjoF9ntn';
       //var _serverKey = 'AIzaSyD-b9apuimKiEov1Ah0Aom_mg6wwEv5KWs';

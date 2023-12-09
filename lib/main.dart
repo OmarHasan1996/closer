@@ -47,6 +47,7 @@ import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'screens/language/Languages.dart';
 ///Receive message when app is in background solution for on message
 Future<void> backgroundHandler(RemoteMessage message) async{
+  await Firebase.initializeApp();
   print(message.data.toString());
   print(message.notification!.title);
 }
@@ -56,14 +57,11 @@ void main() async {
   HttpOverrides.global = MyHttpOverrides();
 
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  //await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform,);
+  await Firebase.initializeApp();
   FirebaseMessaging.onBackgroundMessage(backgroundHandler);
-
   await GetStorage.init();
-
- NotificationController notificationController = Get.put(NotificationController());
+  NotificationController notificationController = Get.put(NotificationController());
 
   await Hive.initFlutter();
   Hive.registerAdapter(TransactionAdapter());

@@ -197,7 +197,6 @@ iOS: ca-app-pub-3940256099942544/1712485313
       if (message.notification != null) {
         print(message.notification!.body);
         print(message.notification!.title);
-
         showDialog(
             context: context,
             builder: (context) => AlertDialog(
@@ -224,7 +223,6 @@ iOS: ca-app-pub-3940256099942544/1712485313
                   ],
                 ));
       }
-
       //LocalNotificationService.display(message);
     });
     ///When the app is in background but opened and user taps

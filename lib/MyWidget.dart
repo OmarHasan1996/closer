@@ -53,13 +53,13 @@ class MyWidget{
     String status = "";
     Color statusColor = Colors.grey;
     switch (statusCode) {
-      case "5":
+      case "4":
         {
           status = AppLocalizations.of(navigatorKey.currentContext!)!.translate("Rejected");
           statusColor = AppColors.red;
         }
         break;
-      case "4":
+      case "5":
         {
           status = AppLocalizations.of(navigatorKey.currentContext!)!.translate("Pending");
           statusColor = AppColors.blue;
@@ -465,7 +465,7 @@ class MyWidget{
         //padding: EdgeInsets.only(top: MediaQuery.of(context).size.height/5),
         //height: double.infinity,
         alignment: Alignment.bottomCenter,
-        child: MyWidget(navigatorKey.currentContext!).raisedButton(text, () => clickCardButton(),  AppWidth.w28, chCircle, buttonText: color, colorText: Colors.grey, roundBorder:  AppHeight.h2, padV: AppHeight.h2),
+        child: MyWidget(navigatorKey.currentContext!).raisedButton(text, () => clickCardButton(),  AppWidth.w28, chCircle, buttonColor: color, colorText: Colors.grey, roundBorder:  AppHeight.h2, padV: AppHeight.h2),
       );
     }
     orderCard(index, statusColor, status, addressArea, amount,String date, statusCode, Id, serial, {String? taskName}) {
@@ -1326,9 +1326,9 @@ class MyWidget{
     Navigator.pushNamed(context, 'about');
   }
 
-  raisedButton(text , press, width, chLogIn, {height, colorText, buttonText, padV, textH, roundBorder}){
+  raisedButton(text , press, width, chLogIn, {height, colorText, buttonColor, padV, textH, roundBorder}){
     colorText??=AppColors.buttonTextColor;
-    buttonText??=AppColors.mainColor1;
+    buttonColor??=AppColors.mainColor1;
     padV??= AppHeight.h1*1.5;
     textH??= min(MediaQuery.of(context).size.width / 20, MediaQuery.of(context).size.height / 46);
     roundBorder??= MediaQuery.of(context).size.height / 12;
@@ -1342,18 +1342,15 @@ class MyWidget{
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(
               //color: MyColors.yellow,
-              primary: buttonText,
+              primary: buttonColor,
               padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/20, vertical: padV),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(
-                      roundBorder)),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(roundBorder)),
             ),
             onPressed: chLogIn==true?()=>{}: press,
             //elevation: 5.0,
             child: chLogIn == true
                 ? const CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color>(
-                  AppColors.mainColor),
+              valueColor: AlwaysStoppedAnimation<Color>(AppColors.mainColor),
               backgroundColor: Colors.grey,
             )
                 : Text(text,

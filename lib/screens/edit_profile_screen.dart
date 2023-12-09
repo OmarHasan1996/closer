@@ -121,7 +121,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         //child: Text(),
                       ),
                       // ignore: deprecated_member_use
-                      MyWidget(context).raisedButton(AppLocalizations.of(context)!.translate('Change profile Photo'), ()=>  _changeProfile(), MediaQuery.of(context).size.width /1.7, false, buttonText: AppColors.mainColor, colorText: AppColors.white, padV: 0.1, textH: min(MediaQuery.of(context).size.width/25, MediaQuery.of(context).size.height / 56)),
+                      MyWidget(context).raisedButton(AppLocalizations.of(context)!.translate('Change profile Photo'), ()=>  _changeProfile(), MediaQuery.of(context).size.width /1.7, false, buttonColor: AppColors.mainColor, colorText: AppColors.white, padV: 0.1, textH: min(MediaQuery.of(context).size.width/25, MediaQuery.of(context).size.height / 56)),
                       /*RaisedButton(
                         elevation: 5.0,
                         shape: RoundedRectangleBorder(

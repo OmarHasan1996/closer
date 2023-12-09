@@ -36,7 +36,6 @@ class MyFirebase{
 
   Future<bool> callOnFcmApiSendPushNotifications(
       Future<String> userToken, Message message) async {
-
     print(message.text);
     print(userToken);
     final postUrl = 'https://fcm.googleapis.com/fcm/send';

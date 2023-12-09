@@ -14,8 +14,8 @@ import 'package:closer/screens/signin.dart';
 import 'package:flutter/material.dart';
 
 class DriverList extends StatefulWidget {
-  final service, orderId;
-  const DriverList({super.key, required this.service, this.orderId});
+  final service, orderId, orderDate;
+  const DriverList({super.key, required this.service, this.orderId, this.orderDate});
 
   @override
   State<DriverList> createState() => _DriverListState();
@@ -164,6 +164,7 @@ class _DriverListState extends State<DriverList> {
             token,
             driver.fcmToken,
             AppLocalizations.of(context)!.translate('Deliver'),
+          orderDate: widget.orderDate
           );
         if (upload) {
           APIService.flushBar(AppLocalizations.of(context)!.translate('has been added to') + driver.name);

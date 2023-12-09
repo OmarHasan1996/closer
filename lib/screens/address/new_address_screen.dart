@@ -378,7 +378,7 @@ class _NewAddressScreenState extends State<NewAddressScreen> {
                               () => _save(),
                           MediaQuery.of(context).size.width / 1.2,
                           _saving,
-                          buttonText: Color(0xffffca05),
+                          buttonColor: Color(0xffffca05),
                           colorText: Colors.black),
                     ),),
                     ],

@@ -273,7 +273,7 @@ class _RegisterState extends State<Register> {
                       MediaQuery.of(context).size.width / 1.5,
                       chLogIn,
                       colorText: Color(0xff343434),
-                      buttonText: AppColors.yellow),
+                      buttonColor: AppColors.yellow),
                 ),
               ]),
             ),

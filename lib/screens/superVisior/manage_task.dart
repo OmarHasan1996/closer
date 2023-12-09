@@ -285,7 +285,7 @@ class _ManageTaskState extends State<ManageTask> {
       }
     }
     tasks = _task;
-    if(_task.length>0)
+    if(_task.length>0) {
       return ListView.builder(
         key: UniqueKey(),
         itemCount: _task.length,
@@ -324,7 +324,7 @@ class _ManageTaskState extends State<ManageTask> {
         },
         // addAutomaticKeepAlives: false,
       );
-    else
+    } else
       return Center(
         child:Text(
           AppLocalizations.of(context)!.translate('press add task to assign new worker'),
@@ -350,7 +350,7 @@ class _ManageTaskState extends State<ManageTask> {
         /*Navigator.push(this.context, MaterialPageRoute(builder: (context) => AddTask(token, _service, _orderId),),).then((_) {
           setState(() {});
         }),*/
-        Navigator.push(this.context, MaterialPageRoute(builder: (context) => DriverList(service : _service, orderId : _orderId),)).then((_) {
+        Navigator.push(this.context, MaterialPageRoute(builder: (context) => DriverList(service : _service, orderId : _orderId, orderDate: _orderDate),)).then((_) {
           setState(() {});
         }),
 

@@ -345,10 +345,16 @@ class _TaskIdState extends State<TaskId> {
                                   ? AppLocalizations.of(context)!
                                       .translate('Ok')
                                   : AppLocalizations.of(context)!.translate(
-                                      _start ? 'Start Task' : 'Finish Task'),
-                              () => !_start ? _finishTask() : _startTask(),
+                                      statusCode==1? 'Accept Task' : _start ? 'Start Task' : 'Finish Task' ),
+                              () => statusCode==1? _refusedAcceptTask(5) : !_start ? _finishTask() : _startTask(),
                               AppWidth.w70,
-                              chCircle)
+                              chCircle),
+                          SizedBox(height: AppHeight.h2,),
+                          statusCode == 1?
+                          MyWidget(context).raisedButton(
+                              AppLocalizations.of(context)!.translate('Refuse'), ()=> _refusedAcceptTask(4),
+                              AppWidth.w70, chCircle, buttonColor: AppColors.red):SizedBox(),
+
                         ],
                       ),
                     ),
@@ -723,8 +729,7 @@ class _TaskIdState extends State<TaskId> {
           ord['Name'],
           File(xFile!.path),
           fcmToken,
-          message: AppLocalizations.of(context!)!
-              .translate('good luck task is started'),
+          message: AppLocalizations.of(context!)!.translate('good luck task is started'),
           status: 3,
           _mainOrderId);
     } else {
@@ -777,4 +782,49 @@ class _TaskIdState extends State<TaskId> {
       throw 'Could not open the map.';
     }
   }
+
+  _refusedAcceptTask(status) async{
+    if (isBoss) {
+      Navigator.pop(context);
+      return;
+    }
+    setState(() {
+      chCircle = true;
+    });
+    String endDate = DateFormat('yyyy-MM-dd hh:mm:ss.sss').format(DateTime.now().add(timeDiff)).replaceAll(" ", "T") + "Z";
+    bool _suc;
+    var fcmToken = '';
+    for (int i = 0; i < groupUsers.length; i++) {
+      if (groupUsers[i]['isBoss'] == true)
+        fcmToken = groupUsers[i]['Users']['FBKey'];
+    }
+    _suc = await api!.updateWorkerTask(
+    ord['Id'],
+    ord['WorkerId'],
+    ord['OrderServicesId'],
+    ord['Notes'],
+    ord['StartDate'],
+    endDate,
+    'workerNotes',
+    token,
+    ord['Name'],
+    'File(xFile!.path)',
+    fcmToken,
+    _mainOrderId, status: status);
+    if (_suc) {
+      statusCode = 5;
+    ///Navigator.pop(context);
+    //APIService.flushBar(AppLocalizations.of(context)!.translate('Task is Refused'));
+    setState(() {
+    chCircle = false;
+    });
+    //new Timer(Duration(seconds:2), ()=>setState(() {}));
+    //setState(() {});
+    }
+    setState(() {
+    chCircle = false;
+    });
+    return;
+  }
+
 }
