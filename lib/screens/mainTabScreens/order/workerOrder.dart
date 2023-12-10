@@ -206,7 +206,7 @@ class _WorkerOrderState extends State<WorkerOrder> {
                                                       //totalPrice =0;
                                                       return GestureDetector(
                                                         onTap: () {
-                                                          Navigator.push(
+                                                          /*Navigator.push(
                                                             this.context,
                                                             MaterialPageRoute(
                                                               builder: (context) =>
@@ -217,7 +217,7 @@ class _WorkerOrderState extends State<WorkerOrder> {
                                                             ),
                                                           ).then((_) {
                                                             setState(() {});
-                                                          });
+                                                          });*/
                                                           // order details
                                                           //**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**
                                                           //**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**

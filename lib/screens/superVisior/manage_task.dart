@@ -294,7 +294,7 @@ class _ManageTaskState extends State<ManageTask> {
           var _workersName =  _task[index]['User']['Name'] + ' ' + _task[index]['User']['LastName'];
           String status = "";
           Color statusColor = Colors.grey;
-          switch (_task[index]['Status']) {
+          switch (_task[index]['Status'].toString()) {
             case "4":
               {
                 status = AppLocalizations.of(navigatorKey.currentContext!)!.translate("Rejected");
