@@ -1128,7 +1128,7 @@ class APIService {
 
   updateWorkerTask(taskId, workerId, serviceId, supervisorNotes, startDate,
       endDate, workerNotes, token, taskName, file, fcmToken, _mainOrderId,
-      {message, status}) async {
+      {message, status, required fcmBoss}) async {
     status ??= 2;
     message ??= AppLocalizations.of(context!)!.translate('good luck task is finished');
     var apiUrl = Uri.parse('$apiDomain/Main/WorkerTask/WorkerTask_Update?');
@@ -1143,6 +1143,7 @@ class APIService {
     } catch (e) {
       attach = null;
     }
+    var boosMasseg = '${taskName.toString()} ---- Driver update his Task';
 
     Map mapDate = {
       "Id": taskId.toString(), //orderId
@@ -1201,14 +1202,16 @@ class APIService {
         if (jsonDecode(responseString)['Errors'] == null ||
             jsonDecode(responseString)['Errors'] == '') {
           print('success');
-          _sendPushMessage(fcmToken, taskName, message ?? ''); //AppLocalizations.of(context!)!.translate('good luck task is finished'));
+          _sendPushMessage(fcmToken, taskName.toString(), boosMasseg ?? ''); //AppLocalizations.of(context!)!.translate('good luck task is finished'));
+          _sendPushMessage(fcmToken, taskName.toString(), message ?? ''); //AppLocalizations.of(context!)!.translate('good luck task is finished'));
           return true;
         } else {
           flushBar(jsonDecode(responseString)['Errors']);
           return false;
         }
       } catch (e) {
-        _sendPushMessage(fcmToken, taskName, message ?? ''); //AppLocalizations.of(context!)!.translate('good luck task is finished'));
+        _sendPushMessage(fcmToken, taskName.toString(), boosMasseg ?? ''); //AppLocalizations.of(context!)!.translate('good luck task is finished'));
+        _sendPushMessage(fcmToken, taskName.toString(), message ?? ''); //AppLocalizations.of(context!)!.translate('good luck task is finished'));
         return true;
       }
     } else {

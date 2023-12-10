@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:closer/constant/app_size.dart';
 import 'package:closer/constant/functions.dart';
+import 'package:closer/main.dart';
 import 'package:closer/screens/superVisior/driverList.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -291,6 +292,46 @@ class _ManageTaskState extends State<ManageTask> {
         itemCount: _task.length,
         itemBuilder: (context, index) {
           var _workersName =  _task[index]['User']['Name'] + ' ' + _task[index]['User']['LastName'];
+          String status = "";
+          Color statusColor = Colors.grey;
+          switch (_task[index]['Status']) {
+            case "4":
+              {
+                status = AppLocalizations.of(navigatorKey.currentContext!)!.translate("Rejected");
+                statusColor = AppColors.red;
+              }
+              break;
+            case "5":
+              {
+                status = AppLocalizations.of(navigatorKey.currentContext!)!.translate("Pending");
+                statusColor = AppColors.blue;
+              }
+              break;
+            case "3":
+              {
+                status = AppLocalizations.of(navigatorKey.currentContext!)!.translate("At the road");
+                statusColor = AppColors.blue;
+              }
+              break;
+            case "2":
+              {
+                status = AppLocalizations.of(navigatorKey.currentContext!)!.translate("finished");
+                statusColor = AppColors.blue;
+              }
+              break;
+            case "1":
+              {
+                status = AppLocalizations.of(navigatorKey.currentContext!)!.translate("Pending");
+                statusColor = Colors.grey;
+              }
+              break;
+            default:
+              {
+                status = AppLocalizations.of(navigatorKey.currentContext!)!.translate("Pending");
+                statusColor = Colors.grey;
+              }
+              break;
+          }
           return Column(
             children: [
               Row(
@@ -299,19 +340,17 @@ class _ManageTaskState extends State<ManageTask> {
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/25*0),
                     child: Text(
-                      _task[index]['Name'].toString(),
-                      style: TextStyle(
-        fontFamily: 'comfortaa',
-                        color: _task[index]['Status'] == 2 ? AppColors.blue : AppColors.black,
+                      status,
+                      style: TextStyle(fontFamily: 'comfortaa',
+                        color: statusColor,
                         fontSize: MediaQuery.of(context).size.width/24,
                       ),
                     ),
                   ),
                   Expanded(
                     child: Text(_workersName, textAlign: TextAlign.end,
-                      style: TextStyle(
-        fontFamily: 'comfortaa',
-                        color:  _task[index]['Status'] == 2 ? AppColors.blue : AppColors.black,
+                      style: TextStyle(fontFamily: 'comfortaa',
+                        color: statusColor,
                         fontSize: MediaQuery.of(context).size.width/28,
                       ),),
                   )

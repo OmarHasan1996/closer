@@ -368,7 +368,7 @@ class _WorkerOrderState extends State<WorkerOrder> {
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: <Widget>[
                               Container(
-                                decoration: new BoxDecoration(
+                                decoration: BoxDecoration(
                                   color: AppColors.WhiteSelver,
                                   borderRadius: BorderRadius.only(
                                     topLeft: Radius.circular(
@@ -383,7 +383,7 @@ class _WorkerOrderState extends State<WorkerOrder> {
                                   indicatorColor: Colors.transparent,
                                   labelColor: AppColors.yellow,
                                   unselectedLabelColor: Colors.grey,
-                                  indicator: BoxDecoration(
+                                  indicator: const BoxDecoration(
                                     color: AppColors.white,
                                     borderRadius: BorderRadius.only(
                                       topLeft: Radius.circular(15),
@@ -555,12 +555,15 @@ class _WorkerOrderState extends State<WorkerOrder> {
       if (!isBoss) {
         _finishedOrderData.clear();
         for (int i = 0; i < _orderData.length; i++) {
+
           if (_orderData[i]['Status'] == 2) {
             _finishedOrderData.add(_orderData[i]);
             _orderData.removeAt(i);
             i--;
-          } else if (_orderData[i]['Status'] == 3 && !isBoss) {
+          } else if (_orderData[i]['Status'] == 3 || _orderData[i]['Status'] == 5) {
             updateWokerLocationPackground();
+          }else if (_orderData[i]['Status'] == 4){
+            _orderData.removeAt(i);
           }
         }
       } else {

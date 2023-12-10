@@ -57,7 +57,7 @@ class _TaskIdState extends State<TaskId> {
   }
 
   String _lat = '', _lng = '';
-  String _mainOrderId = '',
+  String _fcmBoss = '', _mainOrderId = '',
       _name = '',
       _location = '',
       _phone = '',
@@ -82,6 +82,13 @@ class _TaskIdState extends State<TaskId> {
     // TODO: implement initState
     super.initState();
     //print(subservicedec);
+    try{
+      List group = ord['OrderService']['Group']['GroupUsers'];
+      var bossGroup = group.where((element) => element['isBoss']==true).toList();
+      _fcmBoss = bossGroup[0]['Users']['FBKey']??'ee';
+    }catch(e){
+      _fcmBoss = ' ';
+    }
     _mainOrderId = ord['OrderService']['OrderId'] ?? '';
     serial = ord['OrderService']['Order']['Serial'];
     id = ord['OrderService']['OrderId'];
@@ -666,7 +673,7 @@ class _TaskIdState extends State<TaskId> {
           ord['Name'],
           File(xFile!.path),
           fcmToken,
-          _mainOrderId);
+          _mainOrderId, fcmBoss: _fcmBoss);
     else
       _suc = await api!.updateWorkerTask(
           ord['Id'],
@@ -680,7 +687,7 @@ class _TaskIdState extends State<TaskId> {
           ord['Name'],
           'File(xFile!.path)',
           fcmToken,
-          _mainOrderId);
+          _mainOrderId, fcmBoss: _fcmBoss);
     if (_suc) {
       Navigator.pop(context);
       APIService.flushBar(
@@ -731,7 +738,7 @@ class _TaskIdState extends State<TaskId> {
           fcmToken,
           message: AppLocalizations.of(context!)!.translate('good luck task is started'),
           status: 3,
-          _mainOrderId);
+          _mainOrderId, fcmBoss: _fcmBoss);
     } else {
       _suc = await api!.updateWorkerTask(
           ord['Id'],
@@ -748,7 +755,7 @@ class _TaskIdState extends State<TaskId> {
           message: AppLocalizations.of(context!)!
               .translate('good luck task is started'),
           status: 3,
-          _mainOrderId);
+          _mainOrderId, fcmBoss: _fcmBoss);
     }
     if (_suc) {
       updateWokerLocationPackground();
@@ -810,9 +817,13 @@ class _TaskIdState extends State<TaskId> {
     ord['Name'],
     'File(xFile!.path)',
     fcmToken,
-    _mainOrderId, status: status);
+    _mainOrderId, status: status, fcmBoss: _fcmBoss);
     if (_suc) {
-      statusCode = 5;
+      if(status==5) {
+        statusCode = 5;
+      }else{
+        Navigator.of(context).pop();
+      }
     ///Navigator.pop(context);
     //APIService.flushBar(AppLocalizations.of(context)!.translate('Task is Refused'));
     setState(() {
