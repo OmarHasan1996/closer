@@ -12,7 +12,7 @@ import 'package:closer/helper/adHelper.dart';
 import 'package:closer/localizations.dart';
 import 'package:closer/screens/signin.dart';
 import 'package:flutter/material.dart';
-
+import 'package:closer/screens/main_screen.dart';
 class DriverList extends StatefulWidget {
   final service, orderId, orderDate;
   const DriverList({super.key, required this.service, this.orderId, this.orderDate});
@@ -147,8 +147,11 @@ class _DriverListState extends State<DriverList> {
       driver.addTaskNow = true;
     });
     navigat(){
-      Navigator.of(context).pop();
-      Navigator.of(context).pop();
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => MainScreen(token: token, service: service, selectedIndex: 1, initialOrderTab: 0,)),
+            (Route<dynamic> route) => false,
+      );
     }
     //task.clear();
     var startDateTime = "${DateTime.now().add(timeDiff).toString().replaceAll(" ", "T")}Z";
@@ -172,7 +175,7 @@ class _DriverListState extends State<DriverList> {
             _chCircle = false;
           });
           var duration = new Duration(seconds:2);
-          return Timer(duration, navigat);
+         return Timer(duration, navigat);
         }
         //await api!.createWorkerTask(orderId, workerId, serviceId, supervisorNotes, startDate, endDate, workerNotes, token);
     setState(() {

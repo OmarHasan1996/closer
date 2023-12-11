@@ -1107,7 +1107,7 @@ class APIService {
         if (jsonDecode(responseString)['Errors'] == null ||
             jsonDecode(responseString)['Errors'] == '') {
           print('success');
-          _sendPushMessage(workerFcmToken, taskName, AppLocalizations.of(context!)!.translate('You Have New Task!'));
+          _sendPushMessage(workerFcmToken, 'task', AppLocalizations.of(context!)!.translate('You Have New Task!'));
           return true;
         } else {
           flushBar(jsonDecode(responseString)['Errors']);
@@ -1143,7 +1143,7 @@ class APIService {
     } catch (e) {
       attach = null;
     }
-    var boosMasseg = '${taskName.toString()} ---- Driver update his Task';
+    var boosMasseg = 'New update';
 
     Map mapDate = {
       "Id": taskId.toString(), //orderId
@@ -1168,7 +1168,7 @@ class APIService {
             ]
     };
 
-    if (attach == null)
+    if (attach == null) {
       mapDate = {
         "Id": taskId.toString(), //orderId
         "WorkerId": workerId.toString(),
@@ -1181,6 +1181,7 @@ class APIService {
         "EndDate": endDate,
         "ResDesc": workerNotes.toString() // workerNotes
       };
+    }
 
     print(jsonEncode(mapDate));
 
@@ -1202,16 +1203,16 @@ class APIService {
         if (jsonDecode(responseString)['Errors'] == null ||
             jsonDecode(responseString)['Errors'] == '') {
           print('success');
-          _sendPushMessage(fcmToken, taskName.toString(), boosMasseg ?? ''); //AppLocalizations.of(context!)!.translate('good luck task is finished'));
-          _sendPushMessage(fcmToken, taskName.toString(), message ?? ''); //AppLocalizations.of(context!)!.translate('good luck task is finished'));
+          _sendPushMessage(fcmBoss, 'task', boosMasseg ?? '');
+          if('$status'=='2') _sendPushMessage(fcmToken, taskName.toString(), message ?? '');
           return true;
         } else {
           flushBar(jsonDecode(responseString)['Errors']);
           return false;
         }
       } catch (e) {
-        _sendPushMessage(fcmToken, taskName.toString(), boosMasseg ?? ''); //AppLocalizations.of(context!)!.translate('good luck task is finished'));
-        _sendPushMessage(fcmToken, taskName.toString(), message ?? ''); //AppLocalizations.of(context!)!.translate('good luck task is finished'));
+        _sendPushMessage(fcmBoss, 'task', boosMasseg ?? '');
+        if('$status'=='2') _sendPushMessage(fcmToken, taskName.toString(), message ?? '');
         return true;
       }
     } else {
@@ -1259,6 +1260,7 @@ class APIService {
         'data': {
           //'to': token,
           //"registration_ids" : token,
+          "sound": "simple_notification.mp3",
           'click_action': 'FLUTTER_NOTIFICATION_CLICK',
           'type': 'COMMENT',
           'via': 'FlutterFire Cloud Messaging!!!',
@@ -1267,6 +1269,7 @@ class APIService {
         'notification': {
           'title': _title,
           'body': _body,
+          "sound": "simple_notification.mp3",
         },
       });
     }

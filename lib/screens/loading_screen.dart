@@ -238,7 +238,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
               builder: (context, box, _) {
                 final transactions = box.values.toList().cast<Transaction>();
                 return Container(
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     image: DecorationImage(
                       image: AssetImage(ImagesPath.splash),
                       fit: BoxFit.cover,

@@ -17,6 +17,7 @@ import 'package:date_format/date_format.dart';
 import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:hive/hive.dart';
@@ -51,7 +52,7 @@ import 'package:circular_menu/circular_menu.dart';
 import 'package:progress_indicators/progress_indicators.dart';
 import 'package:closer/localization_service.dart' as trrrr;
 //import 'package:admob_flutter/admob_flutter.dart';
-
+import 'package:audioplayers/audioplayers.dart';
 var globalPrice = 0.0;
 
 //var id ;
@@ -197,6 +198,7 @@ iOS: ca-app-pub-3940256099942544/1712485313
       if (message.notification != null) {
         print(message.notification!.body);
         print(message.notification!.title);
+        AudioPlayer().play(AssetSource('audio/simple_notification.mp3'));
         showDialog(
             context: context,
             builder: (context) => AlertDialog(
@@ -214,6 +216,19 @@ iOS: ca-app-pub-3940256099942544/1712485313
                                 _initialOrderTab = 1;
                                 new Timer(Duration(seconds:2), ()=>setState(() {}));
                                 Navigator.pop(context);
+                                if(!worker) {
+                                  Navigator.pushAndRemoveUntil(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => MainScreen(token: token, service: service, selectedIndex: 1, initialOrderTab: 1,)),
+                                        (Route<dynamic> route) => false,
+                                  );
+                                } else {
+                                  Navigator.pushAndRemoveUntil(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => MainScreen(token: token, service: service, selectedIndex: 1, initialOrderTab: 0,)),
+                                        (Route<dynamic> route) => false,
+                                  );
+                                }
                               }),
                             },
                         child: Icon(

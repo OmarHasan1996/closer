@@ -95,6 +95,7 @@ dependencies:
   share_plus: ^7.2.1
   google_mobile_ads: ^3.1.0
   photo_view: ^0.14.0
+  audioplayers: ^5.2.1
 
 dev_dependencies:
   flutter_test:
@@ -142,6 +143,7 @@ flutter:
       #- lang/ar.json
       #- lang/fr.json
     - assets/images/
+    - assets/audio/simple_notification.mp3
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

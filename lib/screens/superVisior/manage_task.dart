@@ -303,7 +303,7 @@ class _ManageTaskState extends State<ManageTask> {
               break;
             case "5":
               {
-                status = AppLocalizations.of(navigatorKey.currentContext!)!.translate("Pending");
+                status = AppLocalizations.of(navigatorKey.currentContext!)!.translate("Assigned");
                 statusColor = AppColors.blue;
               }
               break;

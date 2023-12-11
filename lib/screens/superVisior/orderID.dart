@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:closer/constant/app_size.dart';
 import 'package:closer/constant/font_size.dart';
+import 'package:closer/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:closer/api/api_service.dart';
@@ -92,7 +93,7 @@ class _OrderIdState extends State<OrderId> {
     }
     for(int i = 0; i<orderServices.length; i++){
       orderServices[i]['Notes']??= '.......';
-      var t = '- ' + orderServices[i]['Service']['Name'] + ':\n' + orderServices[i]['Notes'].toString();
+      var t = '- ' + orderServices[i]['Service']['Name'] +': ' + AppLocalizations.of(navigatorKey.currentContext!)!.translate('Quantity') + " " +orderServices[i]['Quantity'].toString() + '\n  ' + orderServices[i]['Notes'].toString();
       //t = t + '\n' + '- ' + orderServices[i]['Service']['Name'] + ':\n' + orderServices[i]['Notes'].toString();
       //t = t + '\n' + '- ' + orderServices[i]['Service']['Name'] + ':\n' + orderServices[i]['Notes'].toString();
       if(i==0) _orderDetails = t;
@@ -106,7 +107,6 @@ class _OrderIdState extends State<OrderId> {
     //getServiceData();
     api = APIService(context: context);
     var leftPadding = MediaQuery.of(context).size.width/12;
-
     return SafeArea(
         child: Scaffold(
           key: _key,
@@ -181,7 +181,7 @@ class _OrderIdState extends State<OrderId> {
                               ),
                             ),
                             Container(
-                              height: MediaQuery.of(context).size.height/13,
+                              height: AppHeight.h16,
                               padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height/200),
                               child: Scrollbar(
                                 //isAlwaysShown: true,
@@ -191,10 +191,10 @@ class _OrderIdState extends State<OrderId> {
                                     _orderDetails,
                                     maxLines: null,
                                     style: TextStyle(
-        fontFamily: 'comfortaa',
+                                      fontFamily: 'comfortaa',
                                       color: Colors.grey,
-                                      fontSize: MediaQuery.of(context).size.width / 30,
-                                      fontWeight: FontWeight.normal,
+                                      fontSize: FontSize.s16,
+                                      fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                 ),
@@ -233,7 +233,6 @@ class _OrderIdState extends State<OrderId> {
             ]),
           ),
         ),
-
     );
 
   }

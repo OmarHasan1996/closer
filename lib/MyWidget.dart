@@ -61,7 +61,7 @@ class MyWidget{
         break;
       case "5":
         {
-          status = AppLocalizations.of(navigatorKey.currentContext!)!.translate("Pending");
+          status = AppLocalizations.of(navigatorKey.currentContext!)!.translate("Assigned");
           statusColor = AppColors.blue;
         }
         break;
