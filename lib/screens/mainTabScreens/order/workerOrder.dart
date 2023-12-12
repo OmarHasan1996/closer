@@ -22,7 +22,7 @@ class WorkerOrder extends StatefulWidget {
 
 class _WorkerOrderState extends State<WorkerOrder> {
   bool _loading = false, chCircle = false;
-  final List _orderData = [];
+  late  List _orderData = [];
   final List _finishedOrderData = [];
   final List _superNewOrderData = [];
   @override
@@ -547,15 +547,18 @@ class _WorkerOrderState extends State<WorkerOrder> {
       for (int i = 0; i < k; i++) {
         _orderData.add(myOrders['Data'][i]);
       }
-      _orderData.sort((a, b) {
+      if(isBoss) {
+        _orderData.sort((a, b) {
         var adate = a['OrderDate']; //before -> var adate = a.expiry;
         var bdate = b['OrderDate']; //before -> var bdate = b.expiry;
         return adate.compareTo(bdate);
-      });
+        });
+      }
+      else{
+      }
       if (!isBoss) {
         _finishedOrderData.clear();
         for (int i = 0; i < _orderData.length; i++) {
-
           if (_orderData[i]['Status'] == 2) {
             _finishedOrderData.add(_orderData[i]);
             _orderData.removeAt(i);
@@ -566,6 +569,7 @@ class _WorkerOrderState extends State<WorkerOrder> {
             _orderData.removeAt(i);
           }
         }
+        _orderData = _orderData.where((element) => element['Status']!=2).toList();
       } else {
         for (int i = 0; i < _orderData.length; i++) {
           if (_orderData[i]['OrderService']['Order']['Status'] == 8) {

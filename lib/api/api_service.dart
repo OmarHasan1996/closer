@@ -1198,8 +1198,7 @@ class APIService {
     }
     print(jsonEncode(mapDate));
 
-    http.Response response =
-        await http.post(apiUrl, body: jsonEncode(mapDate), headers: {
+    http.Response response = await http.post(apiUrl, body: jsonEncode(mapDate), headers: {
       "Accept-Language":
           trrrr.LocalizationService.getCurrentLocale().languageCode,
       "Accept": "application/json",
@@ -1216,16 +1215,22 @@ class APIService {
         if (jsonDecode(responseString)['Errors'] == null ||
             jsonDecode(responseString)['Errors'] == '') {
           print('success');
-          if('$status'=='2' || '$status'=='3') sendPushMessage(fcmToken, orderSerial, message ?? '');
-          else sendPushMessage(fcmBoss, orderSerial, message ?? '');
+          if('$status'=='2' || '$status'=='3') {
+            sendPushMessage(fcmToken, orderSerial, message ?? '');
+          } else {
+            sendPushMessage(fcmBoss, orderSerial, message ?? '');
+          }
           return true;
         } else {
           flushBar(jsonDecode(responseString)['Errors']);
           return false;
         }
       } catch (e) {
-        if('$status'=='2' || '$status'=='3') sendPushMessage(fcmToken, orderSerial, message ?? '');
-        else sendPushMessage(fcmBoss, orderSerial, message ?? '');
+        if('$status'=='2' || '$status'=='3') {
+          sendPushMessage(fcmToken, orderSerial, message ?? '');
+        } else {
+          sendPushMessage(fcmBoss, orderSerial, message ?? '');
+        }
         return true;
       }
     } else {

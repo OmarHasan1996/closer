@@ -59,7 +59,7 @@ class _TaskIdState extends State<TaskId> {
 
   String _lat = '', _lng = '';
   String _startlLat = '', _startLng = '';
-  String _fcmBoss = '', _mainOrderId = '',
+  String fcmToken = '', _fcmBoss = '', _mainOrderId = '',
       _name = '',
       _location = '',
       _startLocation = '',
@@ -95,6 +95,7 @@ class _TaskIdState extends State<TaskId> {
     }catch(e){
       _fcmBoss = ' ';
     }
+    fcmToken = ord['OrderService']['Order']['User']['FBKey'] ?? '';
     _mainOrderId = ord['OrderService']['OrderId'] ?? '';
     serial = ord['OrderService']['Order']['Serial'];
     orderSerial = serial.toString()??'';
@@ -685,11 +686,6 @@ class _TaskIdState extends State<TaskId> {
             .replaceAll(" ", "T") +
         "Z";
     bool _suc;
-    var fcmToken = '';
-    for (int i = 0; i < groupUsers.length; i++) {
-      if (groupUsers[i]['isBoss'] == true)
-        fcmToken = groupUsers[i]['Users']['FBKey'];
-    }
     if (xFile != null) {
       _suc = await api!.updateWorkerTask(
           ord['Id'],
@@ -749,11 +745,6 @@ class _TaskIdState extends State<TaskId> {
             .replaceAll(" ", "T") +
         "Z";
     bool _suc;
-    var fcmToken = '';
-    for (int i = 0; i < groupUsers.length; i++) {
-      if (groupUsers[i]['isBoss'] == true)
-        fcmToken = groupUsers[i]['Users']['FBKey'];
-    }
     if (xFile != null) {
       _suc = await api!.updateWorkerTask(
           ord['Id'],
@@ -831,11 +822,6 @@ class _TaskIdState extends State<TaskId> {
     });
     String endDate = DateFormat('yyyy-MM-dd hh:mm:ss.sss').format(DateTime.now().add(timeDiff)).replaceAll(" ", "T") + "Z";
     bool _suc;
-    var fcmToken = '';
-    for (int i = 0; i < groupUsers.length; i++) {
-      if (groupUsers[i]['isBoss'] == true)
-        fcmToken = groupUsers[i]['Users']['FBKey'];
-    }
     _suc = await api!.updateWorkerTask(
     ord['Id'],
     ord['WorkerId'],

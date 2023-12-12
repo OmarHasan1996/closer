@@ -214,13 +214,13 @@ iOS: ca-app-pub-3940256099942544/1712485313
                         Icon(Icons.info_outline, color: AppColors.mainColor, size: AppHeight.h8,),
                         SizedBox(height: AppHeight.h2,),
                         Text(
-                          message.notification!.body.toString(),
+                          message.notification!.title.toString(),
                           style: TextStyle(
                               fontFamily: 'comfortaa',
                               fontSize: FontSize.s20),
                         ),
                         SizedBox(height: AppHeight.h2,),
-                        Text(message.notification!.title.toString(),
+                        Text(message.notification!.body.toString(),
                             style: TextStyle(
                                 fontFamily: 'comfortaa',
                                 fontSize: FontSize.s24*1.5),
