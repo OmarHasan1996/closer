@@ -846,7 +846,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
   }
 
   Padding _orderlist(ord, index) {
-    var name = ord[0][0]['Name'];
+    var name = ord[0][0]['Name'] + "(" + AppLocalizations.of(context)!.translate('Amount') + ord[1]+ ") " ;
     String? startTime, endTime;
     bool outOfTime = false;
     try {

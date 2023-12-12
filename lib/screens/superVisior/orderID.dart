@@ -24,7 +24,7 @@ class OrderId extends StatefulWidget {
   @override
   _OrderIdState createState() => _OrderIdState(token, orde);
 }
-
+String orderSerial = '';
 class _OrderIdState extends State<OrderId> {
   String token;
   APIService? api;
@@ -57,7 +57,7 @@ class _OrderIdState extends State<OrderId> {
     );
   }
 
-  String _name = '',_location = '',_phone = '',_orderDetails = '', _orderDate = '', _orderTime = '';
+  String _name = '', _location = '', _phone = '', _orderDetails = '', _orderDate = '', _orderTime = '';
   List orderServices = [{'name':'S 1', 'id':'1'},{'name':'S 2', 'id':'2'}];
   var ord;
   _OrderIdState(this.token ,this.ord);
@@ -68,6 +68,7 @@ class _OrderIdState extends State<OrderId> {
     super.initState();
     //print(subservicedec);
     id = ord['Serial'];
+    orderSerial = ord['Serial'].toString();
     var amount = ord['Amount'].toString();
     var date = ord['OrderDate'];
     date = DateTime.parse(ord['OrderDate'].replaceAll('T', ' ')).add(-timeDiff).toString();
@@ -92,7 +93,7 @@ class _OrderIdState extends State<OrderId> {
       orderServices.removeWhere((element) => element['GroupId'] != groupId);
     }
     for(int i = 0; i<orderServices.length; i++){
-      orderServices[i]['Notes']??= '.......';
+      orderServices[i]['Notes']??= '';
       var t = '- ' + orderServices[i]['Service']['Name'] +': ' + AppLocalizations.of(navigatorKey.currentContext!)!.translate('Quantity') + " " +orderServices[i]['Quantity'].toString() + '\n  ' + orderServices[i]['Notes'].toString();
       //t = t + '\n' + '- ' + orderServices[i]['Service']['Name'] + ':\n' + orderServices[i]['Notes'].toString();
       //t = t + '\n' + '- ' + orderServices[i]['Service']['Name'] + ':\n' + orderServices[i]['Notes'].toString();

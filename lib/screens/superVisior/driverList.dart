@@ -132,11 +132,12 @@ class _DriverListState extends State<DriverList> {
           SizedBox(
             height: AppHeight.h1,
           ),
+          widget.orderId != 'orderId'?
           MyWidget(context).raisedButton(
               AppLocalizations.of(context)!.translate('Add Task'),
               () => _addTask(driverList),
               AppWidth.w80,
-              driverList.addTaskNow),
+              driverList.addTaskNow):SizedBox(),
         ],
       ),
     );

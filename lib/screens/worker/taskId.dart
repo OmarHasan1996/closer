@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:closer/constant/app_size.dart';
 import 'package:closer/constant/font_size.dart';
 import 'package:closer/map/location.dart';
+import 'package:closer/screens/superVisior/orderID.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:closer/api/api_service.dart';
@@ -57,9 +58,11 @@ class _TaskIdState extends State<TaskId> {
   }
 
   String _lat = '', _lng = '';
+  String _startlLat = '', _startLng = '';
   String _fcmBoss = '', _mainOrderId = '',
       _name = '',
       _location = '',
+      _startLocation = '',
       _phone = '',
       _orderDetails = '',
       _orderDate = '',
@@ -86,11 +89,15 @@ class _TaskIdState extends State<TaskId> {
       List group = ord['OrderService']['Group']['GroupUsers'];
       var bossGroup = group.where((element) => element['isBoss']==true).toList();
       _fcmBoss = bossGroup[0]['Users']['FBKey']??'ee';
+      _startLocation = "${bossGroup[0]['Users']['Name']??''} ${bossGroup[0]['Users']['LastName']??''}";
+      _startlLat = bossGroup[0]['Users']['lat'].toString() ?? '';
+      _startLng = bossGroup[0]['Users']['lng'].toString() ?? '';
     }catch(e){
       _fcmBoss = ' ';
     }
     _mainOrderId = ord['OrderService']['OrderId'] ?? '';
     serial = ord['OrderService']['Order']['Serial'];
+    orderSerial = serial.toString()??'';
     id = ord['OrderService']['OrderId'];
     var workerName = ord['User']['Name'] + ' ' + ord['User']['LastName'];
     var date = ord['OrderDate'];
@@ -122,8 +129,7 @@ class _TaskIdState extends State<TaskId> {
     _name = ord['OrderService']['Order']['User']['Name'] +
         ' ' +
         ord['OrderService']['Order']['User']['LastName'];
-    _location =
-        "$addressCity / $addressNotes / Building: $addressBuilding / Floor: $addressFloor / Flat: $addressAppartment";
+    _location = "$addressCity / $addressNotes / Building: $addressBuilding / Floor: $addressFloor / Flat: $addressAppartment";
     _phone = ord['OrderService']['Order']['User']['Mobile'];
     _orderDetails = ord['Notes'] ?? "";
     _lat = ord['OrderService']['Order']['Address']['lat'].toString() ?? '';
@@ -328,6 +334,30 @@ class _TaskIdState extends State<TaskId> {
                           ),
                           SizedBox(
                             height: MediaQuery.of(context).size.height / 80,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                                vertical:
+                                MediaQuery.of(context).size.height / 200),
+                            child: Text(
+                              AppLocalizations.of(context)!
+                                  .translate('Start Location'),
+                              style: TextStyle(
+                                fontFamily: 'comfortaa',
+                                color: AppColors.black,
+                                fontSize:
+                                MediaQuery.of(context).size.width / 22,
+                                fontWeight: FontWeight.normal,
+                              ),
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () => openMap(_startlLat, _startLng),
+                            child: _iconText(
+                                Colors.grey,
+                                Icons.location_on_outlined,
+                                _startLocation,
+                                MainAxisAlignment.start),
                           ),
                           Expanded(child: SizedBox()),
                           /* Expanded(
@@ -660,7 +690,7 @@ class _TaskIdState extends State<TaskId> {
       if (groupUsers[i]['isBoss'] == true)
         fcmToken = groupUsers[i]['Users']['FBKey'];
     }
-    if (xFile != null)
+    if (xFile != null) {
       _suc = await api!.updateWorkerTask(
           ord['Id'],
           ord['WorkerId'],
@@ -674,7 +704,7 @@ class _TaskIdState extends State<TaskId> {
           File(xFile!.path),
           fcmToken,
           _mainOrderId, fcmBoss: _fcmBoss);
-    else
+    } else {
       _suc = await api!.updateWorkerTask(
           ord['Id'],
           ord['WorkerId'],
@@ -688,6 +718,7 @@ class _TaskIdState extends State<TaskId> {
           'File(xFile!.path)',
           fcmToken,
           _mainOrderId, fcmBoss: _fcmBoss);
+    }
     if (_suc) {
       Navigator.pop(context);
       APIService.flushBar(

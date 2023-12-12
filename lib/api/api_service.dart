@@ -10,6 +10,7 @@ import 'package:closer/main.dart';
 import 'package:closer/screens/superVisior/driverList.dart';
 import 'package:closer/screens/language/Languages.dart';
 import 'package:closer/screens/photoView/photoViewer.dart';
+import 'package:closer/screens/superVisior/orderID.dart';
 import 'package:closer/screens/valid_code.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -963,7 +964,7 @@ class APIService {
         if (jsonDecode(response.body)['Errors'] == null ||
             jsonDecode(response.body)['Errors'] == '') {
           if (status == 8) {
-            _sendPushMessage(_order['User']['FBKey'], 'order' + _order['Serial'], 'your order is finished');
+            sendPushMessage(_order['User']['FBKey'], 'order' + _order['Serial'], 'your order is finished');
           }
           print('success');
           return true;
@@ -1104,18 +1105,18 @@ class APIService {
       var responseString = response.body;
       print(responseString);
       try {
-        if (jsonDecode(responseString)['Errors'] == null ||
-            jsonDecode(responseString)['Errors'] == '') {
+        if (jsonDecode(responseString)['Errors'] == null || jsonDecode(responseString)['Errors'] == '')
+        {
           print('success');
-          _sendPushMessage(workerFcmToken, 'task', AppLocalizations.of(context!)!.translate('You Have New Task!'));
+          sendPushMessage(workerFcmToken, orderSerial, AppLocalizations.of(context!)!.translate('You Have New Task!'));
           return true;
-        } else {
+        } else
+        {
           flushBar(jsonDecode(responseString)['Errors']);
           return false;
         }
       } catch (e) {
-        _sendPushMessage(workerFcmToken, taskName,
-            AppLocalizations.of(context!)!.translate('You Have New Task!'));
+        sendPushMessage(workerFcmToken, orderSerial, AppLocalizations.of(context!)!.translate('You Have New Task!'));
         return true;
       }
     } else {
@@ -1130,7 +1131,6 @@ class APIService {
       endDate, workerNotes, token, taskName, file, fcmToken, _mainOrderId,
       {message, status, required fcmBoss}) async {
     status ??= 2;
-    message ??= AppLocalizations.of(context!)!.translate('good luck task is finished');
     var apiUrl = Uri.parse('$apiDomain/Main/WorkerTask/WorkerTask_Update?');
     List<Map<String, dynamic>> serviceTmp = [];
     var attach;
@@ -1143,7 +1143,6 @@ class APIService {
     } catch (e) {
       attach = null;
     }
-    var boosMasseg = 'New update';
 
     Map mapDate = {
       "Id": taskId.toString(), //orderId
@@ -1183,6 +1182,20 @@ class APIService {
       };
     }
 
+    switch(status.toString()){
+      case '2':
+        message = 'Your order is finished';
+        break;
+      case '3':
+        message = 'Your order on the road';
+        break;
+      case '4':
+        message = 'Your Task is refused, order:';
+        break;
+      case '5':
+        message = 'Your Task is Assigned, order:';
+        break;
+    }
     print(jsonEncode(mapDate));
 
     http.Response response =
@@ -1203,16 +1216,16 @@ class APIService {
         if (jsonDecode(responseString)['Errors'] == null ||
             jsonDecode(responseString)['Errors'] == '') {
           print('success');
-          _sendPushMessage(fcmBoss, 'task', boosMasseg ?? '');
-          if('$status'=='2') _sendPushMessage(fcmToken, taskName.toString(), message ?? '');
+          if('$status'=='2' || '$status'=='3') sendPushMessage(fcmToken, orderSerial, message ?? '');
+          else sendPushMessage(fcmBoss, orderSerial, message ?? '');
           return true;
         } else {
           flushBar(jsonDecode(responseString)['Errors']);
           return false;
         }
       } catch (e) {
-        _sendPushMessage(fcmBoss, 'task', boosMasseg ?? '');
-        if('$status'=='2') _sendPushMessage(fcmToken, taskName.toString(), message ?? '');
+        if('$status'=='2' || '$status'=='3') sendPushMessage(fcmToken, orderSerial, message ?? '');
+        else sendPushMessage(fcmBoss, orderSerial, message ?? '');
         return true;
       }
     } else {
@@ -1253,7 +1266,7 @@ class APIService {
     }
   }
 
-  Future<void> _sendPushMessage(_token, _taskName, _taskBody) async {
+  Future<void> sendPushMessage(_token, _taskName, _taskBody) async {
     String constructFCMPayload(String? token, _title, _body) {
       return jsonEncode({
         'to': token,
@@ -1273,7 +1286,6 @@ class APIService {
         },
       });
     }
-
     if (_token == null) {
       print('Unable to send FCM message, no token exists.');
       return;

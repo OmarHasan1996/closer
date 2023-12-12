@@ -596,9 +596,9 @@ class _WorkerOrderState extends State<WorkerOrder> {
       }
       _superNewOrderData.sort((a, b) {
         var adate =
-            a['OrderDate' /*'InsertDate'*/]; //before -> var adate = a.expiry;
+            b['OrderDate' /*'InsertDate'*/]; //before -> var adate = a.expiry;
         var bdate =
-            b['OrderDate' /*'InsertDate'*/]; //before -> var bdate = b.expiry;
+            a['OrderDate' /*'InsertDate'*/]; //before -> var bdate = b.expiry;
         return bdate.compareTo(adate);
       });
       if (_superNewOrderData.isNotEmpty) {
@@ -647,8 +647,8 @@ class _WorkerOrderState extends State<WorkerOrder> {
     amount = amount.toString() +
         " \.${AppLocalizations.of(context)!.translate('TRY')} ";
     Color statusColor = Colors.grey;
-    for (int i = 0; i < task.length; i++) {
-      if (task[i][0]['OrderId'] == Id) statusColor = AppColors.blue;
+    for (var s in ord['Servicess']) {
+      if (s['WorkerTask'].length > 0) statusColor = AppColors.blue;
     }
     String address = addressArea + ': ' + addressNotes;
     return _orderCard(index, statusColor, null, address, amount, date, 1, Id, serial);

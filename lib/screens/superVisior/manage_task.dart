@@ -110,7 +110,7 @@ class _ManageTaskState extends State<ManageTask> {
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/25),
                       child: Text(
-                        AppLocalizations.of(context)!.translate('Manage Tasks') + ' (' + _service['Service']['Name'] + ')',
+                        '( ' + _service['Service']['Name'] + ' )',
                         maxLines: 1,
                         style: TextStyle(
         fontFamily: 'comfortaa',

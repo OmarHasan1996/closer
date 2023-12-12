@@ -55,7 +55,7 @@
   "Total":"Total",
   "Delivery Date":"Delivery Date",
   "Finished Order":"Finish Orders",
-  "Amount": "Amount    ",
+  "Amount": "Amount  ",
   "Attachment": "Attachment",
   "Edit Profile":"Edit Profile",
   "Manage Address": "Manage my Addresses",
@@ -199,6 +199,10 @@
   "Deliver": "Deliver",
   "Refuse": "Refuse",
   "Quantity": "Quantity",
-  "Assigned": "Assigned"
+  "Assigned": "Assigned",
+  "New Order": "New Order",
+  "Start Location": "Start Location",
+  "Drivers": "Drivers"
+  
 }
 

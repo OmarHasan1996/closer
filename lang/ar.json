@@ -54,7 +54,7 @@
   "TOTAL":"الإجمالي",
   "Total":"المجموع",
   "Finished Order":"إنهاء الطلب",
-  "Amount": "الكمية    ",
+  "Amount": "الكمية  ",
   "Attachment": "المرفق",
   "Edit Profile":"تعديل الملف الشخصي",
   "Manage Address": "إدارة العناوين",
@@ -199,7 +199,10 @@
   "Deliver": "توصيل",
   "Refuse": "رفض",
   "Quantity": "عدد",
-  "Assigned": "تم الاسناد"
+  "Assigned": "تم الاسناد",
+  "New Order": "طلب جديد",
+  "Start Location": "عنوان البداية",
+  "Drivers": "السائقين"
 
 
 
