@@ -1215,7 +1215,7 @@ class APIService {
         if (jsonDecode(responseString)['Errors'] == null ||
             jsonDecode(responseString)['Errors'] == '') {
           print('success');
-          if('$status'=='2' || '$status'=='3') {
+          if('$status'=='3') {
             sendPushMessage(fcmToken, orderSerial, message ?? '');
           } else {
             sendPushMessage(fcmBoss, orderSerial, message ?? '');

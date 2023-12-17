@@ -618,6 +618,10 @@ class _WorkerOrderState extends State<WorkerOrder> {
     }
   }
 
+  _groupTasks(List orderData){
+
+  }
+
   _tap(String text) {
     return Tab(
       height: min(AppWidth.w6, AppHeight.h2 * 1.5) * 2,
@@ -721,4 +725,10 @@ class _WorkerOrderState extends State<WorkerOrder> {
           )),
     );
   }
+
+}
+class TaskGrouped{
+  List orderData;
+  String boss;
+  TaskGrouped({required this.boss, required this.orderData});
 }
